@@ -10,8 +10,8 @@ uses
 type
   TfSincronizar = class(TForm)
     FlatGauge1: TFlatGauge;
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
+    btnExpProd: TBitBtn;
+    btnExpCli: TBitBtn;
     sProdutos: TSQLDataSet;
     seProdutos: TSQLDataSet;
     sCliente: TSQLDataSet;
@@ -716,8 +716,80 @@ type
     cClienteCARGOFUNCAO: TIntegerField;
     cClienteSUFRAMA: TStringField;
     cClienteCODFISCAL: TStringField;
-    procedure BitBtn1Click(Sender: TObject);
-    procedure BitBtn2Click(Sender: TObject);
+    btnExpCfisc: TBitBtn;
+    sFiscal: TSQLDataSet;
+    pFiscal: TDataSetProvider;
+    cFiscal: TClientDataSet;
+    sFiscalCOD_PROD: TIntegerField;
+    sFiscalCFOP: TStringField;
+    sFiscalUF: TStringField;
+    sFiscalICMS_SUBST: TFloatField;
+    sFiscalICMS_SUBST_IC: TFloatField;
+    sFiscalICMS_SUBST_IND: TFloatField;
+    sFiscalICMS: TFloatField;
+    sFiscalICMS_BASE: TFloatField;
+    sFiscalCST: TStringField;
+    sFiscalIPI: TFloatField;
+    sFiscalCSOSN: TStringField;
+    sFiscalCSTIPI: TStringField;
+    sFiscalCSTPIS: TStringField;
+    sFiscalCSTCOFINS: TStringField;
+    sFiscalPIS: TFloatField;
+    sFiscalCOFINS: TFloatField;
+    cFiscalCOD_PROD: TIntegerField;
+    cFiscalCFOP: TStringField;
+    cFiscalUF: TStringField;
+    cFiscalICMS_SUBST: TFloatField;
+    cFiscalICMS_SUBST_IC: TFloatField;
+    cFiscalICMS_SUBST_IND: TFloatField;
+    cFiscalICMS: TFloatField;
+    cFiscalICMS_BASE: TFloatField;
+    cFiscalCST: TStringField;
+    cFiscalIPI: TFloatField;
+    cFiscalCSOSN: TStringField;
+    cFiscalCSTIPI: TStringField;
+    cFiscalCSTPIS: TStringField;
+    cFiscalCSTCOFINS: TStringField;
+    cFiscalPIS: TFloatField;
+    cFiscalCOFINS: TFloatField;
+    seFiscal: TSQLDataSet;
+    IntegerField1: TIntegerField;
+    StringField1: TStringField;
+    StringField2: TStringField;
+    FloatField1: TFloatField;
+    FloatField2: TFloatField;
+    FloatField3: TFloatField;
+    FloatField4: TFloatField;
+    FloatField5: TFloatField;
+    StringField3: TStringField;
+    FloatField6: TFloatField;
+    StringField4: TStringField;
+    StringField5: TStringField;
+    StringField6: TStringField;
+    StringField7: TStringField;
+    FloatField7: TFloatField;
+    FloatField8: TFloatField;
+    peFiscal: TDataSetProvider;
+    ceFiscal: TClientDataSet;
+    ceFiscalCOD_PROD: TIntegerField;
+    ceFiscalCFOP: TStringField;
+    ceFiscalUF: TStringField;
+    ceFiscalICMS_SUBST: TFloatField;
+    ceFiscalICMS_SUBST_IC: TFloatField;
+    ceFiscalICMS_SUBST_IND: TFloatField;
+    ceFiscalICMS: TFloatField;
+    ceFiscalICMS_BASE: TFloatField;
+    ceFiscalCST: TStringField;
+    ceFiscalIPI: TFloatField;
+    ceFiscalCSOSN: TStringField;
+    ceFiscalCSTIPI: TStringField;
+    ceFiscalCSTPIS: TStringField;
+    ceFiscalCSTCOFINS: TStringField;
+    ceFiscalPIS: TFloatField;
+    ceFiscalCOFINS: TFloatField;
+    procedure btnExpProdClick(Sender: TObject);
+    procedure btnExpCliClick(Sender: TObject);
+    procedure btnExpCfiscClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -731,7 +803,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TfSincronizar.BitBtn1Click(Sender: TObject);
+procedure TfSincronizar.btnExpProdClick(Sender: TObject);
 var
   vari: integer;
 begin
@@ -780,7 +852,7 @@ begin
   end;
 end;
 
-procedure TfSincronizar.BitBtn2Click(Sender: TObject);
+procedure TfSincronizar.btnExpCliClick(Sender: TObject);
 var
   vari: integer;
 begin
@@ -836,6 +908,56 @@ begin
     ceCliente.Close;
   Except
     MessageDlg('Erro ao exportar Clientes', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfSincronizar.btnExpCfiscClick(Sender: TObject);
+var
+  vari: integer;
+begin
+  Try
+    if (cFiscal.Active) then
+      cFiscal.Close;
+    cFiscal.Open;
+    FlatGauge1.Progress := 0;
+    FlatGauge1.MaxValue := cFiscal.RecordCount;
+    cFiscal.First;
+    while not cFiscal.Eof do
+    begin
+      ceFiscal.Close;
+      ceFiscal.Params[0].AsInteger := cFiscalCOD_PROD.AsInteger;
+      ceFiscal.Params[1].AsString := cFiscalCFOP.AsString;
+      ceFiscal.Params[2].AsString := cFiscalUF.AsString;
+      ceFiscal.Open;
+      if (ceFiscal.IsEmpty) then
+      begin
+        ceFiscal.append;
+        for vari := 0 to cFiscal.fieldcount -1 do
+        begin
+          if (cFiscal.fields[vari].fieldkind = fkdata) then
+            ceFiscal.fields[vari].value := cFiscal.fieldbyname(cFiscal.fields[vari].fieldname).value;
+        end;
+        ceFiscal.ApplyUpdates(0);
+      end
+      else
+      begin
+        {if (ceFiscalVALOR_PRAZO.Value <> cFiscal.Value) then
+        begin
+          ceFiscal.Edit;
+          ceFiscal.Value := cFiscal.Value;
+          ceFiscal.AsString := cFiscal.AsString;
+          ceFiscal.Value := cFiscal.Value;
+          ceFiscal.ApplyUpdates(0);
+        end;}  
+      end;
+      cFiscal.Next;
+      FlatGauge1.Progress := FlatGauge1.Progress + 1;
+    end;
+    MessageDlg('Dados Fiscais exportados com suscesso', mtWarning, [mbOK], 0);
+    cFiscal.Close;
+    ceFiscal.Close;
+  Except
+    MessageDlg('Erro ao exportar Dados Fiscais', mtWarning, [mbOK], 0);
   end;
 end;
 

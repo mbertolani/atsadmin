@@ -22,23 +22,32 @@ object fSincronizar: TfSincronizar
     ColorBorder = 8623776
     Progress = 0
   end
-  object BitBtn1: TBitBtn
+  object btnExpProd: TBitBtn
     Left = 104
-    Top = 64
+    Top = 40
     Width = 169
     Height = 49
     Caption = 'Exportar Produtos'
     TabOrder = 0
-    OnClick = BitBtn1Click
+    OnClick = btnExpProdClick
   end
-  object BitBtn2: TBitBtn
+  object btnExpCli: TBitBtn
     Left = 104
-    Top = 120
+    Top = 96
     Width = 169
     Height = 49
     Caption = 'Exportar Clientes'
     TabOrder = 1
-    OnClick = BitBtn2Click
+    OnClick = btnExpCliClick
+  end
+  object btnExpCfisc: TBitBtn
+    Left = 104
+    Top = 150
+    Width = 169
+    Height = 49
+    Caption = 'Exportar Cadastro Fiscal'
+    TabOrder = 2
+    OnClick = btnExpCfiscClick
   end
   object sProdutos: TSQLDataSet
     CommandText = 'select * from PRODUTOS'
@@ -2777,6 +2786,323 @@ object fSincronizar: TfSincronizar
       FieldName = 'CODFISCAL'
       FixedChar = True
       Size = 1
+    end
+  end
+  object sFiscal: TSQLDataSet
+    CommandText = 
+      'select * from CLASSIFICACAOFISCALPRODUTO cfp'#13#10'where not cfp.CFOP' +
+      ' like '#39'59%'#39' and not cfp.CFOP like '#39'1%'#39' and not cfp.CFOP like '#39'2%' +
+      #39'  and not cfp.CFOP like '#39'6%'#39
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 295
+    Top = 118
+    object sFiscalCOD_PROD: TIntegerField
+      FieldName = 'COD_PROD'
+      Required = True
+    end
+    object sFiscalCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object sFiscalUF: TStringField
+      FieldName = 'UF'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object sFiscalICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object sFiscalICMS_SUBST_IC: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object sFiscalICMS_SUBST_IND: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
+    end
+    object sFiscalICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object sFiscalICMS_BASE: TFloatField
+      FieldName = 'ICMS_BASE'
+    end
+    object sFiscalCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object sFiscalIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object sFiscalCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object sFiscalCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object sFiscalCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object sFiscalCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object sFiscalPIS: TFloatField
+      FieldName = 'PIS'
+    end
+    object sFiscalCOFINS: TFloatField
+      FieldName = 'COFINS'
+    end
+  end
+  object pFiscal: TDataSetProvider
+    DataSet = sFiscal
+    UpdateMode = upWhereKeyOnly
+    Left = 295
+    Top = 147
+  end
+  object cFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'pFiscal'
+    Left = 295
+    Top = 176
+    object cFiscalCOD_PROD: TIntegerField
+      FieldName = 'COD_PROD'
+      Required = True
+    end
+    object cFiscalCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object cFiscalUF: TStringField
+      FieldName = 'UF'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object cFiscalICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object cFiscalICMS_SUBST_IC: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object cFiscalICMS_SUBST_IND: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
+    end
+    object cFiscalICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cFiscalICMS_BASE: TFloatField
+      FieldName = 'ICMS_BASE'
+    end
+    object cFiscalCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object cFiscalIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object cFiscalCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object cFiscalCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object cFiscalCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object cFiscalCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object cFiscalPIS: TFloatField
+      FieldName = 'PIS'
+    end
+    object cFiscalCOFINS: TFloatField
+      FieldName = 'COFINS'
+    end
+  end
+  object seFiscal: TSQLDataSet
+    CommandText = 
+      'select * from CLASSIFICACAOFISCALPRODUTO'#13#10'where COD_PROD = :CODP' +
+      'RO and CFOP = :CFOP and UF = :UF'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODPRO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'CFOP'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'UF'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlExporta
+    Left = 327
+    Top = 118
+    object IntegerField1: TIntegerField
+      FieldName = 'COD_PROD'
+      Required = True
+    end
+    object StringField1: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object StringField2: TStringField
+      FieldName = 'UF'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object FloatField1: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object FloatField2: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object FloatField3: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
+    end
+    object FloatField4: TFloatField
+      FieldName = 'ICMS'
+    end
+    object FloatField5: TFloatField
+      FieldName = 'ICMS_BASE'
+    end
+    object StringField3: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object FloatField6: TFloatField
+      FieldName = 'IPI'
+    end
+    object StringField4: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object StringField5: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object StringField6: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object StringField7: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object FloatField7: TFloatField
+      FieldName = 'PIS'
+    end
+    object FloatField8: TFloatField
+      FieldName = 'COFINS'
+    end
+  end
+  object peFiscal: TDataSetProvider
+    DataSet = seFiscal
+    UpdateMode = upWhereKeyOnly
+    Left = 327
+    Top = 147
+  end
+  object ceFiscal: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODPRO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'CFOP'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'UF'
+        ParamType = ptInput
+      end>
+    ProviderName = 'peFiscal'
+    Left = 327
+    Top = 176
+    object ceFiscalCOD_PROD: TIntegerField
+      FieldName = 'COD_PROD'
+      Required = True
+    end
+    object ceFiscalCFOP: TStringField
+      FieldName = 'CFOP'
+      Required = True
+      Size = 30
+    end
+    object ceFiscalUF: TStringField
+      FieldName = 'UF'
+      Required = True
+      FixedChar = True
+      Size = 2
+    end
+    object ceFiscalICMS_SUBST: TFloatField
+      FieldName = 'ICMS_SUBST'
+    end
+    object ceFiscalICMS_SUBST_IC: TFloatField
+      FieldName = 'ICMS_SUBST_IC'
+    end
+    object ceFiscalICMS_SUBST_IND: TFloatField
+      FieldName = 'ICMS_SUBST_IND'
+    end
+    object ceFiscalICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object ceFiscalICMS_BASE: TFloatField
+      FieldName = 'ICMS_BASE'
+    end
+    object ceFiscalCST: TStringField
+      FieldName = 'CST'
+      FixedChar = True
+      Size = 3
+    end
+    object ceFiscalIPI: TFloatField
+      FieldName = 'IPI'
+    end
+    object ceFiscalCSOSN: TStringField
+      FieldName = 'CSOSN'
+      Size = 3
+    end
+    object ceFiscalCSTIPI: TStringField
+      FieldName = 'CSTIPI'
+      Size = 2
+    end
+    object ceFiscalCSTPIS: TStringField
+      FieldName = 'CSTPIS'
+      Size = 2
+    end
+    object ceFiscalCSTCOFINS: TStringField
+      FieldName = 'CSTCOFINS'
+      Size = 2
+    end
+    object ceFiscalPIS: TFloatField
+      FieldName = 'PIS'
+    end
+    object ceFiscalCOFINS: TFloatField
+      FieldName = 'COFINS'
     end
   end
 end
