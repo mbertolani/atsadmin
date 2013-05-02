@@ -300,6 +300,7 @@ type
     Label54: TLabel;
     Label55: TLabel;
     Label56: TLabel;
+    rgNfe: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -376,6 +377,7 @@ type
     procedure BitBtn31Click(Sender: TObject);
     procedure BitBtn32Click(Sender: TObject);
     procedure rgBloqueioClick(Sender: TObject);
+    procedure rgNfeClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -4381,6 +4383,58 @@ begin
     begin
       strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
       strSql := strSql + QuotedStr('BLOQUEIOPERSONALIZADO');
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      Try
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
+    end;
+   end;
+end;
+
+procedure TfParametro.rgNfeClick(Sender: TObject);
+begin
+  inherited;
+  strSql := '';
+  if (rgBloqueio.ItemIndex = 0) then  // Mensagem Personalizada de Bloqueio
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'EMAILAUTOMÁTICO';
+     s_parametro.Open;
+     if (s_parametro.Eof) then
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Mensagem Personalizada de Bloqueio') + ', ';
+        strSql := strSql + QuotedStr('EMAILAUTOMATICO') + ', ';
+        strSql := strSql + QuotedStr('S');        
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end
+  else
+  begin
+    if(s_parametro.Active) then
+     s_parametro.Close;
+    s_parametro.Params[0].AsString := 'EMAILAUTOMATICO';
+    s_parametro.Open;
+    if (not s_parametro.Eof) then
+    begin
+      strSql := 'DELETE FROM PARAMETRO WHERE PARAMETRO = ';
+      strSql := strSql + QuotedStr('EMAILAUTOMATICO');
 
       dm.sqlsisAdimin.StartTransaction(TD);
       dm.sqlsisAdimin.ExecuteDirect(strSql);
