@@ -1,10 +1,11 @@
 inherited fCpAltera: TfCpAltera
-  Left = 69
-  Top = 69
+  Left = 237
+  Top = 125
   Width = 780
   Height = 580
   Caption = 'Alterar T'#237'tulos.'
   Font.Height = -13
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -413,7 +414,7 @@ inherited fCpAltera: TfCpAltera
       ' PARCELAS, VIA, (CASE WHEN (VALORRECEBIDO > 0) THEN (VALORTITULO' +
       ' - VALOR_RESTO)'#13#10'  WHEN (VALORRECEBIDO = 0) THEN VALOR_RESTO END' +
       ')'#13#10' as VALORPAG '#13#10' from PAGAMENTO WHERE TITULO = :TIT AND CODFOR' +
-      'NECEDOR = :CODFOR AND EMISSAO = :DTAEMI'
+      'NECEDOR = :CODFOR'
     MaxBlobSize = -1
     Params = <
       item
@@ -424,11 +425,6 @@ inherited fCpAltera: TfCpAltera
       item
         DataType = ftInteger
         Name = 'CODFOR'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTAEMI'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -563,11 +559,6 @@ inherited fCpAltera: TfCpAltera
       item
         DataType = ftInteger
         Name = 'CODFOR'
-        ParamType = ptInput
-      end
-      item
-        DataType = ftDate
-        Name = 'DTAEMI'
         ParamType = ptInput
       end>
     ProviderName = 'dsp'

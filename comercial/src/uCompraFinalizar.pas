@@ -843,7 +843,7 @@ begin
       fCpAltera.cds.Close;
     fCpAltera.cds.Params[0].AsString := scdsCr_procTITULO.AsString;
     fCpAltera.cds.Params[1].AsInteger := scdsCr_procCODFORNECEDOR.AsInteger;
-    fCpAltera.cds.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
+//    fCpAltera.cds.Params[2].AsDateTime := scdsCr_procEMISSAO.AsDateTime;
     fCpAltera.cds.Open;
     fCpAltera.Label1.Caption := scdsCr_procTITULO.AsString;
     fCpAltera.Label2.Caption := scdsCr_procTITULO.AsString;

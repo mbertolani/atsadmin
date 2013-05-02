@@ -989,7 +989,6 @@ begin
       fCpAltera.cds.Close;
     fCpAltera.cds.Params[0].AsString := cds_4_pagarTITULO.AsString;
     fCpAltera.cds.Params[1].AsInteger := cds_4_pagarCODFORNECEDOR.AsInteger;
-    fCpAltera.cds.Params[2].AsDateTime := cds_4_pagarEMISSAO.AsDateTime;
     fCpAltera.cds.Open;
     fCpAltera.Label1.Caption := cds_4_pagarTITULO.AsString;
     fCpAltera.Label2.Caption := cds_4_pagarTITULO.AsString;
