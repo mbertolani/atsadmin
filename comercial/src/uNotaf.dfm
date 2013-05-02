@@ -23,7 +23,7 @@ object fNotaf: TfNotaf
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 793
+    Width = 776
     Height = 627
     ActivePage = TabNF
     Align = alTop
@@ -164,14 +164,14 @@ object fNotaf: TfNotaf
           OnChange = cbCLienteChange
           OnKeyPress = FormKeyPress
         end
-        object BitBtn1: TBitBtn
+        object btnProcCli: TBitBtn
           Left = 224
           Top = 11
           Width = 31
           Height = 25
           Caption = '...'
           TabOrder = 1
-          OnClick = BitBtn1Click
+          OnClick = btnProcCliClick
         end
         object DBEdit48: TDBEdit
           Left = 258
@@ -635,14 +635,14 @@ object fNotaf: TfNotaf
           TabOrder = 0
           OnKeyPress = FormKeyPress
         end
-        object BitBtn3: TBitBtn
+        object btnSerie: TBitBtn
           Left = 82
           Top = 11
           Width = 32
           Height = 25
           Caption = '...'
           TabOrder = 1
-          OnClick = BitBtn3Click
+          OnClick = btnSerieClick
         end
       end
       object JvGroupBox29: TJvGroupBox
@@ -665,14 +665,14 @@ object fNotaf: TfNotaf
           OnChange = cbTransportadoraChange
           OnKeyPress = FormKeyPress
         end
-        object BitBtn2: TBitBtn
+        object btnProcTransp: TBitBtn
           Left = 287
           Top = 11
           Width = 32
           Height = 25
           Caption = '...'
           TabOrder = 1
-          OnClick = BitBtn2Click
+          OnClick = btnProcTranspClick
         end
       end
       object GroupBox1: TGroupBox
@@ -1357,7 +1357,6 @@ object fNotaf: TfNotaf
                 Title.Font.Height = -13
                 Title.Font.Name = 'MS Sans Serif'
                 Title.Font.Style = []
-                Width = 64
                 Visible = True
               end
               item
@@ -1374,7 +1373,6 @@ object fNotaf: TfNotaf
                 Title.Font.Height = -13
                 Title.Font.Name = 'MS Sans Serif'
                 Title.Font.Style = []
-                Width = 64
                 Visible = True
               end
               item
@@ -1408,7 +1406,6 @@ object fNotaf: TfNotaf
                 Title.Font.Height = -13
                 Title.Font.Name = 'MS Sans Serif'
                 Title.Font.Style = []
-                Width = 64
                 Visible = True
               end
               item
@@ -1425,7 +1422,6 @@ object fNotaf: TfNotaf
                 Title.Font.Height = -13
                 Title.Font.Name = 'MS Sans Serif'
                 Title.Font.Style = []
-                Width = 64
                 Visible = True
               end
               item
@@ -1459,7 +1455,6 @@ object fNotaf: TfNotaf
                 Title.Font.Height = -13
                 Title.Font.Name = 'MS Sans Serif'
                 Title.Font.Style = []
-                Width = 64
                 Visible = True
               end>
           end
@@ -1617,14 +1612,14 @@ object fNotaf: TfNotaf
           OnChange = cbCLiente1Change
           OnKeyPress = FormKeyPress
         end
-        object BitBtn7: TBitBtn
+        object btnProcCli2: TBitBtn
           Left = 385
           Top = 11
           Width = 31
           Height = 25
           Caption = '...'
           TabOrder = 1
-          OnClick = BitBtn1Click
+          OnClick = btnProcCliClick
         end
       end
       object JvGroupBox44: TJvGroupBox
@@ -1863,14 +1858,14 @@ object fNotaf: TfNotaf
           TabOrder = 0
           OnKeyPress = FormKeyPress
         end
-        object BitBtn8: TBitBtn
+        object btnSerie2: TBitBtn
           Left = 82
           Top = 11
           Width = 32
           Height = 25
           Caption = '...'
           TabOrder = 1
-          OnClick = BitBtn3Click
+          OnClick = btnSerieClick
         end
       end
       object JvDBGrid2: TJvDBGrid
@@ -1986,7 +1981,7 @@ object fNotaf: TfNotaf
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 793
+    Width = 776
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -2553,7 +2548,7 @@ object fNotaf: TfNotaf
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
     end
-    object BitBtn4: TBitBtn
+    object btnImpNF: TBitBtn
       Left = 205
       Top = 2
       Width = 72
@@ -2561,7 +2556,7 @@ object fNotaf: TfNotaf
       Caption = 'Imprimir NF'
       PopupMenu = PopupMenu1
       TabOrder = 7
-      OnClick = BitBtn4Click
+      OnClick = btnImpNFClick
       Glyph.Data = {
         76020000424D7602000000000000760000002800000020000000200000000100
         0400000000000002000000000000000000001000000000000000000000000000
@@ -2679,7 +2674,7 @@ object fNotaf: TfNotaf
       Visible = False
       OnClick = BitBtn5Click
     end
-    object BitBtn6: TBitBtn
+    object btnImpServ: TBitBtn
       Left = 277
       Top = 2
       Width = 72
@@ -2687,7 +2682,7 @@ object fNotaf: TfNotaf
       Caption = 'Imp. N.Serv'
       PopupMenu = PopupMenu1
       TabOrder = 13
-      OnClick = BitBtn6Click
+      OnClick = btnImpServClick
       Glyph.Data = {
         76020000424D7602000000000000760000002800000020000000200000000100
         0400000000000002000000000000000000001000000000000000000000000000
@@ -2731,7 +2726,7 @@ object fNotaf: TfNotaf
       TabOrder = 14
       OnClick = RadioGroup1Click
     end
-    object BitBtn10: TBitBtn
+    object btnGuia: TBitBtn
       Left = 349
       Top = 2
       Width = 70
@@ -2739,7 +2734,7 @@ object fNotaf: TfNotaf
       Caption = 'Guia'
       PopupMenu = PopupMenu1
       TabOrder = 15
-      OnClick = BitBtn10Click
+      OnClick = btnGuiaClick
       Glyph.Data = {
         36100000424D3610000000000000360000002800000020000000200000000100
         20000000000000100000C40E0000C40E00000000000000000000000000000000
