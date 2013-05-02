@@ -176,7 +176,7 @@ begin
     begin
       if (not dm.cds_7_contas.Active) then
          dm.cds_7_contas.Open;
-      dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loPartialKey]);
+      dm.cds_7_contas.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
       VCLReport1.Report.Params.ParamByName('COD_CAIXA').Value := dm.cds_7_contasCODIGO.asInteger;
     end
     else
