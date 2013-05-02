@@ -919,7 +919,7 @@ begin
         cds_Mov_detLOTE.AsString := ComboBox4.Text;
         cds_mov_det.ApplyUpdates(0);
       end;
-
+      //AQUI ENTRA NA SAIDA
       sql_sp := 'EXECUTE PROCEDURE LANCA_ENT_SAIDA(';
       dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
       if cds_Movimento.State in [dsBrowse] then
@@ -999,12 +999,15 @@ begin
   end;
 
   //************VERIFICA E EXECUTA BAIXA DE MATÉRIA PRIMA************
-  if Dm.cds_parametro.Active then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'BAIXAENTESTOQUE';
-  dm.cds_parametro.Open;
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
-      baixamatprimas('BAIXAENTESTOQUE', cds_MovimentoCODMOVIMENTO.AsInteger);
+  if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
+  Begin
+    if Dm.cds_parametro.Active then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'BAIXAENTESTOQUE';
+    dm.cds_parametro.Open;
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+        baixamatprimas('BAIXAENTESTOQUE', cds_MovimentoCODMOVIMENTO.AsInteger);
+  end;
 
 end;
 
@@ -1516,7 +1519,10 @@ begin
     ' relacionados aos produtos abaixo ?',mtConfirmation,
                 [mbYes,mbNo],0) = mrYes then
   begin
-    baixamatprimas('BAIXAENTESTOQUE', cds_MovimentoCODMOVIMENTO.AsInteger);
+    if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
+    Begin
+      baixamatprimas('BAIXAENTESTOQUE', cds_MovimentoCODMOVIMENTO.AsInteger);
+    end;
   end;
   cds_Movimento.Edit;
   cds_Mov_det.Edit;
