@@ -19,14 +19,14 @@ type
     btnSair: TBitBtn;
     btnCancelar: TBitBtn;
     btnExcluir: TBitBtn;
-    BitBtn4: TBitBtn;
+    btnImpNF: TBitBtn;
     cbFinanceiro: TJvCheckBox;
     cbEstoque: TJvCheckBox;
     dbeSerie: TDBEdit;
     dbeUsuario: TDBEdit;
     DataSource1: TDataSource;
     BitBtn5: TBitBtn;
-    BitBtn6: TBitBtn;
+    btnImpServ: TBitBtn;
     RadioGroup1: TRadioGroup;
     proc_transp: TSQLDataSet;
     proc_transpCODTRANSP: TIntegerField;
@@ -70,7 +70,7 @@ type
     localizaProduto: TSQLDataSet;
     localizaProdutoCODPRO: TStringField;
     localizaProdutoPRODUTO: TStringField;
-    BitBtn10: TBitBtn;
+    btnGuia: TBitBtn;
     PopupMenu1: TPopupMenu;
     ExcluirItemNF1: TMenuItem;
     CheckBox1: TCheckBox;
@@ -215,7 +215,7 @@ type
     DBText2: TDBText;
     JvGroupBox5: TJvGroupBox;
     cbCLiente: TDBComboBox;
-    BitBtn1: TBitBtn;
+    btnProcCli: TBitBtn;
     JvGroupBox6: TJvGroupBox;
     DBEdit1: TDBEdit;
     JvGroupBox7: TJvGroupBox;
@@ -260,10 +260,10 @@ type
     DBEdit19: TDBEdit;
     JvGroupBox28: TJvGroupBox;
     DBEdit33: TDBEdit;
-    BitBtn3: TBitBtn;
+    btnSerie: TBitBtn;
     JvGroupBox29: TJvGroupBox;
     cbTransportadora: TDBComboBox;
-    BitBtn2: TBitBtn;
+    btnProcTransp: TBitBtn;
     GroupBox1: TGroupBox;
     JvGroupBox30: TJvGroupBox;
     DBEdit20: TDBEdit;
@@ -306,7 +306,7 @@ type
     Label3: TLabel;
     JvGroupBox43: TJvGroupBox;
     cbCLiente1: TDBComboBox;
-    BitBtn7: TBitBtn;
+    btnProcCli2: TBitBtn;
     JvGroupBox44: TJvGroupBox;
     DBEdit35: TDBEdit;
     JvGroupBox45: TJvGroupBox;
@@ -330,7 +330,7 @@ type
     DBEdit44: TDBEdit;
     JvGroupBox54: TJvGroupBox;
     DBEdit47: TDBEdit;
-    BitBtn8: TBitBtn;
+    btnSerie2: TBitBtn;
     JvDBGrid2: TJvDBGrid;
     sCfop: TSQLDataSet;
     sCfopCFOP: TStringField;
@@ -409,34 +409,33 @@ type
     ds_Cr: TDataSource;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
-    procedure BitBtn3Click(Sender: TObject);
+    procedure btnSerieClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure cbCLienteChange(Sender: TObject);
     procedure cbNaturezaChange(Sender: TObject);
     procedure cbCFOPChange(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure JvDBGrid1KeyPress(Sender: TObject; var Key: Char);
-    procedure BitBtn1Click(Sender: TObject);
+    procedure btnProcCliClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure btnCancelarClick(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
     procedure cbTransportadoraChange(Sender: TObject);
-    procedure BitBtn2Click(Sender: TObject);
+    procedure btnProcTranspClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
-    procedure BitBtn4Click(Sender: TObject);
+    procedure btnImpNFClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DBEdit11Change(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
-    procedure BitBtn6Click(Sender: TObject);
+    procedure btnImpServClick(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
     procedure cbCLiente1Change(Sender: TObject);
     procedure JvDBGrid2KeyPress(Sender: TObject; var Key: Char);
-    procedure JvDBGrid1ColExit(Sender: TObject);
     procedure JvDBGrid1EditChange(Sender: TObject);
-    procedure BitBtn9Click(Sender: TObject);
+    //procedure BitBtn9Click(Sender: TObject);
     procedure JvDBGrid2EditChange(Sender: TObject);
-    procedure BitBtn10Click(Sender: TObject);
+    procedure btnGuiaClick(Sender: TObject);
     procedure ExcluirItemNF1Click(Sender: TObject);
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
@@ -458,17 +457,16 @@ type
     procedure gravamovimento;
     procedure gravavenda;
     procedure alteraVlrVenda;
-  public
-      vrr : double;
-      codMovFin, codVendaFin, codCliFin : integer;
-      parametroNF: string;
     procedure gravamov_detalhe;      
-    procedure gravanotafiscal;
+    procedure gravanotafiscal;    
+  public
+    vrr : double;
+    codMovFin, codVendaFin, codCliFin : integer;
+    parametroNF: string;
     procedure calculaicms(Estado: String);
     procedure somavalores;
     procedure ativaCalc;
     procedure inativaCalc;
-    { Public declarations }
   end;
 
 var
@@ -509,7 +507,6 @@ begin
       parametroNF := 'S';
     end;
 
-  //sCtrlResize.CtrlResize(TForm(fNotaf));
   //Populo combobox com a Razão do Fornecedor
   if (not dmnf.listaCFOP.Active) then
     dmnf.listaCFOP.Open;
@@ -549,9 +546,6 @@ procedure TfNotaf.btnIncluirClick(Sender: TObject);
 begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
-  // Entrada ou Saida
-  //if (rg.ItemIndex = 0) then // Entrada
-  //else  // saida
   if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
   begin
     if(sdsTotal.Active) then
@@ -639,14 +633,15 @@ begin
     dmnf.cds_mov_det.Params[1].AsInteger := codMovFin;
     dmnf.cds_mov_det.Open;
   end
-  else begin
+  else
+  begin
     // Pego os parametros para Lanç. Entrada
     CarregaParametros;
     incluiSAida;
   end;
 end;
 
-procedure TfNotaf.BitBtn3Click(Sender: TObject);
+procedure TfNotaf.btnSerieClick(Sender: TObject);
 begin
   fProcurar:= TfProcurar.Create(self,dmnf.scds_serie_proc);
   fProcurar.BtnProcurar.Click;
@@ -656,7 +651,6 @@ begin
     begin
      dmnf.cds_venda.Edit;
      dmnf.cds_vendaSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
-     //dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger;
      dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
      dmnf.cds_nfSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
      dmnf.cds_nfNOTASERIE.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
@@ -853,17 +847,17 @@ begin
     dbeSerie.Text := dm.parametroDADOS.AsString;
   end;
   DMNF.cds_vendaSERIE.AsString := dbeSerie.Text;
-  { 006 ------Pesquisando na tab Parametro o Vendedor padrão ---- 09-05-2005 -----}
+  // 006 ------Pesquisando na tab Parametro o Vendedor padrão ---- 09-05-2005 -----
   dbeUsuario.Text := IntToStr(cod_vendedor_padrao);
   //dbEdit68.Text := nome_vendedor_padrao;
-  { ---- ********************************************************************* ----}
+  // ---- ********************************************************************* ----
    buscaserieNF;
 
 end;
 
 procedure TfNotaf.buscaserieNF;
 begin
-  {------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------}
+  //------Pesquisando na tab Parametro o valor padrão para a Natureza Operação ---------
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'SERIEPADRAO';
@@ -879,10 +873,10 @@ begin
         DMNF.scds_serie_proc.Close;
       DMNF.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
       DMNF.scds_serie_proc.Open;
-      if DMNF.scds_serie_proc.IsEmpty then begin
+      if DMNF.scds_serie_proc.IsEmpty then
+      begin
         MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
         [mbOk], 0);
-        //btnSerie.Click;
         exit;
       end;
       DMNF.cds_vendaSERIE.AsString := DMNF.scds_serie_procSERIE.AsString;
@@ -921,43 +915,6 @@ begin
     cod_vendedor_padrao := 1;
     nome_vendedor_padrao := '..'
   end;
-  {------Pesquisando na tab Parametro se usa Comissão por Venda---------}
-   { if (dm.parametro.Locate('PARAMETRO','COMISSAO VENDA',[loCaseInsensitive])) then
-    begin
-      if dm.parametroCONFIGURADO.AsString = 'S' then
-      begin
-        ComboBox2.Visible := true;
-        ComboBox2.Items.Clear;
-        Label17.Visible := True;
-        if DMNF.cds_cm.Active then
-           DMNF.cds_cm.Close;
-        DMNF.cds_cm.Params[0].Clear;
-        DMNF.cds_cm.Params[1].AsInteger := 9999999;
-        DMNF.cds_cm.Open;
-        DMNF.cds_cm.First;
-        // populo a combobox
-        while not DMNF.cds_cm.Eof do
-        begin
-          ComboBox2.Items.Add(DMNF.cds_cmCODIGO.AsString);
-          DMNF.cds_cm.Next;
-        end;
-      end;
-    end;
-    }
-  {------Pesquisando na tab Parametro se usa Comissão por produto---------}
-   { if (dm.parametro.Locate('PARAMETRO','COMISSAO PRODUTO', [loCaseInsensitive])) then
-    begin
-      if dm.parametroDADOS.AsString = 'S' then
-      begin
-        label4.Caption := 'CM';
-        if DMNF.cds_cm.Active then
-          DMNF.cds_cm.Close;
-        DMNF.cds_cm.Params[0].Clear;
-        DMNF.cds_cm.Params[1].AsInteger := 9999999;
-        DMNF.cds_cm.Open;
-      end;
-    end;
-    }
   {------Pesquisando na tab Parametro Código e Nome da Natureza da Venda/Compra--------}
     if (dm.parametro.Locate('PARAMETRO','NATUREZANF',[loCaseInsensitive])) then
     begin
@@ -968,52 +925,6 @@ begin
       end;
       natureza := dm.parametroD1.AsString;
     end;
-   { if (dm.moduloUsado = 'AUTOMOTIVA') then
-    begin
-      //TabSheet1.Caption := 'Peças/Serviços';
-      bitbtn4.Enabled := False;
-      Label4.Caption := 'Com.';
-      Label29.Caption := 'Kilometragem';
-      Label11.Caption := 'Colab./Técnico';
-      //BitBtn3.Enabled := False;
-      //fVendas.Caption := 'Ordem de Serviços e Vendas de Peças';
-      //Label15.Caption := 'Lançamento de Ordem de Serviços e Vendas de Peças';
-      //GroupBox2.Caption := 'Local OS';
-      //GroupBox3.Caption := 'Data';
-    end;
-    }
-   { if (dm.parametro.Locate('PARAMETRO','MATERIAPRIMA', [loCaseInsensitive])) then
-    begin
-      if (dm.parametroCONFIGURADO.AsString = 'S') then
-      begin
-        matPrima := 'SIM';
-        inseridoMatPrima := 'SIM';
-      end
-      else
-        matPrima := 'NAO';
-    end;
-    }
-  { Usa Centro Receita }
-   { if (dm.parametro.Locate('PARAMETRO','CENTRO RECEITA', [loCaseInsensitive])) then
-    begin
-      if (dm.parametroCONFIGURADO.AsString = 'S') then
-      begin
-        ComboBox5.Enabled := True;
-        //Vejo quais são as contas de Receitas para listar no lookupcombobox.
-        if (dmnf.cds_ccusto.Active) then
-          dmnf.cds_ccusto.Close;
-        dmnf.cds_ccusto.Params[0].AsString := dm.parametroDADOS.AsString;
-        dmnf.cds_ccusto.Open;
-        // populo a combobox
-        dmnf.cds_ccusto.First;
-        while (not dmnf.cds_ccusto.Eof) do
-        begin
-          ComboBox5.Items.Add(dmnf.cds_ccustoNOME.AsString);
-          dmnf.cds_ccusto.Next;
-        end;
-      end;
-    end;
-     }
 end;
 
 procedure TfNotaf.cbCLienteChange(Sender: TObject);
@@ -1216,36 +1127,8 @@ begin
      end;
 end;
 
-procedure TfNotaf.BitBtn1Click(Sender: TObject);
+procedure TfNotaf.btnProcCliClick(Sender: TObject);
 begin
-  {fProcurar_nf:= TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
-  fProcurar_nf.BtnProcurar.Click;
-  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
-  fProcurar_nf.btnIncluir.Visible := True;
-  try
-   // varform := 'venda';
-    //codcli := 0;
-    //nomecli := '';
-    if (fProcurar_nf.ShowModal = mrOK) then
-    begin
-      if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
-      begin
-        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
-        exit;
-        //dbeCliente.SetFocus;
-      end;
-      if dmnf.dtSrc.State=dsBrowse then
-        dmnf.cds_Movimento.Edit;
-      prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
-      dmnf.cds_MovimentoCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
-      dmnf.cds_vendaCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
-      dmnf.cds_nfCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
-      dmnf.cds_nfRAZAOSOCIAL.AsString := dmnf.scds_cli_procRAZAOSOCIAL.AsString;
-    end;
-  finally
-   dmnf.scds_cli_proc.Close;
-   fProcurar_nf.Free;
-  end;   }
     fClienteCadastro:=TfClienteCadastro.Create(Application);
     try
       if ( fClienteCadastro.cds_cli.Active) then
@@ -1340,7 +1223,7 @@ begin
   end;
 end;
 
-procedure TfNotaf.BitBtn2Click(Sender: TObject);
+procedure TfNotaf.btnProcTranspClick(Sender: TObject);
 begin
    ftransp := Tftransp.Create(Application);
    try
@@ -1363,7 +1246,8 @@ end;
 
 procedure TfNotaf.btnGravarClick(Sender: TObject);
 var nfe : string;
-    TD: TTransactionDesc; 
+    TD: TTransactionDesc;
+    numnf, codm, codv : Integer;
 begin
   if (sqlValida.Active) then
     sqlValida.Close;
@@ -1411,6 +1295,34 @@ begin
     end;
 
     dm.sqlsisAdimin.Commit(TD);
+
+    //dmnf.cds_Mov_det.Refresh;
+    numnf := DMNF.cds_nfNUMNF.AsInteger;
+    codv := DMNF.cds_nfCODVENDA.AsInteger;
+    codm := DMNF.cds_vendaCODMOVIMENTO.AsInteger;
+
+    if (dmnf.cds_venda.Active) then
+      dmnf.cds_venda.Close;
+    dmnf.cds_venda.Params[0].AsInteger := codv;
+    dmnf.cds_venda.Params[1].AsInteger := codm;
+    dmnf.cds_venda.Open;
+
+    if (dmnf.cds_nf.Active) then
+      dmnf.cds_nf.Close;
+    dmnf.cds_nf.Params[0].AsInteger := numnf;
+    dmnf.cds_nf.Params[1].AsInteger := codv;
+    dmnf.cds_nf.Open;
+
+    if (dmnf.cds_Movimento.Active) then
+      dmnf.cds_Movimento.Close;
+    dmnf.cds_Movimento.Params[0].AsInteger := codm;
+    dmnf.cds_Movimento.Open;
+
+    if (dmnf.cds_mov_det.Active) then
+      dmnf.cds_mov_det.Close;
+    dmnf.cds_Mov_det.Params[0].Clear;
+    dmnf.cds_mov_det.Params[1].AsInteger := codm;
+    dmnf.cds_mov_det.Open;
   except
     on E : Exception do
     begin
@@ -1421,9 +1333,6 @@ begin
 
  if (calcman.Checked = True) then
   ativaCalc;
-
- dmnf.cds_Mov_det.Refresh;
-
 end;
 
 procedure TfNotaf.gravamov_detalhe;
@@ -1448,12 +1357,6 @@ begin
         dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
         dm.c_6_genid.Open;
         codmovdet := dm.c_6_genid.Fields[0].AsInteger;
-        {if ComboBox2.Text <> '' then
-        begin
-           dmnf.cds_cm.Locate('CODIGO', ComboBox2.Text,[loPartialKey]);
-           dmnf.cds_Mov_detCOD_COMISSAO.AsInteger := dmnf.cds_cmCOD_COMISSAO.AsInteger;
-           //dmnf.cds_Mov_detCODIGO.AsString := dmnf.cds_cmCODIGO.AsString;
-        end;}
         dmnf.cds_Mov_detCODDETALHE.AsInteger := codmovdet;
         if (cbEstoque.Checked = False) then
           dmnf.cds_Mov_detBAIXA.AsString := '2';
@@ -1552,15 +1455,6 @@ begin
   if (parametroNF <> 'S') then
     alteraVlrVenda;
 
-  {dmnf.cds_vendaVALOR.AsFloat := dmnf.cds_vendaVALOR.AsFloat +
-    dmnf.cds_vendaVALOR_FRETE.AsFloat +
-    dmnf.cds_vendaVALOR_SEGURO.AsFloat +
-    dmnf.cds_vendaOUTRAS_DESP.AsFloat +
-    dmnf.cds_vendaVALOR_IPI.AsFloat;
-  dmnf.cds_vendaAPAGAR.AsFloat := dmnf.cds_vendaVALOR.AsFloat -
-    dmnf.cds_vendaENTRADA.AsFloat + dmnf.cds_vendaMULTA_JUROS.AsFloat -
-    dmnf.cds_vendaDESCONTO.AsFloat;}
-
   dmnf.cds_venda.ApplyUpdates(0);
 
   if not dmnf.scds_serie_proc.Active then
@@ -1569,31 +1463,24 @@ begin
      dmnf.scds_serie_proc.Open;
   end;
   if (not dmnf.scds_serie_proc.IsEmpty) then
-  if (dmnf.cds_vendaNOTAFISCAL.AsInteger > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
   begin
-    dmnf.scds_serie_proc.Edit;
-    dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
-    dmnf.scds_serie_proc.ApplyUpdates(0);
+    if (dmnf.cds_vendaNOTAFISCAL.AsInteger > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
+    begin
+      dmnf.scds_serie_proc.Edit;
+      dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
+      dmnf.scds_serie_proc.ApplyUpdates(0);
+    end;
+    dmnf.scds_serie_proc.Close;
   end;
-  dmnf.scds_serie_proc.Close;
-  // Coloquei aqui pois na rotina da movimento detalhe nao surtia efeito
-  dmnf.cds_Mov_det.close;
-  if(dmnf.cds_MovimentoCODNATUREZA.AsInteger = 12) then
-  begin
-    dmnf.cds_Mov_det.Params[0].clear;
-    dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_vendaCODMOVIMENTO.AsInteger;
-  end;
-  dmnf.cds_Mov_det.open;
 
   if (scdsCr_proc.Active) then
     scdsCr_proc.Close;
-
   scdsCr_proc.Params[0].AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
   scdsCr_proc.Open;
 
 end;
 
-procedure TfNotaf.BitBtn4Click(Sender: TObject);
+procedure TfNotaf.btnImpNFClick(Sender: TObject);
 begin
   if (CheckBox1.Checked = True) then
   begin
@@ -1713,10 +1600,8 @@ begin
 end;
 
 procedure TfNotaf.gravanotafiscal;
-var nfnum :Integer;
-    pesoremessa, entrega: Double;
+var  pesoremessa, entrega: Double;
 begin
- nfnum := 0;
  // Gravo a NF
  if (RadioGroup1.ItemIndex = 1) then
   if (cbCFOP.text = '') then
@@ -1737,12 +1622,9 @@ begin
     dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_NF, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
     dm.c_6_genid.Open;
     dmnf.cds_nfNUMNF.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    nfnum := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
   dmnf.cds_nfCODVENDA.AsInteger := dmnf.cds_vendaCODVENDA.AsInteger;
-  if (nfnum = 0) then
-    nfnum := dmnf.cds_nfNUMNF.AsInteger;
   if (parametroNF <> 'S') then
     alteraVlrVenda;
   if (RadioGroup1.ItemIndex = 0) then
@@ -1801,20 +1683,9 @@ begin
     end;
   end;
   dmnf.cds_nf.ApplyUpdates(0);
-
-  // Calcula ICMS - IPI
-  //if (codVendaFin = 0) then
+  
   if (not calcman.Checked) then
     calculaicms(dmnf.cds_nfUF.AsString);
-  DMNF.cds_Mov_det.Refresh;
-  dmnf.cds_nf.close;
-  dmnf.cds_nf.Params[0].AsInteger := nfnum;
-  dmnf.cds_nf.Params[1].Clear;
-  dmnf.cds_nf.open;
-  dmnf.cds_Mov_det.Open;
-  dmnf.cds_venda.Close;
-  dmnf.cds_venda.Params[0].AsInteger := dmnf.cds_nfCODVENDA.AsInteger;
-  dmnf.cds_venda.Open;
 end;
 
 procedure TfNotaf.calculaicms(Estado: String);
@@ -1823,22 +1694,15 @@ begin
   Try
     if (dmnf.sds_calculo.Active) then
       dmnf.sds_calculo.Close;
-    str_sql := 'EXECUTE PROCEDURE CALCULA_ICMS(';
-    // NUMNF
-    str_sql := str_sql + IntToStr(dmnf.cds_nfNUMNF.asInteger);
-    // UF
-    str_sql := str_sql + ',''' + dmnf.cds_nfUFCLI.AsString + '''';
-    // CFOP
-    str_sql := str_sql + ',''' + dmnf.cds_nfCFOP.AsString + '''';
-    // Valor Frete
     DecimalSeparator := '.';
-    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfVALOR_FRETE.AsFloat);
-    // Valor Seguro
-    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfVALOR_SEGURO.AsFloat);
-    // Valor_Outros
-    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfOUTRAS_DESP.AsFloat);
-    // Total
-    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfVALOR_PRODUTO.AsFloat);
+    str_sql := 'EXECUTE PROCEDURE CALCULA_ICMS(';
+    str_sql := str_sql + IntToStr(dmnf.cds_nfNUMNF.asInteger);    // NUMNF
+    str_sql := str_sql + ',''' + dmnf.cds_nfUFCLI.AsString + '''';    // UF
+    str_sql := str_sql + ',''' + dmnf.cds_nfCFOP.AsString + '''';    // CFOP
+    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfVALOR_FRETE.AsFloat);    // Valor Frete
+    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfVALOR_SEGURO.AsFloat);    // Valor Seguro
+    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfOUTRAS_DESP.AsFloat);    // Valor_Outros
+    str_sql := str_sql + ',' + FloatToStr(dmnf.cds_nfVALOR_PRODUTO.AsFloat);    // Total
     if (Estado = 'OUTROS') then
     begin
       str_sql := str_sql + ',''' + 'S' + '''';
@@ -1850,7 +1714,6 @@ begin
       str_sql := str_sql + ', 0';
       str_sql := str_sql + ', 0';
     end;
-   // end;
     str_sql := str_sql + ')';
     DecimalSeparator := ',';
     dmnf.sds_calculo.CommandText := str_sql;
@@ -1881,8 +1744,6 @@ end;
 procedure TfNotaf.somavalores;
 var  varTotalnota : double;
 begin
-//     varTotalnota := 0;
-//     dmnf.cds_nfVALOR_ICMS.Value +
      varTotalnota :=  dmnf.cds_nfVALOR_FRETE.Value + dmnf.cds_nfVALOR_SEGURO.Value +
      dmnf.cds_nfOUTRAS_DESP.Value + dmnf.cds_nfVALOR_IPI.Value;
      if (varTotalnota <> dmnf.cds_nfVALOR_TOTAL_NOTA.value) then
@@ -1905,7 +1766,7 @@ begin
   end;
 end;
 
-procedure TfNotaf.BitBtn6Click(Sender: TObject);
+procedure TfNotaf.btnImpServClick(Sender: TObject);
 begin
     dmnf.repdm.FileName := str_relatorio + 'nf_new_serv.rep';
     dmnf.repdm.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
@@ -2061,48 +1922,6 @@ begin
      end;
 end;
 
-procedure TfNotaf.JvDBGrid1ColExit(Sender: TObject);
-begin
-{  if (JvDBGrid2.SelectedIndex = 1) then
-  begin
-   if (dmnf.cds_Mov_detDESCPRODUTO.AsString <> '') then
-   begin
-     if (dmnf.cds_Mov_det.State in [dsBrowse]) then
-       dmnf.cds_Mov_det.Edit;
-     DMNF.listaProduto.open;
-     if (DMNF.listaProduto.Locate('PRODUTO',dmnf.cds_Mov_detDESCPRODUTO.AsString,[loCaseInsensitive])) then
-     begin
-       dmnf.cds_Mov_detCODPRO.AsString := DMNF.listaProdutoCODPRO.AsString;
-       DMNF.cds_Mov_detPRODUTO.Value := DMNF.listaProdutoPRODUTO.Value;
-       // DMNF.cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
-        DMNF.cds_Mov_detCODPRODUTO.AsInteger := DMNF.listaProdutoCODPRODUTO.AsInteger;
-        DMNF.cds_Mov_detLOCALIZACAO.Value := DMNF.listaProdutoLOCALIZACAO.Value;
-        DMNF.cds_Mov_detCOD_COMISSAO.AsInteger := DMNF.listaProdutoCOD_COMISSAO.AsInteger;
-        DMNF.cds_Mov_detQTDE_PCT.AsFloat := DMNF.listaProdutoQTDE_PCT.AsFloat;
-        DMNF.cds_Mov_detUN.AsString := DMNF.listaProdutoUNIDADEMEDIDA.AsString;
-        DMNF.estoque := DMNF.listaProdutoESTOQUEATUAL.AsFloat;
-        DMNF.cds_Mov_detQUANTIDADE.AsFloat := 1;
-        DMNF.qtde := DMNF.listaProdutoPESO_QTDE.AsFloat;
-        DMNF.cds_Mov_detQTDE_ALT.AsFloat := 0;
-        DMNF.cds_Mov_detPRECOCUSTO.AsFloat := DMNF.listaProdutoPRECOMEDIO.AsFloat;
-        if DMNF.listaProdutoQTDE_PCT.AsFloat >= 1 then
-           DMNF.cds_Mov_detPRECO.AsFloat := DMNF.listaProdutoVALOR_PRAZO.AsFloat / DMNF.listaProdutoQTDE_PCT.AsFloat
-        else
-           DMNF.cds_Mov_detPRECO.AsFloat := DMNF.listaProdutoVALOR_PRAZO.AsFloat;
-        valorUnitario := DMNF.listaProdutoVALOR_PRAZO.AsFloat;
-        DMNF.cds_Mov_detCODALMOXARIFADO.AsInteger := DMNF.listaProdutoCODALMOXARIFADO.AsInteger;
-        DMNF.cds_Mov_detALMOXARIFADO.AsString := DMNF.listaProdutoALMOXARIFADO.AsString;
-        DMNF.cds_Mov_detICMS.AsFloat := DMNF.listaProdutoICMS.AsFloat;
-     end
-     else
-       DMNF.cds_Mov_detCODPRODUTO.AsInteger := 1;
-   end;
-  end;}
-
-    // está posicionado no campo Descrição do Produto
-
-end;
-
 procedure TfNotaf.JvDBGrid1EditChange(Sender: TObject);
 begin
     if (JvDBGrid1.SelectedIndex = 1) then
@@ -2187,24 +2006,6 @@ begin
     dmnf.cds_venda.ApplyUpdates(0);
 end;
 
-procedure TfNotaf.BitBtn9Click(Sender: TObject);
-var nunf: integer;
-begin
-  if (dmnf.cds_nf.State in [dsEdit, dsInsert]) Then
-  begin
-    btnGravar.Click;
-    exit;
-  end;
-  nunf := DMNF.cds_nfNUMNF.AsInteger;
-  // Calcula ICMS - IPI
-  if (not calcman.Checked) then
-    calculaicms('OUTROS');
-  // Abre a tabela Novamente.
-  dmnf.cds_nf.Close;
-  dmnf.cds_nf.Params[0].AsInteger := nunf;
-  dmnf.cds_nf.Open;
-end;
-
 procedure TfNotaf.JvDBGrid2EditChange(Sender: TObject);
 begin
     if (JvDBGrid2.SelectedIndex = 1) then
@@ -2262,7 +2063,7 @@ begin
       DMNF.cds_Mov_detPRECO.AsFloat := dmnf.cds_Mov_detVLR_BASE.asFloat;
 end;
 
-procedure TfNotaf.BitBtn10Click(Sender: TObject);
+procedure TfNotaf.btnGuiaClick(Sender: TObject);
 begin
   try
     dmnf.repdm.FileName := str_relatorio + 'nf_transporte.rep';
