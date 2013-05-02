@@ -707,9 +707,12 @@ type
     procedure JvDBGrid2DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure btnImprimirCCeClick(Sender: TObject);
+    procedure EnviaEmail;
+    procedure tpNFClick(Sender: TObject);
 
   private
     numnf : WideString;
+    envemail : string;
     TD: TTransactionDesc;
     procedure getCli_Fornec();
     procedure getEmpresa();
@@ -1195,6 +1198,16 @@ begin
      Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
      Recibo := ACBrNFe1.WebServices.Retorno.Recibo;
 
+     if (envemail = 'S') then
+     begin
+       if (tpNF.ItemIndex = 1) then
+       begin
+         if (not sClienteE_MAIL.IsNull) then
+           EnviaEmail
+         else
+           MessageDlg('Não foi possivel Enviar o Email, pois o cliente não possui email em seu cadastro.', mtError, [mbOK], 0);
+       end;
+     end;
     //PEGA A RESPOSTA
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
@@ -1320,6 +1333,17 @@ begin
   diretorio := GetCurrentDir;
   ACBrNFeDANFERave1.Logo :=  diretorio + '\logo.bmp';
   ACBrNFe1.NotasFiscais.Add.NFe.Ide.tpEmis    := teNormal;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'EMAILAUTOMATICO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    envemail := dm.cds_parametroCONFIGURADO.AsString
+  else
+    envemail := 'N';
+  dm.cds_parametro.Close;
+
 end;
 
 procedure TfNFeletronica.btnImprimeClick(Sender: TObject);
@@ -1467,7 +1491,6 @@ begin
         end;
       end;
       MemoResp.Lines.Text :=  UTF8Encode(ACBrNFe1.WebServices.EnvEvento.RetWS);
-      ShowMessage(IntToStr(ACBrNFe1.WebServices.EnvEvento.cStat));
       ShowMessage('Nº do Protocolo de Cancelamento ' + ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt);
       Protocolo := ACBrNFe1.WebServices.EnvEvento.EventoRetorno.retEvento.Items[0].RetInfEvento.nProt;
       AcbrNfe1.Configuracoes.Geral.Salvar := True;
@@ -2872,6 +2895,76 @@ begin
       imprimiCCe(cdsCCEPROTOCOLO.AsString, cdsCCEDHENVIO.AsDateTime, cdsCCECONDICAO.AsString );
     cdsCCE.Next;
   end
+end;
+
+
+procedure TfNFeletronica.EnviaEmail;
+var
+ IDNFE, RAZAO, CNPJ, TRANSP, Protocolo, Assunto : String;
+ numnf, serie : Integer;
+ CC, Texto: Tstrings;
+begin
+  CC:=TstringList.Create;
+  //ABRE A NOTA
+  IDNFE  := ACBrNFe1.NotasFiscais.Items[0].NFe.infNFe.ID;
+  numnf  := StrToInt(cdsNFNOTASERIE.AsString);
+  RAZAO  := ACBrNFe1.NotasFiscais.Items[0].NFe.Dest.xNome;
+  CNPJ   := ACBrNFe1.NotasFiscais.Items[0].NFe.Dest.CNPJCPF;
+  TRANSP := ACBrNFe1.NotasFiscais.Items[0].NFe.Transp.Transporta.xNome;
+
+  Protocolo := ACBrNFe1.WebServices.Retorno.Protocolo;
+  Texto := TStringList.Create;
+  Texto.Add('Empresa emissora da NF-e: ' + sEmpresaRAZAO.AsString);
+  Texto.Add('CNPJ/CPF da Empresa Emissora: ' + sEmpresaCNPJ_CPF.AsString);
+  Texto.Add('Empresa destacada na NF-e: ' + RAZAO);
+  Texto.Add('CNPJ/CPF da Empresa/Cliente destacado: ' + CNPJ);
+  Texto.Add('Número da NF: ' + InttoStr(numnf) + ' Série 1');
+  Texto.Add('Chave de identificação: ' + IDNFE);
+  Texto.Add('');
+  Texto.Add('');
+  Texto.Add('Consulte no Portal Nacional da NFe: https://www.nfe.fazenda.gov.br/portal/FormularioDePesquisa.aspx?tipoconsulta=completa .');
+  Texto.Add('Ou consulte pela página do SEFAZ do seu estado.');
+
+  CC.Add(sEmpresaE_MAIL.AsString); //especifique um email válido
+  Assunto := 'Nota Fiscal Eletrônica ' + InttoStr(numnf);
+
+  Try
+    begin
+      try
+        ACBrNFe1.NotasFiscais.Items[0].EnviarEmail(sEmpresaSMTP.AsString
+                                                 , sEmpresaPORTA.AsString
+                                                 , sEmpresaE_MAIL.AsString
+                                                 , sEmpresaSENHA.AsString
+                                                 , sEmpresaE_MAIL.AsString
+                                                 , sClienteE_MAIL.AsString
+                                                 , Assunto
+                                                 , Texto
+                                                 , False
+                                                 , True //Enviar PDF junto
+                                                 , CC //com copia
+                                                 , nil // Lista de anexos - TStrings
+                                                 , False  //Pede confirmação de leitura do email
+                                                 , True  //Aguarda Envio do Email(não usa thread)
+                                                 , sEmpresaRAZAO.AsString ); // Nome do Rementente
+        ShowMessage('Email enviado com sucesso!');
+      except
+         on E: Exception do
+          begin
+            raise Exception.Create('Erro ao enviar email'+sLineBreak+E.Message);
+          end;
+      end;
+    end;
+  finally
+    CC.Clear;
+    CC.Free;
+    Texto.Free;
+    //fNFeletronica.ACBrNFe1.NotasFiscais.Clear;
+  end;
+end;
+
+procedure TfNFeletronica.tpNFClick(Sender: TObject);
+begin
+  btnListar.Click;
 end;
 
 end.
