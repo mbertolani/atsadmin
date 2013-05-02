@@ -349,7 +349,8 @@ end;
 
 procedure TfProcura_prod.FormCreate(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fProcura_prod));
+//  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fProcura_prod));
 end;
 
 procedure TfProcura_prod.FormShow(Sender: TObject);
@@ -418,6 +419,60 @@ begin
     EvDBFind1.SetFocus;
   if (Panel1.Visible = True) then
     edProduto.SetFocus;
+
+  //Verifica Quantidade de Casas Decimais na QUANTIDADE E PREÇO
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'FORMATACAO';
+  dm.cds_parametro.Open;
+
+
+  if (dm.cds_parametroD1.AsString <> '') then
+  begin
+    Case StrToInt(dm.cds_parametroD1.AsString) of
+      2 : Edit3.DecimalPlaces :=  2;
+      3 : Edit3.DecimalPlaces :=  3;
+      4 : Edit3.DecimalPlaces :=  4;
+      5 : Edit3.DecimalPlaces :=  5;
+      6 : Edit3.DecimalPlaces :=  6;
+    end;
+  end;
+
+  if (dm.cds_parametroD2.AsString <> '') then
+  begin
+    Case StrToInt(dm.cds_parametroD2.AsString) of
+      2 : Edit4.DecimalPlaces :=  2;
+      3 : Edit4.DecimalPlaces :=  3;
+      4 : Edit4.DecimalPlaces :=  4;
+      5 : Edit4.DecimalPlaces :=  5;
+      6 : Edit4.DecimalPlaces :=  6;
+    end;
+  end;
+
+  if (dm.cds_parametroD1.AsString <> '') then
+  begin
+    Case StrToInt(dm.cds_parametroD1.AsString) of
+      2 : Edit3.DisplayFormat :=  ',##0.00';
+      3 : Edit3.DisplayFormat :=  ',##0.000';
+      4 : Edit3.DisplayFormat :=  ',##0.0000';
+      5 : Edit3.DisplayFormat :=  ',##0.00000';
+      6 : Edit3.DisplayFormat :=  ',##0.000000';
+    end;
+  end;
+
+  if (dm.cds_parametroD2.AsString <> '') then
+  begin
+    Case StrToInt(dm.cds_parametroD2.AsString) of
+      2 : Edit4.DisplayFormat :=  ',##0.00';
+      3 : Edit4.DisplayFormat :=  ',##0.000';
+      4 : Edit4.DisplayFormat :=  ',##0.0000';
+      5 : Edit4.DisplayFormat :=  ',##0.00000';
+      6 : Edit4.DisplayFormat :=  ',##0.000000';
+    end;
+  end;
+
+  dm.cds_parametro.Close;
+
 end;
 
 procedure TfProcura_prod.btnIncluirClick(Sender: TObject);
