@@ -8,18 +8,18 @@ inherited fParametro: TfParametro
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel2: TMMJPanel [0]
-    Width = 817
+    Width = 826
     Height = 9
     inherited Label1: TLabel
       Left = 214
       Top = 0
-      Width = 359
+      Width = 360
       Caption = 'Par'#225'metros do Sistema'
     end
     inherited Label2: TLabel
       Left = 218
       Top = 1
-      Width = 359
+      Width = 360
       Caption = 'Par'#225'metros do Sistema'
     end
   end
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = TabPDV
+    ActivePage = TabSheet7
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -2351,7 +2351,7 @@ inherited fParametro: TfParametro
       object GroupBox31: TGroupBox
         Left = 2
         Top = 383
-        Width = 380
+        Width = 263
         Height = 48
         Caption = 'Desconto na Venda de Clientes com SUFRAMA'
         TabOrder = 6
@@ -2370,7 +2370,7 @@ inherited fParametro: TfParametro
           TabOrder = 0
         end
         object BitBtn31: TBitBtn
-          Left = 213
+          Left = 157
           Top = 15
           Width = 75
           Height = 25
@@ -2401,9 +2401,9 @@ inherited fParametro: TfParametro
         OnClick = BitBtn32Click
       end
       object rgBloqueio: TRadioGroup
-        Left = 391
+        Left = 271
         Top = 383
-        Width = 380
+        Width = 266
         Height = 48
         Caption = 'Mensagem Personalizada para Cliente Bloqueado'
         Columns = 2
@@ -2412,6 +2412,19 @@ inherited fParametro: TfParametro
           'N'#227'o')
         TabOrder = 9
         OnClick = rgBloqueioClick
+      end
+      object rgNfe: TRadioGroup
+        Left = 544
+        Top = 383
+        Width = 225
+        Height = 48
+        Caption = 'Envia Email NFe Autom'#225'ticamente'
+        Columns = 2
+        Items.Strings = (
+          'Sim'
+          'N'#227'o')
+        TabOrder = 10
+        OnClick = rgNfeClick
       end
     end
     object TabSheet8: TTabSheet
@@ -3295,8 +3308,8 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 513
-    Width = 817
+    Top = 515
+    Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
     end
