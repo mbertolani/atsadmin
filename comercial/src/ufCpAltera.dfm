@@ -1,7 +1,7 @@
 inherited fCpAltera: TfCpAltera
   Left = 237
   Top = 125
-  Width = 780
+  Width = 789
   Height = 580
   Caption = 'Alterar T'#237'tulos.'
   Font.Height = -13
@@ -18,7 +18,7 @@ inherited fCpAltera: TfCpAltera
     FocusControl = DBEdit1
   end
   object Label4: TLabel [1]
-    Left = 103
+    Left = 91
     Top = 64
     Width = 71
     Height = 16
@@ -26,7 +26,7 @@ inherited fCpAltera: TfCpAltera
     FocusControl = DBEdit2
   end
   object Label5: TLabel [2]
-    Left = 201
+    Left = 180
     Top = 64
     Width = 70
     Height = 16
@@ -34,7 +34,7 @@ inherited fCpAltera: TfCpAltera
     FocusControl = DBEdit3
   end
   object Label6: TLabel [3]
-    Left = 412
+    Left = 454
     Top = 64
     Width = 55
     Height = 16
@@ -42,7 +42,7 @@ inherited fCpAltera: TfCpAltera
     FocusControl = DBEdit4
   end
   object Label7: TLabel [4]
-    Left = 530
+    Left = 548
     Top = 64
     Width = 80
     Height = 16
@@ -50,7 +50,7 @@ inherited fCpAltera: TfCpAltera
     FocusControl = DBEdit5
   end
   object Label8: TLabel [5]
-    Left = 299
+    Left = 263
     Top = 64
     Width = 55
     Height = 16
@@ -87,12 +87,20 @@ inherited fCpAltera: TfCpAltera
     Caption = 'Numero do Documento'
     FocusControl = DBEdit9
   end
+  object Label11: TLabel [10]
+    Left = 361
+    Top = 65
+    Width = 57
+    Height = 16
+    Caption = 'Vlr. 1'#170' Via'
+    FocusControl = DBEdit6
+  end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 772
+    Width = 773
     Height = 59
     Align = alTop
-    TabOrder = 8
+    TabOrder = 9
     inherited btnCancelar: TBitBtn [0]
       Left = 82
       Top = 2
@@ -131,11 +139,11 @@ inherited fCpAltera: TfCpAltera
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 510
-    Width = 772
+    Top = 506
+    Width = 773
     Height = 36
     Align = alBottom
-    TabOrder = 9
+    TabOrder = 10
     inherited Label1: TLabel
       Left = 8
       Top = -6
@@ -149,10 +157,10 @@ inherited fCpAltera: TfCpAltera
       Caption = '...'
     end
   end
-  object DBEdit1: TDBEdit [12]
+  object DBEdit1: TDBEdit [13]
     Left = 5
     Top = 80
-    Width = 92
+    Width = 81
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -161,10 +169,10 @@ inherited fCpAltera: TfCpAltera
     TabOrder = 0
     OnKeyPress = FormKeyPress
   end
-  object DBEdit2: TDBEdit [13]
-    Left = 103
+  object DBEdit2: TDBEdit [14]
+    Left = 91
     Top = 80
-    Width = 92
+    Width = 83
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -173,10 +181,10 @@ inherited fCpAltera: TfCpAltera
     TabOrder = 1
     OnKeyPress = FormKeyPress
   end
-  object DBEdit3: TDBEdit [14]
-    Left = 201
+  object DBEdit3: TDBEdit [15]
+    Left = 180
     Top = 80
-    Width = 92
+    Width = 79
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
@@ -185,44 +193,43 @@ inherited fCpAltera: TfCpAltera
     TabOrder = 2
     OnKeyPress = FormKeyPress
   end
-  object DBEdit4: TDBEdit [15]
-    Left = 412
+  object DBEdit4: TDBEdit [16]
+    Left = 454
     Top = 80
-    Width = 112
+    Width = 91
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'VALORRECEBIDO'
     DataSource = DtSrc
-    TabOrder = 4
+    TabOrder = 5
     OnKeyPress = FormKeyPress
   end
-  object DBEdit5: TDBEdit [16]
-    Left = 530
+  object DBEdit5: TDBEdit [17]
+    Left = 548
     Top = 80
-    Width = 112
+    Width = 97
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'VALOR_RESTO'
     DataSource = DtSrc
-    TabOrder = 5
+    TabOrder = 6
     OnKeyPress = FormKeyPress
   end
-  object DBEdit6: TDBEdit [17]
-    Left = 299
+  object DBEdit6: TDBEdit [18]
+    Left = 263
     Top = 80
-    Width = 107
+    Width = 94
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
     DataField = 'VALORTITULO'
     DataSource = DtSrc
-    ReadOnly = True
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
-  object DBEdit7: TDBEdit [18]
+  object DBEdit7: TDBEdit [19]
     Left = 674
     Top = 80
     Width = 47
@@ -232,10 +239,10 @@ inherited fCpAltera: TfCpAltera
     DataField = 'PARCELAS'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 7
+    TabOrder = 8
     OnKeyPress = FormKeyPress
   end
-  object DBEdit8: TDBEdit [19]
+  object DBEdit8: TDBEdit [20]
     Left = 649
     Top = 80
     Width = 24
@@ -245,10 +252,10 @@ inherited fCpAltera: TfCpAltera
     DataField = 'VIA'
     DataSource = DtSrc
     ReadOnly = True
-    TabOrder = 6
+    TabOrder = 7
     OnKeyPress = FormKeyPress
   end
-  object DBGrid1: TDBGrid [20]
+  object DBGrid1: TDBGrid [21]
     Left = 4
     Top = 158
     Width = 763
@@ -261,7 +268,7 @@ inherited fCpAltera: TfCpAltera
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 11
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -342,7 +349,7 @@ inherited fCpAltera: TfCpAltera
         Visible = True
       end>
   end
-  object ComboBox1: TComboBox [21]
+  object ComboBox1: TComboBox [22]
     Left = 196
     Top = 124
     Width = 249
@@ -355,10 +362,10 @@ inherited fCpAltera: TfCpAltera
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 11
+    TabOrder = 12
     OnKeyPress = FormKeyPress
   end
-  object cbConta: TComboBox [22]
+  object cbConta: TComboBox [23]
     Left = 5
     Top = 124
     Width = 189
@@ -371,10 +378,10 @@ inherited fCpAltera: TfCpAltera
     Font.Style = []
     ItemHeight = 16
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 13
     OnKeyPress = FormKeyPress
   end
-  object DBEdit9: TDBEdit [23]
+  object DBEdit9: TDBEdit [24]
     Left = 446
     Top = 124
     Width = 276
@@ -389,7 +396,19 @@ inherited fCpAltera: TfCpAltera
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 13
+    TabOrder = 14
+    OnKeyPress = FormKeyPress
+  end
+  object DBEdit10: TDBEdit [25]
+    Left = 358
+    Top = 80
+    Width = 93
+    Height = 24
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'VALOR_PRIM_VIA'
+    DataSource = DtSrc
+    TabOrder = 4
     OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu

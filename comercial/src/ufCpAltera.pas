@@ -82,6 +82,8 @@ type
     ComboBox1: TComboBox;
     cbConta: TComboBox;
     DBEdit9: TDBEdit;
+    Label11: TLabel;
+    DBEdit10: TDBEdit;
     procedure BitBtn1Click(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
