@@ -50,7 +50,7 @@ end;
 
 procedure TfCx.BitBtn1Click(Sender: TObject);
 begin
-  fCorreio.DBEdit3.Text := DBEdit1.Text;
+  fCorreio.DBEdit3.Text := DBEdit1.Text;   
   fCx.Close;
 end;
 
