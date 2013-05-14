@@ -487,8 +487,8 @@ object fFiltroCadDoc: TfFiltroCadDoc
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 136
-    Top = 24
+    Left = 96
+    Top = 8
     object sqlCadID: TIntegerField
       FieldName = 'ID'
       Required = True
