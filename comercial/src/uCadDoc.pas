@@ -96,7 +96,7 @@ uses UDm, uFiltroCadDoc;
 procedure TFCadDoc.btnProcurarClick(Sender: TObject);
 begin
   inherited;
-  fFiltroCadDoc := TfFiltroCadDoc.Create(Application);
+  fFiltroCadDoc := TfFiltroCadDoc.Create(Application);  
   try
     fFiltroCadDoc.BitBtn1.Visible := False;
     fFiltroCadDoc.ShowModal;

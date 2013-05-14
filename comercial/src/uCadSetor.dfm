@@ -34,7 +34,7 @@ inherited fCadSetor: TfCadSetor
   object DBEdit2: TDBEdit [5]
     Left = 176
     Top = 88
-    Width = 524
+    Width = 529
     Height = 21
     DataField = 'DESCR'
     DataSource = DtSrc

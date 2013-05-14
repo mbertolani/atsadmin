@@ -258,7 +258,7 @@ inherited FCadDoc: TFCadDoc
     TabOrder = 15
   end
   object DBEdit14: TDBEdit [31]
-    Left = 602
+    Left = 601
     Top = 352
     Width = 30
     Height = 21

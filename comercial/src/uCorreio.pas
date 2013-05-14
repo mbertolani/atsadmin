@@ -626,7 +626,7 @@ begin
     fRetira.cdsCorreio.Open;
     fRetira.Label14.Caption := 'DEVOLUÇÂO';
     fRetira.Label1.Caption := 'DEVOLVIDO POR :';
-    fRetira.ShowModal;
+    fRetira.ShowModal;    
   finally
     fRetira.Free;
   end;
