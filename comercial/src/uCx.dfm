@@ -59,7 +59,7 @@ object fCx: TfCx
   end
   object BitBtn1: TBitBtn
     Left = 203
-    Top = 312
+    Top = 313
     Width = 99
     Height = 41
     Caption = 'Voltar- F9'
