@@ -32,6 +32,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -82,6 +83,12 @@ end;
 procedure TfCadDep.btnExcluirClick(Sender: TObject);
 begin
 //  inherited;
+
+end;
+
+procedure TfCadDep.btnProcurarClick(Sender: TObject);
+begin
+  inherited;   //
 
 end;
 

@@ -175,7 +175,7 @@ uses UDm, uCorreio;
 procedure TFiltroCorreio.btnProcurarClick(Sender: TObject);
  Var SqlTexto ,SqlTex , DataStr  : String;
 begin
-
+ 
   datastr:='  /  /    ';
   if(cdsC.Active) then
     cdsC.Close;

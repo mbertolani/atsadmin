@@ -895,7 +895,7 @@ inherited fCorreio: TfCorreio
           7F7F7F7F7F7F7F7F828282C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       end
       object btnDevolucao: TBitBtn
-        Left = 678
+        Left = 682
         Top = 314
         Width = 115
         Height = 41

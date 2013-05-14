@@ -87,7 +87,7 @@ var data ,soma : String;
  dia, mes, ano : word;
 
 begin
-  data := hoje.Text;
+  data := hoje.Text;    
   DecodeDate(StrToDate(data),ano,mes,dia);
   ano := (ano + StrToInt(cdsCadANODESC.Text));
 

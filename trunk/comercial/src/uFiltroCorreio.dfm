@@ -99,7 +99,7 @@ object FiltroCorreio: TFiltroCorreio
     Caption = 'N'#186' DA CAIXA'
   end
   object btnProcurar: TBitBtn
-    Left = 600
+    Left = 599
     Top = 8
     Width = 91
     Height = 41

@@ -255,7 +255,7 @@ object fFiltroCadDoc: TfFiltroCadDoc
   object EvDBFind2: TEvDBFind
     Left = 40
     Top = 64
-    Width = 129
+    Width = 131
     Height = 21
     DataField = 'CODDOC'
     DataSource = dsCad

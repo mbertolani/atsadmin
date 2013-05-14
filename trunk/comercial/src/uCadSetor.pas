@@ -72,7 +72,7 @@ begin
   cdsCa.Close;
   cdsCa.Open;
   btnProcurar.Visible := False;
-  btnExcluir.Visible := False;
+  btnExcluir.Visible := False;    //
 end;
 
 procedure TfCadSetor.btnExcluirClick(Sender: TObject);

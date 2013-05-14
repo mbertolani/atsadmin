@@ -46,12 +46,13 @@ inherited fCadDep: TfCadDep
     inherited btnProcurar: TBitBtn
       Left = 156
       Visible = False
+      OnClick = btnProcurarClick
     end
   end
   object DBEdit1: TDBEdit [5]
     Left = 64
     Top = 104
-    Width = 82
+    Width = 81
     Height = 21
     DataField = 'CODDEP'
     DataSource = DtSrc
