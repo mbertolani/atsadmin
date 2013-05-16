@@ -1814,7 +1814,6 @@ begin
       executaScript('listaSpEstoqueFiltro118.sql');
       executaScript('spEstoqueFiltro118.sql');      
       executaScript('estoque_view118.sql');
-      executaScript('listaProduto118.sql');
       executaScript('listaProdutocli118.sql');
 
       mudaVersao('1.0.0.118');
@@ -1830,15 +1829,28 @@ begin
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
       EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
       executaScript('estoque_view_custo119.sql');
-      executaScript('rel_vendaCompra119.sql');
+      executaScript('listaProduto118.sql');      
       executaScript('rel_vendaCompra119.sql');
       executaScript('spestoque119.sql');
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
       ExecutaSql('ALTER TRIGGER INSERE_ESTOQUE ACTIVE');
       ExecutaSql('ALTER TRIGGER BAIXA_ESTOQUE ACTIVE');
-
       mudaVersao('1.0.0.119');
     end;// Fim Atualizacao Versao 1.0.0.119
+
+    if (versaoSistema = '1.0.0.119') then
+    begin
+      EXECUTADDL('MOVIMENTODETALHE', 'VLRBC_IPI', 'double precision');
+      EXECUTADDL('MOVIMENTODETALHE', 'VLRBC_PIS', 'double precision');
+      EXECUTADDL('MOVIMENTODETALHE', 'VLRBC_COFINS', 'double precision');
+      EXECUTADDL('MOVIMENTODETALHE', 'VLRTOT_TRIB', 'double precision');
+      EXECUTADDL('NOTAFISCAL', 'BASE_IPI', 'double precision');
+      EXECUTADDL('NOTAFISCAL', 'BASE_PIS', 'double precision');
+      EXECUTADDL('NOTAFISCAL', 'BASE_COFINS', 'double precision');
+      EXECUTADDL('NOTAFISCAL', 'VLRTOT_TRIB', 'double precision');
+      ExecutaSql('alter table VENDA add constraint UNQ_MOV_VENDA unique (CODMOVIMENTO)');
+      //mudaVersao('1.0.0.120');
+    end;// Fim Atualizacao Versao 1.0.0.120
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');

@@ -3,8 +3,8 @@ object fDetalheNF: TfDetalheNF
   Top = 249
   BorderStyle = bsNone
   Caption = 'Detalhe Produtos'
-  ClientHeight = 257
-  ClientWidth = 659
+  ClientHeight = 293
+  ClientWidth = 668
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object fDetalheNF: TfDetalheNF
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 177
+    Left = 17
     Top = 124
     Width = 37
     Height = 13
@@ -46,11 +46,17 @@ object fDetalheNF: TfDetalheNF
     Caption = 'UN'
   end
   object Label5: TLabel
-    Left = 577
-    Top = 124
-    Width = 24
+    Left = 193
+    Top = 206
+    Width = 30
     Height = 13
     Caption = 'Total'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
   end
   object Label6: TLabel
     Left = 140
@@ -67,21 +73,21 @@ object fDetalheNF: TfDetalheNF
     Caption = 'Pre'#231'o Unit'#225'rio'
   end
   object Label8: TLabel
-    Left = 257
+    Left = 177
     Top = 84
     Width = 21
     Height = 13
     Caption = 'CST'
   end
   object Label9: TLabel
-    Left = 337
+    Left = 177
     Top = 124
     Width = 26
     Height = 13
     Caption = 'ICMS'
   end
   object Label10: TLabel
-    Left = 257
+    Left = 97
     Top = 124
     Width = 49
     Height = 13
@@ -95,64 +101,64 @@ object fDetalheNF: TfDetalheNF
     Caption = 'CFOP'
   end
   object Label12: TLabel
-    Left = 337
+    Left = 257
     Top = 84
     Width = 37
     Height = 13
     Caption = 'CSOSN'
   end
   object Label13: TLabel
-    Left = 177
-    Top = 85
+    Left = 17
+    Top = 207
     Width = 41
     Height = 13
     Caption = 'Frete R$'
   end
   object Label14: TLabel
-    Left = 417
-    Top = 84
+    Left = 257
+    Top = 164
     Width = 63
     Height = 13
     Caption = 'Desconto R$'
   end
   object Label15: TLabel
-    Left = 497
+    Left = 336
     Top = 124
     Width = 14
     Height = 13
     Caption = 'ST'
   end
   object Label16: TLabel
-    Left = 417
+    Left = 256
     Top = 124
     Width = 37
     Height = 13
     Caption = 'B.C. ST'
   end
   object Label17: TLabel
-    Left = 577
-    Top = 84
+    Left = 417
+    Top = 164
     Width = 48
     Height = 13
     Caption = 'Outros R$'
   end
   object Label18: TLabel
-    Left = 497
-    Top = 84
+    Left = 337
+    Top = 164
     Width = 51
     Height = 13
     Caption = 'Seguro R$'
   end
   object Label19: TLabel
-    Left = 97
-    Top = 124
-    Width = 30
+    Left = 497
+    Top = 84
+    Width = 36
     Height = 13
-    Caption = 'IPI R$'
+    Caption = 'B.C. IPI'
   end
   object Label20: TLabel
-    Left = 17
-    Top = 124
+    Left = 417
+    Top = 84
     Width = 24
     Height = 13
     Caption = 'IPI %'
@@ -165,14 +171,14 @@ object fDetalheNF: TfDetalheNF
     Caption = 'NCM'
   end
   object label22: TLabel
-    Left = 17
+    Left = 497
     Top = 165
     Width = 23
     Height = 13
     Caption = 'BC II'
   end
   object Label23: TLabel
-    Left = 97
+    Left = 577
     Top = 165
     Width = 6
     Height = 13
@@ -200,42 +206,70 @@ object fDetalheNF: TfDetalheNF
     Caption = 'N'#186' Item'
   end
   object Label27: TLabel
-    Left = 176
-    Top = 165
+    Left = 337
+    Top = 85
     Width = 37
     Height = 13
     Caption = 'CST IPI'
   end
   object Label28: TLabel
-    Left = 256
-    Top = 165
+    Left = 416
+    Top = 125
     Width = 41
     Height = 13
     Caption = 'CST PIS'
   end
   object Label29: TLabel
-    Left = 335
-    Top = 165
-    Width = 17
+    Left = 495
+    Top = 125
+    Width = 28
     Height = 13
-    Caption = 'PIS'
+    Caption = 'PIS %'
   end
   object Label30: TLabel
-    Left = 415
+    Left = 15
     Top = 165
     Width = 63
     Height = 13
     Caption = 'CST COFINS'
   end
   object Label31: TLabel
-    Left = 495
+    Left = 95
     Top = 165
-    Width = 39
+    Width = 50
     Height = 13
-    Caption = 'COFINS'
+    Caption = 'COFINS %'
+  end
+  object Label32: TLabel
+    Left = 577
+    Top = 84
+    Width = 30
+    Height = 13
+    Caption = 'IPI R$'
+  end
+  object Label33: TLabel
+    Left = 578
+    Top = 125
+    Width = 34
+    Height = 13
+    Caption = 'PIS R$'
+  end
+  object Label34: TLabel
+    Left = 178
+    Top = 165
+    Width = 56
+    Height = 13
+    Caption = 'COFINS R$'
+  end
+  object Label35: TLabel
+    Left = 97
+    Top = 208
+    Width = 83
+    Height = 13
+    Caption = 'Total Tributa'#231#245'es'
   end
   object DBEdit1: TDBEdit
-    Left = 173
+    Left = 13
     Top = 140
     Width = 73
     Height = 21
@@ -276,9 +310,9 @@ object fDetalheNF: TfDetalheNF
     OnExit = dbeCodproExit
   end
   object DBEdit5: TDBEdit
-    Left = 573
-    Top = 140
-    Width = 73
+    Left = 189
+    Top = 222
+    Width = 90
     Height = 21
     DataField = 'VALTOTAL'
     DataSource = DMNF.DtSrc1
@@ -296,7 +330,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit7: TDBEdit
-    Left = 253
+    Left = 173
     Top = 100
     Width = 73
     Height = 21
@@ -316,7 +350,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit9: TDBEdit
-    Left = 253
+    Left = 93
     Top = 140
     Width = 73
     Height = 21
@@ -326,7 +360,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit10: TDBEdit
-    Left = 333
+    Left = 173
     Top = 140
     Width = 73
     Height = 21
@@ -338,7 +372,7 @@ object fDetalheNF: TfDetalheNF
   object DBEdit11: TDBEdit
     Left = 574
     Top = 59
-    Width = 73
+    Width = 78
     Height = 21
     DataField = 'CFOP'
     DataSource = DMNF.DtSrc1
@@ -346,7 +380,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit12: TDBEdit
-    Left = 333
+    Left = 253
     Top = 100
     Width = 73
     Height = 21
@@ -356,8 +390,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit13: TDBEdit
-    Left = 413
-    Top = 100
+    Left = 253
+    Top = 180
     Width = 73
     Height = 21
     DataField = 'VALOR_DESCONTO'
@@ -366,8 +400,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit14: TDBEdit
-    Left = 173
-    Top = 101
+    Left = 13
+    Top = 223
     Width = 73
     Height = 21
     DataField = 'FRETE'
@@ -376,7 +410,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit15: TDBEdit
-    Left = 493
+    Left = 332
     Top = 140
     Width = 73
     Height = 21
@@ -386,7 +420,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit16: TDBEdit
-    Left = 413
+    Left = 252
     Top = 140
     Width = 73
     Height = 21
@@ -396,8 +430,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit17: TDBEdit
-    Left = 493
-    Top = 100
+    Left = 333
+    Top = 180
     Width = 73
     Height = 21
     DataField = 'VALOR_SEGURO'
@@ -406,8 +440,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit18: TDBEdit
-    Left = 573
-    Top = 100
+    Left = 413
+    Top = 180
     Width = 73
     Height = 21
     DataField = 'VALOR_OUTROS'
@@ -416,8 +450,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit19: TDBEdit
-    Left = 13
-    Top = 140
+    Left = 413
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'PIPI'
@@ -426,18 +460,18 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit20: TDBEdit
-    Left = 93
-    Top = 140
+    Left = 493
+    Top = 100
     Width = 73
     Height = 21
-    DataField = 'VIPI'
+    DataField = 'VLRBC_IPI'
     DataSource = DMNF.DtSrc1
     TabOrder = 17
     OnChange = abproc
   end
   object Calcman: TCheckBox
-    Left = 469
-    Top = 223
+    Left = 285
+    Top = 230
     Width = 97
     Height = 17
     Caption = 'Calculo Manual'
@@ -445,10 +479,10 @@ object fDetalheNF: TfDetalheNF
     Visible = False
   end
   object btnSair: TBitBtn
-    Left = 578
-    Top = 167
-    Width = 68
-    Height = 59
+    Left = 588
+    Top = 207
+    Width = 63
+    Height = 54
     Caption = 'F9-Sair'
     TabOrder = 32
     OnClick = btnSairClick
@@ -554,20 +588,20 @@ object fDetalheNF: TfDetalheNF
     Layout = blGlyphTop
   end
   object DBNavigator1: TDBNavigator
-    Left = 206
-    Top = 211
-    Width = 216
-    Height = 38
+    Left = 393
+    Top = 225
+    Width = 150
+    Height = 35
     DataSource = DMNF.DtSrc1
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete]
     TabOrder = 33
     OnClick = DBNavigator1Click
   end
   object btnGravar: TBitBtn
-    Left = 422
-    Top = 211
-    Width = 38
-    Height = 38
+    Left = 545
+    Top = 225
+    Width = 37
+    Height = 35
     TabOrder = 31
     Visible = False
     OnClick = btnGravarClick
@@ -748,7 +782,7 @@ object fDetalheNF: TfDetalheNF
   object DBEdit4: TDBEdit
     Left = 573
     Top = 19
-    Width = 75
+    Width = 80
     Height = 21
     DataField = 'NCM'
     DataSource = DMNF.DtSrc1
@@ -756,7 +790,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit21: TDBEdit
-    Left = 13
+    Left = 493
     Top = 180
     Width = 73
     Height = 21
@@ -766,9 +800,9 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit22: TDBEdit
-    Left = 93
+    Left = 573
     Top = 180
-    Width = 73
+    Width = 78
     Height = 21
     DataField = 'II'
     DataSource = DMNF.DtSrc1
@@ -806,8 +840,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit26: TDBEdit
-    Left = 172
-    Top = 180
+    Left = 333
+    Top = 100
     Width = 73
     Height = 21
     DataField = 'CSTIPI'
@@ -816,8 +850,8 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit27: TDBEdit
-    Left = 252
-    Top = 180
+    Left = 412
+    Top = 140
     Width = 73
     Height = 21
     DataField = 'CSTPIS'
@@ -826,7 +860,7 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit28: TDBEdit
-    Left = 411
+    Left = 11
     Top = 180
     Width = 73
     Height = 21
@@ -836,23 +870,63 @@ object fDetalheNF: TfDetalheNF
     OnChange = abproc
   end
   object DBEdit29: TDBEdit
-    Left = 331
-    Top = 180
+    Left = 491
+    Top = 140
     Width = 73
     Height = 21
-    DataField = 'VALOR_PIS'
+    DataField = 'PPIS'
     DataSource = DMNF.DtSrc1
     TabOrder = 28
     OnChange = abproc
   end
   object DBEdit30: TDBEdit
-    Left = 491
+    Left = 91
+    Top = 180
+    Width = 73
+    Height = 21
+    DataField = 'PCOFINS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 30
+    OnChange = abproc
+  end
+  object DBEdit31: TDBEdit
+    Left = 573
+    Top = 100
+    Width = 78
+    Height = 21
+    DataField = 'VIPI'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 36
+    OnChange = abproc
+  end
+  object DBEdit32: TDBEdit
+    Left = 574
+    Top = 140
+    Width = 78
+    Height = 21
+    DataField = 'VALOR_PIS'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 37
+    OnChange = abproc
+  end
+  object DBEdit33: TDBEdit
+    Left = 174
     Top = 180
     Width = 73
     Height = 21
     DataField = 'VALOR_COFINS'
     DataSource = DMNF.DtSrc1
-    TabOrder = 30
+    TabOrder = 38
+    OnChange = abproc
+  end
+  object DBEdit34: TDBEdit
+    Left = 93
+    Top = 223
+    Width = 90
+    Height = 21
+    DataField = 'II'
+    DataSource = DMNF.DtSrc1
+    TabOrder = 39
     OnChange = abproc
   end
 end

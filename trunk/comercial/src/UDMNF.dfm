@@ -330,12 +330,14 @@ object DMNF: TDMNF
       'SCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.VALO' +
       'R_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.STATUS, movd.II, mov' +
       'd.BCII, movd.OBS, movd.CSTIPI, movd.CSTPIS, movd.VALOR_PIS, movd' +
-      '.CSTCOFINS, movd.VALOR_COFINS'#13#10'from MOVIMENTODETALHE movd '#13#10'inne' +
-      'r join PRODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left o' +
-      'uter join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODAL' +
-      'MOXARIFADO '#13#10'left outer join COMISSAO cm on cm.COD_COMISSAO = mo' +
-      'vd.COD_COMISSAO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODM' +
-      'OVIMENTO=:pCODMOV order by movd.coddetalhe'
+      '.CSTCOFINS, movd.VALOR_COFINS, movd.VLRBC_IPI,'#13#10'movd.VLRBC_PIS, ' +
+      'movd.VLRBC_COFINS, movd.VLRTOT_TRIB'#13#10', movd.PCOFINS, movd.PPIS'#13#10 +
+      'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CO' +
+      'DPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ' +
+      'ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join CO' +
+      'MISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CO' +
+      'DDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd' +
+      '.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -579,6 +581,30 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
+    end
+    object sds_Mov_DetVLRBC_IPI: TFloatField
+      FieldName = 'VLRBC_IPI'
+      ReadOnly = True
+    end
+    object sds_Mov_DetVLRBC_PIS: TFloatField
+      FieldName = 'VLRBC_PIS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetVLRBC_COFINS: TFloatField
+      FieldName = 'VLRBC_COFINS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+      ReadOnly = True
+    end
+    object sds_Mov_DetPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+      ReadOnly = True
+    end
+    object sds_Mov_DetPPIS: TFloatField
+      FieldName = 'PPIS'
+      ReadOnly = True
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -851,6 +877,7 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVALOR_PIS: TFloatField
       FieldName = 'VALOR_PIS'
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detCSTCOFINS: TStringField
       FieldName = 'CSTCOFINS'
@@ -858,6 +885,37 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVLRBC_IPI: TFloatField
+      FieldName = 'VLRBC_IPI'
+      ReadOnly = True
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVLRBC_PIS: TFloatField
+      FieldName = 'VLRBC_PIS'
+      ReadOnly = True
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVLRBC_COFINS: TFloatField
+      FieldName = 'VLRBC_COFINS'
+      ReadOnly = True
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+      ReadOnly = True
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPCOFINS: TFloatField
+      FieldName = 'PCOFINS'
+      ReadOnly = True
+      DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPPIS: TFloatField
+      FieldName = 'PPIS'
+      ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
@@ -1887,6 +1945,7 @@ object DMNF: TDMNF
     end
     object cds_nfVLRTOTALEXP: TFloatField
       FieldName = 'VLRTOTALEXP'
+      DisplayFormat = ',##0.00'
     end
     object cds_nfID_GUIA: TIntegerField
       FieldName = 'ID_GUIA'
@@ -1907,9 +1966,11 @@ object DMNF: TDMNF
     end
     object cds_nfVALOR_PIS: TFloatField
       FieldName = 'VALOR_PIS'
+      DisplayFormat = ',##0.00'
     end
     object cds_nfVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
+      DisplayFormat = ',##0.00'
     end
     object cds_nfCCUSTO: TIntegerField
       FieldName = 'CCUSTO'
@@ -1920,6 +1981,22 @@ object DMNF: TDMNF
     end
     object cds_nfINDPAG: TIntegerField
       FieldName = 'INDPAG'
+    end
+    object cds_nfBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_nfBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_nfBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+      DisplayFormat = ',##0.00'
+    end
+    object cds_nfVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+      DisplayFormat = ',##0.00'
     end
   end
   object dsp_nf: TDataSetProvider
@@ -2297,6 +2374,18 @@ object DMNF: TDMNF
     end
     object sds_nfINDPAG: TIntegerField
       FieldName = 'INDPAG'
+    end
+    object sds_nfBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+    end
+    object sds_nfBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+    end
+    object sds_nfBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+    end
+    object sds_nfVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
     end
   end
   object DtSrc_NF1: TDataSource
@@ -7057,6 +7146,37 @@ object DMNF: TDMNF
     end
     object scds_serie_procNOTAFISCAL: TSmallintField
       FieldName = 'NOTAFISCAL'
+    end
+  end
+  object scds_serienfe: TSQLClientDataSet
+    CommandText = 
+      'select first 1 cast(nf.NOTASERIE as integer) NOTASERIE, nf.NOTAF' +
+      'ISCAL, nf.SERIE from NOTAFISCAL nf '#13#10'where nf.SERIE = :SERIE'#13#10'or' +
+      'der by cast(nf.NOTASERIE as integer) desc'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'SERIE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 752
+    Top = 9
+    object scds_serienfeNOTASERIE: TIntegerField
+      FieldName = 'NOTASERIE'
+      ReadOnly = True
+      Required = True
+    end
+    object scds_serienfeNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+      ReadOnly = True
+    end
+    object scds_serienfeSERIE: TStringField
+      FieldName = 'SERIE'
+      ReadOnly = True
     end
   end
 end

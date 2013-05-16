@@ -76,6 +76,14 @@ type
     Label30: TLabel;
     DBEdit30: TDBEdit;
     Label31: TLabel;
+    Label32: TLabel;
+    DBEdit31: TDBEdit;
+    Label33: TLabel;
+    DBEdit32: TDBEdit;
+    Label34: TLabel;
+    DBEdit33: TDBEdit;
+    Label35: TLabel;
+    DBEdit34: TDBEdit;
     procedure btnSairClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure dbeCodproExit(Sender: TObject);
