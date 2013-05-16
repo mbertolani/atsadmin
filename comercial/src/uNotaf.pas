@@ -7,7 +7,8 @@ uses
   Dialogs, StdCtrls, DBCtrls, JvExStdCtrls, JvGroupBox, ComCtrls,
   JvExComCtrls, JvComCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask,
   Buttons, ExtCtrls, MMJPanel, JvExMask, JvToolEdit, JvDBControls,
-  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress;
+  JvCheckBox, DB, DBClient, JvMaskEdit, FMTBcd, SqlExpr, Menus, Provider, DBXpress,
+  DBLocal, DBLocalS;
 
 type
   TfNotaf = class(TForm)
@@ -238,68 +239,10 @@ type
     DBEdit8: TDBEdit;
     JvGroupBox16: TJvGroupBox;
     DBEdit34: TDBEdit;
-    JvGroupBox18: TJvGroupBox;
-    DBEdit10: TDBEdit;
-    JvGroupBox19: TJvGroupBox;
-    DBEdit11: TDBEdit;
-    JvGroupBox20: TJvGroupBox;
-    DBEdit12: TDBEdit;
-    JvGroupBox21: TJvGroupBox;
-    DBEdit13: TDBEdit;
-    JvGroupBox22: TJvGroupBox;
-    DBEdit14: TDBEdit;
-    JvGroupBox23: TJvGroupBox;
-    DBEdit15: TDBEdit;
-    JvGroupBox24: TJvGroupBox;
-    DBEdit16: TDBEdit;
-    JvGroupBox25: TJvGroupBox;
-    DBEdit17: TDBEdit;
-    JvGroupBox26: TJvGroupBox;
-    DBEdit18: TDBEdit;
-    JvGroupBox27: TJvGroupBox;
-    DBEdit19: TDBEdit;
     JvGroupBox28: TJvGroupBox;
     DBEdit33: TDBEdit;
     btnSerie: TBitBtn;
-    JvGroupBox29: TJvGroupBox;
-    cbTransportadora: TDBComboBox;
-    btnProcTransp: TBitBtn;
-    GroupBox1: TGroupBox;
-    JvGroupBox30: TJvGroupBox;
-    DBEdit20: TDBEdit;
-    JvGroupBox31: TJvGroupBox;
-    DBEdit21: TDBEdit;
-    JvGroupBox32: TJvGroupBox;
-    DBEdit22: TDBEdit;
-    JvGroupBox33: TJvGroupBox;
-    DBEdit23: TDBEdit;
-    JvGroupBox34: TJvGroupBox;
-    DBEdit24: TDBEdit;
-    JvGroupBox35: TJvGroupBox;
-    DBEdit25: TDBEdit;
-    JvGroupBox36: TJvGroupBox;
-    DBEdit26: TDBEdit;
-    JvGroupBox37: TJvGroupBox;
-    DBEdit27: TDBEdit;
-    JvGroupBox38: TJvGroupBox;
-    DBEdit28: TDBEdit;
-    JvGroupBox39: TJvGroupBox;
-    DBEdit29: TDBEdit;
-    JvGroupBox40: TJvGroupBox;
-    DBEdit30: TDBEdit;
-    JvGroupBox41: TJvGroupBox;
-    DBEdit31: TDBEdit;
-    JvGroupBox42: TJvGroupBox;
-    DBEdit32: TDBEdit;
-    GroupBox6: TGroupBox;
-    DBEdit61: TDBEdit;
-    DBEdit62: TDBEdit;
-    DBEdit63: TDBEdit;
-    DBEdit64: TDBEdit;
-    DBEdit65: TDBEdit;
-    DBEdit66: TDBEdit;
     memo1: TMemo;
-    calcman: TCheckBox;
     TabSheet1: TTabSheet;
     Label1: TLabel;
     Label2: TLabel;
@@ -343,8 +286,6 @@ type
     sCfopDADOSADC6: TStringField;
     lblFatura: TLabel;
     sCfopNAOENVFATURA: TStringField;
-    JvGroupBox55: TJvGroupBox;
-    DBEdit50: TDBEdit;
     sqlValida: TSQLQuery;
     ChkComp: TCheckBox;
     GroupBox2: TGroupBox;
@@ -353,7 +294,6 @@ type
     DBEdit48: TDBEdit;
     listaCliente1CODFISCAL: TStringField;
     sCfopCODFISCAL: TStringField;
-    cboFrete: TComboBox;
     PageControl1: TPageControl;
     TabSheet2: TTabSheet;
     JvDBGrid1: TJvDBGrid;
@@ -407,6 +347,83 @@ type
     scdsCr_procTotal_resto: TAggregateField;
     scdsCr_procTotalTitulo: TAggregateField;
     ds_Cr: TDataSource;
+    PageControl2: TPageControl;
+    tsTrib: TTabSheet;
+    JvGroupBox18: TJvGroupBox;
+    DBEdit10: TDBEdit;
+    JvGroupBox19: TJvGroupBox;
+    DBEdit11: TDBEdit;
+    JvGroupBox55: TJvGroupBox;
+    DBEdit50: TDBEdit;
+    JvGroupBox23: TJvGroupBox;
+    DBEdit15: TDBEdit;
+    JvGroupBox20: TJvGroupBox;
+    DBEdit12: TDBEdit;
+    JvGroupBox21: TJvGroupBox;
+    DBEdit13: TDBEdit;
+    JvGroupBox26: TJvGroupBox;
+    DBEdit18: TDBEdit;
+    JvGroupBox22: TJvGroupBox;
+    DBEdit14: TDBEdit;
+    JvGroupBox27: TJvGroupBox;
+    DBEdit19: TDBEdit;
+    JvGroupBox25: TJvGroupBox;
+    DBEdit17: TDBEdit;
+    JvGroupBox24: TJvGroupBox;
+    DBEdit16: TDBEdit;
+    tsTransp: TTabSheet;
+    JvGroupBox29: TJvGroupBox;
+    cbTransportadora: TDBComboBox;
+    btnProcTransp: TBitBtn;
+    GroupBox1: TGroupBox;
+    cboFrete: TComboBox;
+    JvGroupBox30: TJvGroupBox;
+    DBEdit20: TDBEdit;
+    JvGroupBox31: TJvGroupBox;
+    DBEdit21: TDBEdit;
+    JvGroupBox32: TJvGroupBox;
+    DBEdit22: TDBEdit;
+    JvGroupBox33: TJvGroupBox;
+    DBEdit23: TDBEdit;
+    JvGroupBox34: TJvGroupBox;
+    DBEdit24: TDBEdit;
+    JvGroupBox35: TJvGroupBox;
+    DBEdit25: TDBEdit;
+    JvGroupBox36: TJvGroupBox;
+    DBEdit26: TDBEdit;
+    JvGroupBox42: TJvGroupBox;
+    DBEdit32: TDBEdit;
+    JvGroupBox41: TJvGroupBox;
+    DBEdit31: TDBEdit;
+    JvGroupBox40: TJvGroupBox;
+    DBEdit30: TDBEdit;
+    JvGroupBox39: TJvGroupBox;
+    DBEdit29: TDBEdit;
+    JvGroupBox38: TJvGroupBox;
+    DBEdit28: TDBEdit;
+    JvGroupBox37: TJvGroupBox;
+    DBEdit27: TDBEdit;
+    tsDadosAdic: TTabSheet;
+    GroupBox6: TGroupBox;
+    DBEdit61: TDBEdit;
+    DBEdit62: TDBEdit;
+    DBEdit63: TDBEdit;
+    DBEdit64: TDBEdit;
+    DBEdit65: TDBEdit;
+    DBEdit66: TDBEdit;
+    JvGroupBox17: TJvGroupBox;
+    DBEdit49: TDBEdit;
+    JvGroupBox53: TJvGroupBox;
+    DBEdit51: TDBEdit;
+    JvGroupBox56: TJvGroupBox;
+    DBEdit52: TDBEdit;
+    JvGroupBox57: TJvGroupBox;
+    DBEdit53: TDBEdit;
+    JvGroupBox58: TJvGroupBox;
+    DBEdit54: TDBEdit;
+    JvGroupBox59: TJvGroupBox;
+    DBEdit55: TDBEdit;
+    calcman: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure btnSerieClick(Sender: TObject);
@@ -643,27 +660,48 @@ end;
 
 procedure TfNotaf.btnSerieClick(Sender: TObject);
 begin
-  fProcurar:= TfProcurar.Create(self,dmnf.scds_serie_proc);
-  fProcurar.BtnProcurar.Click;
-  try
-   fProcurar.EvDBFind1.DataField := 'SERIE';
-   if (fProcurar.ShowModal=mrOk) then
-    begin
-     dmnf.cds_venda.Edit;
-     dmnf.cds_vendaSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
-     dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
-     dmnf.cds_nfSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
-     dmnf.cds_nfNOTASERIE.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
-     dmnf.cds_nfNOTAFISCAL.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    fProcurar:= TfProcurar.Create(self,dmnf.scds_serie_proc);
+    fProcurar.BtnProcurar.Click;
+    try
+      fProcurar.EvDBFind1.DataField := 'SERIE';
+      if (fProcurar.ShowModal=mrOk) then
+      begin
+       dmnf.cds_venda.Edit;
+       dmnf.cds_vendaSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
+       dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serie_procULTIMO_NUMERO.AsInteger+1;
+       dmnf.cds_nfSERIE.AsString := dmnf.scds_serie_procSERIE.AsString;
+       dmnf.cds_nfNOTASERIE.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
+       dmnf.cds_nfNOTAFISCAL.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
+      end;
+    finally
+      dmnf.scds_serie_proc.Close;
+      fProcurar.Free;
     end;
-   finally
-    dmnf.scds_serie_proc.Close;
-    fProcurar.Free;
-   end;
-   if (JvPageControl1.ActivePage = TabNF) then
-     DBEdit2.SetFocus
-   else
-     DBEdit37.SetFocus;
+    if (JvPageControl1.ActivePage = TabNF) then
+      DBEdit2.SetFocus
+    else
+      DBEdit37.SetFocus;
+  end
+  else
+  begin
+    if (not dmnf.scds_serienfe.Active) then
+      dmnf.scds_serienfe.Close;
+    dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+    dmnf.scds_serienfe.Open;
+    dmnf.cds_venda.Edit;
+    dmnf.cds_vendaSERIE.AsString := dm.cds_parametroD1.AsString;
+    dmnf.cds_vendaNOTAFISCAL.AsInteger := dmnf.scds_serienfeNOTASERIE.AsInteger+1;
+    dmnf.cds_nfSERIE.AsString := dm.cds_parametroD1.AsString;
+    dmnf.cds_nfNOTASERIE.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
+    dmnf.cds_nfNOTAFISCAL.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
+  end;
 end;
 
 procedure TfNotaf.incluiSAida;
