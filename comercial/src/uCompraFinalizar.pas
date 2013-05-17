@@ -621,7 +621,7 @@ begin
   end;
 
   //Grava Estoque
-  try
+  {try
     dm.sqlsisAdimin.StartTransaction(TD);
     inherited;
     // Gravando o Estoque
@@ -642,7 +642,7 @@ begin
       dm.sqlsisAdimin.Rollback(TD);
       Exit;
     end;
-  end;
+  end;}
 
   if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then // Alterando o Status para Finalizado
   begin
@@ -651,6 +651,7 @@ begin
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
+       cds_Compra.ApplyUpdates(0);
        dm.sqlsisAdimin.Commit(TD);
     except
        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -1492,13 +1493,13 @@ begin
         end;
         if ( DM.tipoCompra = 'COMPRA') then
         begin
-        str_sql := 'EXECUTE PROCEDURE GERA_NF_COMPRA(';
-        str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATAVENCIMENTO.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
-        str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
-        str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
+          str_sql := 'EXECUTE PROCEDURE GERA_NF_COMPRA(';
+          str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATAVENCIMENTO.AsDateTime));
+          str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
+          str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
+          str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
         end;
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
       except
