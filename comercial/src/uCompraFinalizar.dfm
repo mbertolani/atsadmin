@@ -1602,7 +1602,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 506
+    Top = 499
     Width = 801
     Height = 23
     Align = alBottom
@@ -3443,8 +3443,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   object scds_serie_proc: TSQLClientDataSet
     CommandText = 
-      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL from SERIES wh' +
-      'ere SERIE like :pSERIE'
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL, MODELO from S' +
+      'ERIES where SERIE like :pSERIE'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -3464,6 +3464,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object scds_serie_procSERIE: TStringField
       FieldName = 'SERIE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object scds_serie_procULTIMO_NUMERO: TIntegerField
@@ -3472,6 +3473,10 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object scds_serie_procNOTAFISCAL: TSmallintField
       FieldName = 'NOTAFISCAL'
+    end
+    object scds_serie_procMODELO: TStringField
+      FieldName = 'MODELO'
+      Size = 2
     end
   end
   object cds: TClientDataSet
