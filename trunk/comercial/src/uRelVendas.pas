@@ -450,55 +450,43 @@ end;
 procedure TfRelVenda.BitBtn5Click(Sender: TObject);
 begin
   try
-  if (RadioGroup1.ItemIndex = 1) then
-  begin
-    Rep.Filename := str_relatorio + 'vendasClienteRazao.rep';
-    Rep.Title := rep.Filename;
-    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Data1.Text);
-    Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Data2.Text);
-    {*** ClienteO **** }
-    if (cbRazao.Text <> '') then
+    if (RadioGroup1.ItemIndex = 1) then
     begin
-      if (cds.Active) then
-        cds.close;
-      cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE RAZAOSOCIAL = ' +
-      QuotedStr(cbRazao.Text);
-      cds.Open;
-      if (cds.IsEmpty) then
-      begin
-        ShowMessage ('Não existe este Cliente no Cadastro.');
-        exit;
-      end;
-      Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
+      Rep.Filename := str_relatorio + 'vendasClienteRazao.rep';
+      Rep.Title := rep.Filename;
+      Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+      Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Data1.Text);
+      Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Data2.Text);
+      if (cbRazao.Text <> '') then
+        Rep.Report.Params.ParamByName('PRO1').Value := cbRazao.Text
+      else
+        Rep.Report.Params.ParamByName('PRO1').Value := 'TODAS AS RAZOES SOCIAIS';
     end
     else
-      Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
-  end
-  else begin
-    Rep.Filename := str_relatorio + 'vendasCliente.rep';
-    Rep.Title := rep.Filename;
-    Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-    Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Data1.Text);
-    Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Data2.Text);
-    {*** ClienteO **** }
-    if (jvComboBox1.Text <> '') then
     begin
-      if (cds.Active) then
-        cds.close;
-      cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE NOMECLIENTE = ' +
-      QuotedStr(JvComboBox1.Text);
-      cds.Open;
-      if (cds.IsEmpty) then
+      Rep.Filename := str_relatorio + 'vendasCliente.rep';
+      Rep.Title := rep.Filename;
+      Rep.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+      Rep.Report.Params.ParamByName('DATA1').Value := StrToDate(Data1.Text);
+      Rep.Report.Params.ParamByName('DATA2').Value := StrToDate(Data2.Text);
+      {*** ClienteO **** }
+      if (jvComboBox1.Text <> '') then
       begin
-        ShowMessage ('Não existe este Cliente no Cadastro.');
-        exit;
-      end;
-      Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
-    end
-    else
-      Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
-  end;
+        if (cds.Active) then
+          cds.close;
+        cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE NOMECLIENTE = ' +
+        QuotedStr(JvComboBox1.Text);
+        cds.Open;
+        if (cds.IsEmpty) then
+        begin
+          ShowMessage ('Não existe este Cliente no Cadastro.');
+          exit;
+        end;
+        Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
+      end
+      else
+        Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+    end;
   except
     on EConvertError do
     begin
