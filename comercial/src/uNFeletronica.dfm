@@ -1527,14 +1527,15 @@ object fNFeletronica: TfNFeletronica
       '.PROTOCOLOENV,'#13#10'nf.NUMRECIBO, nf.PROTOCOLOCANC, v.ENTRADA, v.VAL' +
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
       'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
-      'TRANSP TRANSP2'#13#10', nf.CODTRANSP'#13#10'from NOTAFISCAL nf '#13#10'inner join ' +
-      'CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderec' +
-      'ocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left out' +
-      'er join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSA' +
-      'O between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacu' +
-      'sto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and ' +
-      '(endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCO' +
-      'LOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
+      'TRANSP TRANSP2'#13#10', nf.CODTRANSP, nf.BASE_IPI, nf.BASE_PIS, nf.BAS' +
+      'E_COFINS, nf.VLRTOT_TRIB'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENT' +
+      'ES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecoclien' +
+      'te endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer joi' +
+      'n VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO betw' +
+      'een :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) o' +
+      'r (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endec' +
+      'li.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV ' +
+      'IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -1789,6 +1790,22 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsNFCODTRANSP: TIntegerField
       FieldName = 'CODTRANSP'
+      ReadOnly = True
+    end
+    object sdsNFBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+      ReadOnly = True
+    end
+    object sdsNFBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+      ReadOnly = True
+    end
+    object sdsNFBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+      ReadOnly = True
+    end
+    object sdsNFVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
       ReadOnly = True
     end
   end
@@ -2087,6 +2104,22 @@ object fNFeletronica: TfNFeletronica
       FieldName = 'CODTRANSP'
       ReadOnly = True
     end
+    object cdsNFBASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+      ReadOnly = True
+    end
+    object cdsNFBASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+      ReadOnly = True
+    end
+    object cdsNFBASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+      ReadOnly = True
+    end
+    object cdsNFVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
+      ReadOnly = True
+    end
   end
   object dspNF: TDataSetProvider
     DataSet = sdsNF
@@ -2117,11 +2150,12 @@ object fNFeletronica: TfNFeletronica
       '          UDF_ROUNDDEC(md.VALOR_OUTROS, 2) as VALOR_OUTROS,'#13#10'   ' +
       '       UDF_ROUNDDEC(md.II, 2) as II,'#13#10'          UDF_ROUNDDEC(md.' +
       'BCII, 2) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
-      ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO'#13#10'from VE' +
-      'NDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIMENTO = vd' +
-      '.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA = vd.CO' +
-      'DVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.CODPRODUT' +
-      'O'#13#10'where vd.CODVENDA = :id'
+      ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRB' +
+      'C_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB'#13 +
+      #10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIME' +
+      'NTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA' +
+      ' = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.C' +
+      'ODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2276,6 +2310,22 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFPEDIDO: TStringField
       FieldName = 'PEDIDO'
+      ReadOnly = True
+    end
+    object sdsItensNFVLRBC_IPI: TFloatField
+      FieldName = 'VLRBC_IPI'
+      ReadOnly = True
+    end
+    object sdsItensNFVLRBC_PIS: TFloatField
+      FieldName = 'VLRBC_PIS'
+      ReadOnly = True
+    end
+    object sdsItensNFVLRBC_COFINS: TFloatField
+      FieldName = 'VLRBC_COFINS'
+      ReadOnly = True
+    end
+    object sdsItensNFVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
       ReadOnly = True
     end
   end
@@ -2441,6 +2491,22 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFPEDIDO: TStringField
       FieldName = 'PEDIDO'
+      ReadOnly = True
+    end
+    object cdsItensNFVLRBC_IPI: TFloatField
+      FieldName = 'VLRBC_IPI'
+      ReadOnly = True
+    end
+    object cdsItensNFVLRBC_PIS: TFloatField
+      FieldName = 'VLRBC_PIS'
+      ReadOnly = True
+    end
+    object cdsItensNFVLRBC_COFINS: TFloatField
+      FieldName = 'VLRBC_COFINS'
+      ReadOnly = True
+    end
+    object cdsItensNFVLRTOT_TRIB: TFloatField
+      FieldName = 'VLRTOT_TRIB'
       ReadOnly = True
     end
   end
