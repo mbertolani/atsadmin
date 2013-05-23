@@ -10,7 +10,7 @@ uses
   MMJPanel, JvSpeedButton, JvExMask, JvToolEdit, JvBaseEdits, JvDBControls,
   Menus, JvComponentBase, JvFormAutoSize, FMTBcd, DB, SqlExpr, Provider,
   DBClient, JvExButtons, JvBitBtn, rpcompobase, rpvclreport, uUtils, DBxPress, Printers,
-  JvButton, JvTransparentButton, DBLocal, DBLocalS;
+  JvButton, JvTransparentButton, DBLocal, DBLocalS, IniFiles;
   //dxCore, dxButton,
 
 type
@@ -509,6 +509,44 @@ type
     sqlMesaOcupada: TSQLDataSet;
     dspMesaOcupada: TDataSetProvider;
     cdsMesaOcupada: TClientDataSet;
+    JvTransparentButton53: TJvTransparentButton;
+    JvTransparentButton54: TJvTransparentButton;
+    JvTransparentButton55: TJvTransparentButton;
+    JvTransparentButton56: TJvTransparentButton;
+    JvTransparentButton57: TJvTransparentButton;
+    JvTransparentButton58: TJvTransparentButton;
+    JvTransparentButton59: TJvTransparentButton;
+    JvTransparentButton60: TJvTransparentButton;
+    JvTransparentButton61: TJvTransparentButton;
+    JvTransparentButton62: TJvTransparentButton;
+    JvTransparentButton63: TJvTransparentButton;
+    JvTransparentButton64: TJvTransparentButton;
+    JvTransparentButton65: TJvTransparentButton;
+    JvTransparentButton66: TJvTransparentButton;
+    JvTransparentButton67: TJvTransparentButton;
+    JvTransparentButton68: TJvTransparentButton;
+    JvTransparentButton69: TJvTransparentButton;
+    JvTransparentButton70: TJvTransparentButton;
+    JvTransparentButton71: TJvTransparentButton;
+    JvTransparentButton72: TJvTransparentButton;
+    JvTransparentButton73: TJvTransparentButton;
+    JvTransparentButton74: TJvTransparentButton;
+    JvTransparentButton75: TJvTransparentButton;
+    JvTransparentButton76: TJvTransparentButton;
+    JvTransparentButton77: TJvTransparentButton;
+    JvTransparentButton78: TJvTransparentButton;
+    JvTransparentButton79: TJvTransparentButton;
+    JvTransparentButton80: TJvTransparentButton;
+    JvTransparentButton81: TJvTransparentButton;
+    JvTransparentButton82: TJvTransparentButton;
+    JvTransparentButton83: TJvTransparentButton;
+    JvTransparentButton84: TJvTransparentButton;
+    JvTransparentButton85: TJvTransparentButton;
+    JvTransparentButton86: TJvTransparentButton;
+    JvTransparentButton87: TJvTransparentButton;
+    JvTransparentButton88: TJvTransparentButton;
+    JvTransparentButton89: TJvTransparentButton;
+    JvTransparentButton90: TJvTransparentButton;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -615,8 +653,47 @@ type
     procedure Entrada1Click(Sender: TObject);
     procedure Fechamentodecaixa1Click(Sender: TObject);
     procedure edMesaKeyPress(Sender: TObject; var Key: Char);
+    procedure JvTransparentButton53Click(Sender: TObject);
+    procedure JvTransparentButton54Click(Sender: TObject);
+    procedure JvTransparentButton55Click(Sender: TObject);
+    procedure JvTransparentButton56Click(Sender: TObject);
+    procedure JvTransparentButton57Click(Sender: TObject);
+    procedure JvTransparentButton58Click(Sender: TObject);
+    procedure JvTransparentButton59Click(Sender: TObject);
+    procedure JvTransparentButton60Click(Sender: TObject);
+    procedure JvTransparentButton61Click(Sender: TObject);
+    procedure JvTransparentButton62Click(Sender: TObject);
+    procedure JvTransparentButton63Click(Sender: TObject);
+    procedure JvTransparentButton64Click(Sender: TObject);
+    procedure JvTransparentButton65Click(Sender: TObject);
+    procedure JvTransparentButton66Click(Sender: TObject);
+    procedure JvTransparentButton67Click(Sender: TObject);
+    procedure JvTransparentButton68Click(Sender: TObject);
+    procedure JvTransparentButton69Click(Sender: TObject);
+    procedure JvTransparentButton70Click(Sender: TObject);
+    procedure JvTransparentButton71Click(Sender: TObject);
+    procedure JvTransparentButton72Click(Sender: TObject);
+    procedure JvTransparentButton73Click(Sender: TObject);
+    procedure JvTransparentButton74Click(Sender: TObject);
+    procedure JvTransparentButton75Click(Sender: TObject);
+    procedure JvTransparentButton76Click(Sender: TObject);
+    procedure JvTransparentButton77Click(Sender: TObject);
+    procedure JvTransparentButton78Click(Sender: TObject);
+    procedure JvTransparentButton79Click(Sender: TObject);
+    procedure JvTransparentButton80Click(Sender: TObject);
+    procedure JvTransparentButton81Click(Sender: TObject);
+    procedure JvTransparentButton82Click(Sender: TObject);
+    procedure JvTransparentButton83Click(Sender: TObject);
+    procedure JvTransparentButton84Click(Sender: TObject);
+    procedure JvTransparentButton85Click(Sender: TObject);
+    procedure JvTransparentButton86Click(Sender: TObject);
+    procedure JvTransparentButton87Click(Sender: TObject);
+    procedure JvTransparentButton88Click(Sender: TObject);
+    procedure JvTransparentButton89Click(Sender: TObject);
+    procedure JvTransparentButton90Click(Sender: TObject);
   private
-    numeroComp : Smallint;
+    linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
+    linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
     TD: TTransactionDesc;
     clienteConsumidor,nomecliente, tipo_busca : string;
     I, codcliente, ID_MOVDET : integer;
@@ -1454,19 +1531,6 @@ begin
     DM_MOV.c_comanda.CommandText := sql;
     DM_MOV.c_comanda.Open;
 
-    {numeroComp := 0;
-    for i := 0 to  componentCount -1 do
-    begin
-      if (numeroComp = 0) then
-      begin
-        if Components[i] is TJvTransparentButton then
-        begin
-          numeroComp := i-1;
-        end;
-      end;
-    end;}
-
-    numeroComp := JvTransparentButton1.ComponentIndex;
     CtrlResize;
     pinta_botao_1;
   end;
@@ -1533,7 +1597,7 @@ begin
     DM_MOV.ID_CCUSTO := 0;
 
   sCaixa1.Close;
-
+  JvDBGrid2.Visible := False;
 end;
 
 procedure TF_Terminal.JvDBGrid2DblClick(Sender: TObject);
@@ -2111,15 +2175,6 @@ begin
          nomedocliente := DM_MOV.c_movimentoNOMECLIENTE.AsString;
          pinta_botao;
          cor := clLime;
-         {i := numeroComp;
-         for i := 51 to 103 do
-         begin
-           if (TJvTransparentButton(Components[numeroComp]).Caption = nomedocliente) then
-             TJvTransparentButton(Components[numeroComp]).color := cor;
-         end;
-         if (DM_MOV.c_movimento.Active) then
-           DM_MOV.c_movimento.Close;
-         DM_MOV.c_movimento.Params[0].Clear;}
        end;
      end;
    end;
@@ -2244,7 +2299,26 @@ begin
 end;
 
 procedure TF_Terminal.FormShow(Sender: TObject);
+var ImpressoraDet: TIniFile;
+  dir : string;
 begin
+  dir := ExtractFilePath(Application.ExeName);
+  ImpressoraDet := TIniFile.Create(dir + 'dbxconnections.ini');
+  try
+    linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
+    linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
+    linhaDescItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaDescItem', '');
+    linhaItemUn := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemUn', '');
+    linhaItemQtde := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemQtde', '');
+    linhaItemVlUnit := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlUnit', '');
+    linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
+    linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
+    qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
+  finally
+    ImpressoraDet.Free;
+  end;
+
+
   if (s_parametro.Active) then
    s_parametro.Close;
   s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
@@ -2534,6 +2608,7 @@ begin
 end;
 
 procedure TF_Terminal.imprimeCupom;
+var i : Integer;
 begin
      if (not dm.cds_empresa.Active) then
       dm.cds_empresa.Open;
@@ -2543,12 +2618,12 @@ begin
      ' - ' + dm.cds_empresaCEP.Value;
      fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
      ' / ' + dm.cds_empresaFONE_2.Value;
-     Texto  := '------------------------' ;
+     Texto  := linhaTracejada;
      Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
       IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
-     Texto2 := '------------------------' ;
+     Texto2 := linhaTracejada;
      Texto3 := 'Produto ' ;
-     Texto4 := 'UN  Qtde  V.Un.  V.Total' ;
+     Texto4 := linhaTituloItem;
      Texto5 := DateTimeToStr(Now) + 'Total.: R$   ';
 
      if (PageControl1.ActivePage = TabSheet1) then
@@ -2614,26 +2689,26 @@ begin
      while not cds_iMovdet.Eof do
      begin
        cds_iMovdet.RecordCount;
-      // imprime
-      Writeln(Impressora, c10cpi + Format('%-24s',[cds_iMovdetDESCPRODUTO.Value]));
-      //Write(Impressora, c10cpi, Format('%-4s',[cds_iMovdetCOD_BARRA.Value]));
-      Write(Impressora, c10cpi + Format('%-2s ',[cds_iMovdetUN.Value]));
-      Write(Impressora, c10cpi + Format(' %-2.2n',[cds_imovdetQTDE.AsFloat]));
-      Write(Impressora, c10cpi + Format('  %-5.2n',[cds_imovdetVALTOTAL.asFloat/cds_imovdetQTDE.AsFloat]));
-      Writeln(Impressora, c10cpi + Format('  %-5.2n',[cds_imovdetVALTOTAL.asFloat]));
+       // imprime
+       Writeln(Impressora, c10cpi + Format('%-24s',[Copy(cds_iMovdetDESCPRODUTO.Value,0,StrToInt(linhaDescItem))]));
+       //Write(Impressora, c10cpi, Format('%-4s',[cds_iMovdetCOD_BARRA.Value]));
+       Write(Impressora, c10cpi + Format(linhaItemUn ,[cds_iMovdetUN.Value]));
+       Write(Impressora, c10cpi + Format(linhaItemQtde,[cds_imovdetQTDE.AsFloat]));
+       Write(Impressora, c10cpi + Format(linhaItemVlUnit,[cds_imovdetVALTOTAL.asFloat/cds_imovdetQTDE.AsFloat]));
+       Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[cds_imovdetVALTOTAL.asFloat]));
 
-      with Printer.Canvas do
-      begin
-       Font.Name := 'Courier New';
-       Font.Size := 4;
-      end;
-      cds_imovdet.next;
+       with Printer.Canvas do
+       begin
+         Font.Name := 'Courier New';
+         Font.Size := 4;
+       end;
+       cds_imovdet.next;
      end;
      total := DM_MOV.c_movdettotalpedido.Value;
      Writeln(Impressora, c10cpi, texto);
      Texto5 := '  Total : R$ ';
-     Write(Impressora, c10cpi + Format('%18s',[texto5]));
-     Writeln(Impressora, c10cpi + Format('%5.2n',[total]));
+     Write(Impressora, c10cpi + Format(linhaTotal,[texto5]));
+     Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[total]));
 
 
      s_parametro.Close;
@@ -2646,32 +2721,25 @@ begin
        if (F_Terminal.JvComissao.Value > 0) then
        begin
          Texto5 := '  % : R$ ';
-         Write(Impressora, c10cpi + Format('%18s',[texto5]));
+         Write(Impressora, c10cpi + Format(linhaTotal,[texto5]));
          porc    := JvComissao.Value / 100;
          porc    := porc * JvTotal.Value;
-         Writeln(Impressora, c10cpi + Format('%5.2n',[porc]));
+         Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[porc]));
          total   := total + porc;
          Texto5 := 'Total + perc:R$ ';
-         Write(Impressora, c10cpi + Format('%18s',[texto5]));
-         Writeln(Impressora, c10cpi + Format('%5.2n',[total]));
+         Write(Impressora, c10cpi + Format(linhaTotal,[texto5]));
+         Writeln(Impressora, c10cpi + Format(linhaItemVlTotal,[total]));
        end;
      end;
      s_parametro.Close;
 
      Writeln(IMPRESSORA);
      Write(Impressora, c10cpi, DM.Mensagem);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
-     Writeln(IMPRESSORA);
+     for i := 0 to StrToInt(qntespacos) do
+     begin
+       Writeln(IMPRESSORA);
+     end;
+     Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally
     CloseFile(IMPRESSORA);
   end;
@@ -3322,8 +3390,8 @@ begin
 
 
   cor := clLime;
-  i := numeroComp;
-  for i := 51 to 103 do
+
+  for i := 51 to 141 do
   begin
     if (TJvTransparentButton(Components[i]).Caption = nome_botao) then
        TJvTransparentButton(Components[i]).color := cor;
@@ -3343,23 +3411,9 @@ begin
   cdsMesaOcupada.CommandText := sql;
   cdsMesaOcupada.Open;
 
-  {numeroComp := 0;
-
-  for i := 0 to  componentCount -1 do
-  begin
-    if (numeroComp = 0) then
-    begin
-      if Components[i] is TJvTransparentButton then
-      begin
-        numeroComp := i-1;
-      end;
-    end;
-  end;
-
-   numeroComp := JvTransparentButton1.ComponentIndex;}
   cor := clLime;
-  i := numeroComp;
-  for i := 51 to 103 do
+
+  for i := 51 to 141 do
   begin
     TJvTransparentButton(Components[i]).color := cor;
   end;
@@ -3370,8 +3424,8 @@ begin
   while not cdsMesaOcupada.Eof do
   begin
     nomedocliente := cdsMesaOcupada.FieldByName('NOMECLIENTE').AsString;
-    i := numeroComp;
-    for i := 51 to 103 do
+
+    for i := 51 to 141 do
     begin
       if (TJvTransparentButton(Components[i]).Caption = nomedocliente) then
         TJvTransparentButton(Components[i]).color := cor;
@@ -3414,22 +3468,13 @@ end;
 procedure TF_Terminal.CtrlResize;
 var
   i : integer;
+  numeroComp : Smallint;
 begin
-  {numeroComp := 0;
-  for i := 0 to  componentCount -1 do
-  begin
-    if (numeroComp = 0) then
-    begin
-      if Components[i] is TJvTransparentButton then
-      begin
-        numeroComp := i-1;
-      end;
-    end;
-  end;}
     if (s_mesas.Active) then
       s_mesas.close;
     s_mesas.Open;
     s_mesas.First;
+    numeroComp := JvTransparentButton1.ComponentIndex -1;
     while not (s_mesas.Eof) do
     begin
         TJvTransparentButton(Components[s_mesas.RecNo + numeroComp]).Visible := True;
@@ -3443,7 +3488,7 @@ end;
 procedure TF_Terminal.Mesa_Clic(botao: Integer);
 begin
   pinta_botao_1;
-  nome_botao := TJvTransparentButton(Components[botao]).Caption; //JvTransparentButton1.Caption;
+  nome_botao := TJvTransparentButton(Components[botao]).Caption;
   clic_botao;
   TJvTransparentButton(Components[botao]).Color := clYellow;
   EdtCodBarra1.SetFocus;
@@ -5647,31 +5692,8 @@ begin
     // Pinto de Vermelho os botoes mesas ocupada
     // *****************************************
     pinta_botao_1;
-    //cor := clRed;
 
     nomeCliAmarelo := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
-
-    {if (DM_MOV.c_comanda.Active) then
-      DM_MOV.c_comanda.Close;
-    DM_MOV.c_comanda.CommandText := '';
-    sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-    sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-    sql := sql + 'WHERE m.CODNATUREZA = ';
-    sql := sql + IntToStr(3);
-    sql := sql + 'and m.STATUS = ';
-    sql := sql + IntToStr(20);
-    DM_MOV.c_comanda.open;
-    while not DM_MOV.c_comanda.Eof do
-    begin
-      nomedocliente := DM_MOV.c_comandaNOMECLIENTE.AsString;
-      i := numeroComp;
-      for i := 51 to 103 do
-      begin
-        if (TJvTransparentButton(Components[numeroComp]).Caption = nomedocliente) then
-          TJvTransparentButton(Components[numeroComp]).color := cor;
-      end;
-      DM_MOV.c_comanda.Next;
-    end;}
     //************************************** FIM DO VERMELHO
 
 
@@ -5697,10 +5719,8 @@ begin
       DM_MOV.c_comanda.CommandText := '';
       sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
       sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-      sql := sql + 'WHERE m.CODNATUREZA = ';
-      sql := sql + IntToStr(3);
-      sql := sql + 'and m.STATUS = ';
-      sql := sql + IntToStr(20);
+      sql := sql + 'WHERE m.CODNATUREZA = 3';
+      sql := sql + 'and m.STATUS = 20';
       sql := sql + 'and m.CODCLIENTE = ';
       sql := sql + IntToStr(codcliente);
 
@@ -5749,8 +5769,8 @@ begin
 
 
     cor := clYellow;
-    i := numeroComp;
-    for i := 51 to 103 do
+
+    for i := 51 to 141 do
     begin
       if (TJvTransparentButton(Components[i]).Caption = nomeCliAmarelo) then
         TJvTransparentButton(Components[i]).color := cor;
@@ -5762,6 +5782,196 @@ begin
     SelectNext((Sender as TwinControl),True,True);
     EdtCodBarra1.SetFocus;
   end;
+end;
+
+procedure TF_Terminal.JvTransparentButton53Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton53.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton54Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton54.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton55Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton55.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton56Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton56.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton57Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton57.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton58Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton58.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton59Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton59.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton60Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton60.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton61Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton61.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton62Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton62.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton63Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton63.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton64Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton64.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton65Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton65.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton66Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton66.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton67Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton67.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton68Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton68.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton69Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton69.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton70Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton70.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton71Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton71.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton72Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton72.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton73Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton73.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton74Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton74.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton75Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton75.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton76Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton76.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton77Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton77.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton78Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton78.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton79Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton77.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton80Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton80.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton81Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton81.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton82Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton82.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton83Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton83.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton84Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton84.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton85Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton85.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton86Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton86.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton87Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton87.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton88Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton88.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton89Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton89.ComponentIndex);
+end;
+
+procedure TF_Terminal.JvTransparentButton90Click(Sender: TObject);
+begin
+  Mesa_Clic(JvTransparentButton90.ComponentIndex);
 end;
 
 end.
