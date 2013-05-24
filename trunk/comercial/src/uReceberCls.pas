@@ -383,6 +383,7 @@ end;
 constructor TReceberCls.Create;
 begin
   _datasVenc := TStringList.Create;
+  _formaRec := '';
 end;
 
 destructor TReceberCls.Destroy;
@@ -462,6 +463,7 @@ begin
         Self.Titulo        := Trim(IntToStr(sqlBuscaR.FieldByName('NOTAFISCAL').AsInteger) +
           '-' + sqlBuscaR.FieldByName('SERIE').AsString);
         Self.NDoc          := sqlBuscaR.FieldByName('N_DOCUMENTO').AsString;
+        Self.FormaRec      := sqlBuscaR.FieldByName('FORMARECEBIMENTO').AsString;
       end;
     Finally
       sqlBuscaR.Free;
@@ -559,7 +561,8 @@ begin
   end;
 
   Self.Status   := '5-';
-  Self.FormaRec := '0';
+  if ( Self.FormaRec = '') then
+    Self.FormaRec := '0';
   if (CodRecR <> 1) then
   begin
     //if ((Self.ValorRec > 0) and (Self.ValorRec < Self.Valor)) then
