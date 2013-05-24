@@ -469,12 +469,10 @@ begin
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.IsEmpty) then
     usaDll := 'TRUE';
-
   dm.cds_parametro.Close;
 
   nparc := 1;
 
-  
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -507,6 +505,7 @@ begin
     dm.cds_7_contas.Next;
   end;
 
+  try
     utilcrtitulo := Tutils.Create;
     // Popula Status
     j := utilcrtitulo.Forma.Count;
@@ -514,7 +513,9 @@ begin
     begin
       combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
     end;
+  finally
     utilcrtitulo.Free;
+  end;
 
 
 end;
@@ -609,9 +610,12 @@ begin
 
   if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
   begin
-      utilcrtitulo := Tutils.Create;
-      ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
-      utilcrtitulo.Free;
+      try
+        utilcrtitulo := Tutils.Create;
+        ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+      finally
+        utilcrtitulo.Free;
+      end;
   end;
 
 
@@ -687,29 +691,20 @@ begin
   begin
     jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
     jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
-    // Verico se paga comissão e se soma no Contas a Receber
-
-   { if Dm.cds_parametro.Active then
-       dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'PAGA_COMISSAO';
-    dm.cds_parametro.Open;
-    if(not dm.cds_parametro.IsEmpty) then
-      porc_com := StrToFloat(dm.cds_parametroDADOS.AsString);
-    }
-
-    //porc_com := F_Terminal.JvComissao.Value;
 
     dm.cds_parametro.Close;
     if Dm.cds_parametro.Active then
        dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
     dm.cds_parametro.Open;
+
     if (not dm.cds_parametro.Eof) then
     begin
       JvComissao.Value:= (porc_com /100) * jvTotal.Value;
       jvApagar.Value := (DM_MOV.c_movdettotalpedido.Value + JvComissao.Value) - desconto;
     end;
     dm.cds_parametro.Close;
+
   end;
   jvDesconto.Value := 0;
   jvAcrescimo.Value := 0;
@@ -919,57 +914,57 @@ begin
     //  se tiver pagamento parcial ----------------------------------------------
     if (not DM_MOV.c_forma.IsEmpty) then
     begin
-       baixou := 0;
-       scdsCr_proc.First;
-       codRecCR := scdsCr_procCODRECEBIMENTO.AsInteger;
-       while not DM_MOV.c_forma.Eof do
-       begin
-           if (baixou > 0) then
-               codRecCR := baixou;
-           // Marco o Titulo
-           Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
-                    IntToStr(codRecCR);
-           dm.sqlsisAdimin.StartTransaction(TD);
-           dm.sqlsisAdimin.ExecuteDirect(Texto);
-           Try
+      baixou := 0;
+      scdsCr_proc.First;
+      codRecCR := scdsCr_procCODRECEBIMENTO.AsInteger;
+      while not DM_MOV.c_forma.Eof do
+      begin
+        if (baixou > 0) then
+           codRecCR := baixou;
+        // Marco o Titulo
+        Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
+                IntToStr(codRecCR);
+        dm.sqlsisAdimin.StartTransaction(TD);
+        Try
+          dm.sqlsisAdimin.ExecuteDirect(Texto);
+          dm.sqlsisAdimin.Commit(TD);
+        except
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
+            [mbOk], 0);
+        end;
+        try
+          FRec := TReceberCls.Create;
+          baixou := FRec.baixaTitulo(DM_MOV.c_formaVALOR_PAGO.Value, //Valor
+                                    0, //Funrural
+                                    0, // Juros
+                                    0, // Desconto
+                                    0, // Perda
+                                    Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
+                                    Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
+                                    Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
+                                    DM_MOV.c_formaFORMA_PGTO.AsString,  // FormaRecebimento
+                                    DM_MOV.c_formaN_DOC.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
+                                    DM_MOV.c_formaCAIXA.AsInteger, // Caixa
+                                    DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
+                                    '7-',
+                                    usulog, ''); // Usuario Logado
+          Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
+                    IntToStr(codRecCR);;
+          dm.sqlsisAdimin.StartTransaction(TD);
+          Try
+            dm.sqlsisAdimin.ExecuteDirect(Texto);          
             dm.sqlsisAdimin.Commit(TD);
-           except
+          except
             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-            MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
+            MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
                [mbOk], 0);
-           end;
-           try
-             FRec := TReceberCls.Create;
-             baixou := FRec.baixaTitulo(DM_MOV.c_formaVALOR_PAGO.Value, //Valor
-                                        0, //Funrural
-                                        0, // Juros
-                                        0, // Desconto
-                                        0, // Perda
-                                        Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
-                                        Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
-                                        Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
-                                        DM_MOV.c_formaFORMA_PGTO.AsString,  // FormaRecebimento
-                                        DM_MOV.c_formaN_DOC.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
-                                        DM_MOV.c_formaCAIXA.AsInteger, // Caixa
-                                        DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
-                                        '7-',
-                                        usulog, ''); // Usuario Logado
-            Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
-                      IntToStr(codRecCR);;
-            dm.sqlsisAdimin.StartTransaction(TD);
-            dm.sqlsisAdimin.ExecuteDirect(Texto);
-            Try
-              dm.sqlsisAdimin.Commit(TD);
-            except
-              dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-              MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
-                 [mbOk], 0);
-            end;
-          codRecCR := 0;
-          finally
-           Frec.Free;
           end;
-          DM_MOV.c_forma.Next;
+        codRecCR := 0;
+        finally
+        Frec.Free;
+        end;
+        DM_MOV.c_forma.Next;
        end;
     end
     else
@@ -1309,19 +1304,6 @@ begin
       exit;
    end;
    sql_rec.Close;
-
-   {texto := 'UPDATE VENDA set ';
-
-   dm.sqlsisAdimin.StartTransaction(TD);
-   dm.sqlsisAdimin.ExecuteDirect(texto);
-   Try
-      dm.sqlsisAdimin.Commit(TD);
-   except
-      dm.sqlsisAdimin.Rollback(TD); 
-       MessageDlg('Erro no sistema, a venda n?foi gravada.', mtError,
-           [mbOk], 0);
-   end;}
-
 end;
 
 procedure TF_TerminalFinaliza.btnCancelaBaixaClick(Sender: TObject);
@@ -1437,34 +1419,36 @@ begin
   if (sqlBuscaNota.IsEmpty) then
   begin
     try
-    codClienteNF := 0;
-    Save_Cursor := Screen.Cursor;
-    Screen.Cursor := crHourGlass;
-    // Nota Fiscal
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    dm.sqlsisAdimin.StartTransaction(TD);
-	  try
-	  str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
-   	str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENDA.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(DM_MOV.c_vendaSERIE.AsString);
-        str_sql := str_sql + ', ' + QuotedStr(inttostr(DM_MOV.c_vendaNOTAFISCAL.AsInteger));
-        str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        dm.sqlsisAdimin.Commit(TD);
-		except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-        exit;
-	end;
-    if (sqlBuscaNota.Active) then
-      sqlBuscaNota.Close;
-    sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select codMovimento, codCliente from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
-      QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
-    sqlBuscaNota.Open;
+      codClienteNF := 0;
+      Save_Cursor := Screen.Cursor;
+      Screen.Cursor := crHourGlass;
+      // Nota Fiscal
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+
+      str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+      str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
+      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENDA.AsDateTime));
+      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
+      str_sql := str_sql + ', ' + QuotedStr(DM_MOV.c_vendaSERIE.AsString);
+      str_sql := str_sql + ', ' + QuotedStr(inttostr(DM_MOV.c_vendaNOTAFISCAL.AsInteger));
+      str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          dm.sqlsisAdimin.Commit(TD);
+      except
+          dm.sqlsisAdimin.Rollback(TD);
+          MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+          exit;
+      end;
+      if (sqlBuscaNota.Active) then
+        sqlBuscaNota.Close;
+      sqlBuscaNota.SQL.Clear;
+      sqlBuscaNota.SQL.Add('select codMovimento, codCliente from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
+        QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+      sqlBuscaNota.Open;
     finally
       Screen.Cursor := Save_Cursor;  { Always restore to normal }
     end;
@@ -1507,8 +1491,6 @@ begin
      try
        dm.sqlsisAdimin.StartTransaction(TD);
        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
-       //dmnf.cancelaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
-       //DM_MOV.c_venda.Delete;
        if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
        begin
          alterastat := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
@@ -1602,7 +1584,7 @@ begin
         codigo_cliente :=  DM_MOV.c_movimentoCODCLIENTE.AsInteger;
         data_movimento :=  DateToStr(DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime);
 
-        Try
+        {Try
           FEstoque := TEstoque.Create;
           // Gravando o Estoque
           with DM_MOV do begin
@@ -1626,7 +1608,7 @@ begin
           end;
         Finally
           FEstoque.Free;
-        end;
+        end;  }
 
       end;
 
@@ -1637,11 +1619,15 @@ begin
     end;
     if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
     begin
-      dm.sqlsisAdimin.StartTransaction(TD);
       alterastat := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
-      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
-      dm.sqlsisAdimin.ExecuteDirect(alterastat);
-      dm.sqlsisAdimin.Commit(TD);
+      try
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
+        dm.sqlsisAdimin.ExecuteDirect(alterastat);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
     end;
 end;
 
@@ -1663,14 +1649,14 @@ begin
     TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
     try
-	str_sql := 'DELETE FROM NOTAFISCAL ';
-	  str_sql := str_sql + ' where CODVENDA = ' + inttostr(sqlBuscaNota.Fields[2].AsInteger);
+      str_sql := 'DELETE FROM NOTAFISCAL ';
+      str_sql := str_sql + ' where CODVENDA = ' + inttostr(sqlBuscaNota.Fields[2].AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
       str_sql := 'DELETE FROM VENDA ';
-	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+  	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
-	  str_sql := 'DELETE FROM MOVIMENTO ';
-	  str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+	    str_sql := 'DELETE FROM MOVIMENTO ';
+	    str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
       dm.sqlsisAdimin.Commit(TD);
       ShowMessage('Nota Fiscal Excluída com suscesso');
@@ -2191,13 +2177,13 @@ begin
      Texto := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
               IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
      dm.sqlsisAdimin.StartTransaction(TD);
-     dm.sqlsisAdimin.ExecuteDirect(Texto);
      Try
-      dm.sqlsisAdimin.Commit(TD);
+       dm.sqlsisAdimin.ExecuteDirect(Texto);
+       dm.sqlsisAdimin.Commit(TD);
      except
-      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-      MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
-         [mbOk], 0);
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro no sistema, Marcar Titulo Falhou.', mtError,
+          [mbOk], 0);
      end;
 
      FRec := TReceberCls.Create;
@@ -2218,8 +2204,8 @@ begin
     Texto := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
               IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);;
     dm.sqlsisAdimin.StartTransaction(TD);
-    dm.sqlsisAdimin.ExecuteDirect(Texto);
     Try
+      dm.sqlsisAdimin.ExecuteDirect(Texto);    
       dm.sqlsisAdimin.Commit(TD);
     except
       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -2240,6 +2226,7 @@ var
   FVen: TVendaCls;
   codMovSaida : Integer;
   Save_Cursor:TCursor;
+  temmd : String;
 begin
 
   TDA.TransactionID  := 1;
@@ -2248,22 +2235,18 @@ begin
   Save_Cursor   := Screen.Cursor;
   Screen.Cursor := crHourGlass;
 
-  //prog.Max      := cdsInvent.RecordCount;
-  //prog.Position := 0;
   if (DM_MOV.c_venda.Active) then
     DM_MOV.c_venda.Close;
 
   if (DM_MOV.PAGECONTROL = 'PDV') then
     DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
   DM_MOV.c_venda.Open;
-  
+
   Try
     FMov := TMovimento.Create;
     FVen := TVendaCls.Create;
 
     Try
-      dm.sqlsisAdimin.StartTransaction(TDA);
-
       dm_mov.c_movdet.DisableControls;
       dm_mov.c_movdet.First;
 
@@ -2273,57 +2256,67 @@ begin
       movSaida := 'N';
       While not dm_mov.c_movdet.Eof do
       begin
-        //prog.Position := dm_mov.c_movdet.RecNo;
-
         // Filtro as Materias Primas referente ao produto Informado
         cdsMatPrima.Filtered := False;
         cdsMatPrima.Filter := 'CODPRODUTO=' + IntToStr(dm_mov.c_movdetCODPRODUTO.AsInteger);
         cdsMatPrima.Filtered := True;
-
-         // Cria o Movimento de SAIDA uma vez
-        if (movSaida = 'N') then
+        if ( not cdsMatPrima.IsEmpty) then
         begin
-          FMov.CodMov      := 0;
-          FMov.CodCCusto   := DM_MOV.c_vendaCODCCUSTO.AsInteger;
-          FMov.CodCliente  := 0;
-          FMov.CodNatureza := 2;
-          FMov.Status      := 0;
-          FMov.CodUsuario  := 1;
-          FMov.CodVendedor := 1;
-          FMov.CodOrigem   := DM_MOV.c_vendaCODMOVIMENTO.AsInteger;
-          FMov.DataMov     := DM_MOV.c_vendaDATAVENDA.AsDateTime;
-          FMov.Obs         := 'Terminal - ' + IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger);
-          codMovSaida := FMov.inserirMovimento(0);
-          movSaida := 'S';
+           // Cria o Movimento de SAIDA uma vez
+          if (movSaida = 'N') then
+          begin
+            FMov.CodMov      := 0;
+            FMov.CodCCusto   := DM_MOV.c_vendaCODCCUSTO.AsInteger;
+            FMov.CodCliente  := 0;
+            FMov.CodNatureza := 2;
+            FMov.Status      := 0;
+            FMov.CodUsuario  := 1;
+            FMov.CodVendedor := 1;
+            FMov.CodOrigem   := DM_MOV.c_vendaCODMOVIMENTO.AsInteger;
+            FMov.DataMov     := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+            FMov.Obs         := 'Terminal - ' + IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger);
+            codMovSaida := FMov.inserirMovimento(0);
+            movSaida := 'S';
+          end;
+          FMov.MovDetalhe.CodMov        := codMovSaida;
+          FMov.MovDetalhe.CodProduto    := cdsMatPrimaCODPRODMP.AsInteger;
+          FMov.MovDetalhe.Qtde          := cdsMatPrimaQTDEUSADA.AsFloat * dm_mov.c_movdetQUANTIDADE.AsFloat;
+          FMov.MovDetalhe.Preco         := cdsMatPrimaPRECOMEDIO.AsFloat;;
+          FMov.MovDetalhe.Lote          := '0';
+          FMov.MovDetalhe.Baixa         := '1';
+
+          FMov.MovDetalhe.inserirMovDet;
+          temmd := 'S'
         end;
-        FMov.MovDetalhe.CodMov        := codMovSaida;
-        FMov.MovDetalhe.CodProduto    := cdsMatPrimaCODPRODMP.AsInteger;
-        FMov.MovDetalhe.Qtde          := cdsMatPrimaQTDEUSADA.AsFloat * dm_mov.c_movdetQUANTIDADE.AsFloat;
-        FMov.MovDetalhe.Preco         := cdsMatPrimaPRECOMEDIO.AsFloat;;
-        FMov.MovDetalhe.Lote          := '0';
-        FMov.MovDetalhe.Baixa         := '1';
-        FMov.MovDetalhe.inserirMovDet;
-        dm_mov.c_movdet.Next;
+        dm_mov.c_movdet.Next;        
       end; // Fim While
 
-      fven.CodMov               := codMovSaida;
-      fven.DataVenda            := DM_MOV.c_vendaDATAVENDA.AsDateTime;
-      fven.DataVcto             := DM_MOV.c_vendaDATAVENDA.AsDateTime;
-      fven.Serie                := 'O';
-      fven.NotaFiscal           := codMovSaida;
-      fven.CodCliente           := 0;
-      fven.CodVendedor          := 1;
-      fven.CodCCusto            := DM_MOV.c_vendaCODCCUSTO.AsInteger;
-      fven.ValorPagar           := 0;
-      fven.NParcela             := 1;
-      fven.inserirVenda(0);
+      if (temmd = 'S') then
+      begin
+        fven.CodMov               := codMovSaida;
+        fven.DataVenda            := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+        fven.DataVcto             := DM_MOV.c_vendaDATAVENDA.AsDateTime;
+        fven.Serie                := 'O';
+        fven.NotaFiscal           := codMovSaida;
+        fven.CodCliente           := 0;
+        fven.CodVendedor          := 1;
+        fven.CodCCusto            := DM_MOV.c_vendaCODCCUSTO.AsInteger;
+        fven.ValorPagar           := 0;
+        fven.NParcela             := 1;
+        fven.inserirVenda(0);
 
-      dmnf.baixaEstoque(codMovSaida, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'SAIDA');
+        dmnf.baixaEstoque(codMovSaida, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'SAIDA');
 
-      dm.sqlsisAdimin.Commit(TDA);
+        dm.sqlsisAdimin.StartTransaction(TDA);
+        dm.sqlsisAdimin.Commit(TDA)
+      end
+      else
+        dm.sqlsisAdimin.Rollback(TDA);
     except
       on E : Exception do
       begin
+        FMov.Free;
+        FVen.Free;
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
         dm.sqlsisAdimin.Rollback(TDA);
       end;
