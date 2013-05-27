@@ -592,9 +592,12 @@ begin
     jvTroco.Value     := DM_MOV.c_vendaTROCO.Value;
     if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
     begin
+      try
         utilcrtitulo := Tutils.Create;
         ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+      finally
         utilcrtitulo.Free;
+      end;
     end;
 
     if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
@@ -842,13 +845,17 @@ var
     FRec : TReceberCls;
 begin
   if (DBEdit5.Text = '1') then
-   if (cbPrazo.Text = '01-A Vista') then
-    if (jvPago.Value < jvApagar.Value) then
+  begin
+    if (cbPrazo.Text = '01-A Vista') then
     begin
-       MessageDlg('Valor pago menor que total a pagar, '+#13+#10+'  parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
-       cbPrazo.SetFocus;
-       exit;
+     if (jvPago.Value < jvApagar.Value) then
+      begin
+        MessageDlg('Valor pago menor que total a pagar, '+#13+#10+' parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+        cbPrazo.SetFocus;
+        exit;
+      end;
     end;
+  end;
 
   if (DM_MOV.c_forma.Active) then
       DM_MOV.c_forma.close;
@@ -960,9 +967,9 @@ begin
             MessageDlg('Erro no sistema, Desmarcar Titulo Falhou.', mtError,
                [mbOk], 0);
           end;
-        codRecCR := 0;
+          codRecCR := 0;
         finally
-        Frec.Free;
+          Frec.Free;
         end;
         DM_MOV.c_forma.Next;
        end;
@@ -971,9 +978,12 @@ begin
     begin
       // Executo Classe Baixa Titulos --------------------------------------------
       scdsCr_proc.First;
-      utilcrtitulo := Tutils.Create;
-      formaRec := utilcrtitulo.pegaForma(ComboBox1.Text);
-      utilcrtitulo.Free;
+      try
+        utilcrtitulo := Tutils.Create;
+        formaRec := utilcrtitulo.pegaForma(ComboBox1.Text);
+      finally
+        utilcrtitulo.Free;
+      end;
 
       if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
        caixaCR := dm.cds_7_contas.Fields[0].asInteger;
@@ -1064,42 +1074,6 @@ begin
        end;
      end;
    end;
-
-{  tipoImpressao := '';
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
-  dm.cds_parametro.Open;
-
-  if (not dm.cds_parametro.Eof) then
-     tipoImpressao := 'CUPOM';
-  dm.cds_parametro.Close;
-  if (tipoImpressao = 'CUPOM') then
-     if (usaDll = 'TRUE') then
-     begin
-        if (s_parametro.Active) then
-          s_parametro.Close;
-        s_parametro.Params[0].AsString := 'MODELOIMPRESSORA';
-        s_parametro.Open;
-        ModeloImpressora := StrToInt(s_parametroDADOS.AsString);
-        s_parametro.Close;
-        if (ModeloImpressora is null) then
-          ModeloImpressora := 0;
-        //Configura o Modelo da Impressora
-        iRetorno := ConfiguraModeloImpressora( ModeloImpressora );
-        if (iRetorno = -2) then
-          ShowMessage('Erro Configurando Impressora');
-        iRetorno := IniciaPorta( pchar( 'USB' ) );
-        if (iRetorno <= 0) then
-          ShowMessage('Erro Abrindo Porta');
-
-         // Comando para Acionar a Gaveta de Dinheiro
-         scomando := #27 + #118 + #140;
-         iRetorno := ComandoTX( scomando, Length( scomando ));
-
-        iRetorno := 0;
-        iRetorno := FechaPorta();
-     end;   }
 end;
 
 procedure TF_TerminalFinaliza.baixaestoque(Tipo: string);
@@ -1181,9 +1155,12 @@ begin
    // strSql := strSql + ',0'; //desconto
     strSql := strSql + ',' + IntToStr(DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger);//CODCUSTO
     strSql := strSql + ', ' + DBEdit5.Text + ',';
-    utilcrtitulo := Tutils.Create;
-    strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
-    utilcrtitulo.Free;
+    try
+      utilcrtitulo := Tutils.Create;
+      strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
+    finally
+      utilcrtitulo.Free;
+    end;
     DecimalSeparator := ',';
     vJvValor1 := jvPago.AsFloat;
     vJvValor2 := jvTroco.AsFloat; //StrToFloat(jvTroco.Text);
@@ -1259,9 +1236,6 @@ end;
 procedure TF_TerminalFinaliza.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  iRetorno := 0;
-  iRetorno := FechaPorta();
-
   if (scdsCr_proc.Active) then
       scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
@@ -2097,6 +2071,9 @@ begin
      end;
      s_parametro.Close;
 
+     iRetorno := 0;
+     iRetorno := FechaPorta();
+
 end;
 
 procedure TF_TerminalFinaliza.BitBtn1Click(Sender: TObject);
@@ -2309,9 +2286,7 @@ begin
 
         dm.sqlsisAdimin.StartTransaction(TDA);
         dm.sqlsisAdimin.Commit(TDA)
-      end
-      else
-        dm.sqlsisAdimin.Rollback(TDA);
+      end;
     except
       on E : Exception do
       begin
