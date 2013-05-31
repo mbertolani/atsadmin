@@ -1848,8 +1848,45 @@ begin
       EXECUTADDL('NOTAFISCAL', 'BASE_PIS', 'double precision');
       EXECUTADDL('NOTAFISCAL', 'BASE_COFINS', 'double precision');
       EXECUTADDL('NOTAFISCAL', 'VLRTOT_TRIB', 'double precision');
+
+      if (NaoExisteTabela('NCM')) then
+      begin
+        executaSql('CREATE TABLE NCM ' +
+         '( ' +
+         ' NCM varchar(8) NOT NULL primary key, ' +
+         ' ALIQNAC double precision, ' +
+         ' ALIQIMP double precision ' +
+         ')');
+      end;
+
+      if (NaoExisteTabela('CLASSIFICACAOFISCALNCM')) then
+      begin
+        executaSql('CREATE TABLE CLASSIFICACAOFISCALNCM ' +
+         '( ' +
+         ' NCM varchar(8) NOT NULL, ' +
+         ' CFOP varchar(30) NOT NULL, ' +
+         ' UF char(2) NOT NULL, ' +
+         ' CODFISCAL T_FISCAL NOT NULL, ' +
+         ' ICMS_SUBST double precision, ' +
+         ' ICMS_SUBST_IC double precision, ' +
+         ' ICMS_SUBST_IND double precision, ' +
+         ' ICMS double precision, ' +
+         ' ICMS_BASE double precision, ' +
+         ' CST char(3), ' +
+         ' IPI double precision, ' +
+         ' CSOSN varchar(3), ' +
+         ' CSTIPI varchar(2), ' +
+         ' CSTPIS varchar(2), ' +
+         ' CSTCOFINS varchar(2), ' +
+         ' PIS double precision, ' +
+         ' COFINS double precision ' +
+         ')');
+        executaSql('alter table CLASSIFICACAOFISCALNCM add constraint PK_CLASS_NCM primary key (NCM, CFOP, UF, CODFISCAL)');
+      end;
       ExecutaSql('alter table VENDA add constraint UNQ_MOV_VENDA unique (CODMOVIMENTO)');
-      //mudaVersao('1.0.0.120');
+      ExecutaSql('INSERT INTO NCM (NCM) select distinct TRIM(p.NCM) ' +
+      ' from PRODUTOS p  where trim(p.NCM) is not null and p.NCM <>  ' + QuotedStr(''));
+      mudaVersao('1.0.0.120');
     end;// Fim Atualizacao Versao 1.0.0.120
 
     try
