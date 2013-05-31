@@ -88,6 +88,7 @@ type
     s_parametroD9: TStringField;
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
+    sVendaVCOMISSAO: TFloatField;
     procedure btnVendasClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
@@ -97,11 +98,11 @@ type
     procedure imprimeDLLBema;    
   private
     IMPRESSORA:TextFile;
-    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, texto7, logradouro,cep,fone : string;
+    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, texto7, texto8, logradouro,cep,fone : string;
     SqlCr, sqlTexto, sqlTexto1, DataStr, sqlGrupoCR, impCR: String;
     vUsercaixa, vAdm, nome, vNomeCliente, vEnderecoCliente, vFonecli, vObs : string;
     codigoCaixa, caixabanco, porta, tipoimpressao, nomeCLI, NOMECOLAB,NOMECOLABE1 : string;
-    Totalgeral, totalprod , total, porc, totgeral, liquido, liquido1, diaria, hospedagem, diaria1, hospedagem1 : double;
+    Totalgeral, totalprod , total, porc, totgeral, liquido, liquido1, diaria, hospedagem, diaria1, hospedagem1, TotalComissao : double;
     vValor, vTotal, Valor :Double;
     codigo, idCaixa : integer;
     usaDll : string;
@@ -545,7 +546,12 @@ begin
   end
   else
   begin
-    AssignFile(IMPRESSORA,'LPT1:');
+    s_parametro.Close;
+    if (s_parametro.Active) then
+      s_parametro.Close;
+    s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+    s_parametro.Open;
+    AssignFile(IMPRESSORA,s_parametroDADOS.AsString);
   end;
   Rewrite(IMPRESSORA);
   Writeln(Impressora, c10cpi, texto);
@@ -563,6 +569,7 @@ begin
   sVenda.Open;
   sVenda.First;
   Totalgeral := 0;
+  TotalComissao := 0;
   while not sVenda.Eof do
   begin
     texto6 := Copy(sVendaDESCRICAO.AsString, 0, 38);
@@ -572,6 +579,7 @@ begin
     totalprod := sVendaQUTDE.value * sVendaVARLORUNIT.value;
     Writeln(Impressora, c10cpi + Format('%10.2n',[totalprod]));
     Totalgeral := Totalgeral + totalprod;
+    TotalComissao := TotalComissao + sVendaVCOMISSAO.AsFloat;
     sVenda.next;
   end;
   Writeln(Impressora, c10cpi + Format('%-38s',['----------------------------------------']));
@@ -579,6 +587,9 @@ begin
   Texto5 := '               Total : R$   ';
   Write(Impressora, c10cpi, texto5 );
   Writeln(Impressora, c10cpi + Format(' %8.2n',[Totalgeral]));
+  Texto8 := '       Total Comissão: R$   ';
+  Write(Impressora, c10cpi, texto8 );
+  Writeln(Impressora, c10cpi + Format(' %8.2n',[TotalComissao]));
   Writeln(IMPRESSORA);
   Writeln(IMPRESSORA);
   Writeln(IMPRESSORA);
