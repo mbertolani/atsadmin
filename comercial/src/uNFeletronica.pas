@@ -1228,7 +1228,6 @@ begin
     //PEGA A RESPOSTA
      TD.TransactionID := 1;
      TD.IsolationLevel := xilREADCOMMITTED;
-     DecimalSeparator := '.';
 
      dm.sqlsisAdimin.StartTransaction(TD);
      try
