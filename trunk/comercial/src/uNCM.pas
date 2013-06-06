@@ -104,6 +104,7 @@ begin
   fClassificacaoFiscalNCM := TfClassificacaoFiscalNCM.Create(Application);
   try
     fClassificacaoFiscalNCM.ncm := cdsNCMNCM.AsString;
+    fClassificacaoFiscalNCM.Label9.Caption := cdsNCMNCM.AsString;
     fClassificacaoFiscalNCM.ShowModal;
   finally
     fClassificacaoFiscalNCM.Free;

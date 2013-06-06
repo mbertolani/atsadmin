@@ -135,6 +135,10 @@ type
     cdsTFiscalCODFISCAL: TStringField;
     cdsTFiscalDESCRICAO: TStringField;
     DtSrcTFiscal: TDataSource;
+    Label18: TLabel;
+    DBEdit17: TDBEdit;
+    sdsClassFiscORIGEM: TIntegerField;
+    cdsClassFiscORIGEM: TIntegerField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);

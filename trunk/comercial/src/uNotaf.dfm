@@ -1139,7 +1139,7 @@ object fNotaf: TfNotaf
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
-              DataField = 'VALOR_IPI'
+              DataField = 'BASE_IPI'
               DataSource = DMNF.DtSrc_NF
               TabOrder = 0
               OnChange = DBEdit11Change
@@ -1468,7 +1468,7 @@ object fNotaf: TfNotaf
             Width = 128
             Height = 41
             Caption = 'Peso Liquido'
-            TabOrder = 9
+            TabOrder = 14
             object DBEdit32: TDBEdit
               Left = 5
               Top = 14
@@ -1495,7 +1495,7 @@ object fNotaf: TfNotaf
             Width = 125
             Height = 41
             Caption = 'Peso Bruto'
-            TabOrder = 10
+            TabOrder = 13
             object DBEdit31: TDBEdit
               Left = 5
               Top = 14
@@ -1522,7 +1522,7 @@ object fNotaf: TfNotaf
             Width = 88
             Height = 41
             Caption = 'N'#250'mero'
-            TabOrder = 11
+            TabOrder = 12
             object DBEdit30: TDBEdit
               Left = 5
               Top = 14
@@ -1542,7 +1542,7 @@ object fNotaf: TfNotaf
             Width = 145
             Height = 41
             Caption = 'Marca'
-            TabOrder = 12
+            TabOrder = 11
             object DBEdit29: TDBEdit
               Left = 5
               Top = 14
@@ -1562,7 +1562,7 @@ object fNotaf: TfNotaf
             Width = 147
             Height = 41
             Caption = 'Esp'#233'cie'
-            TabOrder = 13
+            TabOrder = 10
             object DBEdit28: TDBEdit
               Left = 5
               Top = 14
@@ -1582,7 +1582,7 @@ object fNotaf: TfNotaf
             Width = 96
             Height = 41
             Caption = 'Quantidade'
-            TabOrder = 14
+            TabOrder = 9
             object DBEdit27: TDBEdit
               Left = 5
               Top = 14
