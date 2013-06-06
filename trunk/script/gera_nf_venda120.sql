@@ -1,7 +1,12 @@
-create or alter procedure gera_nf_venda(cliente integer, dtEmissao date,
-  dtVcto date, serie char(8), numero varchar(7), codMov integer)
-as
-  declare variable codRec integer;
+Create or ALTER PROCEDURE GERA_NF_VENDA (
+    CLIENTE integer,
+    DTEMISSAO date,
+    DTVCTO date,
+    SERIE char(8),
+    NUMERO varchar(7),
+    CODMOV integer )
+AS
+declare variable codRec integer;
   declare variable codNF integer;
   declare variable codVen integer;
   declare variable rcodVen integer;
@@ -185,7 +190,7 @@ begin
       insert into MOVIMENTODETALHE (codDetalhe, codMovimento, codProduto, quantidade
        , preco, un, descProduto, icms, valor_icms, cst, qtde_alt, VALOR_DESCONTO, vlr_base, II, BCII, OBS, NITEMPED, PEDIDO, CFOP) 
       values(gen_id(GENMOVDET, 1), :codMovNovo, :codProduto, :qtde
-       , :vlr_base, :un, :descP, :icms, :valoricms, :cst,  0, 0,:vlr_base, 0, 0, :obsp, :nitemped, :xped, :cfop);  
+       , :preco, :un, :descP, :icms, :valoricms, :cst,  :desconto, ((:qtde * :preco)*(:desconto/100)),:vlr_base, 0, 0, :obsp, :nitemped, :xped, :cfop);  
       total = total + (qtde * :vlr_base);
       totalIcms = totalIcms + :valoricms;
     end 
