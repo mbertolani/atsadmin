@@ -168,12 +168,34 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     ShowHint = True
   end
   object Label20: TLabel [16]
-    Left = 282
+    Left = 352
     Top = 106
     Width = 56
     Height = 13
     Caption = 'Tipos Fiscal'
     FocusControl = DBEdit15
+    ParentShowHint = False
+    ShowHint = True
+  end
+  object Label18: TLabel [17]
+    Left = 282
+    Top = 106
+    Width = 33
+    Height = 13
+    Hint = 
+      'Origem da mercadoria: '#13#10'0 - Nacional, exceto as indicadas nos c'#243 +
+      'digos 3 a 5.'#13#10'1 - Estrangeira - Importa'#231#227'o direta, exceto a indi' +
+      'cada no c'#243'digo 6.'#13#10'2 - Estrangeira - Adquirida no mercado intern' +
+      'o, exceto a indicada '#13#10'no c'#243'digo 7.'#13#10'3 - Nacional, mercadoria ou' +
+      ' bem com Conte'#250'do de Importa'#231#227'o '#13#10'superior a 40%.'#13#10'4 - Nacional,' +
+      ' cuja produ'#231#227'o tenha sido feita em conformidade '#13#10'com os process' +
+      'os produtivos b'#225'sicos de que tratam as legisla'#231#245'es '#13#10'citadas nos' +
+      ' Ajustes.'#13#10'5 - Nacional, mercadoria ou bem com Conte'#250'do de Impor' +
+      'ta'#231#227'o '#13#10'inferior ou igual a 40%.'#13#10'6 - Estrangeira - Importa'#231#227'o d' +
+      'ireta, sem similar nacional, constante '#13#10'em lista da CAMEX.'#13#10'7 -' +
+      ' Estrangeira - Adquirida no mercado interno, sem similar naciona' +
+      'l, '#13#10'constante em lista da CAMEX.'
+    Caption = 'Origem'
     ParentShowHint = False
     ShowHint = True
   end
@@ -210,7 +232,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       Visible = False
     end
   end
-  object DBEdit1: TDBEdit [19]
+  object DBEdit1: TDBEdit [20]
     Left = 3
     Top = 80
     Width = 83
@@ -219,7 +241,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 0
   end
-  object DBEdit2: TDBEdit [20]
+  object DBEdit2: TDBEdit [21]
     Left = 99
     Top = 80
     Width = 57
@@ -228,7 +250,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 1
   end
-  object DBEdit3: TDBEdit [21]
+  object DBEdit3: TDBEdit [22]
     Left = 163
     Top = 80
     Width = 30
@@ -237,7 +259,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 2
   end
-  object DBEdit4: TDBEdit [22]
+  object DBEdit4: TDBEdit [23]
     Left = 200
     Top = 80
     Width = 65
@@ -246,7 +268,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 3
   end
-  object DBEdit5: TDBEdit [23]
+  object DBEdit5: TDBEdit [24]
     Left = 271
     Top = 80
     Width = 70
@@ -255,7 +277,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 4
   end
-  object DBEdit6: TDBEdit [24]
+  object DBEdit6: TDBEdit [25]
     Left = 347
     Top = 80
     Width = 70
@@ -264,7 +286,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 5
   end
-  object DBEdit7: TDBEdit [25]
+  object DBEdit7: TDBEdit [26]
     Left = 422
     Top = 80
     Width = 60
@@ -273,7 +295,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 6
   end
-  object DBEdit8: TDBEdit [26]
+  object DBEdit8: TDBEdit [27]
     Left = 487
     Top = 80
     Width = 78
@@ -282,7 +304,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 7
   end
-  object DBGrid1: TDBGrid [27]
+  object DBGrid1: TDBGrid [28]
     Left = 3
     Top = 152
     Width = 832
@@ -401,7 +423,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         Visible = True
       end>
   end
-  object DBEdit9: TDBEdit [28]
+  object DBEdit9: TDBEdit [29]
     Left = 571
     Top = 80
     Width = 60
@@ -410,7 +432,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 8
   end
-  object DBEdit10: TDBEdit [29]
+  object DBEdit10: TDBEdit [30]
     Left = 773
     Top = 80
     Width = 60
@@ -419,7 +441,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 11
   end
-  object DBEdit11: TDBEdit [30]
+  object DBEdit11: TDBEdit [31]
     Left = 636
     Top = 80
     Width = 60
@@ -428,7 +450,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 9
   end
-  object DBEdit12: TDBEdit [31]
+  object DBEdit12: TDBEdit [32]
     Left = 704
     Top = 80
     Width = 65
@@ -437,7 +459,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 10
   end
-  object DBEdit13: TDBEdit [32]
+  object DBEdit13: TDBEdit [33]
     Left = 73
     Top = 122
     Width = 60
@@ -446,7 +468,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 13
   end
-  object DBEdit14: TDBEdit [33]
+  object DBEdit14: TDBEdit [34]
     Left = 4
     Top = 122
     Width = 65
@@ -455,7 +477,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 12
   end
-  object DBEdit15: TDBEdit [34]
+  object DBEdit15: TDBEdit [35]
     Left = 210
     Top = 122
     Width = 60
@@ -464,7 +486,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 15
   end
-  object DBEdit16: TDBEdit [35]
+  object DBEdit16: TDBEdit [36]
     Left = 140
     Top = 122
     Width = 65
@@ -473,8 +495,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSource = DtSrc
     TabOrder = 14
   end
-  object BitBtn1: TBitBtn [36]
-    Left = 454
+  object BitBtn1: TBitBtn [37]
+    Left = 516
     Top = 104
     Width = 107
     Height = 42
@@ -592,7 +614,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
   end
-  object gbProduto: TGroupBox [37]
+  object gbProduto: TGroupBox [38]
     Left = 248
     Top = 146
     Width = 161
@@ -629,8 +651,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
       TabOrder = 0
     end
   end
-  object DBLookupComboBox1: TDBLookupComboBox [38]
-    Left = 279
+  object DBLookupComboBox1: TDBLookupComboBox [39]
+    Left = 349
     Top = 121
     Width = 162
     Height = 24
@@ -650,6 +672,15 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     ParentFont = False
     TabOrder = 21
     OnKeyPress = FormKeyPress
+  end
+  object DBEdit17: TDBEdit [40]
+    Left = 279
+    Top = 122
+    Width = 60
+    Height = 21
+    DataField = 'ORIGEM'
+    DataSource = DtSrc
+    TabOrder = 22
   end
   inherited DtSrc: TDataSource
     DataSet = cdsClassFisc
@@ -735,6 +766,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object sdsClassFiscCOFINS: TFloatField
       FieldName = 'COFINS'
     end
+    object sdsClassFiscORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+    end
   end
   object cdsClassFisc: TClientDataSet
     Aggregates = <>
@@ -814,6 +848,9 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     object cdsClassFiscCOFINS: TFloatField
       FieldName = 'COFINS'
     end
+    object cdsClassFiscORIGEM: TIntegerField
+      FieldName = 'ORIGEM'
+    end
   end
   object dspClassFisc: TDataSetProvider
     DataSet = sdsClassFisc
@@ -830,8 +867,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 592
-    Top = 120
+    Left = 704
+    Top = 8
     object sdsNCMCopiaNCM: TStringField
       FieldName = 'NCM'
       Required = True
@@ -903,8 +940,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   object dspNCMCopia: TDataSetProvider
     DataSet = sdsNCMCopia
     Options = [poAllowCommandText]
-    Left = 624
-    Top = 120
+    Left = 736
+    Top = 8
   end
   object cdsNCMCopia: TClientDataSet
     Aggregates = <>
@@ -915,8 +952,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
         ParamType = ptInput
       end>
     ProviderName = 'dspNCMCopia'
-    Left = 656
-    Top = 120
+    Left = 768
+    Top = 8
     object cdsNCMCopiaNCM: TStringField
       FieldName = 'NCM'
       Required = True
@@ -1022,8 +1059,8 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 300
-    Top = 111
+    Left = 284
+    Top = 15
     object sdsTFiscalCODFISCAL: TStringField
       FieldName = 'CODFISCAL'
       Required = True
@@ -1040,15 +1077,15 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     DataSet = sdsTFiscal
     Options = [poAllowCommandText]
     UpdateMode = upWhereKeyOnly
-    Left = 338
-    Top = 111
+    Left = 322
+    Top = 15
   end
   object cdsTFiscal: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspTFiscal'
-    Left = 369
-    Top = 111
+    Left = 353
+    Top = 15
     object cdsTFiscalCODFISCAL: TStringField
       FieldName = 'CODFISCAL'
       Required = True
@@ -1063,7 +1100,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   end
   object DtSrcTFiscal: TDataSource
     DataSet = cdsTFiscal
-    Left = 407
-    Top = 110
+    Left = 391
+    Top = 14
   end
 end

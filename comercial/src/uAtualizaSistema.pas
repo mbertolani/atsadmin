@@ -1879,13 +1879,45 @@ begin
          ' CSTPIS varchar(2), ' +
          ' CSTCOFINS varchar(2), ' +
          ' PIS double precision, ' +
-         ' COFINS double precision ' +
+         ' COFINS double precision, ' +
+         ' ORIGEM integer NOT NULL' +         
          ')');
-        executaSql('alter table CLASSIFICACAOFISCALNCM add constraint PK_CLASS_NCM primary key (NCM, CFOP, UF, CODFISCAL)');
+        executaSql('alter table CLASSIFICACAOFISCALNCM add constraint PK_CLASS_NCM primary key (NCM, CFOP, UF, CODFISCAL, ORIGEM)');
       end;
-      ExecutaSql('alter table VENDA add constraint UNQ_MOV_VENDA unique (CODMOVIMENTO)');
       ExecutaSql('INSERT INTO NCM (NCM) select distinct TRIM(p.NCM) ' +
       ' from PRODUTOS p  where trim(p.NCM) is not null and p.NCM <>  ' + QuotedStr(''));
+
+      if (NaoExisteTabela('IBPT')) then
+      begin
+        executaSql('CREATE TABLE IBPT ' +
+         '( ' +
+         ' NCM varchar(8) NOT NULL, ' +
+         ' ALIQNAC double precision, ' +
+         ' ALIQIMP double precision ' +
+         ')');
+      end;
+      executaScript('trg_ncm_carregaaliq.sql');
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('alter table VENDA add constraint UNQ_MOV_VENDA unique (CODMOVIMENTO)');
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Há Pedido(s) com multiplas Vendas', mtWarning, [mbOK], 0);
+      end;
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('alter table COMPRA add constraint UNQ_MOV_COMPRA unique (CODMOVIMENTO)');
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Há Pedido(s) com multiplas Compras', mtWarning, [mbOK], 0);
+      end;
+
+      MessageDlg('Execute o script TB_IBPT.sql', mtInformation, [mbOK], 0);
+      
       mudaVersao('1.0.0.120');
     end;// Fim Atualizacao Versao 1.0.0.120
 
