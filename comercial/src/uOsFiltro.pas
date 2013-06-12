@@ -606,6 +606,7 @@ begin
         fMov.DataMov     := cdsOsDATA_FIM.AsDateTime;
         fMov.CodCliente  := cdsOsCODCLIENTE.AsInteger;
         fMov.Status      := 0;
+        fMov.CodCCusto   := dm.CCustoPadrao; 
         fMov.CodUsuario  := cdsOsCODUSUARIO.AsInteger;
         fMov.CodVendedor := cdsOsCODUSUARIO.AsInteger;
         fMov.CodFornec   := 0;
