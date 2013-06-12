@@ -275,6 +275,8 @@ type
     cdsMatPrimaUNIDADEMEDIDA: TStringField;
     cdsMatPrimaPRODUTO: TStringField;
     cdsMatPrimaPRECOMEDIO: TBCDField;
+    ComboBox2: TComboBox;
+    Label5: TLabel;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -304,7 +306,7 @@ type
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
     prazo, codrec : Double;
     vrr, nparc : double;
-    Cod_orig, cod_cli_forn, codigo_cliente, COD_VENDA : Integer;
+    Cod_orig, cod_cli_forn, codigo_cliente, COD_VENDA, codcaixaInterno : Integer;
     excluiuNF : Boolean;
     IMPRESSORA : TextFile;
     Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
@@ -512,6 +514,7 @@ begin
     for i := 0 to j - 1 do
     begin
       combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
+      combobox2.Items.Add(utilcrtitulo.Forma.Strings[i]);
     end;
   finally
     utilcrtitulo.Free;
@@ -575,8 +578,12 @@ begin
     DM_MOV.s_parametro.Close;
     DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
     DM_MOV.s_parametro.Open;
+    codcaixaInterno := 0;
     if (dm.cds_7_contas.Locate('CONTA', DM_MOV.s_parametroD1.AsString, [loCaseInsensitive])) then
+    begin
       cbConta.Text := dm.cds_7_contas.Fields[2].asString;
+      codcaixaInterno := dm.cds_7_contasCODIGO.AsInteger;
+    end;
     cbPrazo.ItemIndex := 0; //= '1-DINHEIRO'
     DM_MOV.s_parametro.Close;
     //-------------------------
@@ -960,7 +967,7 @@ begin
                     IntToStr(codRecCR);;
           dm.sqlsisAdimin.StartTransaction(TD);
           Try
-            dm.sqlsisAdimin.ExecuteDirect(Texto);          
+            dm.sqlsisAdimin.ExecuteDirect(Texto);
             dm.sqlsisAdimin.Commit(TD);
           except
             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
@@ -985,8 +992,12 @@ begin
         utilcrtitulo.Free;
       end;
 
-      if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
-       caixaCR := dm.cds_7_contas.Fields[0].asInteger;
+      //if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
+      // caixaCR := dm.cds_7_contas.Fields[0].asInteger;
+      if (codcaixaInterno = 0) then
+        MessageDlg('O Caixa Interno não está definido em parametros PDV.', mtWarning, [mbOK], 0);
+
+      caixaCR := codcaixaInterno;
 
       Valor_CR := jvPago.Value;
 
@@ -1157,7 +1168,7 @@ begin
     strSql := strSql + ', ' + DBEdit5.Text + ',';
     try
       utilcrtitulo := Tutils.Create;
-      strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text));
+      strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox2.Text));
     finally
       utilcrtitulo.Free;
     end;
