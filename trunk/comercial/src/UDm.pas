@@ -2256,10 +2256,15 @@ begin
     cds_parametro.Close;
   cds_parametro.Params[0].AsString := 'CENTRO RECEITA PADRAO';
   cds_parametro.Open;
+  cCustoPadrao := 0;
   if (not cds_parametro.IsEmpty) then
   begin
     if (not dm.cds_parametroD1.IsNull) then
-      CCustoPadrao := strToint(dm.cds_parametroD1.AsString);
+      CCustoPadrao := strToint(dm.cds_parametroD1.AsString)
+    else
+      CCustoPadrao := strToint(dm.cds_parametroDADOS.AsString);
+    if (ccustoPadrao = 0) then
+      MessageDlg('Informe o CENTRO DE RECEITA PADRAO em Parametros.', mtWarning, [mbOK], 0);
   end;
 
   if cds_parametro.Active then
