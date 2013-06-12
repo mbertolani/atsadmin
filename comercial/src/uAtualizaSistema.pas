@@ -1884,9 +1884,11 @@ begin
          ')');
         executaSql('alter table CLASSIFICACAOFISCALNCM add constraint PK_CLASS_NCM primary key (NCM, CFOP, UF, CODFISCAL, ORIGEM)');
       end;
-      ExecutaSql('INSERT INTO NCM (NCM) select distinct TRIM(p.NCM) ' +
-      ' from PRODUTOS p  where trim(p.NCM) is not null and p.NCM <>  ' + QuotedStr(''));
-
+      try
+        ExecutaSql('INSERT INTO NCM (NCM) select distinct TRIM(p.NCM) ' +
+          ' from PRODUTOS p  where trim(p.NCM) is not null and p.NCM <>  ' + QuotedStr(''));
+      except
+      end;
       if (NaoExisteTabela('IBPT')) then
       begin
         executaSql('CREATE TABLE IBPT ' +
