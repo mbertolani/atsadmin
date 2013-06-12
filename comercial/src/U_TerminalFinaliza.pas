@@ -1070,21 +1070,6 @@ begin
         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
       end;
     end;
-
-   if (dmnf.baixouEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) = False) then
-   begin
-     Try
-       dm.sqlsisAdimin.StartTransaction(TD);
-       dmnf.baixaEstoque(DM_MOV.c_vendaCODMOVIMENTO.AsInteger, DM_MOV.c_vendaDATAVENDA.AsDateTime, 'VENDA');
-       dm.sqlsisAdimin.Commit(TD);
-     Except
-       on E : Exception do
-       begin
-         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-       end;
-     end;
-   end;
 end;
 
 procedure TF_TerminalFinaliza.baixaestoque(Tipo: string);
