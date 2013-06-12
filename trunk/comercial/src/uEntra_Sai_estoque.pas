@@ -1116,13 +1116,16 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.btnNovoClick(Sender: TObject);
+var loteant: string;
 begin
+  loteant :=  cds_Mov_detLOTE.AsString;
   try
     if DtSrc1.State in [dsInsert] then
     begin
       DtSrc1.DataSet.Post;
       DtSrc1.DataSet.Append;
-      dbeProduto.SetFocus;
+      cds_Mov_detLOTE.AsString := loteant;
+      dbeProduto.SetFocus;               
     end;
     if DtSrc1.State in [dsBrowse] then
     begin
