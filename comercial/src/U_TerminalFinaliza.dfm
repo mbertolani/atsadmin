@@ -376,21 +376,21 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Caption = 'S'#233'rie'
     end
     object Label13: TLabel
-      Left = 4
+      Left = 276
       Top = 191
       Width = 68
       Height = 13
       Caption = 'Caixa / Banco'
     end
     object Label24: TLabel
-      Left = 172
+      Left = 5
       Top = 191
       Width = 98
       Height = 13
       Caption = 'Forma Recebimento:'
     end
     object Label20: TLabel
-      Left = 357
+      Left = 144
       Top = 191
       Width = 37
       Height = 13
@@ -458,6 +458,13 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = []
       ParentFont = False
       BevelSpace = 4
+    end
+    object Label5: TLabel
+      Left = 429
+      Top = 191
+      Width = 100
+      Height = 13
+      Caption = 'Forma Parcelamento:'
     end
     object DBEdit7: TDBEdit
       Left = 5
@@ -606,9 +613,9 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       OnExit = dbeSerieExit
     end
     object cbConta: TComboBox
-      Left = 4
+      Left = 276
       Top = 206
-      Width = 164
+      Width = 149
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -622,9 +629,9 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 9
     end
     object ComboBox1: TComboBox
-      Left = 173
+      Left = 6
       Top = 206
-      Width = 180
+      Width = 135
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -656,9 +663,9 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 6
     end
     object DBEdit1: TDBEdit
-      Left = 358
+      Left = 142
       Top = 206
-      Width = 195
+      Width = 132
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -986,6 +993,22 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object ComboBox2: TComboBox
+      Left = 426
+      Top = 206
+      Width = 135
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 16
+    end
   end
   object Panel2: TPanel
     Left = 566
@@ -1077,8 +1100,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvLabel3: TJvLabel
       Left = 5
       Top = 14
-      Width = 149
-      Height = 24
+      Width = 164
+      Height = 23
       Caption = 'Total do Pedido :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
