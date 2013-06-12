@@ -464,6 +464,7 @@ begin
           '-' + sqlBuscaR.FieldByName('SERIE').AsString);
         Self.NDoc          := sqlBuscaR.FieldByName('N_DOCUMENTO').AsString;
         Self.FormaRec      := sqlBuscaR.FieldByName('FORMARECEBIMENTO').AsString;
+        Self.Caixa         := sqlBuscaR.FieldByName('CAIXA').AsInteger;
       end;
     Finally
       sqlBuscaR.Free;
@@ -543,6 +544,7 @@ begin
         vDataVenc          := sqlBuscaR.FieldByName('DATAVENCIMENTO').AsDateTime;
         Self.Via           := StrToInt(StringReplace(sqlBuscaR.FieldByName('VIA').AsString, ' ', '', [rfReplaceAll,rfIgnoreCase]))+1;
         VlrParc            := Self.Valor;
+        Self.Caixa         := sqlBuscaR.FieldByName('CAIXA').AsInteger;
         CodRecR := 1;
       end;
     Finally
@@ -698,7 +700,7 @@ begin
     strG := strG + '0, ';  // Troca
     strG := strG + QuotedStr(Self.NDoc) + ', '; // N.Doc.
     strG := strG + '0, ';  // Outro_Credito
-    strG := strG + IntToStr(1) + ', '; // Caixa
+    strG := strG + IntToStr(Self.Caixa) + ', '; // Caixa
     strG := strG + IntToStr(1) + ', '; // Situacao
     strG := strG + IntToStr(1) + ')'; // CodOrigem
     Rec  := executaSql(strG);
