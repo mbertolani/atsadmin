@@ -396,7 +396,7 @@ begin
       FOsCls.osDet.Qtde      := cdsPecasQTDE.AsFloat;
       FOsCls.osDet.Preco     := cdsPecasPRECO.AsFloat;
       FOsCls.osDet.Desconto  := cdsPecasDESCONTO.AsFloat;
-      FOSCls.osDet.CodOsServ := cdsServicoID_OS_DET.AsInteger;
+      FOSCls.osDet.CodOsServ := ServCodServ;
       DecimalSeparator := ',';
       if ((cdsPecasTIPO.AsString = 'P') and (cdsPecasID_OS_DET.AsInteger > 90000000)) then
       begin
