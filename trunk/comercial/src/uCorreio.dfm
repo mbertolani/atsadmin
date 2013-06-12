@@ -440,6 +440,7 @@ inherited fCorreio: TfCorreio
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
+        ReadOnly = True
         TabOrder = 16
         OnKeyPress = FormKeyPress
       end

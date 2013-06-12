@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DB, Grids, DBGrids, SqlExpr, Provider, DBClient,
   StdCtrls, Buttons, EDBFind, Mask, JvExMask, JvToolEdit, JvMaskEdit,
-  JvCheckedMaskEdit, JvDatePickerEdit;
+  JvCheckedMaskEdit, JvDatePickerEdit, Menus;
 
 type
   TfFiltroCadDoc = class(TForm)
@@ -54,10 +54,16 @@ type
     hoje: TJvDatePickerEdit;
     Label1: TLabel;
     Label2: TLabel;
+    EvDBFind3: TEvDBFind;
+    Label3: TLabel;
+    PopupMenu1: TPopupMenu;
+    Sair1: TMenuItem;
     procedure btnvoltarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -116,6 +122,18 @@ begin
    key:= #0;
    SelectNext((Sender as TwinControl),True,True);
  end;
+end;
+
+procedure TfFiltroCadDoc.DBGrid1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+if gdSelected in State then
+    DBGrid1.Canvas.Font.Color := clRed 
+else
+    DBGrid1.Canvas.Font.Color := clBlack; 
+DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State); 
+
 end;
 
 end.
