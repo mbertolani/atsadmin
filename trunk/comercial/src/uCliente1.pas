@@ -284,6 +284,9 @@ type
     cCli : Integer;
   public
     TD: TTransactionDesc;
+    ModoIncluir: String;
+    codClienteProc: Integer;
+    nomeClienteProc: String;
   end;
 
 var
@@ -413,7 +416,7 @@ begin
         FCli.Endereco.alterarEndereco(cds_CliEndCODENDERECO.AsInteger);
 
       dm.sqlsisAdimin.Commit(TD);
-      
+
       if DtSrc.DataSet.State in [dsInsert] then
       begin
         cds_cli.Close;
@@ -431,7 +434,8 @@ begin
         cds_cli.Post;
         cds_CliEnd.Post;
       end;
-
+      dm.codcli := cCli;
+      dm.varNomeCliente := cds_cliNOMECLIENTE.AsString;
     except
       on E : Exception do
       begin
@@ -461,6 +465,9 @@ procedure TfCliente1.FormCreate(Sender: TObject);
 begin
   //inherited;
   //Fcli := TCliente.Create;
+  modoIncluir := 'N';
+  dm.codcli := 0;
+  dm.varNomeCliente := 'Consumidor';
 end;
 
 procedure TfCliente1.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -535,6 +542,7 @@ begin
   if (not cds_CliEnd.Active) then
     cds_CliEnd.Open;
   cds_CliEnd.Append;
+  DBEdit1.SetFocus;
 end;
 
 procedure TfCliente1.BitBtn1Click(Sender: TObject);
@@ -597,6 +605,8 @@ begin
   inherited;
   if (not cdsTFiscal.Active) then
       cdsTFiscal.Open;
+  if (modoIncluir = 'S') then
+    btnIncluir.Click;
 end;
 
 end.
