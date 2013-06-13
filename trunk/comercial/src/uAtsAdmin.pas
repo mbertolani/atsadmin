@@ -489,7 +489,9 @@ begin
   end;
   if (FileExists('logo.jpg')) then
     Image1.Picture.LoadFromFile('logo.jpg');
-    
+
+  F_Terminal := TF_Terminal.Create(Application);
+
 end;
 
 procedure TfAtsAdmin.ClientesClick(Sender: TObject);
@@ -608,7 +610,10 @@ begin
        MDIChildren[X].Close;
   if (dm.sistemaLiberado = 'S') then 
   if MessageDlg('Voce realmente deseja encerrar o sistema ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
-     Application.Terminate
+  begin
+     F_Terminal.Free;
+     Application.Terminate;
+  end
   else
     abort;
 
@@ -1038,13 +1043,7 @@ begin
   DM.cds_parametro.Open;
   if (DM.cds_parametro.Eof) then
   begin
-    F_Terminal := TF_Terminal.Create(Application);
-    try
-     sCtrlResize.CtrlResize(TForm(F_Terminal));
       F_Terminal.ShowModal;
-    finally
-      F_Terminal.Free;
-    end;
   end
   else
   begin
