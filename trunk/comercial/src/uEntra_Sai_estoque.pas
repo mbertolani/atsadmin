@@ -901,12 +901,12 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
 
       // Gravando o Estoque
-      Try
+      {Try
         FEstoque := TEstoque.Create;
         FEstoque.baixaEstoque(cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime, 'ENTRADA');
       Finally
         FEstoque.Free;
-      end;
+      end;}
     end
     else // Saida
     begin
@@ -946,12 +946,12 @@ begin
         sql_sp := sql_sp + ',''' + serie + ''',' + edit1.Text + ',' + QuotedStr(edit2.Text) + ')';
       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
       // Gravando o Estoque
-      Try
+      {Try
         FEstoque := TEstoque.Create;
         FEstoque.baixaEstoque(cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime, 'SAIDA');
       Finally
         FEstoque.Free;
-      end;
+      end;}
 
     end;
     // Se as 2 Combos está preenchida então executo a procedure para gerar a entrada
@@ -1039,7 +1039,7 @@ begin
   begin
     deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
     deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
-    Try
+    {Try
       FEstoque := TEstoque.Create;
 
       Try
@@ -1061,7 +1061,7 @@ begin
       end;
     Finally
       FEstoque.Free;
-    end;
+    end;    }
 
   end;
 
@@ -1071,7 +1071,7 @@ begin
     deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
     //delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
 
-    Try
+    {Try
       FEstoque := TEstoque.Create;
 
       Try
@@ -1096,7 +1096,7 @@ begin
 
     Finally
       FEstoque.Free;
-    end;
+    end;   }
 
 
   end;
@@ -1116,16 +1116,14 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.btnNovoClick(Sender: TObject);
-var loteant: string;
 begin
-  loteant :=  cds_Mov_detLOTE.AsString;
   try
     if DtSrc1.State in [dsInsert] then
     begin
       DtSrc1.DataSet.Post;
       DtSrc1.DataSet.Append;
       cds_Mov_detLOTE.AsString := loteant;
-      dbeProduto.SetFocus;               
+      dbeProduto.SetFocus;
     end;
     if DtSrc1.State in [dsBrowse] then
     begin
@@ -2003,4 +2001,3 @@ begin
   VCLReport1.Execute;
 end;
 
-end.
