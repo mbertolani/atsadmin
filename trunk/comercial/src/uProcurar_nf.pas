@@ -35,6 +35,7 @@ type
   private
     { Private declarations }
   public
+    novoCliente : String;
     usuarioproc : string;
  constructor Create (AOWner : TComponent; DataSet : TSQLClientDataset); reintroduce;
  function FormExiste(aberto: Tform): Boolean;
@@ -97,6 +98,7 @@ constructor TfProcurar_nf.Create(AOWner: TComponent; DataSet: TSQLClientDataset)
 begin
   inherited create(AOWner);
    DtSrc.DataSet:=DataSet;
+   novoCliente := 'N';
 end;
 
 procedure TfProcurar_nf.FormShow(Sender: TObject);
@@ -107,9 +109,11 @@ begin
 end;
 
 procedure TfProcurar_nf.btnIncluirClick(Sender: TObject);
+var jafez: string;
 begin
   //=========================================================
   //Procura acessado para procurar Fornecedor
+  jafez := 'N';
   if (DtSrc.DataSet = dm.scds_forn_proc) then
   begin
   end;
@@ -121,6 +125,9 @@ begin
     begin
       fCliente1 :=TfCliente1.Create(Application);
       try
+        jafez := 'S';
+        fCliente1.ModoIncluir := 'S';
+        novoCliente := 'S';
         fCliente1.ShowModal;
       finally
         fCliente1.free;
@@ -131,6 +138,7 @@ begin
     begin
       fClienteCadastro:=TfClienteCadastro.Create(Application);
       try
+        jafez := 'S';
         fClienteCadastro.ShowModal;
       finally
         fClienteCadastro.free;
@@ -139,7 +147,7 @@ begin
   end;
 
   //Procura acessado para procurar Cliente
-  if( dmnf.FormExiste(F_Terminal) = True ) then
+  if ((dmnf.FormExiste(F_Terminal) = True) and (jafez = 'N')) then
   begin
     fCliente1 :=TfCliente1.Create(Application);
     try
@@ -167,7 +175,7 @@ end;
 procedure TfProcurar_nf.BtnOkClick(Sender: TObject);
 begin
   if (dm.scds_usuario_proc.Active) then
-  begin
+  begin                                                      
     cod_vendedor := dm.scds_usuario_procCODUSUARIO.AsInteger;
     nome_vendedor := dm.scds_usuario_procNOMEUSUARIO.AsString;
   end;
