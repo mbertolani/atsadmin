@@ -432,21 +432,28 @@ begin
   fProcurar_nf.btnIncluir.Visible := True;
   try
     if (fProcurar_nf.ShowModal = mrOK) then
+    begin
       if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
       begin
-        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc ter?ue mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terap que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
         exit;
       end;
       if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
       begin
-        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda n?permitida.', mtError, [mbOK], 0);
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda nao permitida.', mtError, [mbOK], 0);
         exit;
       end;
+    end;
     prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
     desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
   finally
     DM_MOV.c_vendaCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
     DM_MOV.c_vendaNOMECLIENTE.AsString := dmnf.scds_cli_procNOMECLIENTE.AsString;
+    if (fProcurar_nf.novoCliente = 'S') then
+    begin
+      DM_MOV.c_vendaCODCLIENTE.AsInteger := dm.codcli;
+      DM_MOV.c_vendaNOMECLIENTE.AsString := dm.varNomeCliente;
+    end;
     dmnf.scds_cli_proc.Close;
     fProcurar_nf.Free;
   end;
