@@ -2167,6 +2167,7 @@ begin
       //IMPOSTOS Do Produto
       with Imposto do
       begin
+        Imposto.vTotTrib := cdsItensNFVLRTOT_TRIB.AsCurrency;      
         with IPI do
         begin
           if (cdsItensNFCSTIPI.AsString = '00') then
@@ -2471,7 +2472,6 @@ begin
             vII := cdsItensNFII.AsVariant;
           end;
         end;
-        vTotTrib := cdsItensNFVLRTOT_TRIB.AsCurrency;
       end;
     end;
   end;
