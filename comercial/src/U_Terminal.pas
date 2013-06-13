@@ -718,6 +718,7 @@ type
     TEXTO_IMPRIMIR, TEXTO_IMP, fantasia, col : string;
     tamtexto : Integer;
     var_Retorno : Boolean;
+    jaFezCtrlResize : String;
     //--------------------------------------------------------------------------
     procedure IncluiPedido;
     procedure AlteraPedido;
@@ -795,7 +796,7 @@ begin
         if (DM_MOV.s_BuscaComanda.IsEmpty) then
         begin
            DM_MOV.s_BuscaComanda.Close;
-           ShowMessage('Comanda não Localizada');
+           ShowMessage('Comanda nao Localizada');
            Exit;
         end;
         codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
@@ -1430,6 +1431,7 @@ end;
 procedure TF_Terminal.FormCreate(Sender: TObject);
 var i: integer;
 begin
+  jaFezCtrlResize := 'N';
   if (FileExists('logo.jpg')) then
     JvImage1.Picture.LoadFromFile('logo.jpg');
   //------Pesquisando na tab Parametro se usa DELIVERY ---
@@ -2252,6 +2254,11 @@ procedure TF_Terminal.FormShow(Sender: TObject);
 var ImpressoraDet: TIniFile;
   dir : string;
 begin
+  if (jaFezCtrlResize = 'N') then
+  begin
+    sCtrlResize.CtrlResize(TForm(F_Terminal));
+    jaFezCtrlResize := 'S';
+  end;
   dir := ExtractFilePath(Application.ExeName);
   ImpressoraDet := TIniFile.Create(dir + 'dbxconnections.ini');
   try
