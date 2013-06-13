@@ -1116,7 +1116,9 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.btnNovoClick(Sender: TObject);
+var loteant : string;
 begin
+  loteant := cds_Mov_detLOTE.AsString;
   try
     if DtSrc1.State in [dsInsert] then
     begin
@@ -2001,3 +2003,4 @@ begin
   VCLReport1.Execute;
 end;
 
+end.
