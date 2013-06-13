@@ -19,6 +19,7 @@ type
     DBGrid1: TDBGrid;
     DBCheckBox1: TDBCheckBox;
     DBCheckBox2: TDBCheckBox;
+    DBCheckBox3: TDBCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);

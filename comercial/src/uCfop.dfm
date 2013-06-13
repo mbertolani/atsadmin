@@ -33,7 +33,7 @@ inherited fCfop: TfCfop
     ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 446
+    Top = 439
     Width = 683
   end
   inherited MMJPanel2: TMMJPanel
@@ -362,6 +362,18 @@ inherited fCfop: TfCfop
     DataField = 'FRETEBC'
     DataSource = DtSrc
     TabOrder = 9
+    ValueChecked = 'True'
+    ValueUnchecked = 'False'
+  end
+  object DBCheckBox3: TDBCheckBox [12]
+    Left = 421
+    Top = 101
+    Width = 197
+    Height = 17
+    Caption = 'Calcula Total dos Tributos nas NFs'
+    DataField = 'TOTTRIB'
+    DataSource = DtSrc
+    TabOrder = 10
     ValueChecked = 'True'
     ValueUnchecked = 'False'
   end
