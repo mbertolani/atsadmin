@@ -5010,7 +5010,13 @@ begin
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   end;
 
-  buffer  := 'Bom Apetite';
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'MENSAGEM';
+  s_parametro.Open;
+  buffer  := s_parametroDADOS.AsString;
+  s_parametro.Close;
+
   buffer  := buffer + Chr(13) + Chr(10);
   comando := FormataTX(buffer, 3, 0, 0, 1, 0);
 
@@ -5384,7 +5390,12 @@ begin
       Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
    end;
 
-  TEXTO_IMPRIMIR  := 'BOM APETITE';
+   if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'MENSAGEM';
+     s_parametro.Open;
+  TEXTO_IMPRIMIR  := s_parametroDADOS.AsString;
+  s_parametro.Close;
   Writeln(Impressora, c10cpi, TEXTO_IMPRIMIR);
 
   Writeln(Impressora);
