@@ -2419,11 +2419,15 @@ begin
         existevenda;
         if (vendaexiste = 'SIM') then
         begin
-          DM_MOV.c_venda.Delete;
-          DM_MOV.c_venda.ApplyUpdates(0);
-          DM_MOV.c_venda.Close;
+          //DM_MOV.c_venda.Delete;
+          //DM_MOV.c_venda.ApplyUpdates(0);
+          //DM_MOV.c_venda.Close;
+          MessageDlg('Exclua a finalização primeiro.', mtWarning, [mbOK], 0);
+          exit;
         end;
-          DM_MOV.d_movimento.DataSet.Delete;
+          DM_MOV.c_movimento.Edit;
+          DM_MOV.c_movimentoCODNATUREZA.AsInteger := 14;
+          DM_MOV.c_movimentoSTATUS.AsInteger := 2;
           (DM_MOV.d_movimento.DataSet as TClientDataSet).ApplyUpdates(0);
           if DM_MOV.d_movdet.DataSet.Active then
             DM_MOV.d_movdet.DataSet.Close;
@@ -2451,11 +2455,14 @@ begin
         existevenda;
         if (vendaexiste = 'SIM') then
         begin
-          DM_MOV.c_venda.Delete;
-          DM_MOV.c_venda.ApplyUpdates(0);
-          DM_MOV.c_venda.Close;
+          //DM_MOV.c_venda.Delete;
+          //DM_MOV.c_venda.ApplyUpdates(0);
+          //DM_MOV.c_venda.Close;
+          MessageDlg('Exclua a finalização primeiro.', mtWarning, [mbOK], 0);
         end;
-          DM_MOV.d_comanda.DataSet.Delete;
+          DM_MOV.c_comanda.Edit;
+          DM_MOV.c_comandaCODNATUREZA.AsInteger := 14;
+          DM_MOV.c_comandaSTATUS.AsInteger := 2;
           (DM_MOV.d_comanda.DataSet as TClientDataSet).ApplyUpdates(0);
 
           DM_MOV.d_movdet.DataSet.Close;
@@ -2494,7 +2501,7 @@ begin
           TD.IsolationLevel := xilREADCOMMITTED;
           dm.sqlsisAdimin.StartTransaction(TD);
 
-          sql_texto := 'DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ';
+          sql_texto := 'UPDATE MOVIMENTO SET CODNATUREZA = 14, STATUS = 2 WHERE CODMOVIMENTO = ';
           sql_texto :=   sql_texto + IntToStr(DM_MOV.ID_DO_MOVIMENTO);
 
           Try
@@ -2502,11 +2509,11 @@ begin
             dm.sqlsisAdimin.Commit(TD);
           except
             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-            MessageDlg('Erro no sistema, a venda nÃ£o foi gravada.', mtError,
+            MessageDlg('Erro no sistema, o movimento nao foi excluido.', mtError,
                 [mbOk], 0);
             Exit;
           end;
-          ShowMessage('Pedido/Orcamento Excluido com Suscesso');
+          ShowMessage('Pedido/Orcamento Excluido com Sucesso');
 
           DM_MOV.c_Delivery.Close;
 
