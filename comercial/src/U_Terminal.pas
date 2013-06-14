@@ -1332,6 +1332,7 @@ begin
   dm.cds_parametro.Open;
   fFiltroMovimento.Edit3.Text := dm.cds_parametroDADOS.AsString;
   fFiltroMovimento.Edit4.Text := dm.cds_parametroD1.AsString;
+  DM.tipoVenda := 'VENDA';
   fFiltroMovimento.BitBtn8.Enabled := False;
   fFiltroMovimento.cod_mov := 0;
   fFiltroMovimento.ShowModal;
