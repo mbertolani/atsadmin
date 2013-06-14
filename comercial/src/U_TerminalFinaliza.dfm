@@ -1,8 +1,8 @@
 object F_TerminalFinaliza: TF_TerminalFinaliza
   Left = 202
   Top = 181
-  Width = 751
-  Height = 520
+  Width = 826
+  Height = 578
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,8 +20,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 444
-    Width = 743
+    Top = 502
+    Width = 818
     Height = 49
     Align = alBottom
     PopupMenu = PopupMenu1
@@ -36,8 +36,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
   object Panel1: TPanel
     Left = 0
     Top = 49
-    Width = 566
-    Height = 395
+    Width = 641
+    Height = 453
     Align = alClient
     PopupMenu = PopupMenu1
     TabOrder = 1
@@ -341,22 +341,22 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       OnClick = JvSpeedButton3Click
     end
     object Label11: TLabel
-      Left = 483
+      Left = 555
       Top = 142
       Width = 56
       Height = 13
       Caption = 'N'#186' Parcelas'
     end
     object Label10: TLabel
-      Left = 273
-      Top = 143
+      Left = 310
+      Top = 146
       Width = 56
       Height = 13
       Caption = 'Vencimento'
     end
     object Label9: TLabel
-      Left = 168
-      Top = 144
+      Left = 198
+      Top = 146
       Width = 72
       Height = 13
       Caption = 'Data da Venda'
@@ -376,21 +376,21 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Caption = 'S'#233'rie'
     end
     object Label13: TLabel
-      Left = 276
+      Left = 308
       Top = 191
       Width = 68
       Height = 13
       Caption = 'Caixa / Banco'
     end
     object Label24: TLabel
-      Left = 5
+      Left = 7
       Top = 191
       Width = 98
       Height = 13
       Caption = 'Forma Recebimento:'
     end
     object Label20: TLabel
-      Left = 144
+      Left = 178
       Top = 191
       Width = 37
       Height = 13
@@ -399,7 +399,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader2: TJvGroupHeader
       Left = 2
       Top = 127
-      Width = 553
+      Width = 631
       Height = 17
       Caption = 'DADOS N.F.'
       Font.Charset = DEFAULT_CHARSET
@@ -413,7 +413,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader1: TJvGroupHeader
       Left = 2
       Top = 65
-      Width = 553
+      Width = 631
       Height = 17
       Caption = 'VENDEDOR'
       Font.Charset = DEFAULT_CHARSET
@@ -427,7 +427,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvGroupHeader3: TJvGroupHeader
       Left = 2
       Top = 3
-      Width = 553
+      Width = 631
       Height = 17
       Caption = 'CLIENTE'
       Font.Charset = DEFAULT_CHARSET
@@ -460,7 +460,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       BevelSpace = 4
     end
     object Label5: TLabel
-      Left = 429
+      Left = 485
       Top = 191
       Width = 100
       Height = 13
@@ -526,7 +526,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 3
     end
     object DBEdit5: TDBEdit
-      Left = 480
+      Left = 557
       Top = 160
       Width = 75
       Height = 24
@@ -546,9 +546,9 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 8
     end
     object cbPrazo: TJvComboBox
-      Left = 272
+      Left = 307
       Top = 161
-      Width = 202
+      Width = 241
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -569,7 +569,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object DBEdit2: TDBEdit
       Left = 93
       Top = 161
-      Width = 73
+      Width = 99
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -590,7 +590,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Width = 29
       Height = 25
       Caption = '. . .'
-      TabOrder = 12
+      TabOrder = 13
       TabStop = False
     end
     object dbeSerie: TDBEdit
@@ -613,9 +613,25 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       OnExit = dbeSerieExit
     end
     object cbConta: TComboBox
-      Left = 276
+      Left = 306
       Top = 206
-      Width = 149
+      Width = 173
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 11
+    end
+    object ComboBox1: TComboBox
+      Left = 5
+      Top = 206
+      Width = 166
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -628,26 +644,10 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       PopupMenu = PopupMenu1
       TabOrder = 9
     end
-    object ComboBox1: TComboBox
-      Left = 6
-      Top = 206
-      Width = 135
-      Height = 24
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 10
-    end
     object DBEdit3: TDBEdit
-      Left = 167
+      Left = 196
       Top = 161
-      Width = 102
+      Width = 104
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -663,9 +663,9 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       TabOrder = 6
     end
     object DBEdit1: TDBEdit
-      Left = 142
+      Left = 175
       Top = 206
-      Width = 132
+      Width = 124
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -678,7 +678,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 11
+      TabOrder = 10
     end
     object dbeUsuario: TDBEdit
       Left = 5
@@ -703,12 +703,12 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     object JvDBGrid1: TJvDBGrid
       Left = 4
       Top = 255
-      Width = 510
-      Height = 120
+      Width = 589
+      Height = 194
       BorderStyle = bsNone
       DataSource = ds_Cr
       PopupMenu = PopupMenu1
-      TabOrder = 13
+      TabOrder = 14
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -780,11 +780,11 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         end>
     end
     object btnAlteraRec: TBitBtn
-      Left = 516
+      Left = 596
       Top = 254
       Width = 39
       Height = 37
-      TabOrder = 14
+      TabOrder = 15
       OnClick = btnAlteraRecClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -887,11 +887,11 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object btnCancelaBaixa: TBitBtn
-      Left = 516
+      Left = 596
       Top = 291
       Width = 39
       Height = 37
-      TabOrder = 15
+      TabOrder = 16
       OnClick = btnCancelaBaixaClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -994,9 +994,9 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
     object ComboBox2: TComboBox
-      Left = 426
+      Left = 483
       Top = 206
-      Width = 135
+      Width = 151
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -1007,14 +1007,14 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 16
+      TabOrder = 12
     end
   end
   object Panel2: TPanel
-    Left = 566
+    Left = 641
     Top = 49
     Width = 177
-    Height = 395
+    Height = 453
     Align = alRight
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
@@ -1033,7 +1033,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       BevelSpace = 4
     end
     object Label6: TLabel
-      Left = 6
+      Left = 83
       Top = 91
       Width = 75
       Height = 13
@@ -1073,7 +1073,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
     end
     object Label15: TLabel
       Left = 7
-      Top = 328
+      Top = 349
       Width = 87
       Height = 13
       Caption = 'Valor Troco R$'
@@ -1119,10 +1119,36 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       HotTrackFont.Name = 'Cooper Black'
       HotTrackFont.Style = []
     end
+    object Label17: TLabel
+      Left = 14
+      Top = 92
+      Width = 47
+      Height = 13
+      Caption = 'Desc. %'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object JvGroupHeader6: TJvGroupHeader
+      Left = 4
+      Top = 332
+      Width = 167
+      Height = 17
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      BevelSpace = 4
+    end
     object jvDesconto: TJvValidateEdit
-      Left = 39
+      Left = 80
       Top = 108
-      Width = 134
+      Width = 93
       Height = 34
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1137,7 +1163,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 0
+      TabOrder = 1
       OnExit = jvDescontoExit
     end
     object jvAcrescimo: TJvValidateEdit
@@ -1158,7 +1184,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 2
       OnExit = jvAcrescimoExit
     end
     object jvApagar: TJvValidateEdit
@@ -1166,6 +1192,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Top = 229
       Width = 134
       Height = 34
+      TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
       CriticalPoints.MaxValueIncluded = False
@@ -1179,7 +1206,8 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      ReadOnly = True
+      TabOrder = 3
     end
     object jvPago: TJvValidateEdit
       Left = 39
@@ -1199,12 +1227,12 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 4
       OnExit = jvPagoExit
     end
     object jvTroco: TJvValidateEdit
       Left = 40
-      Top = 344
+      Top = 365
       Width = 134
       Height = 34
       BevelKind = bkFlat
@@ -1220,7 +1248,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Style = [fsBold]
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 5
     end
     object BitBtn1: TBitBtn
       Left = 11
@@ -1228,7 +1256,7 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Width = 26
       Height = 23
       Caption = '...'
-      TabOrder = 5
+      TabOrder = 6
       OnClick = BitBtn1Click
     end
     object jvTotal: TJvValidateEdit
@@ -1248,13 +1276,33 @@ object F_TerminalFinaliza: TF_TerminalFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 7
+    end
+    object jvDesc: TJvValidateEdit
+      Left = 12
+      Top = 108
+      Width = 61
+      Height = 34
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CriticalPoints.MaxValueIncluded = False
+      CriticalPoints.MinValueIncluded = False
+      DisplayFormat = dfFloat
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -24
+      Font.Name = 'Times New Roman'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 0
+      OnExit = jvDescExit
     end
   end
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 743
+    Width = 818
     Height = 49
     Align = alTop
     PopupMenu = PopupMenu1
