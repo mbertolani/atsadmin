@@ -450,9 +450,9 @@ begin
         Self.CodVendedor   := sqlBuscaR.FieldByName('CODVENDEDOR').AsInteger;
         Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
-        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat - sqlBuscaR.FieldByName('DESCONTO').AsFloat;
-        VlrEnt             := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
-        Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
+        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat;
+        VlrEnt             := sqlBuscaR.FieldByName('ENTRADA').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat;
+        Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         vlrSt              := sqlBuscaR.FieldByName('VALOR_ST').AsFloat;
         //Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
