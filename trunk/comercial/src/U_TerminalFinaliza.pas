@@ -959,7 +959,7 @@ begin
           baixou := FRec.baixaTitulo(DM_MOV.c_formaVALOR_PAGO.Value, //Valor
                                     0, //Funrural
                                     0, // Juros
-                                    0, // Desconto
+                                    jvDesconto.Value, // Desconto
                                     0, // Perda
                                     Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
                                     Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
@@ -1745,7 +1745,8 @@ begin
       Write(Impressora, c17cpi + Format('   %-2s  ',[cds_imovdetUN.Value]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetQTDE.AsFloat]));
       Write(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetPRECO.AsFloat]));
-      Writeln(Impressora, c17cpi + Format('   %-6.2n',[cds_imovdetTotalPedido.value]));
+      total := cds_imovdetTotalPedido.value;
+      Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
 
       with Printer.Canvas do
       begin
@@ -1783,6 +1784,7 @@ begin
      Writeln(IMPRESSORA);
      Writeln(IMPRESSORA);
      Writeln(IMPRESSORA);
+     Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally
     CloseFile(IMPRESSORA);
   end;
@@ -2170,7 +2172,7 @@ begin
      baixou := FRec.baixaTitulo(Valor_CR, //Valor
                                 0, //Funrural
                                 0, // Juros
-                                0, // Desconto
+                                jvDesconto.Value, // Desconto
                                 0, // Perda
                                 Data_Baixa, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
                                 Data_Receb, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
