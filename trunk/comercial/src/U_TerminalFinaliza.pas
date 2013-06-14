@@ -277,6 +277,9 @@ type
     cdsMatPrimaPRECOMEDIO: TBCDField;
     ComboBox2: TComboBox;
     Label5: TLabel;
+    jvDesc: TJvValidateEdit;
+    Label17: TLabel;
+    JvGroupHeader6: TJvGroupHeader;
     procedure btnUsuarioProcuraClick(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -301,6 +304,7 @@ type
     procedure jvAcrescimoExit(Sender: TObject);
     procedure jvDescontoExit(Sender: TObject);
     procedure JvBitBtn2Click(Sender: TObject);
+    procedure jvDescExit(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -856,18 +860,15 @@ end;
 
 procedure TF_TerminalFinaliza.JvGravarClick(Sender: TObject);
 var
-    FRec : TReceberCls;
+  FRec : TReceberCls;
 begin
   if (DBEdit5.Text = '1') then
   begin
-    if (cbPrazo.Text = '01-A Vista') then
+    if (jvPago.Value < jvApagar.Value) then
     begin
-     if (jvPago.Value < jvApagar.Value) then
-      begin
-        MessageDlg('Valor pago menor que total a pagar, '+#13+#10+' parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
-        cbPrazo.SetFocus;
-        exit;
-      end;
+      MessageDlg('Valor pago menor que total a pagar, '+#13+#10+' parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+      cbPrazo.SetFocus;
+      exit;
     end;
   end;
 
@@ -922,7 +923,7 @@ begin
     //--------------------------------------------------------------------------
 
     if (DM_MOV.c_venda.Active) then
-        DM_MOV.c_venda.Close;
+      DM_MOV.c_venda.Close;
     DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
     DM_MOV.c_venda.Open;
 
@@ -2120,7 +2121,7 @@ end;
 
 procedure TF_TerminalFinaliza.jvAcrescimoExit(Sender: TObject);
 begin
-    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat;
+  jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - jvDesconto.AsFloat;
 end;
 
 procedure TF_TerminalFinaliza.jvDescontoExit(Sender: TObject);
@@ -2306,6 +2307,19 @@ begin
     cdsMatPrima.close;
     FMov.Free;
     FVen.Free;
+  end;
+end;
+
+procedure TF_TerminalFinaliza.jvDescExit(Sender: TObject);
+var vlrD : double;
+begin
+  //Calcula o desconto
+  if (jvDesc.AsFloat > 0) then
+  begin
+    vlrD := (jvTotal.AsFloat + jvAcrescimo.AsFloat)*(jvDesc.AsFloat/100);
+    jvDesconto.AsFloat := vlrD;
+    jvApagar.AsFloat := (jvTotal.AsFloat + jvAcrescimo.AsFloat) - vlrD;
+    jvAcrescimo.SetFocus;
   end;
 end;
 
