@@ -1,10 +1,12 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
+  Left = 186
+  Top = 111
   Height = 693
-  Width = 1301
+  Width = 1152
   object sqlsisAdimin: TSQLConnection
-    ConnectionName = 'sisAdmin'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     KeepConnection = False
@@ -14,10 +16,10 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_dnz'
+      'Database=ats3:sge_bouquet'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq21'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -566,7 +568,9 @@ object DM: TDM
     end
   end
   object sds_cfop: TSQLDataSet
-    CommandText = 'select CFCOD, CFNOME, FRETEBC, IPIBC, TIPOMOVIMENTO from CFOP'
+    CommandText = 
+      'select CFCOD, CFNOME, FRETEBC, IPIBC, TIPOMOVIMENTO, TOTTRIB fro' +
+      'm CFOP'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
@@ -597,6 +601,11 @@ object DM: TDM
     end
     object sds_cfopIPIBC: TStringField
       FieldName = 'IPIBC'
+      FixedChar = True
+      Size = 1
+    end
+    object sds_cfopTOTTRIB: TStringField
+      FieldName = 'TOTTRIB'
       FixedChar = True
       Size = 1
     end
@@ -634,6 +643,11 @@ object DM: TDM
     end
     object cds_cfopIPIBC: TStringField
       FieldName = 'IPIBC'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_cfopTOTTRIB: TStringField
+      FieldName = 'TOTTRIB'
       FixedChar = True
       Size = 1
     end
@@ -1605,6 +1619,9 @@ object DM: TDM
       FieldName = 'OBS'
       Size = 300
     end
+    object cds_produtoPESO_LIQ: TFloatField
+      FieldName = 'PESO_LIQ'
+    end
   end
   object dsp_produto: TDataSetProvider
     DataSet = sds_produto
@@ -1876,6 +1893,9 @@ object DM: TDM
     object sds_produtoOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object sds_produtoPESO_LIQ: TFloatField
+      FieldName = 'PESO_LIQ'
     end
   end
   object sds_cm: TSQLDataSet
@@ -5759,6 +5779,20 @@ object DM: TDM
       FieldName = 'NOMEPREFEITURA'
       Size = 50
     end
+    object sds_EmpresaMODELOCUPOM: TStringField
+      FieldName = 'MODELOCUPOM'
+      Size = 2
+    end
+    object sds_EmpresaECFMOD: TStringField
+      FieldName = 'ECFMOD'
+    end
+    object sds_EmpresaECFFAB: TStringField
+      FieldName = 'ECFFAB'
+    end
+    object sds_EmpresaECFCX: TStringField
+      FieldName = 'ECFCX'
+      Size = 3
+    end
   end
   object dsp_empresa: TDataSetProvider
     DataSet = sds_Empresa
@@ -6078,6 +6112,20 @@ object DM: TDM
     object cds_empresaNOMEPREFEITURA: TStringField
       FieldName = 'NOMEPREFEITURA'
       Size = 50
+    end
+    object cds_empresaMODELOCUPOM: TStringField
+      FieldName = 'MODELOCUPOM'
+      Size = 2
+    end
+    object cds_empresaECFMOD: TStringField
+      FieldName = 'ECFMOD'
+    end
+    object cds_empresaECFFAB: TStringField
+      FieldName = 'ECFFAB'
+    end
+    object cds_empresaECFCX: TStringField
+      FieldName = 'ECFCX'
+      Size = 3
     end
   end
   object sds_usuario: TSQLDataSet
@@ -7418,25 +7466,27 @@ object DM: TDM
     end
   end
   object SQl: TSQLConnection
-    ConnectionName = 'semp'
+    ConnectionName = 'sge'
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
+    KeepConnection = False
     LibraryName = 'dbexpUIBfire15.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.1.100:semp_interacao'
+      'Database=ats3:C:\home\bd\sge_dnz.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
-      'User_Name=SYSDBA'
-      'WaitOnLocks=True')
+      'User_Name=sysdba'
+      'WaitOnLocks=True'
+      'str_relatorio=C:\home\sisAdmin\relatorio\')
     VendorLib = 'fbclient.dll'
     AfterConnect = DataModuleCreate
     Left = 152
@@ -9974,12 +10024,12 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=C:\fontes\bd\sge_exporta.fdb'
+      'Database=ats3:sge_saopedrocupom'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq'
+      'Password=masterkey'
       'RoleName=RoleName'
-      'ServerCharSet=win1252'
+      'ServerCharSet=Win1252'
       'SQLDialect=3'
       'Interbase TransIsolation=ReadCommited'
       'User_Name=SYSDBA'

@@ -1958,6 +1958,20 @@ type
     scds_cli_procCFOP: TStringField;
     scds_cli_procUF: TStringField;
     scds_cliente_procSUFRAMA: TStringField;
+    sds_serieMODELO: TStringField;
+    cds_serieMODELO: TStringField;
+    sds_EmpresaMODELOCUPOM: TStringField;
+    sds_EmpresaECFMOD: TStringField;
+    sds_EmpresaECFFAB: TStringField;
+    sds_EmpresaECFCX: TStringField;
+    cds_empresaMODELOCUPOM: TStringField;
+    cds_empresaECFMOD: TStringField;
+    cds_empresaECFFAB: TStringField;
+    cds_empresaECFCX: TStringField;
+    sds_produtoPESO_LIQ: TFloatField;
+    cds_produtoPESO_LIQ: TFloatField;
+    sds_cfopTOTTRIB: TStringField;
+    cds_cfopTOTTRIB: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2024,6 +2038,7 @@ type
   public
     { Public declarations }
     impressora_pc: string;
+    videoW, videoH :string;    
     v_CodFuncao : Integer;
     mensagemInicial, sistemaLiberado, cfopEntrada, cfopEntradaF, cfopSaida, cfopSaidaF, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
@@ -2053,7 +2068,7 @@ var
   dbxconec: TStringList;
   usuario, varform, nome_user, senha_user, str_relatorio, relPersonalizado, perfil, varusuario : String;
   str_valor, conta_pl, tipo_empresa, RA : String;
-  videoW, videoH, codprod, MICRO, procprod : string;
+  codprod, MICRO, procprod : string;
   statusdavenda : string; // USADO NO NOVO TERMINAL (SANTOS)
   altura, largura, cod_cli, codmovdet, usulog, usuautorizacao : Integer;
   ScreenHeight: LongInt;
@@ -2343,6 +2358,23 @@ begin
     end;
   end;
   verificaTamCampo;
+
+  if (sResolucao.Active) then
+   sResolucao.Close;
+  sResolucao.Params[0].AsString := MICRO;
+  sResolucao.Open;
+  if (sResolucao.IsEmpty) then
+  begin
+    videoW := '800';
+    videoH := '600';
+  end
+  else
+  begin
+    videoW := sResolucaoMODULO.AsString;
+    videoH := sResolucaoUSUARIO.AsString;
+  end;
+
+
 end;
 
 procedure TDM.cds_produtoNewRecord(DataSet: TDataSet);
