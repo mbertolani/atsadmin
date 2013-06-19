@@ -140,10 +140,10 @@ end;
 
 procedure TfProcContabil.FormCreate(Sender: TObject);
 begin
-  if videoW <> '' then
+  if dm.videoW <> '' then
   begin
-   ScreenWidth := StrToInt(videoW);
-   ScreenHeight := StrToInt(videoH);
+   ScreenWidth := StrToInt(dm.videoW);
+   ScreenHeight := StrToInt(dm.videoH);
    scaled := true;
    if (screen.width <> ScreenWidth) then
    begin

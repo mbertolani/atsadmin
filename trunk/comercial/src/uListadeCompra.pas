@@ -843,17 +843,17 @@ begin
   dm.usuario.Open;
   if (not dm.usuario.IsEmpty) then
   begin
-       videoW := dm.UsuarioP1.AsString;
-       videoH := dm.UsuarioP2.AsString;
+       DM.videoW := dm.UsuarioP1.AsString;
+       DM.videoH := dm.UsuarioP2.AsString;
   end;
-  if videoW = '800' then
+  if DM.videoW = '800' then
     Position := poDesigned;
-  if (videoW <> 'widescreen') then
+  if (DM.videoW <> 'widescreen') then
   begin
-   if  (videoW <> '') then
+   if  (DM.videoW <> '') then
    begin
-     ScreenWidth := StrToInt(videoW);
-     ScreenHeight := StrToInt(videoH);
+     ScreenWidth := StrToInt(DM.videoW);
+     ScreenHeight := StrToInt(DM.videoH);
      scaled := true;
      if (screen.width <> ScreenWidth) then
      begin

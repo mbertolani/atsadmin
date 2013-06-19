@@ -503,7 +503,8 @@ procedure TfCrAltera.FormShow(Sender: TObject);
 var utilcrtitulo : Tutils;
 begin
   inherited;
-  sCtrlResize.CtrlResize(TForm(fCrAltera));
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fCrAltera));
   if (uso = 'PAGAR') then
   begin
     if (cdscpFORMAPAGAMENTO.asString <> '') then

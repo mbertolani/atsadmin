@@ -39,6 +39,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    videoW, videoH :string;
   end;
 
 var
@@ -70,24 +71,24 @@ begin
   dm.sResolucao.Open;
   if (dm.sResolucao.IsEmpty) then
   begin
-       videoW := '800';
-       videoH := '600';
+       DM.videoW := '800';
+       DM.videoH := '600';
   end
   else
   begin
-       videoW := dm.sResolucaoMODULO.AsString;
-       videoH := dm.sResolucaoUSUARIO.AsString;
+       DM.videoW := dm.sResolucaoMODULO.AsString;
+       DM.videoH := dm.sResolucaoUSUARIO.AsString;
   end;
 
   {if videoW = '800' then
     Position := poDesigned; }
 
-  if (videoW <> 'widescreen') then
+  if (DM.videoW <> 'widescreen') then
   begin
-   if  (videoW <> '') then
+   if  (DM.videoW <> '') then
    begin
-     ScreenWidth := StrToInt(videoW);
-     ScreenHeight := StrToInt(videoH);
+     ScreenWidth := StrToInt(DM.videoW);
+     ScreenHeight := StrToInt(DM.videoH);
      scaled := true;
      if (screen.width <> ScreenWidth) then
      begin

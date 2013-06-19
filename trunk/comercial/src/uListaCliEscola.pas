@@ -192,7 +192,8 @@ var
 
 implementation
 
-uses UDm, uProcurar, uClienteCadastro, ufDlgLogin, uAlunoCadastro;
+uses UDm, uProcurar, uClienteCadastro, ufDlgLogin, uAlunoCadastro,
+  sCtrlResize;
 
 {$R *.dfm}
 
@@ -333,29 +334,8 @@ end;
 
 procedure TfListaCliEscola.FormCreate(Sender: TObject);
 begin
-  if (dm.usuario.Active) then
-     dm.usuario.Close;
-  dm.usuario.Params[0].AsString := usuario;
-  dm.usuario.Open;
-  if (not dm.usuario.IsEmpty) then
-  begin
-       videoW := dm.UsuarioP1.AsString;
-       videoH := dm.UsuarioP2.AsString;
-  end;
-  if videoW = '800' then
-    Position := poDesigned;
-  if videoW <> '' then
-  begin
-   ScreenWidth := StrToInt(videoW);
-   ScreenHeight := StrToInt(videoH);
-   scaled := true;
-   if (screen.width <> ScreenWidth) then
-   begin
-     height := longint(height) * longint(screen.height) DIV ScreenHeight;
-     width := longint(width) * longint(screen.width) DIV ScreenWidth;
-     scaleBy(screen.width, ScreenWidth);
-   end;
-  end;
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fListaCliEscola));
 end;
 
 procedure TfListaCliEscola.BitBtn5Click(Sender: TObject);

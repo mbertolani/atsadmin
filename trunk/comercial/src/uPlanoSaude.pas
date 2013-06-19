@@ -532,13 +532,13 @@ begin
   if not cds_parametro.Active then
      cds_parametro.Open;
   cds_parametro.Locate('PARAMETRO', 'VIDEO',[loPartialKey]);
-  videoW := cds_parametroD1.AsString;
-  videoH := cds_parametroD2.AsString;
+  DM.videoW := cds_parametroD1.AsString;
+  DM.videoH := cds_parametroD2.AsString;
 
-  if videoW <> '' then
+  if DM.videoW <> '' then
   begin
-   ScreenWidth := StrToInt(videoW);
-   ScreenHeight := StrToInt(videoH);
+   ScreenWidth := StrToInt(DM.videoW);
+   ScreenHeight := StrToInt(DM.videoH);
    scaled := true;
    if (screen.width <> ScreenWidth) then
    begin
