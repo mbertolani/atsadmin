@@ -1111,7 +1111,8 @@ end;
 
 procedure TfCpPassivo.FormShow(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fCpPassivo));
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fCpPassivo));
 end;
 
 end.

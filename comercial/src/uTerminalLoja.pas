@@ -770,7 +770,7 @@ begin
        videoH := dm.sResolucaoUSUARIO.AsString;
   end;   }
 
-  videoW := '800';
+{  videoW := '800';
   videoH := '600';
   if videoW = '800' then
     Position := poDesigned
@@ -790,8 +790,8 @@ begin
        width := longint(width) * longint(screen.width) DIV ScreenWidth;
        scaleBy(screen.width, ScreenWidth);
      end;
-   end;
-  end;
+   end;  
+  end; }
 
 
 

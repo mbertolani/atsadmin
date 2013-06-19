@@ -202,10 +202,10 @@ end;
 
 procedure TfMostraDetalhe.FormCreate(Sender: TObject);
 begin
-  if videoW <> '' then
+  if DM.videoW <> '' then
   begin
-   ScreenWidth := StrToInt(videoW);
-   ScreenHeight := StrToInt(videoH);
+   ScreenWidth := StrToInt(DM.videoW);
+   ScreenHeight := StrToInt(DM.videoH);
    scaled := true;
    if (screen.width <> ScreenWidth) then
    begin

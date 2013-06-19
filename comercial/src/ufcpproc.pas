@@ -1166,7 +1166,8 @@ end;
 
 procedure TfCpProc.FormShow(Sender: TObject);
 begin
-  sCtrlResize.CtrlResize(TForm(fCpProc));
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fCpProc));
 end;
 
 procedure TfCpProc.BitBtn5Click(Sender: TObject);

@@ -184,7 +184,8 @@ procedure TfcrTitulo.FormCreate(Sender: TObject);
 var utilcrtitulo : Tutils;
   i, j : integer;
 begin
-  sCtrlResize.CtrlResize(TForm(fcrTitulo));
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fcrTitulo));
   utilcrtitulo := Tutils.Create;
   //inherited;
   // Popula Status
