@@ -2035,9 +2035,9 @@ begin
       Dest.EnderDest.xMun    := sClienteCIDADE.AsString;
       Dest.EnderDest.UF      := sClienteUF.AsString;
 
-      if (trim(sClienteCEP.AsString) = '') then
+      if (trim(RemoveChar(sClienteCEP.AsString)) = '') then
       begin
-        MessageDlg('Cliente' + sClienteRAZAOSOCIAL.AsString +  'sem CEP.', mtWarning, [mbOK], 0);
+        MessageDlg('Cliente' + sClienteRAZAOSOCIAL.AsString +  ' sem CEP.', mtWarning, [mbOK], 0);
         Exit;
       end
       else
@@ -2555,10 +2555,10 @@ begin
             pesoB := 0;
         end;
 
-        if ( (cdsNFPLACATRANSP.AsString <> '') and (cdsNFPLACATRANSP.AsString <> null) ) then
+        if ( (trim(RemoveChar(cdsNFPLACATRANSP.AsString)) <> '') and (trim(RemoveChar(cdsNFPLACATRANSP.AsString)) <> null) ) then
          if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
          begin
-           veicTransp.placa := cdsNFPLACATRANSP.AsString;
+           veicTransp.placa := trim(RemoveChar(cdsNFPLACATRANSP.AsString));
            veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
          end;
       end;
