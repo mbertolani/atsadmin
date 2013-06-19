@@ -718,7 +718,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
 procedure TfVendas.FormCreate(Sender: TObject);
 begin
   //inherited;
-  //if (DM.videoW <> '1920') then
+  if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fVendas));
 
   MMJPanel1.Background.EndColor   := dm.corStart;
@@ -1107,7 +1107,6 @@ begin
   begin
     DBEdit10.ReadOnly := True;
     DBEdit17.ReadOnly := True;
-    DBEdit19.ReadOnly := True;
   end;
 
   RadioOrcamento.Checked  := True;
@@ -1175,7 +1174,7 @@ begin
     cds_MovimentoNOMECLIENTE.AsString := dm.scds_cliente_procNOMECLIENTE.AsString;
     cds_MovimentoCODVENDEDOR.AsInteger := dm.scds_cliente_procCODUSUARIO.AsInteger;
     cds_MovimentoNOMEUSUARIO.AsString := dm.scds_cliente_procNOMEUSUARIO.AsString;
-    cds_MovimentoOBS.AsString := dm.scds_cliente_procOBS.AsString;
+    cds_MovimentoOBSCLI.AsString := dm.scds_cliente_procOBS.AsString;
     prazoCliente := dm.scds_cliente_procPRAZORECEBIMENTO.AsFloat;
     //desconto := dm.scds_cliente_procDESCONTO.AsFloat;
     cds_MovimentoDESCONTO.AsFloat := dm.scds_cliente_procDESCONTO.AsFloat;
@@ -2082,6 +2081,16 @@ begin
     cds_Movimento.Edit;
   cds_MovimentoCODCLIENTE.AsInteger := dm.codcli;//fListaClientes.cdsCODCLIENTE.AsInteger;
   cds_MovimentoNOMECLIENTE.AsString := dm.varNomeCliente;//fListaClientes.cdsNOMECLIENTE.AsString;
+
+    if dm.scds_cliente_proc.Active then
+      dm.scds_cliente_proc.Close;
+    dm.scds_cliente_proc.Params[0].Clear;
+    dm.scds_cliente_proc.Params[1].Clear;
+    dm.scds_cliente_proc.Params[2].Clear;
+    dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(dbeCliente.Text);
+    dm.scds_cliente_proc.Open;
+    cds_MovimentoOBSCLI.AsString := dm.scds_cliente_procOBS.AsString;
+    dm.scds_cliente_proc.Close;
 
   if (ComboBox1.Enabled = true) then
     ComboBox1.SetFocus
