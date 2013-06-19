@@ -1153,7 +1153,7 @@ begin
       cdsOUTRAS_DESP.AsFloat;
     cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat -
       cdsDESCONTO.AsFloat;
-    cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
+    cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat;
 
     {Usado para bloquear alteração em RECEBIMENTO pelas triggers
      da notafiscal }
@@ -1487,71 +1487,89 @@ begin
 end;
 
 procedure TfVendaFinalizar.btnNotaFiscalClick(Sender: TObject);
-//var valor_fatura :string;
+var nfe :string;
 begin
   if DtSrc.State in [dsInsert] then
   begin
     btnGravar.Click;
   end;
 
-  fatura_NF := '';
-  tipo_form := 'VENDA';
-  if scdsCr_proc.State in [dsEdit, dsBrowse] then
-  begin
-    scdsCr_proc.First;
-    while not scdsCr_proc.Eof do
-    begin
-      if scdsCr_procSITUACAO.AsString <> '7-' then
-      begin
-        if (dm.moduloUsado = 'CITRUS') then
-        begin
-          fatura_NF := fatura_NF + ' ( ';
-          fatura_NF := fatura_NF + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
-          fatura_NF := fatura_NF + ' - ' + scdsCr_procTIT.AsString;
-          valor_fatura := formatfloat('#,##0.00',scdsCr_procVALOR_RESTO.Value);
-          fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
-        end
-        else begin
-          fatura_NF := fatura_NF + ' ( ';
-          fatura_NF := fatura_NF + scdsCr_procTIT.AsString;
-          fatura_NF := fatura_NF + ' - ' + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
-          valor_fatura := formatfloat('#,##0.00',scdsCr_procVALOR_RESTO.Value);
-          fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
-        end;
-      end;
-      scdsCr_proc.Next;
-    end;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
 
-    // Aqui é usado para a DNZ
-    if Dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'NFVALOR';
-    dm.cds_parametro.Open;
-    if (not dm.cds_parametro.IsEmpty) then
-    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  if (not dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+  dmnf.scds_serienfe.Open;
+
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if ( (DMNF.scds_serienfeNOTASERIE.AsInteger + 1) = cdsNOTAFISCAL.AsInteger ) then
+    begin
+      if ( dm.cds_parametroD1.AsString = cdsSERIE.AsString ) then
+        nfe := 'S';
+    end
+    else
+    begin
+      nfe := 'N';
+      MessageDlg('Nota fiscal com Série e/ou Número incorreto. Ultimo utilizado: '
+      + IntToStr(DMNF.scds_serienfeNOTASERIE.AsInteger) + '/' + dm.cds_parametroD1.AsString
+      , mtWarning, [mbOK], 0);
+    end;
+  end
+  else
+    nfe := 'S';
+
+  if (nfe = 'S' ) then
+  begin
+    fatura_NF := '';
+    tipo_form := 'VENDA';
+    if scdsCr_proc.State in [dsEdit, dsBrowse] then
     begin
       scdsCr_proc.First;
-      fatura_NF := ' ( ';
-      fatura_NF := fatura_NF + scdsCr_procTIT.AsString;
-      fatura_NF := fatura_NF + ' - ' + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
-      valor_fatura := formatfloat('#,##0.00',scdsCr_procVALOR_RESTO.Value);
-      fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
-    end;
-  end;
-  notaFiscal;
-  {
-  if (cds.State in [dsInsert, dsEdit]) then
-    btnGravar.Click;
+      while not scdsCr_proc.Eof do
+      begin
+        if scdsCr_procSITUACAO.AsString <> '7-' then
+        begin
+          if (dm.moduloUsado = 'CITRUS') then
+          begin
+            fatura_NF := fatura_NF + ' ( ';
+            fatura_NF := fatura_NF + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
+            fatura_NF := fatura_NF + ' - ' + scdsCr_procTIT.AsString;
+            valor_fatura := formatfloat('#,##0.00',scdsCr_procVALOR_RESTO.Value);
+            fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
+          end
+          else begin
+            fatura_NF := fatura_NF + ' ( ';
+            fatura_NF := fatura_NF + scdsCr_procTIT.AsString;
+            fatura_NF := fatura_NF + ' - ' + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
+            valor_fatura := formatfloat('#,##0.00',scdsCr_procVALOR_RESTO.Value);
+            fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
+          end;
+        end;
+        scdsCr_proc.Next;
+      end;
 
-  fNotaF := TfNotaF.Create(Application);
-  try
-    fNotaF.codMovFin := cdsCODMOVIMENTO.AsInteger;
-    fNotaF.codVendaFin := cdsCODVENDA.AsInteger;
-    fNotaF.codCliFin := cdsCODCLIENTE.AsInteger;
-    fNotaF.ShowModal;
-  finally
-    fNotaF.Free;
-  end;}
+      // Aqui é usado para a DNZ
+      if Dm.cds_parametro.Active then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'NFVALOR';
+      dm.cds_parametro.Open;
+      if (not dm.cds_parametro.IsEmpty) then
+      if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      begin
+        scdsCr_proc.First;
+        fatura_NF := ' ( ';
+        fatura_NF := fatura_NF + scdsCr_procTIT.AsString;
+        fatura_NF := fatura_NF + ' - ' + DateToStr(scdsCr_procDATAVENCIMENTO.AsDateTime);
+        valor_fatura := formatfloat('#,##0.00',scdsCr_procVALOR_RESTO.Value);
+        fatura_NF := fatura_NF + ' - ' + valor_fatura + ')';
+      end;
+    end;
+    notaFiscal;
+  end;
 end;
 
 procedure TfVendaFinalizar.btnImprimirClick(Sender: TObject);
@@ -1852,7 +1870,8 @@ var utilcrtitulo : Tutils;
   i, j : integer;
 begin
 //  inherited;
-  sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
   nparc := 1;
 
   MMJPanel1.Background.EndColor   := dm.corStart;
@@ -3103,35 +3122,35 @@ begin
   if (sqlBuscaNota.IsEmpty) then
   begin
     try
-    codClienteNF := 0;
-    Save_Cursor := Screen.Cursor;
-    Screen.Cursor := crHourGlass;    { Show hourglass cursor }
-    // Nota Fiscal
-    TD.TransactionID := 1;
-    TD.IsolationLevel := xilREADCOMMITTED;
-    dm.sqlsisAdimin.StartTransaction(TD);
+      codClienteNF := 0;
+      Save_Cursor := Screen.Cursor;
+      Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+      // Nota Fiscal
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
       try
         if (DM.tipoVenda = 'VENDA') then
         begin
-        str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
-        str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
-        str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
-        str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+          str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
+          str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
+          str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
+          str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
         if (DM.tipoVenda = 'DEVOLUCAO') then
         begin
-        str_sql := 'EXECUTE PROCEDURE GERA_NF_DEVOLUCAOVENDA(';
-        str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
-        str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
-        str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
-        str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          str_sql := 'EXECUTE PROCEDURE GERA_NF_DEVOLUCAOVENDA(';
+          str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
+          str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
+          str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
+          str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
         dm.sqlsisAdimin.Commit(TD);
       except
