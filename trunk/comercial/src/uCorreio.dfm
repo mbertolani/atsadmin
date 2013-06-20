@@ -658,7 +658,7 @@ inherited fCorreio: TfCorreio
         end
       end
       object btnRetirada: TBitBtn
-        Left = 550
+        Left = 552
         Top = 314
         Width = 115
         Height = 41
