@@ -715,8 +715,9 @@ begin
       if (sqs_tit.Active) then
       sqs_tit.Close;
 
-      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * VLR_BASE) + VIPI + ICMS_SUBST) ' +
-        ' ,SUM(VIPI), SUM(VALOR_ICMS), SUM(ICMS_SUBST) '+
+      sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * COALESCE(VLR_BASE,0))' +
+        ' + COALESCE(VIPI,0) + COALESCE(ICMS_SUBST,0)) ' +
+        ' ,SUM(COALESCE(VIPI,0)), SUM(COALESCE(VALOR_ICMS,0)), SUM(COALESCE(ICMS_SUBST,0)) '+
         ' FROM MOVIMENTODETALHE' +
                            ' WHERE CODMOVIMENTO = ' +
                            IntToStr(fVendas.cds_MovimentoCODMOVIMENTO.asInteger);
