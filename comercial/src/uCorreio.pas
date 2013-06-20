@@ -479,7 +479,7 @@ end;
 procedure TfCorreio.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  DBEdit7.Text := 'S';
+  cdsCorreioATIVO.Text := 'S';
   jvCod.Enabled := True;
   jvNome.Enabled := True;
  /// btnproc.Enabled := True;
