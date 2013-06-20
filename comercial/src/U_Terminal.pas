@@ -547,6 +547,7 @@ type
     JvTransparentButton88: TJvTransparentButton;
     JvTransparentButton89: TJvTransparentButton;
     JvTransparentButton90: TJvTransparentButton;
+    Timer1: TTimer;
     procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
     procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -691,7 +692,9 @@ type
     procedure JvTransparentButton88Click(Sender: TObject);
     procedure JvTransparentButton89Click(Sender: TObject);
     procedure JvTransparentButton90Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
+    deliveryLivre: boolean;
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
     TD: TTransactionDesc;
@@ -746,6 +749,8 @@ type
     procedure Libera_mesa;
     procedure permissao;
     procedure testacaixaaberto;
+    procedure abreComanda;
+    procedure abreDelivery;
     { Private declarations }
   public
     var_FINALIZOU : string;
@@ -852,13 +857,13 @@ end;
 procedure TF_Terminal.IncluiItemPedido;
 var CODIGO_DO_MOVIMENTO : integer;
 begin
-   if dm.c_6_genid.Active then
-     dm.c_6_genid.Close;
-   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-   dm.c_6_genid.Open;
-   ID_MOVDET := dm.c_6_genid.Fields[0].AsInteger;
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  ID_MOVDET := dm.c_6_genid.Fields[0].AsInteger;
 
-   dm.c_6_genid.Close;
+  dm.c_6_genid.Close;
 
   sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
          'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
@@ -886,7 +891,7 @@ begin
     dm.sqlsisAdimin.Commit(TD);
   except
     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-    MessageDlg('Erro no sistema, o Iten não foi gravada.', mtError,
+    MessageDlg('Erro no sistema, o Iten nao foi gravada.', mtError,
         [mbOk], 0);
   end;
 
@@ -994,21 +999,7 @@ begin
 
   if (PageControl1.ActivePage = TabDelivery) then
   begin
-    if (DM_MOV.c_Delivery.Active) then
-      DM_MOV.c_Delivery.Close;
-    DM_MOV.c_Delivery.CommandText := '';
-    sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-    sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-    sql := sql + 'WHERE m.CODNATUREZA = ';
-    sql := sql + IntToStr(3);
-    sql := sql + 'and m.STATUS = ';
-    sql := sql + IntToStr(20);
-    sql := sql + 'and m.CODMOVIMENTO = ';
-    sql := sql + IntToStr(id_movimento);
-    sql := sql + 'and m.TIPO_PEDIDO = ';
-    sql := sql + QuotedStr('D');
-    DM_MOV.c_Delivery.CommandText := sql;
-    DM_MOV.c_Delivery.Open;
+    abreDelivery;
   end;
   JvTotal.Value := 0;
   JvParcial.Value := 0;
@@ -1458,19 +1449,7 @@ begin
   begin
     TabDelivery.TabVisible := True;
     MMJPanel8.Visible :=True;
-    if (DM_MOV.c_Delivery.Active) then
-      DM_MOV.c_Delivery.Close;
-    DM_MOV.c_Delivery.CommandText := '';
-    sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-    sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-    sql := sql + 'WHERE m.CODNATUREZA = ';
-    sql := sql + IntToStr(3);
-    sql := sql + 'and m.STATUS = ';
-    sql := sql + IntToStr(20);
-    sql := sql + 'and m.TIPO_PEDIDO = ';
-    sql := sql + QuotedStr('D');
-    DM_MOV.c_Delivery.CommandText := sql;
-    DM_MOV.c_Delivery.Open;
+    abreDelivery;
   end;
 
   //------Pesquisando na tab Parametro se usa COMANDA ---
@@ -1485,18 +1464,7 @@ begin
     TabComanda.TabVisible := True;
     MMJPanel8.Visible :=True;
     //populaMesas;
-    if (DM_MOV.c_comanda.Active) then
-      DM_MOV.c_comanda.Close;
-    DM_MOV.c_comanda.CommandText := '';
-    sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-    sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-    sql := sql + 'WHERE m.CODNATUREZA = ';
-    sql := sql + IntToStr(3);
-    sql := sql + 'and m.STATUS = ';
-    sql := sql + IntToStr(20);
-    DM_MOV.c_comanda.CommandText := sql;
-    DM_MOV.c_comanda.Open;
-
+    abreComanda;
     CtrlResize;
     pinta_botao_1;
   end;
@@ -1600,6 +1568,7 @@ begin
   JvSubtotal.Value := 0;
   if (PageControl1.ActivePage = TabSheet1) then
   begin
+     deliveryLivre := False;
      if (MMJPanel8.Visible = True) then
         MMJPanel8.Visible := False;
      EdtCodBarra.SetFocus;
@@ -1610,6 +1579,7 @@ begin
   end;
   if (PageControl1.ActivePage = TabComanda) then
   begin
+    deliveryLivre := False;
     if (MMJPanel8.Visible = False) then
       MMJPanel8.Visible := True;
 
@@ -1654,6 +1624,7 @@ begin
         JvLabel1.Visible := True;
     if (JvLabel14.Visible = False) then
         JvLabel14.Visible := True;
+    deliveryLivre := True;        
     edtFone.Clear;
     edtNome.Clear;
     edtCodCli.Clear;
@@ -3701,25 +3672,14 @@ begin
         edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
         edtNome.Text := sbuscaCli.Fields[1].AsString;
         edtEnd.Text := sbuscaCli.Fields[2].AsString + ', ' + sbuscaCli.Fields[4].AsString + ' ' + sbuscaCli.Fields[5].AsString;
+        deliveryLivre := False;
         if (MessageDlg('Incluir Pedido ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
         begin
           codcliente := sbuscaCli.Fields[0].AsInteger;
           IncluiPedido;
-          if (DM_MOV.c_Delivery.Active) then
-            DM_MOV.c_Delivery.Close;
-          DM_MOV.c_Delivery.CommandText := '';
-          sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-          sql := sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-          sql := sql + 'WHERE m.CODNATUREZA = ';
-          sql := sql + IntToStr(3);
-          sql := sql + 'and m.STATUS = ';
-          sql := sql + IntToStr(20);
-          sql := sql + 'and m.TIPO_PEDIDO = ';
-          sql := sql + QuotedStr('D');
-          DM_MOV.c_Delivery.CommandText := sql;
-          DM_MOV.c_Delivery.Open;
           DM_MOV.c_Delivery.Locate('CODCLIENTE',edtCodCli.Text,[loCaseInsensitive]);
           EdtCodBarra1.SetFocus;
+          deliveryLivre := True;          
         end;
       end
       else
@@ -3739,6 +3699,7 @@ end;
 
 procedure TF_Terminal.DBGrid2DblClick(Sender: TObject);
 begin
+  deliveryLivre := False;
   EdtComanda.Text := IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger);
   DM_MOV.c_movdet.Close;
   DM_MOV.c_movdet.Params[0].Clear;
@@ -3781,12 +3742,14 @@ begin
   end
   else
     JvTotal.AsFloat := 0;
+  deliveryLivre := True;    
   EdtCodBarra1.SetFocus;
 end;
 
 procedure TF_Terminal.DBGrid2KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  deliveryLivre := False;
   //EdtComanda.Text := IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger);
   DM_MOV.c_movdet.Close;
   DM_MOV.c_movdet.Params[0].Clear;
@@ -3832,11 +3795,13 @@ begin
   end
   else
     JvTotal.AsFloat := 0;
+  deliveryLivre := True;    
 end;
 
 procedure TF_Terminal.DBGrid2KeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
+  deliveryLivre := False;
   DM_MOV.c_movdet.Close;
   DM_MOV.c_movdet.Params[0].Clear;
   DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
@@ -3880,10 +3845,12 @@ begin
   end
   else
     JvTotal.AsFloat := 0;
+  deliveryLivre := True;    
 end;
 
 procedure TF_Terminal.DBGrid2KeyPress(Sender: TObject; var Key: Char);
 begin
+  deliveryLivre := False;
   //EdtComanda.Text := IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger);
   DM_MOV.c_movdet.Close;
   DM_MOV.c_movdet.Params[0].Clear;
@@ -3927,6 +3894,7 @@ begin
   else
     JvTotal.AsFloat := 0;
   EdtCodBarra1.SetFocus;
+  deliveryLivre := True;
 end;
 
 procedure TF_Terminal.BitBtn1Click(Sender: TObject);
@@ -5831,6 +5799,47 @@ end;
 procedure TF_Terminal.JvTransparentButton90Click(Sender: TObject);
 begin
   Mesa_Clic(JvTransparentButton90.ComponentIndex);
+end;
+
+procedure TF_Terminal.abreComanda;
+begin
+  if (DM_MOV.c_comanda.Active) then
+    DM_MOV.c_comanda.Close;
+  DM_MOV.c_comanda.CommandText := '';
+  sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+  sql := sql + ' inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+  sql := sql + ' WHERE m.CODNATUREZA = 3 ';
+  sql := sql + ' and m.STATUS = 20 ';
+  DM_MOV.c_comanda.CommandText := sql;
+  DM_MOV.c_comanda.Open;
+end;
+
+procedure TF_Terminal.abreDelivery;
+var linhaDelivery: Integer;
+begin
+  linhaDelivery := 0;
+  if (DM_MOV.c_Delivery.Active) then
+  begin
+    linhaDelivery := DM_MOV.c_Delivery.RecNo;
+    DM_MOV.c_Delivery.Close;
+  end;
+  DM_MOV.c_Delivery.CommandText := '';
+  sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+  sql := sql + ' inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+  sql := sql + ' WHERE m.CODNATUREZA = 3 ';
+  sql := sql + ' and m.STATUS = 20 ';
+  sql := sql + ' and m.TIPO_PEDIDO = ';
+  sql := sql + QuotedStr('D');
+  DM_MOV.c_Delivery.CommandText := sql;
+  DM_MOV.c_Delivery.Open;
+  if (linhaDelivery > 0) then
+    DM_MOV.c_Delivery.RecNo := linhaDelivery;
+end;
+
+procedure TF_Terminal.Timer1Timer(Sender: TObject);
+begin
+  if (deliveryLivre) then
+    abreDelivery;
 end;
 
 end.
