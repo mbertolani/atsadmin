@@ -185,7 +185,7 @@ begin
     '  FROM  produto_fornecedor pf, produtos p ' +
     ' where p.CODPRODUTO = pf.CODPRODUTO ' +
     '   and pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger)  +
-    '   and p.codprodfornec = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
+    '   and pf.codprodfornec = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
   if (sqlFaltandoFornecedor.Active) then
     sqlFaltandoFornecedor.Close;
   sqlFaltandoFornecedor.SQL.Clear;
@@ -228,11 +228,11 @@ end;
 
 procedure TForm1.BitBtn5Click(Sender: TObject);
 var insereCodPro: String;
- linha: integer;
+ linhaa: integer;
 begin
   if (cdsNF.Active) then
   begin
-    linha := cdsNF.RecNo;
+    linhaa := cdsNF.RecNo;
     while not cdsNF.Eof do
     begin
       while not cdsNFItem.Eof do
@@ -253,7 +253,7 @@ begin
       end;
       cdsNF.Next;
     end;
-    cdsNF.RecNo := linha;
+    cdsNF.RecNo := linhaa;
   end;
 end;
 
