@@ -313,7 +313,7 @@ type
     Cod_orig, cod_cli_forn, codigo_cliente, COD_VENDA, codcaixaInterno : Integer;
     excluiuNF : Boolean;
     IMPRESSORA : TextFile;
-    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
+    Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, texto8, logradouro,cep,fone : string;//Para recortar parte da descrição do produto,nome
     tipoImpressao, usaDll : string;
     total, porc, totgeral , desconto : double;
 
@@ -864,12 +864,13 @@ var
 begin
   if (DBEdit5.Text = '1') then
   begin
-    if (jvPago.Value < jvApagar.Value) then
-    begin
-      MessageDlg('Valor pago menor que total a pagar, '+#13+#10+' parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
-      cbPrazo.SetFocus;
-      exit;
-    end;
+    if (jvPago.Value > 0) then
+      if (jvPago.Value < jvApagar.Value) then
+      begin
+        MessageDlg('Valor pago menor que total a pagar, '+#13+#10+' parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+        cbPrazo.SetFocus;
+        exit;
+      end;
   end;
 
   if (DM_MOV.c_forma.Active) then
@@ -1685,6 +1686,7 @@ begin
      Texto3 := 'Produto                                               ' ;
      Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
      Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
+     Texto8 := '                           Desconto.: R$   ';
      cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
      if (s_parametro.Active) then
          s_parametro.close;
@@ -1756,8 +1758,11 @@ begin
       end;
       cds_imovdet.next;
      end;
-     total := DM_MOV.c_movdettotalpedido.Value;
+     total := DM_MOV.c_movdettotalpedido.Value - DM_MOV.c_vendaDESCONTO.Value;
+     desconto := DM_MOV.c_vendaDESCONTO.Value;
      Writeln(Impressora, c17cpi, texto);
+     Write(Impressora, c17cpi, texto8);
+     Writeln(Impressora, c17cpi + Format('    %-6.2n',[desconto]));
      Write(Impressora, c17cpi, texto5);
      Writeln(Impressora, c17cpi + Format('   %-6.2n',[total]));
 
