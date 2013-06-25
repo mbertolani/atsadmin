@@ -259,7 +259,7 @@
         <xpath>*[name()=&apos;prod&apos;]&#47;*[name()=&apos;cProd&apos;]</xpath>
         <element_type>node</element_type>
         <result_type>valueof</result_type>
-        <type>Integer</type>
+        <type>BigNumber</type>
         <format/>
         <currency/>
         <decimal/>
@@ -352,7 +352,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -367,7 +367,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -382,7 +382,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -427,7 +427,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -442,7 +442,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -502,7 +502,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -562,7 +562,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -577,7 +577,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -592,7 +592,7 @@
         <type>Number</type>
         <format/>
         <currency/>
-        <decimal/>
+        <decimal>.</decimal>
         <group/>
         <length>-1</length>
         <precision>-1</precision>
@@ -698,6 +698,117 @@
     </step>
 
   <step>
+    <name>Modified Java Script Value</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#47;&#47;Script here
+
+var source = new java.io.File(&quot;file:&#47;&#47;&#47;home&#47;publico&#47;clientes&#47;greenhouse&#47;xml&#47;*.xml&quot;);
+var fileClass = source.getClass();
+var delMethod = fileClass.getMethod(&quot;delete&quot;, null);
+delMethod.invoke(source, null);</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>217</xloc>
+      <yloc>327</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mov_atsadmin</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>atsadmin</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>NOTAFISCAL_IMPORTA</table>
+      <key>
+        <name>serie</name>
+        <field>SERIE</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>nNF</name>
+        <field>NOTAFISCAL</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>CNPJ</name>
+        <field>CNPJ_EMITENTE</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>NATUREZAOPERACAO</name>
+        <rename>natOp</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>MODELO</name>
+        <rename>mod</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>SERIE</name>
+        <rename>serie</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>NOTAFISCAL</name>
+        <rename>nNF</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>EMISSAO</name>
+        <rename>dEmi</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>CNPJ_EMITENTE</name>
+        <rename>CNPJ</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>NOME_EMITENTE</name>
+        <rename>xNome</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>CNPJ_DESTINATARIO</name>
+        <rename>CNPJ_1</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>217</xloc>
+      <yloc>183</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>NF</name>
     <type>getXMLData</type>
     <description/>
@@ -707,8 +818,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <include>N</include>
-    <include_field/>
+    <include>Y</include>
+    <include_field>nome_xml</include_field>
     <rownum>N</rownum>
     <addresultfile>N</addresultfile>
     <namespaceaware>N</namespaceaware>
@@ -1258,7 +1369,7 @@
         <xpath>*[name()=&apos;infNFe&apos;]&#47;*[name()=&apos;dest&apos;]&#47;*[name()=&apos;enderDest&apos;]&#47;*[name()=&apos;nro&apos;]</xpath>
         <element_type>node</element_type>
         <result_type>valueof</result_type>
-        <type>Integer</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2157,117 +2268,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>216</xloc>
       <yloc>24</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Modified Java Script Value</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var source = new java.io.File(&quot;file:&#47;&#47;&#47;home&#47;publico&#47;clientes&#47;greenhouse&#47;xml&#47;*.xml&quot;);
-var fileClass = source.getClass();
-var delMethod = fileClass.getMethod(&quot;delete&quot;, null);
-delMethod.invoke(source, null);</jsScript_script>
-      </jsScript>    </jsScripts>    <fields>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>217</xloc>
-      <yloc>327</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mov_atsadmin</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>atsadmin</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>NOTAFISCAL_IMPORTA</table>
-      <key>
-        <name>serie</name>
-        <field>SERIE</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>nNF</name>
-        <field>NOTAFISCAL</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>CNPJ</name>
-        <field>CNPJ_EMITENTE</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>NATUREZAOPERACAO</name>
-        <rename>natOp</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>MODELO</name>
-        <rename>mod</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>SERIE</name>
-        <rename>serie</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>NOTAFISCAL</name>
-        <rename>nNF</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>EMISSAO</name>
-        <rename>dEmi</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>CNPJ_EMITENTE</name>
-        <rename>CNPJ</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>NOME_EMITENTE</name>
-        <rename>xNome</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>CNPJ_DESTINATARIO</name>
-        <rename>CNPJ_1</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>217</xloc>
-      <yloc>183</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
