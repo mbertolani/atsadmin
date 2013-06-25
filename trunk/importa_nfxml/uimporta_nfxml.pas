@@ -8,7 +8,7 @@ uses
   JvDBUltimGrid, DBXpress, FMTBcd, DB, DBClient, Provider, SqlExpr;
 
 type
-  TForm1 = class(TForm)
+  TfImporta_XML = class(TForm)
     JvDBUltimGrid1: TJvDBUltimGrid;
     JvDBGrid1: TJvDBGrid;
     Label1: TLabel;
@@ -40,7 +40,7 @@ type
     lblNF: TLabel;
     sqlFaltaProd: TSQLQuery;
     BitBtn4: TBitBtn;
-    BitBtn5: TBitBtn;
+    btnExisteProdutoFornec: TBitBtn;
     cdsNFItemNOTAFISCAL: TIntegerField;
     cdsNFItemSERIE: TStringField;
     cdsNFItemCNPJ_EMITENTE: TStringField;
@@ -60,6 +60,9 @@ type
     cdsNFItemPIS: TStringField;
     cdsNFItemCOFINS: TStringField;
     cdsNFItemIPI: TStringField;
+    btnCadastrarProduto: TBitBtn;
+    sqlBusca: TSQLQuery;
+    sqlGenProd: TSQLQuery;
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -68,26 +71,31 @@ type
     procedure JvDBUltimGrid1KeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure BitBtn4Click(Sender: TObject);
-    procedure BitBtn5Click(Sender: TObject);
+    procedure btnExisteProdutoFornecClick(Sender: TObject);
+    procedure JvDBGrid1CellClick(Column: TColumn);
+    procedure btnCadastrarProdutoClick(Sender: TObject);
   private
     procedure abreNF;
     procedure abreNFItem;
     procedure mudaStatusNF;
     procedure faltandoFornecedor;
     procedure faltandoProduto;
+    procedure procuraCadastroProduto;
     { Private declarations }
   public
     { Public declarations }
   end;
 
 var
-  Form1: TForm1;
+  fImporta_XML: TfImporta_XML;
 
 implementation
 
+uses uProdutoFornecedor;
+
 {$R *.dfm}
 
-procedure TForm1.abreNF;
+procedure TfImporta_XML.abreNF;
 var strAbreNF: String;
 begin
   strAbreNF := ' SELECT r.NOTAFISCAL, r.NATUREZAOPERACAO, r.MODELO, ' +
@@ -104,7 +112,7 @@ begin
   cdsNF.Open;
 end;
 
-procedure TForm1.abreNFItem;
+procedure TfImporta_XML.abreNFItem;
 var strNFItem: String;
 begin
   strNFItem := 'SELECT * FROM NOTAFISCAL_PROD_IMPORTA r '+
@@ -117,12 +125,12 @@ begin
   cdsNFItem.Open;
 end;
 
-procedure TForm1.BitBtn2Click(Sender: TObject);
+procedure TfImporta_XML.BitBtn2Click(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm1.mudaStatusNF;
+procedure TfImporta_XML.mudaStatusNF;
 var strAlteraStatus: String;
 begin
   strAlteraStatus := 'UPDATE NOTAFISCAL_IMPORTA SET ' +
@@ -133,31 +141,31 @@ begin
   sqlConn.ExecuteDirect(strAlteraStatus);
 end;
 
-procedure TForm1.BitBtn3Click(Sender: TObject);
+procedure TfImporta_XML.BitBtn3Click(Sender: TObject);
 begin
   abreNF;
   abreNFItem;
   FaltandoFornecedor;
 end;
 
-procedure TForm1.JvDBUltimGrid1CellClick(Column: TColumn);
+procedure TfImporta_XML.JvDBUltimGrid1CellClick(Column: TColumn);
 begin
   abreNFItem;
 end;
 
-procedure TForm1.JvDBUltimGrid1KeyDown(Sender: TObject; var Key: Word;
+procedure TfImporta_XML.JvDBUltimGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   abreNFItem;
 end;
 
-procedure TForm1.JvDBUltimGrid1KeyUp(Sender: TObject; var Key: Word;
+procedure TfImporta_XML.JvDBUltimGrid1KeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   abreNFItem;
 end;
 
-procedure TForm1.faltandoFornecedor;
+procedure TfImporta_XML.faltandoFornecedor;
 var strFaltaFornec: String;
 begin
   strFaltaFornec := 'SELECT COUNT(r.CNPJ_EMITENTE) ' +
@@ -178,7 +186,7 @@ begin
   end;
 end;
 
-procedure TForm1.faltandoProduto;
+procedure TfImporta_XML.faltandoProduto;
 var strFaltaProd: String;
 begin
   strFaltaProd := 'SELECT pf.CODPRODUTO, p.CODPRO ' +
@@ -186,20 +194,19 @@ begin
     ' where p.CODPRODUTO = pf.CODPRODUTO ' +
     '   and pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger)  +
     '   and pf.codprodfornec = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
-  if (sqlFaltandoFornecedor.Active) then
-    sqlFaltandoFornecedor.Close;
-  sqlFaltandoFornecedor.SQL.Clear;
-  sqlFaltandoFornecedor.SQL.Add(strFaltaProd);
-  sqlFaltandoFornecedor.Open;
+  if (sqlFaltaProd.Active) then
+    sqlFaltaProd.Close;
+  sqlFaltaProd.SQL.Clear;
+  sqlFaltaProd.SQL.Add(strFaltaProd);
+  sqlFaltaProd.Open;
 end;
 
-procedure TForm1.BitBtn4Click(Sender: TObject);
+procedure TfImporta_XML.BitBtn4Click(Sender: TObject);
 var strInsereFornec: String;
    linha: Integer;
 begin
   if (cdsNF.Active) then
   begin
-    linha := cdsNF.RecNo;
     while not cdsNF.Eof do
     begin
       strInsereFornec := 'SELECT CODFORNECEDOR, RAZAOSOCIAL ' +
@@ -222,29 +229,29 @@ begin
       end;
       cdsNF.Next;
     end;
-    cdsNF.RecNo := linha;
   end;
 end;
 
-procedure TForm1.BitBtn5Click(Sender: TObject);
+procedure TfImporta_XML.btnExisteProdutoFornecClick(Sender: TObject);
 var insereCodPro: String;
- linhaa: integer;
+  linhaNF: Integer;
 begin
   if (cdsNF.Active) then
   begin
-    linhaa := cdsNF.RecNo;
+    linhaNF := cdsNF.RecNo;
     while not cdsNF.Eof do
     begin
+      abreNFItem;
       while not cdsNFItem.Eof do
       begin
         faltandoProduto;
         if (not sqlFaltaProd.IsEmpty) then
         begin
           insereCodPro := 'UPDATE NOTAFISCAL_PROD_IMPORTA SET ' +
-            ' CODPRODUTO_ATS = ' +  IntToStr(sqlFaltandoFornecedor.fieldByName('CODFORNECEDOR').AsInteger) +
-            ' CODPRO_ATS = ' + QuotedStr(sqlFaltandoFornecedor.fieldByName('RAZAOSOCIAL').AsString) +
+            ' CODPRODUTO_ATS = ' +  IntToStr(sqlFaltaProd.fieldbyname('CODPRODUTO').asInteger) +
+            ' ,CODPRO_ATS = ' + QuotedStr(sqlFaltaProd.fieldbyname('CODPRO').AsString) +
             ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
-            '   AND SERIE = ' + QuotedStr(cdsNFSERIE.AsString) +
+            '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
             '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
             '   AND NUM_ITEM = ' + IntToStr(cdsNFItemNUM_ITEM.AsInteger);
           sqlConn.ExecuteDirect(insereCodPro);
@@ -253,8 +260,104 @@ begin
       end;
       cdsNF.Next;
     end;
-    cdsNF.RecNo := linhaa;
+    cdsNF.RecNo := linhaNF;
+    abreNFItem;
   end;
+end;
+
+procedure TfImporta_XML.JvDBGrid1CellClick(Column: TColumn);
+begin
+  fProdutoFornec.codFornec := IntToStr(cdsNFCodCliente_ats.asInteger);
+  fProdutoFornec.nomeFornec := cdsNFRAZAOSOCIAL_ATS.AsString;
+  fProdutoFornec.codProdFornec := IntToStr(cdsNFItemCODPRODUTO.AsInteger);
+  fProdutoFornec.prodDescricaoFornec := cdsNFItemPRODUTO.AsString;
+  fProdutoFornec.codProduto := IntToStr(cdsNFItemCODPRODUTO_ATS.AsInteger);
+  fProdutoFornec.prodDescricao := cdsNFItemPRODUTO.AsString;
+  fProdutoFornec.showModal;
+  btnExisteProdutoFornec.Click;
+end;
+
+procedure TfImporta_XML.btnCadastrarProdutoClick(Sender: TObject);
+var strInsereItem: String;
+  varCodProduto : Integer;
+begin
+  btnExisteProdutoFornec.Click;
+  if (cdsNF.Active) then
+  begin
+    while not cdsNF.Eof do
+    begin
+      if (cdsNFRAZAOSOCIAL_ATS.AsString = '') then
+      begin
+        MessageDlg('Existe Cliente que não consta no sistema, faça' +
+          ' o cadastro primeiro.', mtWarning, [mbOK], 0);
+        exit;
+      end;
+      abreNFItem;
+      while not cdsNFItem.Eof do
+      begin
+        if (cdsNFItemCODPRO_ATS.AsString = '') then
+        begin
+          procuraCadastroProduto;
+          if (sqlBusca.IsEmpty) then
+          begin
+            if (sqlGenProd.Active) then
+              sqlGenProd.Close;
+            sqlGenProd.SQL.Clear;
+            sqlGenProd.SQL.Add('SELECT GEN_ID(GEN_PROD, 1) FROM RDB$DATABASE');
+            sqlGenProd.Open;
+            varCodProduto := sqlGenProd.Fields[0].AsInteger;
+            strInsereItem := 'INSERT INTO PRODUTOS (CODPRODUTO, UNIDADEMEDIDA, ' +
+              ' PRODUTO, COD_BARRA, TIPO, CODPRO, QTDE_PCT, DATACADASTRO, ' +
+              ' ORIGEM, NCM) VALUES (' +
+              IntToStr(varCodProduto) +
+              ' ,' + QuotedStr(copy(trim(cdsNFItemUN.AsString),0,2)) +
+              ' ,' + QuotedStr(trim(cdsNFItemPRODUTO.AsString)) +
+              ' ,' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger)) +
+              ' ,' + QuotedStr('PROD') +
+              ' ,' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger)) +
+              ' ,1' +
+              ' ,current_date ' +
+              ' ,0' +
+              ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) + ')';
+            sqlConn.ExecuteDirect(strInsereItem);
+            strInsereItem := 'INSERT INTO PRODUTO_FORNECEDOR (' +
+              'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
+              IntToStr(varCodProduto) +
+              ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger) +
+              ', ' + IntToStr(cdsNFItemCODPRODUTO.AsInteger) +  ')';
+            sqlConn.ExecuteDirect(strInsereItem);
+          end;
+          faltandoProduto;
+          if (not sqlFaltaProd.IsEmpty) then
+          begin
+            strInsereItem := 'UPDATE NOTAFISCAL_PROD_IMPORTA SET ' +
+              ' CODPRODUTO_ATS = ' +  IntToStr(sqlFaltaProd.fieldbyname('CODPRODUTO').asInteger) +
+              ' ,CODPRO_ATS = ' + QuotedStr(sqlFaltaProd.fieldbyname('CODPRO').AsString) +
+              ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
+              '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
+              '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
+              '   AND NUM_ITEM = ' + IntToStr(cdsNFItemNUM_ITEM.AsInteger);
+            sqlConn.ExecuteDirect(strInsereItem);
+          end;
+        end;
+        cdsNFItem.Next;
+      end;
+      cdsNF.Next;
+    end;
+  end;
+end;
+
+procedure TfImporta_XML.procuraCadastroProduto;
+var strBusca: String;
+begin
+  strBusca := 'SELECT CODPRODUTO, CODPRO ' +
+    '  FROM produtos ' +
+    ' where CODPRO = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add(strBusca);
+  sqlBusca.Open;
 end;
 
 end.

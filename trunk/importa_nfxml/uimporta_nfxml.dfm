@@ -1,9 +1,9 @@
-object Form1: TForm1
-  Left = 192
-  Top = 108
-  Width = 885
-  Height = 755
-  Caption = 'Form1'
+object fImporta_XML: TfImporta_XML
+  Left = 201
+  Top = 12
+  Width = 911
+  Height = 714
+  Caption = 'Importar XML - NFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -119,9 +119,9 @@ object Form1: TForm1
   end
   object JvDBGrid1: TJvDBGrid
     Left = 24
-    Top = 208
+    Top = 216
     Width = 761
-    Height = 483
+    Height = 435
     DataSource = dsNFItem
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -129,6 +129,7 @@ object Form1: TForm1
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = JvDBGrid1CellClick
     SelectColumnsDialogStrings.Caption = 'Select columns'
     SelectColumnsDialogStrings.OK = '&OK'
     SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -138,7 +139,7 @@ object Form1: TForm1
   end
   object BitBtn1: TBitBtn
     Left = 624
-    Top = 696
+    Top = 656
     Width = 75
     Height = 25
     Caption = 'Importar'
@@ -146,7 +147,7 @@ object Form1: TForm1
   end
   object BitBtn2: TBitBtn
     Left = 704
-    Top = 696
+    Top = 656
     Width = 75
     Height = 25
     Caption = 'Fechar'
@@ -155,7 +156,7 @@ object Form1: TForm1
   end
   object BitBtn3: TBitBtn
     Left = 544
-    Top = 696
+    Top = 656
     Width = 75
     Height = 25
     Caption = 'Iniciar'
@@ -172,14 +173,23 @@ object Form1: TForm1
     OnClick = BitBtn4Click
     Layout = blGlyphTop
   end
-  object BitBtn5: TBitBtn
-    Left = 784
+  object btnExisteProdutoFornec: TBitBtn
+    Left = 788
     Top = 624
-    Width = 89
+    Width = 106
     Height = 41
     Caption = 'Verifica Produto'
     TabOrder = 6
-    OnClick = BitBtn5Click
+    OnClick = btnExisteProdutoFornecClick
+  end
+  object btnCadastrarProduto: TBitBtn
+    Left = 432
+    Top = 656
+    Width = 107
+    Height = 25
+    Caption = 'Cadastrar Produto'
+    TabOrder = 7
+    OnClick = btnCadastrarProdutoClick
   end
   object sqlConn: TSQLConnection
     ConnectionName = 'sisAdmin'
@@ -191,7 +201,7 @@ object Form1: TForm1
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_centroautomotivow'
+      'Database=192.168.1.100:sge_centroautomotivow'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
@@ -401,5 +411,19 @@ object Form1: TForm1
     SQLConnection = sqlConn
     Left = 344
     Top = 592
+  end
+  object sqlBusca: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sqlConn
+    Left = 256
+    Top = 648
+  end
+  object sqlGenProd: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sqlConn
+    Left = 592
+    Top = 552
   end
 end
