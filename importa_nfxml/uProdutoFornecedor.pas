@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Grids, DBGrids, JvExDBGrids, JvDBGrid, JvDBUltimGrid,
-  FMTBcd, DB, DBClient, Provider, SqlExpr, Buttons;
+  FMTBcd, DB, DBClient, Provider, SqlExpr, Buttons, dbxpress;
 
 type
   TfProdutoFornec = class(TForm)
@@ -77,10 +77,19 @@ end;
 
 procedure TfProdutoFornec.edCodProdutoExit(Sender: TObject);
 begin
+  if (sqlBusca.Active) then
+      sqlBusca.Close;
+  sqlBusca.SQL.Clear;
   sqlBusca.SQL.Add('SELECT CODPRODUTO, PRODUTO FROM PRODUTOS WHERE CODPRO = ' +
     QuotedStr(edCodProduto.Text));
   sqlBusca.Open;
+  if (sqlBusca.IsEmpty) then
+  begin
+    MessageDlg('Produto não encontrado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   codProduto := IntToStr(sqlBusca.Fields[0].asInteger);
+  edProduto.Text := sqlBusca.Fields[1].AsString;
 end;
 
 procedure TfProdutoFornec.BitBtn1Click(Sender: TObject);
@@ -93,13 +102,27 @@ end;
 
 procedure TfProdutoFornec.btnInsereClick(Sender: TObject);
 var strInsere: String;
+TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   strInsere := 'INSERT INTO PRODUTO_FORNECEDOR (' +
     'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
     codProduto +
     ', ' + edCodFornec.Text +
     ', ' + edCodProdutoFornec.Text +  ')';
-  fImporta_XML.sqlConn.ExecuteDirect(strInsere);
+  fImporta_XML.sqlConn.StartTransaction(TD);
+  try
+    fImporta_XML.sqlConn.ExecuteDirect(strInsere);
+    fImporta_XML.sqlConn.Commit(TD);
+    MessageDlg('Inserido com sucesso.', mtInformation, [mbOK], 0);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      fImporta_XML.sqlConn.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
   cdsProdutoFornec.Close;
   cdsProdutoFornec.Open;
 end;
@@ -115,11 +138,25 @@ end;
 
 procedure TfProdutoFornec.BitBtn2Click(Sender: TObject);
 var strExclui: String;
+TD: TTransactionDesc;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   strExclui := 'DELETE FROM PRODUTO_FORNECEDOR ' +
     ' WHERE CODFORNECEDOR = ' + edCodFornec.Text +
     '   AND CODPRODFORNEC = ' + edCodProdutoFornec.Text;
-  fImporta_XML.sqlConn.ExecuteDirect(strExclui);
+  fImporta_XML.sqlConn.StartTransaction(TD);
+  try
+    fImporta_XML.sqlConn.ExecuteDirect(strExclui);
+    fImporta_XML.sqlConn.Commit(TD);
+    MessageDlg('Excluido com sucesso.', mtInformation, [mbOK], 0);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      fImporta_XML.sqlConn.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
   cdsProdutoFornec.Close;
   cdsProdutoFornec.Open;
 end;
