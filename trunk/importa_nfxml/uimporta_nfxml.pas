@@ -63,6 +63,9 @@ type
     btnCadastrarProduto: TBitBtn;
     sqlBusca: TSQLQuery;
     sqlGenProd: TSQLQuery;
+    Label3: TLabel;
+    edNota: TEdit;
+    cbNaoEnviada: TCheckBox;
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -74,13 +77,17 @@ type
     procedure btnExisteProdutoFornecClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure btnCadastrarProdutoClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
+    TD: TTransactionDesc;
     procedure abreNF;
     procedure abreNFItem;
     procedure mudaStatusNF;
     procedure faltandoFornecedor;
     procedure faltandoProduto;
     procedure procuraCadastroProduto;
+    procedure insereMovimento;
     { Private declarations }
   public
     { Public declarations }
@@ -91,7 +98,7 @@ var
 
 implementation
 
-uses uProdutoFornecedor;
+uses uProdutoFornecedor, uMovimento, UDm;
 
 {$R *.dfm}
 
@@ -104,8 +111,19 @@ begin
     '    f.RAZAOSOCIAL as RAZAOSOCIAL_ATS, f.CODFORNECEDOR as CODCLIENTE_ATS' +
     '    ,r.STATUS    ' +
     '  FROM NOTAFISCAL_IMPORTA r  ' +
-    '  left OUTER join FORNECEDOR f on UDF_DIGITS(f.CNPJ) = UDF_DIGITS(r.CNPJ_EMITENTE) ' +
-    ' WHERE r.STATUS = 0 ';
+    '  left OUTER join FORNECEDOR f on UDF_DIGITS(f.CNPJ) = UDF_DIGITS(r.CNPJ_EMITENTE) ';
+  if (cbNaoEnviada.Checked) then
+    strAbreNF := strAbreNF + ' WHERE r.STATUS = 0 ';
+
+  if (edNota.Text <> '') then
+  begin
+    if (cbNaoEnviada.Checked) then
+      strAbreNF := strAbreNF + ' AND '
+    else
+      strAbreNF := strAbreNF + ' WHERE ';
+    strAbreNF := strAbreNF + ' r.NOTAFISCAL = ' + edNota.Text;
+  end;
+
   if (cdsNF.Active) then
     cdsNF.Close;
   cdsNF.CommandText := strAbreNF;
@@ -138,14 +156,31 @@ begin
     ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
     '   AND SERIE = ' + QuotedStr(cdsNFSERIE.AsString) +
     '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
-  sqlConn.ExecuteDirect(strAlteraStatus);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    dm.sqlsisAdimin.ExecuteDirect(strAlteraStatus);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 procedure TfImporta_XML.BitBtn3Click(Sender: TObject);
+var Save_Cursor:TCursor;
 begin
-  abreNF;
-  abreNFItem;
-  FaltandoFornecedor;
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
+    abreNF;
+    abreNFItem;
+    FaltandoFornecedor;
+  finally
+    Screen.Cursor := Save_Cursor;
+  end;  
 end;
 
 procedure TfImporta_XML.JvDBUltimGrid1CellClick(Column: TColumn);
@@ -190,9 +225,9 @@ procedure TfImporta_XML.faltandoProduto;
 var strFaltaProd: String;
 begin
   strFaltaProd := 'SELECT pf.CODPRODUTO, p.CODPRO ' +
-    '  FROM  produto_fornecedor pf, produtos p ' +
-    ' where p.CODPRODUTO = pf.CODPRODUTO ' +
-    '   and pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger)  +
+    '  FROM  produto_fornecedor pf ' +
+    ' LEFT OUTER JOIN produtos p on p.CODPRODUTO = pf.CODPRODUTO ' +
+    ' where pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger)  +
     '   and pf.codprodfornec = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
   if (sqlFaltaProd.Active) then
     sqlFaltaProd.Close;
@@ -203,7 +238,6 @@ end;
 
 procedure TfImporta_XML.BitBtn4Click(Sender: TObject);
 var strInsereFornec: String;
-   linha: Integer;
 begin
   if (cdsNF.Active) then
   begin
@@ -225,7 +259,17 @@ begin
           ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
           '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
           '   AND CNPJ_EMITENTE = ' + QuotedStr(trim(cdsNFCNPJ_EMITENTE.AsString));
-        sqlConn.ExecuteDirect(strInsereFornec);
+        sqlConn.StartTransaction(TD);
+        try
+          sqlConn.ExecuteDirect(strInsereFornec);
+          sqlConn.Commit(TD);
+        except
+          on E : Exception do
+          begin
+            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+            sqlConn.Rollback(TD); //on failure, undo the changes}
+          end;
+        end;
       end;
       cdsNF.Next;
     end;
@@ -254,7 +298,18 @@ begin
             '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
             '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
             '   AND NUM_ITEM = ' + IntToStr(cdsNFItemNUM_ITEM.AsInteger);
-          sqlConn.ExecuteDirect(insereCodPro);
+          sqlConn.StartTransaction(TD);
+          try
+            sqlConn.ExecuteDirect(insereCodPro);
+            sqlConn.Commit(TD);
+          except
+            on E : Exception do
+            begin
+              ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              sqlConn.Rollback(TD); //on failure, undo the changes}
+            end;
+          end;
+
         end;
         cdsNFItem.Next;
       end;
@@ -278,10 +333,10 @@ begin
 end;
 
 procedure TfImporta_XML.btnCadastrarProdutoClick(Sender: TObject);
-var strInsereItem: String;
+var strInsereItem, strInsereItemF: String;
   varCodProduto : Integer;
 begin
-  btnExisteProdutoFornec.Click;
+  //btnExisteProdutoFornec.Click;
   if (cdsNF.Active) then
   begin
     while not cdsNF.Eof do
@@ -319,13 +374,26 @@ begin
               ' ,current_date ' +
               ' ,0' +
               ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) + ')';
-            sqlConn.ExecuteDirect(strInsereItem);
-            strInsereItem := 'INSERT INTO PRODUTO_FORNECEDOR (' +
+
+            strInsereItemF := 'INSERT INTO PRODUTO_FORNECEDOR (' +
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
               IntToStr(varCodProduto) +
               ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger) +
               ', ' + IntToStr(cdsNFItemCODPRODUTO.AsInteger) +  ')';
-            sqlConn.ExecuteDirect(strInsereItem);
+
+            sqlConn.StartTransaction(TD);
+            try
+              sqlConn.ExecuteDirect(strInsereItem);
+              sqlConn.ExecuteDirect(strInsereItemF);
+              sqlConn.Commit(TD);
+            except
+              on E : Exception do
+              begin
+                ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+                sqlConn.Rollback(TD); //on failure, undo the changes}
+              end;
+            end;
+
           end;
           faltandoProduto;
           if (not sqlFaltaProd.IsEmpty) then
@@ -337,7 +405,18 @@ begin
               '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
               '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString) +
               '   AND NUM_ITEM = ' + IntToStr(cdsNFItemNUM_ITEM.AsInteger);
-            sqlConn.ExecuteDirect(strInsereItem);
+            sqlConn.StartTransaction(TD);
+            try
+              sqlConn.ExecuteDirect(strInsereItem);
+              sqlConn.Commit(TD);
+            except
+              on E : Exception do
+              begin
+                ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+                sqlConn.Rollback(TD); //on failure, undo the changes}
+              end;
+            end;
+
           end;
         end;
         cdsNFItem.Next;
@@ -358,6 +437,100 @@ begin
   sqlBusca.SQL.Clear;
   sqlBusca.SQL.Add(strBusca);
   sqlBusca.Open;
+end;
+
+procedure TfImporta_XML.FormShow(Sender: TObject);
+begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+end;
+
+procedure TfImporta_XML.insereMovimento;
+var fmov : TMovimento;
+  codMov : Integer;
+  TDm: TTransactionDesc;
+begin
+  // se existir nota sem fornecedor nao faz nada
+  while not cdsNF.Eof do
+  begin
+    if (cdsNFRAZAOSOCIAL_ATS.AsString = '') then
+    begin
+      MessageDlg('Existe Nota Fiscal sem informar o Fornecedor.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    cdsNF.Next;
+  end;
+  // se existir produto sem o correspondente no ATS nao faz nada
+  while not cdsNFItem.Eof do
+  begin
+    if (cdsNFItemCODPRO_ATS.AsString = '') then
+    begin
+      MessageDlg('Existe Produto sem o Código no sistema.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    cdsNFItem.Next;
+  end;
+  cdsNF.First;
+  cdsNFItem.First;
+
+  TDm.TransactionID := 1;
+  TDm.IsolationLevel := xilREADCOMMITTED;
+
+  fmov := TMovimento.Create;
+  try
+    while not cdsNF.Eof do
+    begin
+      fMov.CodMov      := 0;
+      fMov.CodNatureza := 4;  // Compra
+      fMov.DataMov     := cdsNFEMISSAO.AsDateTime;
+      fMov.CodCliente  := 0;
+      fMov.Status      := 0;
+      fMov.CodUsuario  := 1;
+      fMov.CodVendedor := 1;
+      fMov.CodFornec   := cdsNFCODCLIENTE_ATS.AsInteger;
+      fMov.CodCCusto   := 51;
+      fMov.CodPedido   := cdsNFNOTAFISCAL.AsInteger;
+      fMov.Controle    := IntToStr(cdsNFNOTAFISCAL.AsInteger);
+
+      dm.sqlsisAdimin.StartTransaction(TDm);
+      try
+
+        codMov := fMov.inserirMovimento(0);
+
+        While not cdsNFItem.Eof do
+        begin
+          //prog2.Position := cdsB.RecNo;
+          // Detalhe Natureza 6
+          fMov.MovDetalhe.CodMov     := codMov;
+          fMov.MovDetalhe.CodProduto := cdsNFItemCODPRODUTO_ATS.AsInteger;
+          fMov.MovDetalhe.Qtde       := cdsNFItemQTDE.AsFloat;
+          fMov.MovDetalhe.Preco      := cdsNFItemVLR_UNIT.AsFloat;
+          fMov.MovDetalhe.Descricao  := trim(cdsNFItemPRODUTO.AsString);
+          fMov.MovDetalhe.Desconto   := 0;
+          fMov.MovDetalhe.Un         := trim(cdsNFItemUN.AsString);
+          fMov.MovDetalhe.Lote       := '0';//cdsB.FieldByName('LOTE').AsString;
+          fMov.MovDetalhe.inserirMovDet;
+          cdsNFItem.Next;
+        end;
+        mudaStatusNF;
+        dm.sqlsisAdimin.Commit(TDm);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TDm); //on failure, undo the changes}
+        end;
+      end;
+      cdsNF.Next;
+    end;
+  finally
+    fMov.Free;
+  end;
+end;
+
+procedure TfImporta_XML.BitBtn1Click(Sender: TObject);
+begin
+  insereMovimento;
 end;
 
 end.

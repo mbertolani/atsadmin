@@ -1,6 +1,6 @@
 object fImporta_XML: TfImporta_XML
-  Left = 201
-  Top = 12
+  Left = 193
+  Top = 144
   Width = 911
   Height = 714
   Caption = 'Importar XML - NFe'
@@ -11,6 +11,7 @@ object fImporta_XML: TfImporta_XML
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -39,6 +40,13 @@ object fImporta_XML: TfImporta_XML
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 195
+    Top = 2
+    Width = 23
+    Height = 13
+    Caption = 'Nota'
   end
   object JvDBUltimGrid1: TJvDBUltimGrid
     Left = 24
@@ -144,6 +152,7 @@ object fImporta_XML: TfImporta_XML
     Height = 25
     Caption = 'Importar'
     TabOrder = 2
+    OnClick = BitBtn1Click
   end
   object BitBtn2: TBitBtn
     Left = 704
@@ -191,6 +200,23 @@ object fImporta_XML: TfImporta_XML
     TabOrder = 7
     OnClick = btnCadastrarProdutoClick
   end
+  object edNota: TEdit
+    Left = 240
+    Top = 0
+    Width = 121
+    Height = 21
+    TabOrder = 8
+  end
+  object cbNaoEnviada: TCheckBox
+    Left = 376
+    Top = 0
+    Width = 97
+    Height = 17
+    Caption = 'N'#227'o Enviadas'
+    Checked = True
+    State = cbChecked
+    TabOrder = 9
+  end
   object sqlConn: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -213,7 +239,6 @@ object fImporta_XML: TfImporta_XML
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
-    Connected = True
     Left = 112
     Top = 552
   end
