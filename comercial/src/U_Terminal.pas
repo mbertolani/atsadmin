@@ -2158,8 +2158,11 @@ begin
   begin
     edMesa.Text := '';
     pinta_botao_1;
-    edMesa.SetFocus;
+    if (PageControl1.TabIndex = 1) then
+      edMesa.SetFocus;
   end;
+  if (PageControl1.TabIndex = 0) then
+    EdtCodBarra.SetFocus;
 end;
 
 procedure TF_Terminal.BuscaLote;
