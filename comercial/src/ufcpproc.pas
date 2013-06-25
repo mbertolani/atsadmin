@@ -884,23 +884,19 @@ begin
 end;
 
 procedure TfCpProc.btnImprimirClick(Sender: TObject);
-  var
-   sqlGrupo: String;
 begin
-//  repContasReceber.Report.Params.ParamByName('PVENDA').Value := dm.cds_vendaCODVENDA.AsInteger;
-  sqlGrupo := ' group by rec.DATAVENCIMENTO, cli.NOMEFORNECEDOR, rec.CODFORNECEDOR, '
-            + ' rec.EMISSAO, rec.CODPAGAMENTO, '
-            + ' rec.TITULO,  rec.VALOR_RESTO, rec.VALORTITULO, '
-            + ' rec.STATUS, rec.DATAPAGAMENTO, rec.VALORRECEBIDO , '
-            + ' rec.VIA, rec.N_DOCUMENTO, rec.VALOR_PRIM_VIA, rec.dp, rec.dup_rec_nf' +
-             ' ,plano.NOME ,rec.CONTACREDITO,  rec.HISTORICO ';
-  repContasReceber.FileName := str_relatorio + 'rel_cpFiltro.rep';
-  repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  If (scdsCr_proc.IndexFieldNames = '') then
-    repContasReceber.Report.DataInfo.Items[0].SQL:= sqlTexto1 + sqlTexto + sqlGrupo
+  if (scdsCr_proc.Active) then
+  begin
+    repContasReceber.FileName := str_relatorio + 'rel_cpFiltro.rep';
+    repContasReceber.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+    If (scdsCr_proc.IndexFieldNames = '') then
+      repContasReceber.Report.DataInfo.Items[0].SQL:= scdsCr_proc.CommandText
+    else
+      repContasReceber.Report.DataInfo.Items[0].SQL:= scdsCr_proc.CommandText + ' order by ' + scdsCr_proc.IndexFieldNames;
+    repContasReceber.Execute;
+  end
   else
-    repContasReceber.Report.DataInfo.Items[0].SQL:= sqlTexto1 + sqlTexto + sqlGrupo + ' order by ' + scdsCr_proc.IndexFieldNames;
-  repContasReceber.Execute;
+    MessageDlg('Efetue a busca antes de imprimir.', mtWarning, [mbOK], 0);
 end;
 
 procedure TfCpProc.BitBtn8Click(Sender: TObject);
