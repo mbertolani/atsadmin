@@ -13,8 +13,8 @@ type
     JvDBGrid1: TJvDBGrid;
     Label1: TLabel;
     Label2: TLabel;
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
+    btnImportaNF: TBitBtn;
+    btnFechar: TBitBtn;
     sqlConn: TSQLConnection;
     sdsNF: TSQLDataSet;
     sdsNFItem: TSQLDataSet;
@@ -35,17 +35,16 @@ type
     cdsNFCODCLIENTE_ATS: TIntegerField;
     cdsNFRAZAOSOCIAL_ATS: TStringField;
     cdsNFSTATUS: TSmallintField;
-    BitBtn3: TBitBtn;
+    btnProcurar: TBitBtn;
     sqlFaltandoFornecedor: TSQLQuery;
     lblNF: TLabel;
     sqlFaltaProd: TSQLQuery;
-    BitBtn4: TBitBtn;
+    btnVerificaFornec: TBitBtn;
     btnExisteProdutoFornec: TBitBtn;
     cdsNFItemNOTAFISCAL: TIntegerField;
     cdsNFItemSERIE: TStringField;
     cdsNFItemCNPJ_EMITENTE: TStringField;
     cdsNFItemNUM_ITEM: TIntegerField;
-    cdsNFItemCODPRODUTO: TIntegerField;
     cdsNFItemCODPRODUTO_ATS: TIntegerField;
     cdsNFItemCODPRO_ATS: TStringField;
     cdsNFItemPRODUTO: TStringField;
@@ -66,19 +65,23 @@ type
     Label3: TLabel;
     edNota: TEdit;
     cbNaoEnviada: TCheckBox;
-    procedure BitBtn2Click(Sender: TObject);
-    procedure BitBtn3Click(Sender: TObject);
+    btnImportarXml: TBitBtn;
+    cdsNFItemCODPRODUTO: TFMTBCDField;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
     procedure JvDBUltimGrid1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure JvDBUltimGrid1KeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure BitBtn4Click(Sender: TObject);
+    procedure btnVerificaFornecClick(Sender: TObject);
     procedure btnExisteProdutoFornecClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
     procedure btnCadastrarProdutoClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
+    procedure btnImportaNFClick(Sender: TObject);
+    procedure btnImportarXmlClick(Sender: TObject);
+    procedure cbNaoEnviadaClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure abreNF;
@@ -143,7 +146,7 @@ begin
   cdsNFItem.Open;
 end;
 
-procedure TfImporta_XML.BitBtn2Click(Sender: TObject);
+procedure TfImporta_XML.btnFecharClick(Sender: TObject);
 begin
   Close;
 end;
@@ -156,20 +159,10 @@ begin
     ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
     '   AND SERIE = ' + QuotedStr(cdsNFSERIE.AsString) +
     '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
-    dm.sqlsisAdimin.ExecuteDirect(strAlteraStatus);
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-    end;
-  end;
+  dm.sqlsisAdimin.ExecuteDirect(strAlteraStatus);
 end;
 
-procedure TfImporta_XML.BitBtn3Click(Sender: TObject);
+procedure TfImporta_XML.btnProcurarClick(Sender: TObject);
 var Save_Cursor:TCursor;
 begin
   Save_Cursor := Screen.Cursor;
@@ -178,6 +171,10 @@ begin
     abreNF;
     abreNFItem;
     FaltandoFornecedor;
+    btnProcurar.Font.Color := clWindowText;
+    btnVerificaFornec.Font.Color := clRed;
+    btnExisteProdutoFornec.Font.Color := clWindowText;
+    btnImportaNF.Font.Color := clWindowText;
   finally
     Screen.Cursor := Save_Cursor;
   end;  
@@ -228,7 +225,7 @@ begin
     '  FROM  produto_fornecedor pf ' +
     ' LEFT OUTER JOIN produtos p on p.CODPRODUTO = pf.CODPRODUTO ' +
     ' where pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger)  +
-    '   and pf.codprodfornec = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
+    '   and pf.codprodfornec = ' + QuotedStr(BcdToStr(cdsNFItemCODPRODUTO.AsBCD));
   if (sqlFaltaProd.Active) then
     sqlFaltaProd.Close;
   sqlFaltaProd.SQL.Clear;
@@ -236,7 +233,7 @@ begin
   sqlFaltaProd.Open;
 end;
 
-procedure TfImporta_XML.BitBtn4Click(Sender: TObject);
+procedure TfImporta_XML.btnVerificaFornecClick(Sender: TObject);
 var strInsereFornec: String;
 begin
   if (cdsNF.Active) then
@@ -273,6 +270,10 @@ begin
       end;
       cdsNF.Next;
     end;
+    btnVerificaFornec.Font.Color := clWindowText;
+    btnProcurar.Font.Color := clWindowText;
+    btnImportaNF.Font.Color := clWindowText;
+    btnExisteProdutoFornec.Font.Color := clRed;
   end;
 end;
 
@@ -283,6 +284,7 @@ begin
   if (cdsNF.Active) then
   begin
     linhaNF := cdsNF.RecNo;
+    cdsNF.First;
     while not cdsNF.Eof do
     begin
       abreNFItem;
@@ -317,6 +319,10 @@ begin
     end;
     cdsNF.RecNo := linhaNF;
     abreNFItem;
+    btnExisteProdutoFornec.Font.Color := clWindowText;
+    btnVerificaFornec.Font.Color := clWindowText;
+    btnProcurar.Font.Color := clWindowText;
+    btnImportaNF.Font.Color := clRed;
   end;
 end;
 
@@ -324,7 +330,7 @@ procedure TfImporta_XML.JvDBGrid1CellClick(Column: TColumn);
 begin
   fProdutoFornec.codFornec := IntToStr(cdsNFCodCliente_ats.asInteger);
   fProdutoFornec.nomeFornec := cdsNFRAZAOSOCIAL_ATS.AsString;
-  fProdutoFornec.codProdFornec := IntToStr(cdsNFItemCODPRODUTO.AsInteger);
+  fProdutoFornec.codProdFornec := BcdToStr(cdsNFItemCODPRODUTO.AsBcd);
   fProdutoFornec.prodDescricaoFornec := cdsNFItemPRODUTO.AsString;
   fProdutoFornec.codProduto := IntToStr(cdsNFItemCODPRODUTO_ATS.AsInteger);
   fProdutoFornec.prodDescricao := cdsNFItemPRODUTO.AsString;
@@ -339,6 +345,7 @@ begin
   //btnExisteProdutoFornec.Click;
   if (cdsNF.Active) then
   begin
+    cdsNF.First;
     while not cdsNF.Eof do
     begin
       if (cdsNFRAZAOSOCIAL_ATS.AsString = '') then
@@ -367,9 +374,9 @@ begin
               IntToStr(varCodProduto) +
               ' ,' + QuotedStr(copy(trim(cdsNFItemUN.AsString),0,2)) +
               ' ,' + QuotedStr(trim(cdsNFItemPRODUTO.AsString)) +
-              ' ,' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger)) +
+              ' ,' + QuotedStr(BcdToStr(cdsNFItemCODPRODUTO.AsBCD)) +
               ' ,' + QuotedStr('PROD') +
-              ' ,' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger)) +
+              ' ,' + QuotedStr(BcdToStr(cdsNFItemCODPRODUTO.AsBCD)) +
               ' ,1' +
               ' ,current_date ' +
               ' ,0' +
@@ -379,7 +386,7 @@ begin
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
               IntToStr(varCodProduto) +
               ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger) +
-              ', ' + IntToStr(cdsNFItemCODPRODUTO.AsInteger) +  ')';
+              ', ' + BcdToStr(cdsNFItemCODPRODUTO.AsBCD) +  ')';
 
             sqlConn.StartTransaction(TD);
             try
@@ -431,7 +438,7 @@ var strBusca: String;
 begin
   strBusca := 'SELECT CODPRODUTO, CODPRO ' +
     '  FROM produtos ' +
-    ' where CODPRO = ' + QuotedStr(IntToStr(cdsNFItemCODPRODUTO.AsInteger));
+    ' where CODPRO = ' + QuotedStr(BcdToStr(cdsNFItemCODPRODUTO.AsBcd));
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
@@ -528,9 +535,36 @@ begin
   end;
 end;
 
-procedure TfImporta_XML.BitBtn1Click(Sender: TObject);
+procedure TfImporta_XML.btnImportaNFClick(Sender: TObject);
 begin
+  if (cbNaoEnviada.Checked = False) then
+  begin
+    MessageDlg('Marque a opção Não enviadas, para prosseguir.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   insereMovimento;
+  DeleteFile('c:\home\xml\*');
+  btnImportaNF.Font.Color := clWindowText;
+  btnFechar.Font.Color := clRed;
+  btnProcurar.Click;
+end;
+
+procedure TfImporta_XML.btnImportarXmlClick(Sender: TObject);
+begin
+  //WinExec( PCHAR(' ARQUIVO.BAT') , SW_SHOW);
+  //ShellExecute(0, nil, 'cmd.exe', '/C find "320" in.txt > out.txt', nil, SW_HIDE);
+  WinExec('exe_impor.bat', SW_NORMAL);
+  btnImportarXml.Font.Color := clWindowText;
+  btnVerificaFornec.Font.Color := clWindowText;
+  btnExisteProdutoFornec.Font.Color := clWindowText;
+  btnImportaNF.Font.Color := clWindowText;
+  btnProcurar.Font.Color := clRed;
+end;
+
+procedure TfImporta_XML.cbNaoEnviadaClick(Sender: TObject);
+begin
+  btnProcurar.Click;
 end;
 
 end.

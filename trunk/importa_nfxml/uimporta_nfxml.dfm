@@ -2,7 +2,7 @@ object fImporta_XML: TfImporta_XML
   Left = 193
   Top = 144
   Width = 911
-  Height = 714
+  Height = 723
   Caption = 'Importar XML - NFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,14 +16,14 @@ object fImporta_XML: TfImporta_XML
   TextHeight = 13
   object Label1: TLabel
     Left = 27
-    Top = 9
+    Top = 20
     Width = 28
     Height = 13
     Caption = 'Notas'
   end
   object Label2: TLabel
     Left = 27
-    Top = 194
+    Top = 201
     Width = 23
     Height = 13
     Caption = 'Itens'
@@ -50,7 +50,7 @@ object fImporta_XML: TfImporta_XML
   end
   object JvDBUltimGrid1: TJvDBUltimGrid
     Left = 24
-    Top = 24
+    Top = 36
     Width = 761
     Height = 161
     DataSource = dsNF
@@ -145,58 +145,75 @@ object fImporta_XML: TfImporta_XML
     RowsHeight = 17
     TitleRowHeight = 17
   end
-  object BitBtn1: TBitBtn
-    Left = 624
-    Top = 656
-    Width = 75
-    Height = 25
-    Caption = 'Importar'
+  object btnImportaNF: TBitBtn
+    Left = 787
+    Top = 560
+    Width = 113
+    Height = 35
+    Hint = 'Conclui a importa'#231#227'o, inserindo a Nota do Xml no Sistema.'
+    Caption = '5'#186' - Importar'
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 2
-    OnClick = BitBtn1Click
+    OnClick = btnImportaNFClick
   end
-  object BitBtn2: TBitBtn
-    Left = 704
-    Top = 656
-    Width = 75
-    Height = 25
+  object btnFechar: TBitBtn
+    Left = 788
+    Top = 600
+    Width = 111
+    Height = 39
     Caption = 'Fechar'
     TabOrder = 3
-    OnClick = BitBtn2Click
+    OnClick = btnFecharClick
   end
-  object BitBtn3: TBitBtn
-    Left = 544
-    Top = 656
-    Width = 75
-    Height = 25
-    Caption = 'Iniciar'
+  object btnProcurar: TBitBtn
+    Left = 592
+    Top = 1
+    Width = 129
+    Height = 33
+    Hint = 'Exibe as notas importadas na Tela'
+    Caption = '2'#186' -Procurar'
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 4
-    OnClick = BitBtn3Click
+    OnClick = btnProcurarClick
   end
-  object BitBtn4: TBitBtn
+  object btnVerificaFornec: TBitBtn
     Left = 788
-    Top = 136
-    Width = 88
+    Top = 38
+    Width = 109
     Height = 41
-    Caption = 'Verifica Fornec.'
+    Hint = 'Verifica se existe os Fornecedores cadastrados no sistema'
+    Caption = '3'#186' - Verifica Fornec.'
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 5
-    OnClick = BitBtn4Click
+    OnClick = btnVerificaFornecClick
     Layout = blGlyphTop
   end
   object btnExisteProdutoFornec: TBitBtn
     Left = 788
-    Top = 624
-    Width = 106
+    Top = 216
+    Width = 109
     Height = 41
-    Caption = 'Verifica Produto'
+    Hint = 
+      'Verifica se existe uma rela'#231#227'o do c'#243'digo do fornecedor com o c'#243'd' +
+      'igo do sistema.'
+    Caption = '4'#186' - Verifica Produto'
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 6
     OnClick = btnExisteProdutoFornecClick
   end
   object btnCadastrarProduto: TBitBtn
-    Left = 432
+    Left = 442
     Top = 656
-    Width = 107
-    Height = 25
+    Width = 119
+    Height = 33
+    Hint = 'Cadastra no sistema os itens da Nota que n'#227'o existe.'
     Caption = 'Cadastrar Produto'
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 7
     OnClick = btnCadastrarProdutoClick
   end
@@ -209,13 +226,32 @@ object fImporta_XML: TfImporta_XML
   end
   object cbNaoEnviada: TCheckBox
     Left = 376
-    Top = 0
+    Top = 4
     Width = 97
     Height = 17
     Caption = 'N'#227'o Enviadas'
     Checked = True
     State = cbChecked
     TabOrder = 9
+    OnClick = cbNaoEnviadaClick
+  end
+  object btnImportarXml: TBitBtn
+    Left = 476
+    Top = 1
+    Width = 112
+    Height = 33
+    Hint = 'Importa o XML para o Sistema'
+    Caption = '1'#186' - Importar'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 10
+    OnClick = btnImportarXmlClick
   end
   object sqlConn: TSQLConnection
     ConnectionName = 'sisAdmin'
@@ -359,9 +395,6 @@ object fImporta_XML: TfImporta_XML
       FieldName = 'NUM_ITEM'
       Required = True
     end
-    object cdsNFItemCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-    end
     object cdsNFItemCODPRODUTO_ATS: TIntegerField
       FieldName = 'CODPRODUTO_ATS'
     end
@@ -416,6 +449,11 @@ object fImporta_XML: TfImporta_XML
     object cdsNFItemIPI: TStringField
       FieldName = 'IPI'
       Size = 50
+    end
+    object cdsNFItemCODPRODUTO: TFMTBCDField
+      FieldName = 'CODPRODUTO'
+      Precision = 15
+      Size = 0
     end
   end
   object dsNFItem: TDataSource
