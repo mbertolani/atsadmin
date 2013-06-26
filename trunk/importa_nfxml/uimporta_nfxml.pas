@@ -82,6 +82,7 @@ type
     procedure btnImportaNFClick(Sender: TObject);
     procedure btnImportarXmlClick(Sender: TObject);
     procedure cbNaoEnviadaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure abreNF;
@@ -430,6 +431,7 @@ begin
       end;
       cdsNF.Next;
     end;
+    MessageDlg('Cadastros criados com sucesso.', mtInformation, [mbOK], 0);
   end;
 end;
 
@@ -548,6 +550,8 @@ begin
   btnImportaNF.Font.Color := clWindowText;
   btnFechar.Font.Color := clRed;
   btnProcurar.Click;
+  MessageDlg('Notas importadas com sucesso.', mtInformation, [mbOK], 0);
+
 end;
 
 procedure TfImporta_XML.btnImportarXmlClick(Sender: TObject);
@@ -565,6 +569,19 @@ end;
 procedure TfImporta_XML.cbNaoEnviadaClick(Sender: TObject);
 begin
   btnProcurar.Click;
+end;
+
+procedure TfImporta_XML.FormCreate(Sender: TObject);
+begin
+  try
+  sqlConn.Connected := False;
+  sqlConn.LoadParamsFromIniFile('dbxconnections.ini');
+  sqlConn.LibraryName := 'dbexpUIBfire15.dll';
+  sqlConn.VendorLib := 'FBCLIENT.DLL';
+  sqlConn.Connected := True;
+  Except
+    ShowMessage('Banco de Dados invalido!');
+  end;
 end;
 
 end.
