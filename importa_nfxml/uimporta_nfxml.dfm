@@ -1,8 +1,8 @@
 object fImporta_XML: TfImporta_XML
-  Left = 193
-  Top = 144
-  Width = 911
-  Height = 723
+  Left = 187
+  Top = 18
+  Width = 914
+  Height = 633
   Caption = 'Importar XML - NFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,8 @@ object fImporta_XML: TfImporta_XML
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -42,7 +44,7 @@ object fImporta_XML: TfImporta_XML
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 195
+    Left = 347
     Top = 2
     Width = 23
     Height = 13
@@ -129,7 +131,7 @@ object fImporta_XML: TfImporta_XML
     Left = 24
     Top = 216
     Width = 761
-    Height = 435
+    Height = 385
     DataSource = dsNFItem
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -147,7 +149,7 @@ object fImporta_XML: TfImporta_XML
   end
   object btnImportaNF: TBitBtn
     Left = 787
-    Top = 560
+    Top = 512
     Width = 113
     Height = 35
     Hint = 'Conclui a importa'#231#227'o, inserindo a Nota do Xml no Sistema.'
@@ -159,17 +161,17 @@ object fImporta_XML: TfImporta_XML
   end
   object btnFechar: TBitBtn
     Left = 788
-    Top = 600
-    Width = 111
+    Top = 552
+    Width = 113
     Height = 39
     Caption = 'Fechar'
     TabOrder = 3
     OnClick = btnFecharClick
   end
   object btnProcurar: TBitBtn
-    Left = 592
+    Left = 789
     Top = 1
-    Width = 129
+    Width = 108
     Height = 33
     Hint = 'Exibe as notas importadas na Tela'
     Caption = '2'#186' -Procurar'
@@ -206,10 +208,10 @@ object fImporta_XML: TfImporta_XML
     OnClick = btnExisteProdutoFornecClick
   end
   object btnCadastrarProduto: TBitBtn
-    Left = 442
-    Top = 656
-    Width = 119
-    Height = 33
+    Left = 787
+    Top = 296
+    Width = 113
+    Height = 38
     Hint = 'Cadastra no sistema os itens da Nota que n'#227'o existe.'
     Caption = 'Cadastrar Produto'
     ParentShowHint = False
@@ -218,14 +220,14 @@ object fImporta_XML: TfImporta_XML
     OnClick = btnCadastrarProdutoClick
   end
   object edNota: TEdit
-    Left = 240
+    Left = 392
     Top = 0
     Width = 121
     Height = 21
     TabOrder = 8
   end
   object cbNaoEnviada: TCheckBox
-    Left = 376
+    Left = 528
     Top = 4
     Width = 97
     Height = 17
@@ -236,9 +238,9 @@ object fImporta_XML: TfImporta_XML
     OnClick = cbNaoEnviadaClick
   end
   object btnImportarXml: TBitBtn
-    Left = 476
+    Left = 684
     Top = 1
-    Width = 112
+    Width = 99
     Height = 33
     Hint = 'Importa o XML para o Sistema'
     Caption = '1'#186' - Importar'
@@ -465,28 +467,28 @@ object fImporta_XML: TfImporta_XML
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlConn
-    Left = 128
-    Top = 600
+    Left = 136
+    Top = 512
   end
   object sqlFaltaProd: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlConn
-    Left = 344
-    Top = 592
+    Left = 320
+    Top = 520
   end
   object sqlBusca: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlConn
-    Left = 256
-    Top = 648
+    Left = 296
+    Top = 552
   end
   object sqlGenProd: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlConn
-    Left = 592
-    Top = 552
+    Left = 512
+    Top = 512
   end
 end
