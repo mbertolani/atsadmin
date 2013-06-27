@@ -236,7 +236,7 @@ begin
       sqlTexto := sqlTexto + QuotedStr(Edit2.Text);
   end;
 
-  cdsC.CommandText := cdsC.CommandText + sqlTexto ;
+  cdsC.CommandText := cdsC.CommandText + sqlTexto + ' order by NUMCAI' ;
 
   cdsC.Open;
 
