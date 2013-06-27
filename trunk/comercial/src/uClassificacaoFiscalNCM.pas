@@ -152,6 +152,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure btnExecutaCopiaClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DtSrcStateChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -211,7 +212,7 @@ begin
     str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
     str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
     str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
-    str := str + ', CODFISCAL = ' + cdsClassFiscCODFISCAL.AsString;
+    str := str + ', CODFISCAL = ' + QuotedStr(cdsClassFiscCODFISCAL.AsString);
 
     str := str + ' WHERE NCM = ' + QuotedStr(cdsClassFiscNCM.AsString);
     str := str + ' AND CFOP = ' + QuotedStr(CFOP);
@@ -292,6 +293,13 @@ begin
   inherited;
   if (cdsTFiscal.Active) then
       cdsTFiscal.Close;
+end;
+
+procedure TfClassificacaoFiscalNCM.DtSrcStateChange(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in [dsEdit]) then
+    tipofiscal := cdsClassFiscCODFISCAL.AsString;
 end;
 
 end.
