@@ -225,6 +225,10 @@ type
     scdsCr_procHISTORICO: TStringField;
     DbGrid1: TJvDBUltimGrid;
     BitBtn5: TBitBtn;
+    edtSelPago: TJvCalcEdit;
+    Label16: TLabel;
+    edtSelPend: TJvCalcEdit;
+    Label2: TLabel;
     procedure BitBtn11Click(Sender: TObject);
     procedure BitBtn9Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
@@ -406,6 +410,8 @@ procedure TfCpProc.btnProcurarClick(Sender: TObject);
  DataStr, sql2,sqlTexto2: String;
  varCpProc : TUtils;
 begin
+  edtSelPago.Value := 0;
+  edtSelPend.Value := 0;
   sqlTexto1 := '';
   sqlTexto := '';
   if scdsCr_proc.Active then
@@ -999,13 +1005,16 @@ begin
       Edit;
     if (scdsCr_procDUP_REC_NF.AsString <> 'S') then
     begin
-      //dbGrid1.SelectedRows.CurrentRowSelected := True;
-      //dbgrid1.Refresh;
       scdsCr_procDUP_REC_NF.AsString := 'S';
+      edtSelPend.Value := edtSelPend.Value + scdsCr_procVALORREC.AsFloat;
+      edtSelPago.Value := edtSelPago.Value + scdsCr_procVALORRECEBIDO.AsFloat;
       scdsCr_procDP.AsInteger := 0;
       scdsCr_proc.Post;
     end
-    else begin
+    else
+    begin
+      edtSelPend.Value := edtSelPend.Value - scdsCr_procVALORREC.AsFloat;
+      edtSelPago.Value := edtSelPago.Value - scdsCr_procVALORRECEBIDO.AsFloat;
       scdsCr_procDUP_REC_NF.AsString := '';
       scdsCr_procDP.Clear;;
     end;

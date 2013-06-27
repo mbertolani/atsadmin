@@ -1,6 +1,6 @@
 object fcrproc: Tfcrproc
-  Left = 0
-  Top = 1
+  Left = 188
+  Top = 103
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
   ClientHeight = 591
@@ -1093,7 +1093,7 @@ object fcrproc: Tfcrproc
     Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
     object Label16: TLabel
-      Left = 394
+      Left = 452
       Top = 10
       Width = 73
       Height = 13
@@ -1101,7 +1101,7 @@ object fcrproc: Tfcrproc
       Transparent = True
     end
     object Label18: TLabel
-      Left = 601
+      Left = 620
       Top = 10
       Width = 73
       Height = 13
@@ -1109,11 +1109,39 @@ object fcrproc: Tfcrproc
       Transparent = True
     end
     object Label2: TLabel
-      Left = 199
+      Left = 284
       Top = 10
       Width = 55
       Height = 13
       Caption = 'Total T'#237'tulo'
+      Transparent = True
+    end
+    object Label17: TLabel
+      Left = 2
+      Top = 10
+      Width = 67
+      Height = 13
+      Caption = 'Sel. Pendente'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label21: TLabel
+      Left = 132
+      Top = 10
+      Width = 67
+      Height = 13
+      Caption = 'Sel. Recebido'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       Transparent = True
     end
     object BitBtn10: TBitBtn
@@ -1224,7 +1252,7 @@ object fcrproc: Tfcrproc
       Layout = blGlyphTop
     end
     object JvCalcEdit1: TJvCalcEdit
-      Left = 266
+      Left = 351
       Top = 8
       Width = 98
       Height = 23
@@ -1235,9 +1263,9 @@ object fcrproc: Tfcrproc
       DecimalPlacesAlwaysShown = False
     end
     object JvCalcEdit2: TJvCalcEdit
-      Left = 687
+      Left = 697
       Top = 8
-      Width = 100
+      Width = 90
       Height = 23
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1246,14 +1274,48 @@ object fcrproc: Tfcrproc
       DecimalPlacesAlwaysShown = False
     end
     object JvCalcEdit3: TJvCalcEdit
-      Left = 478
+      Left = 528
       Top = 8
-      Width = 97
+      Width = 87
       Height = 23
       BevelKind = bkFlat
       BorderStyle = bsNone
       DisplayFormat = ',0.00'
       TabOrder = 4
+      DecimalPlacesAlwaysShown = False
+    end
+    object edtSelPend: TJvCalcEdit
+      Left = 70
+      Top = 8
+      Width = 58
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DisplayFormat = ',0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      DecimalPlacesAlwaysShown = False
+    end
+    object edtSelRec: TJvCalcEdit
+      Left = 200
+      Top = 8
+      Width = 58
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DisplayFormat = ',0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
       DecimalPlacesAlwaysShown = False
     end
   end
@@ -2900,7 +2962,7 @@ object fcrproc: Tfcrproc
       FieldName = 'STATUS'
       ProviderFlags = [pfInUpdate]
       FixedChar = True
-      Size = 2
+      Size = 25
     end
     object sdsDATARECEBIMENTO: TDateField
       FieldName = 'DATARECEBIMENTO'
@@ -2941,7 +3003,7 @@ object fcrproc: Tfcrproc
       FieldName = 'STATUSP'
       ProviderFlags = [pfInUpdate]
       FixedChar = True
-      Size = 2
+      Size = 25
     end
     object sdsHISTORICO: TStringField
       FieldName = 'HISTORICO'

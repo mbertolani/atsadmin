@@ -236,6 +236,10 @@ type
     Label15: TLabel;
     sdsCODIGOBOLETO: TStringField;
     scdsCr_procCODIGOBOLETO: TStringField;
+    edtSelPend: TJvCalcEdit;
+    Label17: TLabel;
+    Label21: TLabel;
+    edtSelRec: TJvCalcEdit;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -320,8 +324,8 @@ begin
     edCodCliente.Text:=IntToStr(fListaClientes.cdsCODCLIENTE.asInteger);
     edCliente.Text:=fListaClientes.cdsNOMECLIENTE.asString;
   Finally
-   fListaClientes.ListaCliente.close;
-   fListaClientes.Free;
+    fListaClientes.ListaCliente.close;
+    fListaClientes.Free;
   end;
 end;
 
@@ -388,39 +392,39 @@ begin
     dm.cds_7_contas.Next;
   end;
 
-    //Vejo quais são as contas de Receitas para listar no lookupcombobox.
-    if dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
-    dm.cds_parametro.Open;
-    conta_local := dm.cds_parametroDADOS.AsString;
+  //Vejo quais são as contas de Receitas para listar no lookupcombobox.
+  if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTRORECEITA';
+  dm.cds_parametro.Open;
+  conta_local := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
 
-    if dm.cds_parametro.Active then
-      dm.cds_parametro.Close;
-    dm.cds_parametro.Params[0].AsString := 'BOLETO';
-    dm.cds_parametro.Open;
-    banco_boleto := dm.cds_parametroDADOS.AsString;
+  if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
-    if (banco_boleto <> '') then
-    begin
-      if sql_Banco.Active then
-        sql_Banco.Close;
-      sql_Banco.Params[0].AsInteger := StrToInt(banco_boleto);
-      sql_Banco.Open;
-    end;
+  dm.cds_parametro.Params[0].AsString := 'BOLETO';
+  dm.cds_parametro.Open;
+  banco_boleto := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  if (banco_boleto <> '') then
+  begin
+    if sql_Banco.Active then
+      sql_Banco.Close;
+    sql_Banco.Params[0].AsInteger := StrToInt(banco_boleto);
+    sql_Banco.Open;
+  end;
 
-    if dm.cds_ccusto.Active then
-      dm.cds_ccusto.Close;
-    dm.cds_ccusto.Params[0].AsString := conta_local;
-    dm.cds_ccusto.Open;
-    // populo a combobox
-    DM.cds_ccusto.First;
-    while not DM.cds_ccusto.Eof do
-    begin
-      edCodCCusto.Items.Add(dm.cds_ccustoNOME.AsString);
-      DM.cds_ccusto.Next;
-    end;
+  if dm.cds_ccusto.Active then
+    dm.cds_ccusto.Close;
+  dm.cds_ccusto.Params[0].AsString := conta_local;
+  dm.cds_ccusto.Open;
+  // populo a combobox
+  DM.cds_ccusto.First;
+  while not DM.cds_ccusto.Eof do
+  begin
+    edCodCCusto.Items.Add(dm.cds_ccustoNOME.AsString);
+    DM.cds_ccusto.Next;
+  end;
 
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -458,7 +462,6 @@ begin
   fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
   fProcurar.usuarioproc := 'VENDEDOR';  
   fProcurar.BtnProcurar.Click;
-//  fProcurar.DBGrid1.SetFocus;
   try
    fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
    if fProcurar.ShowModal=mrOk then
@@ -466,7 +469,7 @@ begin
      edCodVendedor.Text:=IntToStr(dm.scds_usuario_procCODUSUARIO.asInteger);
      edVendedor.Text:=dm.scds_usuario_procNOMEUSUARIO.asString;
     end;
-   finally
+  finally
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
    end;
@@ -475,26 +478,25 @@ end;
 procedure Tfcrproc.btnProcurarClick(Sender: TObject);
 var varUtilCrProc : TUtils;
 begin
+  edtSelPend.Value := 0;
+  edtSelRec.Value := 0;
   sqlTexto1 := '';
   SqlCr := '';
   cCusto := 0;
   if scdsCr_proc.Active then
      scdsCr_proc.Close;
-   sqltexto1 :='select rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ';
-   sqltexto1 := sqltexto1 + ' rec.DATAVENCIMENTO, rec.CODCLIENTE, rec.VALORTITULO, ';
-   sqltexto1 := sqltexto1 + ' rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.STATUS, rec.STATUSP,';
-   sqltexto1 := sqltexto1 + ' rec.DATARECEBIMENTO, rec.VALORRECEBIDO, rec.DESCONTO, ';
-   sqltexto1 := sqltexto1 + ' rec.VIA, rec.HISTORICO ,';
-   sqltexto1 := sqltexto1 + ' rec.N_DOCUMENTO, rec.DUP_REC_NF, rec.DP,rec.BL, rec.CODVENDA,';
-   sqltexto1 := sqltexto1 + ' rec.NOMECLIENTE, rec.RAZAOSOCIAL, rec.CODMOVIMENTO, ';
-   sqltexto1 := sqltexto1 + ' rec.SALDO, rec.valorRec, rec.CODIGOBOLETO ';
-   sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure
-   SqlCr := ' WHERE (rec.STATUS <> ' + QuotedStr('NF') + ')';;//
+  sqltexto1 :='select rec.CODRECEBIMENTO, rec.TITULO, rec.EMISSAO, ';
+  sqltexto1 := sqltexto1 + ' rec.DATAVENCIMENTO, rec.CODCLIENTE, rec.VALORTITULO, ';
+  sqltexto1 := sqltexto1 + ' rec.VALOR_RESTO, rec.VALOR_PRIM_VIA, rec.STATUS, rec.STATUSP,';
+  sqltexto1 := sqltexto1 + ' rec.DATARECEBIMENTO, rec.VALORRECEBIDO, rec.DESCONTO, ';
+  sqltexto1 := sqltexto1 + ' rec.VIA, rec.HISTORICO ,';
+  sqltexto1 := sqltexto1 + ' rec.N_DOCUMENTO, rec.DUP_REC_NF, rec.DP,rec.BL, rec.CODVENDA,';
+  sqltexto1 := sqltexto1 + ' rec.NOMECLIENTE, rec.RAZAOSOCIAL, rec.CODMOVIMENTO, ';
+  sqltexto1 := sqltexto1 + ' rec.SALDO, rec.valorRec, rec.CODIGOBOLETO ';
+  sqltexto1 := sqltexto1 + 'from RELCONTASRECEBER rec ';   // procedure
+  SqlCr := ' WHERE (rec.STATUS <> ' + QuotedStr('NF') + ')';;//
 
-
-  //==============================================================================
   datastr:='  /  /  ';
-
   //------------------------------------------------------------------------------
   //Receitas
   //------------------------------------------------------------------------------
@@ -521,54 +523,54 @@ begin
   //Verifica se a data de emissão foi preenchido
   //------------------------------------------------------------------------------
   try
-  if (medta1.Text<>datastr) then
-  StrToDate(medta1.Text);
-  if (medta2.Text<>datastr) then
-  StrToDate(medta2.Text);
-  if (medta1.Text<>datastr) then
-  if (medta2.Text<>datastr) then
-  begin
-    if SqlCr='' then
-      SqlCr := SqlCr + ' WHERE rec.EMISSAO BETWEEN '
-    else
-      SqlCr := SqlCr + ' AND rec.EMISSAO BETWEEN ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
-      SqlCr := SqlCr + ' AND ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta2.Text)) + '''';
-  end;
+    if (medta1.Text<>datastr) then
+      StrToDate(medta1.Text);
+    if (medta2.Text<>datastr) then
+      StrToDate(medta2.Text);
+    if (medta1.Text<>datastr) then
+      if (medta2.Text<>datastr) then
+      begin
+        if SqlCr='' then
+          SqlCr := SqlCr + ' WHERE rec.EMISSAO BETWEEN '
+        else
+          SqlCr := SqlCr + ' AND rec.EMISSAO BETWEEN ';
+          SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
+          SqlCr := SqlCr + ' AND ';
+          SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta2.Text)) + '''';
+      end;
   except
-  on EConvertError do
-  begin
-  ShowMessage ('Data Inválida! dd/mm/aa');
-  meDta1.SetFocus;
-  end;
+    on EConvertError do
+    begin
+      ShowMessage ('Data Inválida! dd/mm/aa');
+      meDta1.SetFocus;
+    end;
   end;
   //==============================================================================
   //------------------------------------------------------------------------------
   //Verifica se a data de vencimento foi preenchido
   //------------------------------------------------------------------------------
   try
-  if (medta3.Text<>datastr) then
-  StrToDate(medta3.Text);
-  if (medta4.Text<>datastr) then
-  StrToDate(medta4.Text);
-  if (medta3.Text<>datastr) then
-  if (medta4.Text<>datastr) then
-  begin
-    if SqlCr='' then
-      SqlCr := SqlCr + ' WHERE rec.DATAVENCIMENTO BETWEEN '
-    else
-      SqlCr := SqlCr + ' AND rec.DATAVENCIMENTO BETWEEN ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta3.Text)) + '''';
-      SqlCr := SqlCr + ' AND ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta4.Text)) + '''';
-  end;
+    if (medta3.Text<>datastr) then
+      StrToDate(medta3.Text);
+    if (medta4.Text<>datastr) then
+      StrToDate(medta4.Text);
+    if (medta3.Text<>datastr) then
+      if (medta4.Text<>datastr) then
+      begin
+        if SqlCr='' then
+          SqlCr := SqlCr + ' WHERE rec.DATAVENCIMENTO BETWEEN '
+        else
+          SqlCr := SqlCr + ' AND rec.DATAVENCIMENTO BETWEEN ';
+          SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta3.Text)) + '''';
+          SqlCr := SqlCr + ' AND ';
+          SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta4.Text)) + '''';
+      end;
   except
-  on EConvertError do
-  begin
-     ShowMessage ('Data Inválida! dd/mm/aa');
-     medTa3.SetFocus;
-  end;
+    on EConvertError do
+    begin
+       ShowMessage ('Data Inválida! dd/mm/aa');
+       medTa3.SetFocus;
+    end;
   end;
   //==============================================================================
   //------------------------------------------------------------------------------
@@ -576,29 +578,29 @@ begin
   //------------------------------------------------------------------------------
   if (rbConsolida.Checked = False) then
   begin
-  try
-  if (medta5.Text<>datastr) then
-  StrToDate(medta5.Text);
-  if (medta6.Text<>datastr) then
-  StrToDate(medta6.Text);
-  if (medta5.Text<>datastr) then
-  if (medta6.Text<>datastr) then
-  begin
-    if SqlCr='' then
-      SqlCr := SqlCr + ' WHERE rec.DATARECEBIMENTO BETWEEN '
-    else
-      SqlCr := SqlCr + ' AND rec.DATARECEBIMENTO BETWEEN ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta5.Text)) + '''';
-      SqlCr := SqlCr + ' AND ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta6.Text)) + '''';
-  end;
-  except
-  on EConvertError do
-  begin
-     ShowMessage ('Data Inválida! dd/mm/aa');
-     medTa5.SetFocus;
-  end;
-  end;
+    try
+      if (medta5.Text<>datastr) then
+        StrToDate(medta5.Text);
+      if (medta6.Text<>datastr) then
+        StrToDate(medta6.Text);
+      if (medta5.Text<>datastr) then
+        if (medta6.Text<>datastr) then
+        begin
+          if SqlCr='' then
+            SqlCr := SqlCr + ' WHERE rec.DATARECEBIMENTO BETWEEN '
+          else
+            SqlCr := SqlCr + ' AND rec.DATARECEBIMENTO BETWEEN ';
+            SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta5.Text)) + '''';
+            SqlCr := SqlCr + ' AND ';
+            SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta6.Text)) + '''';
+        end;
+    except
+      on EConvertError do
+      begin
+         ShowMessage ('Data Inválida! dd/mm/aa');
+         medTa5.SetFocus;
+      end;
+    end;
   end;
   //==============================================================================
   //------------------------------------------------------------------------------
@@ -606,29 +608,29 @@ begin
   //------------------------------------------------------------------------------
   if (rbConsolida.Checked = True) then
   begin
-  try
-  if (medta5.Text<>datastr) then
-  StrToDate(medta5.Text);
-  if (medta6.Text<>datastr) then
-  StrToDate(medta6.Text);
-  if (medta5.Text<>datastr) then
-  if (medta6.Text<>datastr) then
-  begin
-    if SqlCr='' then
-      SqlCr := SqlCr + ' WHERE rec.DATACONSOLIDA BETWEEN '
-    else
-      SqlCr := SqlCr + ' AND rec.DATACONSOLIDA BETWEEN ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta5.Text)) + '''';
-      SqlCr := SqlCr + ' AND ';
-      SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta6.Text)) + '''';
-  end;
-  except
-  on EConvertError do
-  begin
-     ShowMessage ('Data Inválida! dd/mm/aa');
-     medTa5.SetFocus;
-  end;
-  end;
+    try
+      if (medta5.Text<>datastr) then
+        StrToDate(medta5.Text);
+      if (medta6.Text<>datastr) then
+        StrToDate(medta6.Text);
+      if (medta5.Text<>datastr) then
+        if (medta6.Text<>datastr) then
+        begin
+          if SqlCr='' then
+            SqlCr := SqlCr + ' WHERE rec.DATACONSOLIDA BETWEEN '
+          else
+            SqlCr := SqlCr + ' AND rec.DATACONSOLIDA BETWEEN ';
+            SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta5.Text)) + '''';
+            SqlCr := SqlCr + ' AND ';
+            SqlCr := SqlCr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta6.Text)) + '''';
+        end;
+    except
+      on EConvertError do
+      begin
+         ShowMessage ('Data Inválida! dd/mm/aa');
+         medTa5.SetFocus;
+      end;
+    end;
   end;
   //==============================================================================
   //------------------------------------------------------------------------------
@@ -645,7 +647,6 @@ begin
           SqlCr := SqlCr + ' AND ((rec.STATUS = ';
         SqlCr := SqlCr + '''' + '5-' + ''')';
         SqlCr := SqlCr + ' AND (rec.DATAVENCIMENTO >= CURRENT_DATE)'  + ')';
-        //SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';   // Retirei(carlos) isto , não tem sentido ver descontados aqui.
       end;
       1:  // Vencido
       begin
@@ -655,7 +656,6 @@ begin
           SqlCr := SqlCr + ' AND ((rec.STATUS = ';
         SqlCr := SqlCr + '''' + '5-' + ''')';
         SqlCr := SqlCr + ' AND (rec.DATAVENCIMENTO < CURRENT_DATE)'  + ')';
-        //SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';
       end;
       2:  // A Receber (A Vencer + Vencido)
       begin
@@ -664,7 +664,6 @@ begin
         else
           SqlCr := SqlCr + ' AND ((rec.STATUS = ';
         SqlCr := SqlCr + '''' + '5-' + ''')'  + ')';
-        //SqlCr := SqlCr + ' or rec.DESCONTADO = ' + QuotedStr('S') + ')';   // Retirei(carlos) isto , não tem sentido ver descontados aqui.
       end;
       3:  // Recebido
       begin
@@ -731,24 +730,10 @@ begin
         else
           SqlCr := SqlCr + ' AND (rec.DESCONTADO = ' + QuotedStr('S') + ')';
       end;
-
     end;
-
-
-{    if SqlCr='' then
-      SqlCr := SqlCr + ' WHERE (rec.STATUS = '
-    else
-      SqlCr := SqlCr + ' AND (rec.STATUS = ';
-      if copy(cbStatus.Text,0,2) <> '11' then
-        SqlCr := SqlCr + '''' + copy(cbStatus.Text,0,2) + ''')'
-      else
-        SqlCr := SqlCr + '''5-''  OR rec.STATUS = ''9-'' ' +
-      ' OR rec.STATUS = ''1-'' OR rec.STATUS = ''2-'' OR rec.STATUS = ''13'')';
- }
   end;
-
-
   //==============================================================================
+  
   //------------------------------------------------------------------------------
   //Forma
   //------------------------------------------------------------------------------
@@ -762,6 +747,7 @@ begin
     SqlCr := SqlCr + QuotedStr(varUtilCrProc.pegaForma(cbForma.Text))  + ')';
   end;
   //==============================================================================
+  
   //------------------------------------------------------------------------------
   //Caixa
   //------------------------------------------------------------------------------
@@ -888,85 +874,13 @@ begin
   end;
   //==============================================================================
 
-  //------------------------------------------------------------------------------
-  //Somente títulos com valores > 0
-  //------------------------------------------------------------------------------
-  {  if SqlCr='' then
-      SqlCr := SqlCr + ' WHERE rec.VALORTITULO > 0 '
-    else
-      SqlCr := SqlCr + ' AND rec.VALORTITULO > 0 ';}
-//==============================================================================
   impCR := sqlTexto1;
   scdsCr_proc.CommandText := sqlTexto1 + SqlCr + ' order by  rec.DATAVENCIMENTO;';
   sds.CommandText := scdsCr_proc.CommandText;
 
   scdsCr_proc.Open;
 
-  {**** Totalização ********}
-  { sqltexto1 := 'SELECT SUM(rec.VALORRECEBIDO) as RECEBIDO, ';
-   sqltexto1 := sqltexto1 + 'SUM(CASE WHEN ((rec.STATUS = ' + QuotedStr('5-') + ') ';
-   sqltexto1 := sqltexto1 + 'OR (rec.STATUS = ' + QuotedStr('6-') + ')) THEN REC.VALOR_RESTO ';
-   sqltexto1 := sqltexto1 + 'ELSE 0 END) AS RESTO, SUM(CASE WHEN (rec.STATUS = ' + QuotedStr('7-') + ') ';
-   sqltexto1 := sqltexto1 + ' THEN (REC.VALOR_RESTO - rec.VALORRECEBIDO) ELSE REC.VALOR_RESTO END) AS VLT ';
-   sqltexto1 := sqltexto1 + 'FROM RECEBIMENTO rec inner join CLIENTES cli ';
-   sqltexto1 := sqltexto1 + 'on cli.CODCLIENTE=rec.CODCLIENTE';
-   if (cds_total.Active) then
-     cds_total.Close;
-   cds_total.CommandText := sqlTexto1 + SqlCr;
-   cds_total.Open;}
-  //Edit3.Text := format('%8.2n',[scdsCr_proctot_titulo.Value]);
-  {Edit3.Text := scdsCr_proctot_titulo.Value;
-  Edit4.Text := scdsCr_proctot_recebido.Value;
-  Edit5.Text := scdsCr_procTotPend.Value;}
-
-  {sqlTexto1 := 'SELECT SUM(TOTALTITULO), SUM(TOTALRECEBIDO), SUM(TOTALPENDENTE)' +
-    ' FROM REC_TOTAIS(';
-  if cbStatus.Text<>'' then
-  begin
-    if copy(cbStatus.Text,0,2) <> '11' then
-    begin
-      if ((copy(cbStatus.Text,0,2) = '1-') or (copy(cbStatus.Text,0,2) = '2-')) then
-        sqlTexto1 := sqlTexto1 + '''' + '5-' + ''')'
-      else
-        sqlTexto1 := sqlTexto1 + '''' + copy(cbStatus.Text,0,2) + ''')';
-    end
-    else
-      sqlTexto1 := sqlTexto1 + QuotedStr('00') + ')';
-  end
-  else
-    sqlTexto1 := sqlTexto1 + QuotedStr('00') + ')';
   Try
-    if (cds_total.Active) then
-      cds_total.Close;
-    cds_total.CommandText := sqlTexto1 + ' REC ' + SqlCr;
-    cds_total.Open;
-    if (not cds_total.IsEmpty) then
-    begin
-      if (cds_total.Fields[0].Value > 0) then
-        JvCalcEdit1.Text := cds_total.Fields[0].Value
-      else
-        JvCalcEdit1.Text := '0';
-
-      if (cds_total.Fields[1].Value > 0) then
-        JvCalcEdit2.Text := cds_total.Fields[1].Value
-      else
-        JvCalcEdit2.Text := '0';
-
-      if (cds_total.Fields[2].Value > 0) then
-        JvCalcEdit3.Text := cds_total.Fields[2].Value
-      else
-        JvCalcEdit3.Text := '0';
-    end;
-  Except
-    ShowMessage ('Não existe dados para essa consulta');
-  end;
-  DBGrid1.SetFocus;}
-  Try
-    {if (cds_total.Active) then
-      cds_total.Close;
-
-    cds_total.CommandText := sqlTexto2 + ' REC ' + SqlTexto;
-    {cds_total.Open;}
     if (not scdsCr_proc.IsEmpty) then
     begin
       if (scdsCr_proctot_titulo.Value > 0) then
@@ -993,12 +907,10 @@ end;
 
 procedure Tfcrproc.FormKeyPress(Sender: TObject; var Key: Char);
 begin
- if (key = #13) then
- begin
-   //key:= #0;
-   //SelectNext((Sender as TwinControl),True,True);
-   btnProcurar.Click;
- end;
+  if (key = #13) then
+  begin
+    btnProcurar.Click;
+  end;
 end;
 
 procedure Tfcrproc.BitBtn7Click(Sender: TObject);
@@ -1045,55 +957,48 @@ procedure Tfcrproc.btnIncluirClick(Sender: TObject);
   i, clienteSelecionado : integer;
   selecionou : string;
 begin
- try
-   i := 1;
-   vlr := 0;
-   vlrrec := 0;
-   vlrdesc := 0;
-   vlrjuros := 0;
-   vlrfunrural := 0;
-   vlrperda := 0;
-   // Se houve selecao de titulos entao gravo.
-  { if (scdsCr_proc.ChangeCount > 0) then
-   begin
-     //teste := scdsCr_proc.CommandText;
-     //scdsCr_proc.ApplyUpdates(-1);
-   end
-   else
-}
-   if (scdsCr_procDUP_REC_NF.AsString = '') then
-   begin
-     MessageDlg('Marque o título a ser baixado!', mtWarning, [mbOK], 0);
-     exit;
-   end;
-   clienteSelecionado := 0;
-   selecionou := 'não';
-   if dm.cds_cr.Active then
+  try
+    i := 1;
+    vlr := 0;
+    vlrrec := 0;
+    vlrdesc := 0;
+    vlrjuros := 0;
+    vlrfunrural := 0;
+    vlrperda := 0;
+
+    if (scdsCr_procDUP_REC_NF.AsString = '') then
+    begin
+      MessageDlg('Marque o título a ser baixado!', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    clienteSelecionado := 0;
+    selecionou := 'não';
+    if dm.cds_cr.Active then
      dm.cds_cr.Close;
-   dm.cds_cr.Params[0].AsInteger := scdsCr_procCODRECEBIMENTO.AsInteger;
-   dm.cds_cr.Open;
-   dm.cds_cr.Edit;
-   scdsCr_proc.DisableControls;
-   scdsCr_proc.First;
-   While not scdsCr_proc.Eof do
-   begin
-     if (scdsCr_procDUP_REC_NF.AsString = 'S') then
-     begin
-       if (clienteSelecionado = 0) then
+    dm.cds_cr.Params[0].AsInteger := scdsCr_procCODRECEBIMENTO.AsInteger;
+    dm.cds_cr.Open;
+    dm.cds_cr.Edit;
+    scdsCr_proc.DisableControls;
+    scdsCr_proc.First;
+    While not scdsCr_proc.Eof do
+    begin
+      if (scdsCr_procDUP_REC_NF.AsString = 'S') then
+      begin
+        if (clienteSelecionado = 0) then
          clienteSelecionado := scdsCr_procCODCLIENTE.AsInteger;
-       if (clienteSelecionado <> scdsCr_procCODCLIENTE.AsInteger) then
-       begin
+        if (clienteSelecionado <> scdsCr_procCODCLIENTE.AsInteger) then
+        begin
          MessageDlg('Clientes diferentes selecionados.' + #10#13 +
            ' Operação disponível somente para o mesmo Cliente!', mtWarning, [mbOK], 0);
          scdsCr_proc.EnableControls;
          exit;
-       end;
-       setlength(nrec, i);
-       nrec[i - 1] := scdsCr_procCODRECEBIMENTO.AsInteger;
-       if (fcrtitulo.cds.active) then
+        end;
+        setlength(nrec, i);
+        nrec[i - 1] := scdsCr_procCODRECEBIMENTO.AsInteger;
+        if (fcrtitulo.cds.active) then
          fcrtitulo.cds.close;
-       fcrtitulo.cds.Params[0].AsInteger := scdsCr_procCODRECEBIMENTO.AsInteger;
-       fcrtitulo.cds.Open;
+        fcrtitulo.cds.Params[0].AsInteger := scdsCr_procCODRECEBIMENTO.AsInteger;
+        fcrtitulo.cds.Open;
         vlr := vlr + fcrtitulo.cdsSUM.AsFloat;
         vlrfunrural := vlrfunrural + fcrtitulo.cdsSUM_1.AsFloat;
         vlrjuros := vlrjuros + fcrtitulo.cdsSUM_2.AsFloat;
@@ -1102,54 +1007,39 @@ begin
         if (fcrtitulo.cdsSUM_5.AsFloat > 0) then
           vlrrec := vlrrec +  fcrtitulo.cdsSUM_5.AsFloat;
         i := i + 1;
-     end;
-     scdsCr_proc.Next;
-   end;
-  scdsCr_proc.EnableControls;
-  if (dm.cds_cr.State in [dsBrowse, dsInactive]) then
-    dm.cds_cr.Edit;
-  // adicionei esse If em 05/10/06  "Edson"
-  if (dm.cds_crSTATUS.AsString <> '1-') then
-  dm.cds_crVALOR_RESTO.AsFloat := vlr;
-  dm.cds_crFUNRURAL.AsFloat := vlrfunrural;
-  dm.cds_crJUROS.AsFloat := vlrjuros;
-  dm.cds_crPERDA.AsFloat := vlrperda;
-  dm.cds_crDESCONTO.AsFloat := vlrdesc;
-  if (fcrtitulo.cdsSUM_5.AsFloat > 0) then
-    dm.cds_crVALORRECEBIDO.AsFloat := vlrrec;
-  if (i > 2) then
-    dm.cds_crTITULO.AsString := 'Diversos';
-  dm.cds_crCODVENDA.AsInteger := 0;
-  fcrtitulo.cds.close;
-  if (dm.cds_crSTATUS.AsString = '7-') then
-  begin
-    fcrTitulo.btnCancela_Baixa.Enabled := True;
-    fcrTitulo.BitBtn2.Enabled := False;
-  end;
-  fCrTitulo.ShowModal;
+      end;
+      scdsCr_proc.Next;
+    end;
+    scdsCr_proc.EnableControls;
+    if (dm.cds_cr.State in [dsBrowse, dsInactive]) then
+      dm.cds_cr.Edit;
+    if (dm.cds_crSTATUS.AsString <> '1-') then
+      dm.cds_crVALOR_RESTO.AsFloat := vlr;
+    dm.cds_crFUNRURAL.AsFloat := vlrfunrural;
+    dm.cds_crJUROS.AsFloat := vlrjuros;
+    dm.cds_crPERDA.AsFloat := vlrperda;
+    dm.cds_crDESCONTO.AsFloat := vlrdesc;
+    if (fcrtitulo.cdsSUM_5.AsFloat > 0) then
+      dm.cds_crVALORRECEBIDO.AsFloat := vlrrec;
+    if (i > 2) then
+      dm.cds_crTITULO.AsString := 'Diversos';
+    dm.cds_crCODVENDA.AsInteger := 0;
+    fcrtitulo.cds.close;
+    if (dm.cds_crSTATUS.AsString = '7-') then
+    begin
+      fcrTitulo.btnCancela_Baixa.Enabled := True;
+      fcrTitulo.BitBtn2.Enabled := False;
+    end;
+    fCrTitulo.ShowModal;
   finally
-   fCrProc.JvDBGrid1.SetFocus;
-   scdsCr_proc.Close;
-   scdscr_Proc.Open;
+    fCrProc.JvDBGrid1.SetFocus;
+    scdsCr_proc.Close;
+    scdscr_Proc.Open;
   end;
 end;
 
 procedure Tfcrproc.btnImprimirClick(Sender: TObject);
 begin
-{  sqlGrupo := '';
-  if not scdsCr_proc.Active then
-  begin
-   MessageDlg('Pôr favor efetue a pesquisa antes, para depois imprimir..', mtWarning, [mbOK], 0);
-   exit;
-  end;
- sqlGrupo := ' order by cli.NOMECLIENTE, rec.CODCLIENTE, '
-            + ' rec.DATAVENCIMENTO, rec.EMISSAO';
-  sqlGrupo := imp + SqlCr + sqlGrupo;
-  repContasReceber.FileName := str_relatorio + 'RelContasReceber.rep';
-  repContasReceber.Report.DataInfo.Items[0].SQL:= sqlGrupo;
-  repContasReceber.Execute;
- }
-
   fRel_CR1 := TfRel_CR1.Create(Application);
   try
     fRel_CR1.ShowModal;
@@ -1249,116 +1139,116 @@ begin
   // Abra a tela para pegar a dataEmssao, Vcto, e numero do Titulo
   fNotaFiscalCr := TfNotaFiscalCr.Create(Application);
   try
-  fNotaFiscalCr.ShowModal;
-  if (fNotaFiscalCr.gerado = 'sim') then
-  begin
-    Save_Cursor := Screen.Cursor;
-    Screen.Cursor := crHourGlass;    { Show hourglass cursor }
-    try
-      // Nota Fiscal
-      TD.TransactionID := 1;
-      TD.IsolationLevel := xilREADCOMMITTED;
-      Try
-        if (dm.cds_crSTATUS.AsString = '7-') then
-        begin
-          MessageDlg('Título já recebido.', mtWarning, [mbOK], 0);
+    fNotaFiscalCr.ShowModal;
+    if (fNotaFiscalCr.gerado = 'sim') then
+    begin
+      Save_Cursor := Screen.Cursor;
+      Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+      try
+        // Nota Fiscal
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        Try
+          if (dm.cds_crSTATUS.AsString = '7-') then
+          begin
+            MessageDlg('Título já recebido.', mtWarning, [mbOK], 0);
+            exit;
+          end;
+          scdsCr_proc.DisableControls;
+          scdsCr_proc.First;
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+            While not scdsCr_proc.Eof do
+            begin
+              if (scdsCr_procDUP_REC_NF.AsString = 'S') then
+              begin
+                str_sql := 'UPDATE RECEBIMENTO SET DP = 0 ';
+                str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
+                str_sql := str_sql + IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
+                dm.sqlsisAdimin.ExecuteDirect(str_sql);
+                codClienteNF := scdsCr_procCODCLIENTE.AsInteger;
+              end;
+              scdsCr_proc.Next;
+            end;
+            scdsCr_proc.EnableControls;
+            dm.sqlsisAdimin.Commit(TD);
+          except
+            dm.sqlsisAdimin.Rollback(TD);
+            MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+            exit;
+          end;
+          if (codClienteNF = 0) then
+          begin
+            MessageDlg('Cliente selecionado inválido.', mtError, [mbOK], 0);
+            exit;
+          end;
+          str_sql := 'EXECUTE PROCEDURE GERA_NF(';
+          str_sql := str_sql + IntToStr(codClienteNF);
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataEmissao));
+          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataVencimento));
+          str_sql := str_sql + ', ' + QuotedStr(fNotaFiscalCr.serie);
+          str_sql := str_sql + ', ' + QuotedStr(fNotaFiscalCr.numero) + ')';
+          dm.sqlsisAdimin.StartTransaction(TD);
+          try
+            dm.sqlsisAdimin.ExecuteDirect(str_sql);
+            dm.sqlsisAdimin.Commit(TD);
+          except
+            dm.sqlsisAdimin.Rollback(TD);
+            MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+            exit;
+          end;
+        except
+          MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
           exit;
         end;
-      scdsCr_proc.DisableControls;
-      scdsCr_proc.First;
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        While not scdsCr_proc.Eof do
-        begin
-          if (scdsCr_procDUP_REC_NF.AsString = 'S') then
-          begin
-            str_sql := 'UPDATE RECEBIMENTO SET DP = 0 ';
-            str_sql := str_sql + ' WHERE CODRECEBIMENTO = ';
-            str_sql := str_sql + IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
-            dm.sqlsisAdimin.ExecuteDirect(str_sql);
-            codClienteNF := scdsCr_procCODCLIENTE.AsInteger;
-          end;
-          scdsCr_proc.Next;
+        if (sqlBuscaNota.Active) then
+          sqlBuscaNota.Close;
+        sqlBuscaNota.SQL.Clear;
+        sqlBuscaNota.SQL.Add('select First 1 codMovimento from VENDA where codcliente = ' +
+          IntToStr(codClienteNF) + ' and DATAVENDA = ' +
+          QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataEmissao)) +
+          ' and DATAVENCIMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataVencimento)) +
+          ' and SERIE = ' + QuotedStr(fNotaFiscalCr.serie) + ' order by codMovimento desc');
+        sqlBuscaNota.Open;
+        // Abrindo a tela da nota
+        //****************** ver como vou ter o código do Movimento para abrir esta no
+        fNotaf := TfNotaf.Create(Application);
+        try
+          dmnf.cds_Movimento.Close;
+          dmnf.cds_Movimento.Params[0].AsInteger := sqlBuscaNota.Fields[0].AsInteger;
+          dmnf.cds_Movimento.Open;
+          dmnf.cds_Mov_det.Close;
+          dmnf.cds_Mov_det.Params[0].Clear;
+          dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
+          dmnf.cds_Mov_det.Open;
+          //mostra venda
+          if (dmnf.cds_venda.Active) then
+            dmnf.cds_venda.Close;
+          dmnf.cds_venda.Params[0].Clear;
+          dmnf.cds_venda.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
+          dmnf.cds_venda.Open;
+          //Mostra NF
+          if (dmnf.cds_nf.Active) then
+            dmnf.cds_nf.Close;
+          dmnf.cds_nf.Params[0].Clear;
+          dmnf.cds_nf.Params[1].AsInteger := dmnf.cds_vendaCODVENDA.asInteger;
+          dmnf.cds_nf.Open;
+          if (not  dm.cds_empresa.Active) then
+            dm.cds_empresa.open;
+          fNotaf.cbFinanceiro.Checked := False;
+          fNotaf.cbEstoque.Checked := False;
+          fNotaf.ShowModal;
+          if (dmnf.cds_nfSTATUS.AsString = 'S') then
+            fNotaf.RadioGroup1.ItemIndex := 0
+          else
+            fNotaf.RadioGroup1.ItemIndex := 1;
+        finally
+          fNotaf.Free;
         end;
-        scdsCr_proc.EnableControls;
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-        exit;
+      finally
+        Screen.Cursor := Save_Cursor;  { Always restore to normal }
       end;
-      if (codClienteNF = 0) then
-      begin
-        MessageDlg('Cliente selecionado inválido.', mtError, [mbOK], 0);
-        exit;
-      end;
-      str_sql := 'EXECUTE PROCEDURE GERA_NF(';
-      str_sql := str_sql + IntToStr(codClienteNF);
-      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataEmissao));
-      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataVencimento));
-      str_sql := str_sql + ', ' + QuotedStr(fNotaFiscalCr.serie);
-      str_sql := str_sql + ', ' + QuotedStr(fNotaFiscalCr.numero) + ')';
-      dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-        exit;
-      end;
-    except
-      MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-      exit;
-    end;
-    if (sqlBuscaNota.Active) then
-      sqlBuscaNota.Close;
-    sqlBuscaNota.SQL.Clear;
-    sqlBuscaNota.SQL.Add('select First 1 codMovimento from VENDA where codcliente = ' +
-      IntToStr(codClienteNF) + ' and DATAVENDA = ' +
-      QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataEmissao)) +
-      ' and DATAVENCIMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', fNotaFiscalCr.dataVencimento)) +
-      ' and SERIE = ' + QuotedStr(fNotaFiscalCr.serie) + ' order by codMovimento desc');
-    sqlBuscaNota.Open;
-    // Abrindo a tela da nota
-    //****************** ver como vou ter o código do Movimento para abrir esta no
-    fNotaf := TfNotaf.Create(Application);
-    try
-      dmnf.cds_Movimento.Close;
-      dmnf.cds_Movimento.Params[0].AsInteger := sqlBuscaNota.Fields[0].AsInteger;
-      dmnf.cds_Movimento.Open;
-      dmnf.cds_Mov_det.Close;
-      dmnf.cds_Mov_det.Params[0].Clear;
-      dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
-      dmnf.cds_Mov_det.Open;
-      //mostra venda
-      if (dmnf.cds_venda.Active) then
-        dmnf.cds_venda.Close;
-      dmnf.cds_venda.Params[0].Clear;
-      dmnf.cds_venda.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.asInteger;
-      dmnf.cds_venda.Open;
-      //Mostra NF
-      if (dmnf.cds_nf.Active) then
-        dmnf.cds_nf.Close;
-      dmnf.cds_nf.Params[0].Clear;
-      dmnf.cds_nf.Params[1].AsInteger := dmnf.cds_vendaCODVENDA.asInteger;
-      dmnf.cds_nf.Open;
-      if (not  dm.cds_empresa.Active) then
-        dm.cds_empresa.open;
-      fNotaf.cbFinanceiro.Checked := False;
-      fNotaf.cbEstoque.Checked := False;
-      fNotaf.ShowModal;
-      if (dmnf.cds_nfSTATUS.AsString = 'S') then
-        fNotaf.RadioGroup1.ItemIndex := 0
-      else
-        fNotaf.RadioGroup1.ItemIndex := 1;
-    finally
-      fNotaf.Free;
-    end;
-  finally
-    Screen.Cursor := Save_Cursor;  { Always restore to normal }
-  end;
-  end; // Fim ShowModal
+    end; // Fim ShowModal
   finally
     fNotaFiscalCr.Free;
   end;
@@ -1392,17 +1282,6 @@ begin
 end;
 
 procedure Tfcrproc.btnNotaFiscalClick(Sender: TObject);
-{  var
-   sqlGrupo: String;
-begin
-  sqlGrupo := ' group by cli.NOMECLIENTE, rec.CODCLIENTE, '
-            + ' rec.DATAVENCIMENTO, rec.EMISSAO, rec.CODRECEBIMENTO, '
-            + ' rec.TITULO,  rec.VALOR_RESTO, rec.VALORTITULO, '
-            + ' rec.STATUS, rec.DATARECEBIMENTO, rec.VALORRECEBIDO , '
-            + ' rec.VIA, rec.N_DOCUMENTO, rec.VALOR_PRIM_VIA  ';
-  repContasReceber.Report.DataInfo.Items[0].SQL:= sqlTexto1 + SqlCr + sqlGrupo;
-  repContasReceber.FileName := str_relatorio + 'RelContasReceber.rep';
-  repContasReceber.Execute;}
 var
 nrdiames: Integer;
 diasemana: array[1..7] of String;
@@ -1482,8 +1361,6 @@ begin
     VCLReport1.Report.Params.ParamByName('DIA').Value := diames[nrdiames];
     VCLReport1.Report.Params.ParamByName('MES').Value := meses[mes];
     VCLReport1.Report.Params.ParamByName('ANO').Value := INTTOSTR(ano);
-//    VCLReport1.Report.Params.ParamByName('RAZAO').Value := dm.cds_empresaRAZAO.AsString;
-//    VCLReport1.Report.Params.ParamByName('CNPJ').Value := dm.cds_empresaCNPJ_CPF.AsString;
     VCLReport1.Report.Params.ParamByName('VALOR').Value := floattostr(scdsCr_procVALOR_RESTO.AsFloat);
     valor := scdsCr_procVALOR_RESTO.AsFloat;
 
@@ -1495,10 +1372,6 @@ begin
     if Assigned(acompo2) then
       acompo2.Text := INTTOSTR(dia)+' de '+meses[mes]+
       ' de '+INTTOSTR(ano);
-
-
-    {if Assigned(acompo1) then
-      acompo1.Text :=}
 
     if (edCodCliente.Text <> '') then
       VCLReport1.Report.Params.ParamByName('CODCLI').Value := scdsCr_procCODCLIENTE.AsInteger
@@ -1524,7 +1397,6 @@ begin
     end;
 
     VCLReport1.Execute;
-
 end;
 
 procedure Tfcrproc.DBGrid1DblClick(Sender: TObject);
@@ -1540,56 +1412,55 @@ end;
 
 procedure Tfcrproc.btn_boletoClick(Sender: TObject);
 begin
-          { Cedente - Dados do Cedente}
+  { Cedente - Dados do Cedente}
 
-    gbTitulo.Sacado.Nome := scdsCr_procRAZAOSOCIAL.AsString; // Razao Social
-    gbTitulo.DataDocumento := scdsCr_procEMISSAO.AsDateTime; // Data Emissão
-    gbTitulo.ValorDocumento := scdsCr_procVALOR_RESTO.AsCurrency; // Valor Titulo
-    gbTitulo.DataVencimento := scdsCr_procDATAVENCIMENTO.AsDateTime; // Data Vencimento
+  gbTitulo.Sacado.Nome := scdsCr_procRAZAOSOCIAL.AsString; // Razao Social
+  gbTitulo.DataDocumento := scdsCr_procEMISSAO.AsDateTime; // Data Emissão
+  gbTitulo.ValorDocumento := scdsCr_procVALOR_RESTO.AsCurrency; // Valor Titulo
+  gbTitulo.DataVencimento := scdsCr_procDATAVENCIMENTO.AsDateTime; // Data Vencimento
 
-    gbTitulo.Cedente.Endereco.Rua := dm.cds_empresaENDERECO.AsString;
-    //gbTitulo.Cedente.Endereco.Numero := dm.cds_empresaLOGRADOURO
-  //  gbTitulo.Cedente.Endereco.Bairro := dm.cds_empresaLOGRADOURO.AsString;
-  //  gbTitulo.Cedente.Endereco.Cidade := dm.cds_empresaCIDADE.AsString;
-  //  gbTitulo.Cedente.Endereco.Estado := dm.cds_empresaUF.AsString;
-  //  gbTitulo.Cedente.Endereco.CEP := dm.cds_empresaCEP.AsString;
+  gbTitulo.Cedente.Endereco.Rua := dm.cds_empresaENDERECO.AsString;
+  //gbTitulo.Cedente.Endereco.Numero := dm.cds_empresaLOGRADOURO
+  //gbTitulo.Cedente.Endereco.Bairro := dm.cds_empresaLOGRADOURO.AsString;
+  //gbTitulo.Cedente.Endereco.Cidade := dm.cds_empresaCIDADE.AsString;
+  //gbTitulo.Cedente.Endereco.Estado := dm.cds_empresaUF.AsString;
+  //gbTitulo.Cedente.Endereco.CEP := dm.cds_empresaCEP.AsString;
 
- //   gbTitulo.Cedente.ContaBancaria.fBanco.Codigo :=
-//    gbTitulo.Cedente.ContaBancaria.fBanco.Codigo :=
+  //gbTitulo.Cedente.ContaBancaria.fBanco.Codigo :=
+  //gbTitulo.Cedente.ContaBancaria.fBanco.Codigo :=
 
-     if not (dm.cds_empresa.Active) then
-      dm.cds_empresa.Open;
-    gbTitulo.Cedente.Nome := dm.cds_empresaEMPRESA.AsString;
+  if not (dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  gbTitulo.Cedente.Nome := dm.cds_empresaEMPRESA.AsString;
 
-    if (cds_end_cli.Active) then
-      cds_end_cli.Close;
-      cds_end_cli.Params[0].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
-      cds_end_cli.Open;
+  if (cds_end_cli.Active) then
+    cds_end_cli.Close;
+  cds_end_cli.Params[0].AsInteger := scdsCr_procCODCLIENTE.AsInteger;
+  cds_end_cli.Open;
 
-      { SACADO - Dados do Cliente}
+  { SACADO - Dados do Cliente}
 
-      gbTitulo.Sacado.Endereco.Rua := cds_end_cliLOGRADOURO.AsString; // Endereço
-      gbTitulo.Sacado.Endereco.Bairro := cds_end_cliBAIRRO.AsString;  // Bairro
-      gbTitulo.Sacado.Endereco.Cidade := cds_end_cliCIDADE.AsString;  // Cidade
-      gbTitulo.Sacado.Endereco.Estado := cds_end_cliUF.AsString;      // UF
-      gbTitulo.Sacado.Endereco.CEP := cds_end_cliCEP.AsString;        // CEP
+  gbTitulo.Sacado.Endereco.Rua := cds_end_cliLOGRADOURO.AsString; // Endereço
+  gbTitulo.Sacado.Endereco.Bairro := cds_end_cliBAIRRO.AsString;  // Bairro
+  gbTitulo.Sacado.Endereco.Cidade := cds_end_cliCIDADE.AsString;  // Cidade
+  gbTitulo.Sacado.Endereco.Estado := cds_end_cliUF.AsString;      // UF
+  gbTitulo.Sacado.Endereco.CEP := cds_end_cliCEP.AsString;        // CEP
 
-       {Dados bo Banco }
+   {Dados bo Banco }
 
-      gbTitulo.Cedente.ContaBancaria.CodigoAgencia := sql_BancoCODIGO_AGENCIA.AsString;
-      gbTitulo.Cedente.ContaBancaria.DigitoAgencia := sql_BancoDIGITO_AGENCIA.AsString;
-      gbTitulo.Cedente.ContaBancaria.NumeroConta := sql_BancoNUMERO_CONTA.AsString;
-      gbTitulo.Cedente.ContaBancaria.DigitoConta := sql_BancoDIGITO_CONTA.AsString;
-      gbTitulo.Carteira := sql_BancoCARTEIRA.AsString;
+  gbTitulo.Cedente.ContaBancaria.CodigoAgencia := sql_BancoCODIGO_AGENCIA.AsString;
+  gbTitulo.Cedente.ContaBancaria.DigitoAgencia := sql_BancoDIGITO_AGENCIA.AsString;
+  gbTitulo.Cedente.ContaBancaria.NumeroConta := sql_BancoNUMERO_CONTA.AsString;
+  gbTitulo.Cedente.ContaBancaria.DigitoConta := sql_BancoDIGITO_CONTA.AsString;
+  gbTitulo.Carteira := sql_BancoCARTEIRA.AsString;
 
 
-    gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO1.AsString);
-    gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO2.AsString);
-    gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO3.AsString);
-    gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO4.AsString);
+  gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO1.AsString);
+  gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO2.AsString);
+  gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO3.AsString);
+  gbTitulo.Instrucoes.Add(sql_BancoINSTRUCAO4.AsString);
 
-    gbTitulo.Visualizar;
-
+  gbTitulo.Visualizar;
 end;
 
 procedure Tfcrproc.btnGeraMensalidadeClick(Sender: TObject);
@@ -1703,9 +1574,17 @@ begin
   begin
      scdsCr_proc.Edit;
      if scdsCr_procDUP_REC_NF.AsString = 'S' then
-       scdsCr_procDUP_REC_NF.AsString := ''
+     begin
+       scdsCr_procDUP_REC_NF.AsString := '';
+       edtSelPend.Value := edtSelPend.Value - scdsCr_procVALORREC.AsFloat;
+       edtSelRec.Value := edtSelRec.Value - scdsCr_procVALORRECEBIDO.AsFloat;
+     end
      else
+     begin
        scdsCr_procDUP_REC_NF.AsString := 'S';
+       edtSelPend.Value := edtSelPend.Value + scdsCr_procVALORREC.AsFloat;
+       edtSelRec.Value := edtSelRec.Value + scdsCr_procVALORRECEBIDO.AsFloat;
+     end;
      scdsCr_proc.post;
   end;
 end;
@@ -1743,12 +1622,16 @@ end;
 
 procedure Tfcrproc.SelecionarTodos1Click(Sender: TObject);
 begin
+  edtSelPend.Value := 0;
+  edtSelRec.Value := 0;
   scdsCr_proc.DisableControls;
   scdsCr_proc.First;
   while not scdsCr_proc.Eof do
   begin
      scdsCr_proc.Edit;
      scdsCr_procDUP_REC_NF.AsString := 'S';
+     edtSelPend.Value := edtSelPend.Value + scdsCr_procVALORREC.AsFloat;
+     edtSelRec.Value := edtSelRec.Value + scdsCr_procVALORRECEBIDO.AsFloat;
      scdsCr_proc.Post;
      scdsCr_proc.Next;
   end;
@@ -1758,6 +1641,8 @@ end;
 
 procedure Tfcrproc.DesmarcarTodos1Click(Sender: TObject);
 begin
+  edtSelPend.Value := 0;
+  edtSelRec.Value := 0;  
   scdsCr_proc.DisableControls;
   scdsCr_proc.First;
   while not scdsCr_proc.Eof do
