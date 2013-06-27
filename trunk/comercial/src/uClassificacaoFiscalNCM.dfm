@@ -204,7 +204,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     Font.Charset = ANSI_CHARSET
     Font.Height = -29
     ParentFont = False
-    TabOrder = 17
+    TabOrder = 19
     object Label9: TLabel
       Left = 9
       Top = 7
@@ -227,7 +227,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
   inherited MMJPanel2: TMMJPanel
     Top = 502
     Width = 845
-    TabOrder = 16
+    TabOrder = 18
     inherited btnProcurar: TBitBtn
       Visible = False
     end
@@ -310,7 +310,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     Width = 832
     Height = 345
     DataSource = DtSrc
-    TabOrder = 18
+    TabOrder = 20
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -511,7 +511,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     ParentShowHint = False
     PopupMenu = PopupMenu1
     ShowHint = True
-    TabOrder = 19
+    TabOrder = 21
     Visible = False
     OnClick = BitBtn1Click
     Glyph.Data = {
@@ -620,7 +620,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     Width = 161
     Height = 96
     Caption = 'Produto'
-    TabOrder = 20
+    TabOrder = 22
     Visible = False
     object Label19: TLabel
       Left = 24
@@ -670,7 +670,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     ListSource = DtSrcTFiscal
     ParentCtl3D = False
     ParentFont = False
-    TabOrder = 21
+    TabOrder = 17
     OnKeyPress = FormKeyPress
   end
   object DBEdit17: TDBEdit [40]
@@ -680,7 +680,7 @@ inherited fClassificacaoFiscalNCM: TfClassificacaoFiscalNCM
     Height = 21
     DataField = 'ORIGEM'
     DataSource = DtSrc
-    TabOrder = 22
+    TabOrder = 16
   end
   inherited DtSrc: TDataSource
     DataSet = cdsClassFisc
