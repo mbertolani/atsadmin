@@ -983,7 +983,7 @@ object FiltroCorreio: TFiltroCorreio
     Left = 192
   end
   object sqlC: TSQLDataSet
-    CommandText = 'select * from MOVDOC'
+    CommandText = 'select * from MOVDOC   '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
