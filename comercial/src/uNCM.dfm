@@ -50,6 +50,7 @@ inherited fNCM: TfNCM
   inherited MMJPanel1: TMMJPanel
     Top = 369
     Width = 502
+    TabOrder = 4
     inherited btnGravar: TBitBtn
       Left = 148
       Width = 105
@@ -79,6 +80,7 @@ inherited fNCM: TfNCM
   end
   inherited MMJPanel2: TMMJPanel
     Width = 502
+    TabOrder = 6
     inherited Label1: TLabel
       Left = 107
       Width = 266
@@ -105,7 +107,7 @@ inherited fNCM: TfNCM
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
     OnKeyPress = FormKeyPress
   end
   object btnProcNCM: TBitBtn [6]
@@ -114,7 +116,7 @@ inherited fNCM: TfNCM
     Width = 39
     Height = 36
     PopupMenu = PopupMenu1
-    TabOrder = 3
+    TabOrder = 0
     TabStop = False
     OnClick = btnProcNCMClick
     Glyph.Data = {
@@ -233,7 +235,7 @@ inherited fNCM: TfNCM
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 2
     OnKeyPress = FormKeyPress
   end
   object DBGrid1: TDBGrid [8]
@@ -283,7 +285,7 @@ inherited fNCM: TfNCM
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 6
+    TabOrder = 3
     OnKeyPress = FormKeyPress
   end
   inherited XPMenu1: TXPMenu
