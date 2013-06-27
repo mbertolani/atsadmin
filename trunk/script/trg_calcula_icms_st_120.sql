@@ -38,15 +38,15 @@ AS
  Declare variable origem integer;
  Declare variable CALCTRIB varchar(1); 
 BEGIN
-    if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
-    begin
-        if ( (new.cfop = '') or (new.CFOP is null) ) then
+	if ( (new.cfop = '') or (new.CFOP is null) ) then
             select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
             where cfp.COD_PROD = new.CODPRODUTO
             into new.CFOP;
-        else
-            new.CFOP = '5102';
-            
+	if ( (new.cfop = '') or (new.CFOP is null) ) then
+		new.cfop = '5102';
+		
+    if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
+    begin
 		select cast(d5 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA'
         into :arredondar;
         
@@ -230,7 +230,7 @@ BEGIN
             , cfn.CST, COALESCE(cfn.IPI, 0), cfn.CSOSN, COALESCE(cfn.PIS, 0), COALESCE(cfn.COFINS, 0), cfn.CSTCOFINS, cfn.CSTPIS, cfn.CSTIPI, p.ORIGEM, 
             COALESCE(n.ALIQIMP, 0), COALESCE(n.ALIQNAC, 0), c.TOTTRIB
             from CLASSIFICACAOFISCALNCM cfn, PRODUTOS p, ncm n, CFOP c
-            where p.CODPRODUTO = cfn.CFOP and p.ORIGEM = cfn.ORIGEM and cfn.CFOP = new.CFOP and c.CFCOD = new.CFOP and cfn.UF = :UF and cfn.CODFISCAL = :PESSOA
+            where p.NCM = cfn.NCM and p.ORIGEM = cfn.ORIGEM and cfn.CFOP = new.CFOP and c.CFCOD = new.CFOP and cfn.UF = :UF and cfn.CODFISCAL = :PESSOA
             and n.NCM = p.NCM and p.CODPRODUTO = new.CODPRODUTO
             into :CICMS_SUBST, :CICMS_SUBST_IC, :CICMS_SUBST_IND, :CICMS, :ind_reduzicms, :CST_P, :IND_IPI, :CSOSN, :PIS, 
             :COFINS, :CSTCOFINS, :CSTPIS, :CSTIPI, :origem, :aliqimp, :aliqnac, :CALCTRIB;
