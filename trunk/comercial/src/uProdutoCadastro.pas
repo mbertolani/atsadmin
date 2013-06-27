@@ -114,6 +114,7 @@ type
     DBEdit27: TDBEdit;
     Label33: TLabel;
     DBEdit28: TDBEdit;
+    sqlBuscaEstoquePreco: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -443,7 +444,7 @@ procedure TfProdutoCadastro.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   PRODUTO_DESC := DM.cds_produtoPRODUTO.AsString;
-  inherited;
+  //inherited;
   if dm.cds_cm.Active then
     dm.cds_cm.Close;
   if (varonde = 'compra') then
@@ -875,10 +876,26 @@ procedure TfProdutoCadastro.calculaPrecoVenda;
 var vlrVenda: Double;
 begin
   try
+    if (sqlBuscaEstoquePreco.Active) then
+      sqlBuscaEstoquePreco.Close;
+    sqlBuscaEstoquePreco.SQL.Clear;
+    sqlBuscaEstoquePreco.SQL.Add('select * from ESTOQUE_VIEW_CUSTO(current_date ' +
+             ', ' + IntToStr(dm.cds_produto.FieldByName('CODPRODUTO').asinteger) +
+             ', ' + IntToStr(dm.CCustoPadrao) +
+             ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
+             ')');
+    sqlBuscaEstoquePreco.Open;
+    if (dm.cds_produto.State in [dsBrowse]) then
+      dm.cds_produto.Edit;
+    dm.cds_produtoVALORUNITARIOATUAL.AsFloat :=  sqlBuscaEstoquePreco.FieldByName('PRECOCOMPRA').AsFloat;
+    dm.cds_produtoPRECOMEDIO.AsFloat := sqlBuscaEstoquePreco.FieldByName('PRECOCUSTO').AsFloat;
+    dm.cds_produto.Post;
+
     if (dm.cds_produtoMARGEM.AsFloat > 0) then
     begin
       if (dm.cds_produto.State in [dsBrowse]) then
         dm.cds_produto.Edit;
+
       if (DBRadioGroup2.ItemIndex = 0) then
       begin
         vlrVenda := dm.cds_produtoPRECOMEDIO.AsFloat *
