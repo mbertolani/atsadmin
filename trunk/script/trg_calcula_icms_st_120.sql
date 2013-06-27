@@ -108,7 +108,7 @@ BEGIN
 		begin
 			new.LOTE = '1';
 			new.cst = :CST_P;
-			new.CSOSN = CSOSN;
+			new.CSOSN = :CSOSN;
 			new.CSTPIS = :CSTPIS;
 			new.CSTCOFINS = :CSTCOFINS;
 			new.CSTIPI = :CSTIPI;
@@ -239,7 +239,7 @@ BEGIN
             begin
                 new.LOTE = '1';
                 new.cst = :CST_P;
-                new.CSOSN = CSOSN;
+                new.CSOSN = :CSOSN;
                 new.CSTPIS = :CSTPIS;
                 new.CSTCOFINS = :CSTCOFINS;
                 new.CSTIPI = :CSTIPI;
@@ -389,7 +389,7 @@ BEGIN
                 end 
             
                 new.cst = :CST_P;
-                new.CSOSN = CSOSN;
+                new.CSOSN = :CSOSN;
                 new.CSTPIS = :CSTPIS;
                 new.CSTCOFINS = :CSTCOFINS;
                 new.CSTIPI = :CSTIPI;
