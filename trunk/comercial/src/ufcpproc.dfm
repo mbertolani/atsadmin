@@ -1069,7 +1069,7 @@ object fCpProc: TfCpProc
     Background.EndColor = clTeal
     Background.FillType = GradUpDown
     object Label14: TLabel
-      Left = 241
+      Left = 278
       Top = 10
       Width = 55
       Height = 13
@@ -1077,7 +1077,7 @@ object fCpProc: TfCpProc
       Transparent = True
     end
     object Label15: TLabel
-      Left = 421
+      Left = 446
       Top = 10
       Width = 73
       Height = 13
@@ -1085,11 +1085,39 @@ object fCpProc: TfCpProc
       Transparent = True
     end
     object Label17: TLabel
-      Left = 631
+      Left = 637
       Top = 10
       Width = 52
       Height = 13
       Caption = 'Total Pago'
+      Transparent = True
+    end
+    object Label16: TLabel
+      Left = 132
+      Top = 10
+      Width = 46
+      Height = 13
+      Caption = 'Sel. Pago'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      Transparent = True
+    end
+    object Label2: TLabel
+      Left = 2
+      Top = 10
+      Width = 67
+      Height = 13
+      Caption = 'Sel. Pendente'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       Transparent = True
     end
     object BitBtn10: TBitBtn
@@ -1200,7 +1228,7 @@ object fCpProc: TfCpProc
       Layout = blGlyphTop
     end
     object JvCalcEdit1: TJvCalcEdit
-      Left = 300
+      Left = 335
       Top = 7
       Width = 97
       Height = 21
@@ -1228,7 +1256,7 @@ object fCpProc: TfCpProc
       DecimalPlacesAlwaysShown = False
     end
     object JvCalcEdit2: TJvCalcEdit
-      Left = 505
+      Left = 523
       Top = 7
       Width = 100
       Height = 21
@@ -1239,6 +1267,40 @@ object fCpProc: TfCpProc
       ButtonFlat = True
       DisplayFormat = ',0.00'
       TabOrder = 4
+      DecimalPlacesAlwaysShown = False
+    end
+    object edtSelPago: TJvCalcEdit
+      Left = 181
+      Top = 8
+      Width = 58
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DisplayFormat = ',0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      DecimalPlacesAlwaysShown = False
+    end
+    object edtSelPend: TJvCalcEdit
+      Left = 70
+      Top = 8
+      Width = 58
+      Height = 21
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      DisplayFormat = ',0.00'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -9
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
       DecimalPlacesAlwaysShown = False
     end
   end
