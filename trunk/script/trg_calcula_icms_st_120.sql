@@ -106,7 +106,6 @@ BEGIN
 		---------------------------------------------------------------------------------
 		if ( (not CST_P is null) or (not CSOSN is null ) )then
 		begin
-			new.LOTE = '1';
 			new.cst = :CST_P;
 			new.CSOSN = :CSOSN;
 			new.CSTPIS = :CSTPIS;
@@ -237,7 +236,6 @@ BEGIN
 		
             if ( (not CST_P is null) or (not CSOSN is null ) )then
             begin
-                new.LOTE = '1';
                 new.cst = :CST_P;
                 new.CSOSN = :CSOSN;
                 new.CSTPIS = :CSTPIS;
