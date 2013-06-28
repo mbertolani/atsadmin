@@ -47,6 +47,8 @@ BEGIN
 		
     if ((new.CFOP <> '') or ((updating) and ((new.QTDE_ALT <> old.QTDE_ALT) or (new.PRECO <> old.PRECO) or (new.QUANTIDADE <> old.QUANTIDADE)))) then 
     begin
+		if ( new.lote is null) then
+			new.lote = '0';
 		select cast(d5 as integer) from PARAMETRO where PARAMETRO = 'EMPRESA'
         into :arredondar;
         
