@@ -491,4 +491,11 @@ object fImporta_XML: TfImporta_XML
     Left = 512
     Top = 512
   end
+  object sqlVeSeExisteCompra: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sqlConn
+    Left = 448
+    Top = 200
+  end
 end
