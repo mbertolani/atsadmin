@@ -53,6 +53,7 @@ type
     DBEdit19: TDBEdit;
     Label27: TLabel;
     sds_ClaFiscal: TSQLDataSet;
+    sqlBuscaEstoquePreco: TSQLQuery;
     DtSrc_cm: TDataSource;
     dxButton3: TdxButton;
     Button1: TButton;
@@ -114,7 +115,6 @@ type
     DBEdit27: TDBEdit;
     Label33: TLabel;
     DBEdit28: TDBEdit;
-    sqlBuscaEstoquePreco: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -506,6 +506,22 @@ begin
     DBEdit19.Color := clMenuBar;
   end;
 
+  if (sqlBuscaEstoquePreco.Active) then
+    sqlBuscaEstoquePreco.Close;
+  sqlBuscaEstoquePreco.SQL.Clear;
+  sqlBuscaEstoquePreco.SQL.Add('select * from ESTOQUE_VIEW_CUSTO(current_date ' +
+           ', ' + IntToStr(dm.cds_produto.FieldByName('CODPRODUTO').asinteger) +
+           ', ' + IntToStr(dm.CCustoPadrao) +
+           ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
+           ')');
+  sqlBuscaEstoquePreco.Open;
+  if (dm.cds_produto.State in [dsBrowse]) then
+    dm.cds_produto.Edit;
+  dm.cds_produtoVALORUNITARIOATUAL.AsFloat :=  sqlBuscaEstoquePreco.FieldByName('PRECOCOMPRA').AsFloat;
+  dm.cds_produtoPRECOMEDIO.AsFloat := sqlBuscaEstoquePreco.FieldByName('PRECOCUSTO').AsFloat;
+  dm.cds_produto.Post;
+  sqlBuscaEstoquePreco.Close;
+
   calculaPrecoVenda;
 end;
 
@@ -876,21 +892,6 @@ procedure TfProdutoCadastro.calculaPrecoVenda;
 var vlrVenda: Double;
 begin
   try
-    if (sqlBuscaEstoquePreco.Active) then
-      sqlBuscaEstoquePreco.Close;
-    sqlBuscaEstoquePreco.SQL.Clear;
-    sqlBuscaEstoquePreco.SQL.Add('select * from ESTOQUE_VIEW_CUSTO(current_date ' +
-             ', ' + IntToStr(dm.cds_produto.FieldByName('CODPRODUTO').asinteger) +
-             ', ' + IntToStr(dm.CCustoPadrao) +
-             ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
-             ')');
-    sqlBuscaEstoquePreco.Open;
-    if (dm.cds_produto.State in [dsBrowse]) then
-      dm.cds_produto.Edit;
-    dm.cds_produtoVALORUNITARIOATUAL.AsFloat :=  sqlBuscaEstoquePreco.FieldByName('PRECOCOMPRA').AsFloat;
-    dm.cds_produtoPRECOMEDIO.AsFloat := sqlBuscaEstoquePreco.FieldByName('PRECOCUSTO').AsFloat;
-    dm.cds_produto.Post;
-
     if (dm.cds_produtoMARGEM.AsFloat > 0) then
     begin
       if (dm.cds_produto.State in [dsBrowse]) then
