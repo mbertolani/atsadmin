@@ -67,6 +67,7 @@ type
     cbNaoEnviada: TCheckBox;
     btnImportarXml: TBitBtn;
     cdsNFItemCODPRODUTO: TFMTBCDField;
+    sqlVeSeExisteCompra: TSQLQuery;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -371,7 +372,7 @@ begin
             varCodProduto := sqlGenProd.Fields[0].AsInteger;
             strInsereItem := 'INSERT INTO PRODUTOS (CODPRODUTO, UNIDADEMEDIDA, ' +
               ' PRODUTO, COD_BARRA, TIPO, CODPRO, QTDE_PCT, DATACADASTRO, ' +
-              ' ORIGEM, NCM) VALUES (' +
+              ' ORIGEM, NCM, MARGEM, TIPOPRECOVENDA) VALUES (' +
               IntToStr(varCodProduto) +
               ' ,' + QuotedStr(copy(trim(cdsNFItemUN.AsString),0,2)) +
               ' ,' + QuotedStr(trim(cdsNFItemPRODUTO.AsString)) +
@@ -381,7 +382,8 @@ begin
               ' ,1' +
               ' ,current_date ' +
               ' ,0' +
-              ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) + ')';
+              ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) +
+              ', 30, ' + QuotedStr('U') + ')';
 
             strInsereItemF := 'INSERT INTO PRODUTO_FORNECEDOR (' +
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
@@ -482,58 +484,74 @@ begin
   cdsNF.First;
   cdsNFItem.First;
 
-  TDm.TransactionID := 1;
-  TDm.IsolationLevel := xilREADCOMMITTED;
+  if (sqlVeSeExisteCompra.Active) then
+    sqlVeSeExisteCompra.Close;
+  sqlVeSeExisteCompra.SQL.Clear;
+  sqlVeSeExisteCompra.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO ' +
+    'WHERE CODFORNECEDOR = ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger) +
+    '  AND CODPEDIDO = ' + IntToSTr(cdsNFNOTAFISCAL.AsInteger) +
+    '  AND CONTROLE = ' + QuotedStr(IntToSTr(cdsNFNOTAFISCAL.AsInteger)));
+  sqlVeSeExisteCompra.Open;
+  if (sqlVeSeExisteCompra.IsEmpty) then
+  begin
+    TDm.TransactionID := 1;
+    TDm.IsolationLevel := xilREADCOMMITTED;
 
-  fmov := TMovimento.Create;
-  try
-    while not cdsNF.Eof do
-    begin
-      fMov.CodMov      := 0;
-      fMov.CodNatureza := 4;  // Compra
-      fMov.DataMov     := cdsNFEMISSAO.AsDateTime;
-      fMov.CodCliente  := 0;
-      fMov.Status      := 0;
-      fMov.CodUsuario  := 1;
-      fMov.CodVendedor := 1;
-      fMov.CodFornec   := cdsNFCODCLIENTE_ATS.AsInteger;
-      fMov.CodCCusto   := 51;
-      fMov.CodPedido   := cdsNFNOTAFISCAL.AsInteger;
-      fMov.Controle    := IntToStr(cdsNFNOTAFISCAL.AsInteger);
+    fmov := TMovimento.Create;
+    try
+      while not cdsNF.Eof do
+      begin
+        fMov.CodMov      := 0;
+        fMov.CodNatureza := 4;  // Compra
+        fMov.DataMov     := cdsNFEMISSAO.AsDateTime;
+        fMov.CodCliente  := 0;
+        fMov.Status      := 0;
+        fMov.CodUsuario  := 1;
+        fMov.CodVendedor := 1;
+        fMov.CodFornec   := cdsNFCODCLIENTE_ATS.AsInteger;
+        fMov.CodCCusto   := 51;
+        fMov.CodPedido   := cdsNFNOTAFISCAL.AsInteger;
+        fMov.Controle    := IntToStr(cdsNFNOTAFISCAL.AsInteger);
 
-      dm.sqlsisAdimin.StartTransaction(TDm);
-      try
+        dm.sqlsisAdimin.StartTransaction(TDm);
+        try
 
-        codMov := fMov.inserirMovimento(0);
+          codMov := fMov.inserirMovimento(0);
 
-        While not cdsNFItem.Eof do
-        begin
-          //prog2.Position := cdsB.RecNo;
-          // Detalhe Natureza 6
-          fMov.MovDetalhe.CodMov     := codMov;
-          fMov.MovDetalhe.CodProduto := cdsNFItemCODPRODUTO_ATS.AsInteger;
-          fMov.MovDetalhe.Qtde       := cdsNFItemQTDE.AsFloat;
-          fMov.MovDetalhe.Preco      := cdsNFItemVLR_UNIT.AsFloat;
-          fMov.MovDetalhe.Descricao  := trim(cdsNFItemPRODUTO.AsString);
-          fMov.MovDetalhe.Desconto   := 0;
-          fMov.MovDetalhe.Un         := trim(cdsNFItemUN.AsString);
-          fMov.MovDetalhe.Lote       := '0';//cdsB.FieldByName('LOTE').AsString;
-          fMov.MovDetalhe.inserirMovDet;
-          cdsNFItem.Next;
+          While not cdsNFItem.Eof do
+          begin
+            //prog2.Position := cdsB.RecNo;
+            // Detalhe Natureza 6
+            fMov.MovDetalhe.CodMov     := codMov;
+            fMov.MovDetalhe.CodProduto := cdsNFItemCODPRODUTO_ATS.AsInteger;
+            fMov.MovDetalhe.Qtde       := cdsNFItemQTDE.AsFloat;
+            fMov.MovDetalhe.Preco      := cdsNFItemVLR_UNIT.AsFloat;
+            fMov.MovDetalhe.Descricao  := trim(cdsNFItemPRODUTO.AsString);
+            fMov.MovDetalhe.Desconto   := 0;
+            fMov.MovDetalhe.Un         := trim(cdsNFItemUN.AsString);
+            fMov.MovDetalhe.Lote       := '0';//cdsB.FieldByName('LOTE').AsString;
+            fMov.MovDetalhe.inserirMovDet;
+            cdsNFItem.Next;
+          end;
+          mudaStatusNF;
+          dm.sqlsisAdimin.Commit(TDm);
+        except
+          on E : Exception do
+          begin
+            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+            dm.sqlsisAdimin.Rollback(TDm); //on failure, undo the changes}
+          end;
         end;
-        mudaStatusNF;
-        dm.sqlsisAdimin.Commit(TDm);
-      except
-        on E : Exception do
-        begin
-          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-          dm.sqlsisAdimin.Rollback(TDm); //on failure, undo the changes}
-        end;
+        cdsNF.Next;
       end;
-      cdsNF.Next;
+    finally
+      fMov.Free;
     end;
-  finally
-    fMov.Free;
+  end
+  else
+  begin
+    MessageDlg('Já existe esta Nota no Sistema', mtWarning, [mbOK], 0);
+    exit;
   end;
 end;
 
