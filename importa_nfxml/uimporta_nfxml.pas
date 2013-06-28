@@ -68,6 +68,7 @@ type
     btnImportarXml: TBitBtn;
     cdsNFItemCODPRODUTO: TFMTBCDField;
     sqlVeSeExisteCompra: TSQLQuery;
+    Button1: TButton;
     procedure btnFecharClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
@@ -84,6 +85,7 @@ type
     procedure btnImportarXmlClick(Sender: TObject);
     procedure cbNaoEnviadaClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     TD: TTransactionDesc;
     procedure abreNF;
@@ -93,6 +95,7 @@ type
     procedure faltandoProduto;
     procedure procuraCadastroProduto;
     procedure insereMovimento;
+    procedure Deletefiles(APath, AFileSpec: string);
     { Private declarations }
   public
     { Public declarations }
@@ -471,18 +474,7 @@ begin
     end;
     cdsNF.Next;
   end;
-  // se existir produto sem o correspondente no ATS nao faz nada
-  while not cdsNFItem.Eof do
-  begin
-    if (cdsNFItemCODPRO_ATS.AsString = '') then
-    begin
-      MessageDlg('Existe Produto sem o Código no sistema.', mtWarning, [mbOK], 0);
-      exit;
-    end;
-    cdsNFItem.Next;
-  end;
   cdsNF.First;
-  cdsNFItem.First;
 
   if (sqlVeSeExisteCompra.Active) then
     sqlVeSeExisteCompra.Close;
@@ -517,11 +509,18 @@ begin
         try
 
           codMov := fMov.inserirMovimento(0);
-
+          abreNFItem;
           While not cdsNFItem.Eof do
           begin
             //prog2.Position := cdsB.RecNo;
-            // Detalhe Natureza 6
+
+            // se existir produto sem o correspondente no ATS nao faz nada
+            if (cdsNFItemCODPRO_ATS.AsString = '') then
+            begin
+              MessageDlg('Existe Produto sem o Código no sistema.', mtWarning, [mbOK], 0);
+              exit;
+            end;
+
             fMov.MovDetalhe.CodMov     := codMov;
             fMov.MovDetalhe.CodProduto := cdsNFItemCODPRODUTO_ATS.AsInteger;
             fMov.MovDetalhe.Qtde       := cdsNFItemQTDE.AsFloat;
@@ -564,7 +563,8 @@ begin
   end;
 
   insereMovimento;
-  DeleteFile('c:\home\xml\*');
+
+  Deletefiles('c:\home\xml\','*.xml');
   btnImportaNF.Font.Color := clWindowText;
   btnFechar.Font.Color := clRed;
   btnProcurar.Click;
@@ -600,6 +600,45 @@ begin
   Except
     ShowMessage('Banco de Dados invalido!');
   end;
+end;
+
+procedure TfImporta_XML.Button1Click(Sender: TObject);
+var iNFStatus: String;
+begin
+  iNFStatus := 'UPDATE NOTAFISCAL_IMPORTA SET ' +
+  ' STATUS = 0 ' +
+  ' WHERE NOTAFISCAL = ' + IntToStr(cdsNFNOTAFISCAL.asInteger) +
+  '   AND SERIE = ' + QuotedStr(trim(cdsNFSERIE.AsString)) +
+  '   AND CNPJ_EMITENTE = ' + QuotedStr(cdsNFCNPJ_EMITENTE.AsString);
+  sqlConn.StartTransaction(TD);
+  try
+    sqlConn.ExecuteDirect(iNFStatus);
+    sqlConn.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      sqlConn.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+end;
+
+procedure TfImporta_XML.Deletefiles(APath, AFileSpec: string);
+var
+  lSearchRec:TSearchRec;
+  lFind:integer;
+  lPath:string;
+begin
+  lPath := IncludeTrailingPathDelimiter(APath);
+
+  lFind := FindFirst(lPath+AFileSpec,faAnyFile,lSearchRec);
+  while lFind = 0 do
+  begin
+    DeleteFile(lPath+lSearchRec.Name);
+
+    lFind := SysUtils.FindNext(lSearchRec);
+  end;
+  FindClose(lSearchRec);
 end;
 
 end.

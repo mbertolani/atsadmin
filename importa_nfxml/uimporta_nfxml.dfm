@@ -255,6 +255,15 @@ object fImporta_XML: TfImporta_XML
     TabOrder = 10
     OnClick = btnImportarXmlClick
   end
+  object Button1: TButton
+    Left = 104
+    Top = 2
+    Width = 113
+    Height = 25
+    Caption = 'Refazer Importa'#231#227'o'
+    TabOrder = 11
+    OnClick = Button1Click
+  end
   object sqlConn: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
