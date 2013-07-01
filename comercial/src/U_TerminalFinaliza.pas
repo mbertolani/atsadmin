@@ -1256,6 +1256,7 @@ begin
    if (DM_MOV.c_venda.Active) then
       DM_MOV.c_venda.Close;
  end;
+ dm.EstoqueAtualiza;  
  scdsCr_proc.Close;
  close;
 end;
