@@ -520,6 +520,7 @@ begin
     cds_Movimento.Close;
   if (cds_Mov_det.Active) then
     cds_Mov_det.Close;
+  dm.EstoqueAtualiza;      
 end;
 
 procedure TfEntra_Sai_estoque.FormKeyPress(Sender: TObject; var Key: Char);
