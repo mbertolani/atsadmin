@@ -202,6 +202,7 @@ type
     procedure edDescontoExit(Sender: TObject);
     procedure JvCaixinhaExit(Sender: TObject);
     procedure JvCaixinhaEnter(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     TD: TTransactionDesc;
     usaMateriaPrima, tipo_origem, c_f, RESULTADO : String;
@@ -1536,6 +1537,11 @@ procedure TF_Entrada.msgErro;
 begin
   // MSG
   MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+end;
+
+procedure TF_Entrada.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  dm.EstoqueAtualiza;  
 end;
 
 end.
