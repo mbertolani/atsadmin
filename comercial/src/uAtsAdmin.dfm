@@ -1,6 +1,6 @@
 object fAtsAdmin: TfAtsAdmin
   Left = 0
-  Top = 95
+  Top = 97
   Width = 714
   Height = 452
   Color = clWhite
@@ -2800,7 +2800,7 @@ object fAtsAdmin: TfAtsAdmin
         OnClick = MovimentaodeEstoque1Click
       end
       object CorrigeEstoque1: TMenuItem
-        Caption = 'Corrigir Estoque'
+        Caption = 'Fechamento Estoque'
         OnClick = CorrigeEstoque1Click
       end
       object Inventario1: TMenuItem

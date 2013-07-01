@@ -63,10 +63,11 @@ var
   codPro1, codPro2 : integer;
   sqlStr: String;
 Begin
-  Save_Cursor := Screen.Cursor;
-  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
+
+  Save_Cursor := Screen.Cursor;
+  Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
     if (cdsA.Active) then
       cdsA.close;
@@ -80,6 +81,9 @@ Begin
 
     cdsB.CommandText := 'SELECT DISTINCT CODALMOXARIFADO from MOVIMENTO ';
     cdsB.Open;
+
+    JvProgressBar1.Max := cdsA.RecordCount;
+    JvProgressBar1.Position := 0;
 
     While not cdsB.eof do  // Percorro os CCUSTOS
     begin
@@ -152,7 +156,7 @@ Begin
         end;
 
         DecimalSeparator := ',';
-
+        JvProgressBar1.Position := cdsA.RecNo;
         cdsA.Next;
       end;
       cdsB.Next;

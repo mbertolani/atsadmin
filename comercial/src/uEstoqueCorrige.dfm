@@ -1,9 +1,9 @@
 object fEstoqueCorrige: TfEstoqueCorrige
-  Left = 313
-  Top = 131
+  Left = 315
+  Top = 134
   Width = 415
   Height = 352
-  Caption = 'Corrige Estoque'
+  Caption = 'Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,11 +16,11 @@ object fEstoqueCorrige: TfEstoqueCorrige
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 32
+    Left = 120
     Top = 8
-    Width = 278
+    Width = 123
     Height = 13
-    Caption = 'Atualiza no Cadastro Produto o Estoque atual de cada item'
+    Caption = 'Encerramento do Estoque'
   end
   object Label2: TLabel
     Left = 20
@@ -28,6 +28,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 76
     Height = 13
     Caption = 'C'#243'digo Produto '
+    Visible = False
   end
   object Label3: TLabel
     Left = 147
@@ -35,6 +36,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 29
     Height = 13
     Caption = 'Grupo'
+    Visible = False
   end
   object Label5: TLabel
     Left = 120
@@ -68,6 +70,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    Visible = False
   end
   object Edit1: TEdit
     Left = 16
@@ -75,15 +78,16 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Width = 123
     Height = 21
     TabOrder = 0
+    Visible = False
     OnKeyPress = Edit1KeyPress
   end
   object Button1: TButton
-    Left = 33
-    Top = 192
-    Width = 121
-    Height = 25
-    Hint = 'Corrige todos os Itens'
-    Caption = 'Corrigir Todos'
+    Left = 57
+    Top = 200
+    Width = 272
+    Height = 41
+    Hint = 'Executa o Fechamento do estoque no per'#237'odo acima'
+    Caption = 'Fechamento do Estoque'
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
@@ -106,12 +110,15 @@ object fEstoqueCorrige: TfEstoqueCorrige
     OnKeyPress = Edit1KeyPress
   end
   object Button2: TButton
-    Left = 215
-    Top = 192
+    Left = 223
+    Top = 248
     Width = 121
     Height = 25
     Caption = 'Executar EstoqueMes'
+    ParentShowHint = False
+    ShowHint = False
     TabOrder = 4
+    Visible = False
     OnClick = Button2Click
   end
   object JvProgressBar1: TJvProgressBar
@@ -129,12 +136,13 @@ object fEstoqueCorrige: TfEstoqueCorrige
     TabOrder = 6
   end
   object BitBtn1: TBitBtn
-    Left = 152
-    Top = 224
+    Left = 136
+    Top = 248
     Width = 75
     Height = 25
     Caption = 'Corrigir Lote'
     TabOrder = 7
+    Visible = False
     OnClick = BitBtn1Click
   end
   object cbGrupo: TComboBox
@@ -151,6 +159,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
     ItemHeight = 16
     ParentFont = False
     TabOrder = 8
+    Visible = False
   end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1
