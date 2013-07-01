@@ -467,11 +467,6 @@ begin
       dm.cds_produto.close;
     dm.cds_produto.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
     dm.cds_produto.Open;
-    dm.cds_produto.Edit;
-    dm.cds_produtoESTOQUEATUAL.AsFloat := cds_procESTOQUEATUAL.AsFloat;
-    //dm.cds_produtoVALORUNITARIOATUAL.AsFloat := cds_procPRECO_COMPRA.AsFloat;
-    //dm.cds_produtoPRECOMEDIO.AsFloat := cds_procPRECOMEDIO.AsFloat;
-    dm.cds_produtoVALOR_PRAZO.AsFloat := cds_procPRECO_VENDA.AsFloat;
     if (dm.cds_produtoTIPO.AsString = 'SERV') then
       fProdutoCadastro.cbTipo.ItemIndex := 3
     else if (dm.cds_produtoTIPO.AsString = 'COMPRA') then
@@ -482,7 +477,6 @@ begin
       fProdutoCadastro.cbTipo.ItemIndex := 4
     else
       fProdutoCadastro.cbTipo.ItemIndex := 0;
-    dm.cds_produto.Post;
     if (dm.cds_produtoMARCA.AsString <> '') then
       fProdutoCadastro.dbMarca.Text := dm.cds_produtoMARCA.AsString;
 
