@@ -6,6 +6,7 @@ uses SysUtils, Dialogs, DBClient, Provider, SqlExpr;
 type
   TEstoque = class(TObject)
   private
+    naoInsereEstaData: TDateTime;
     cdseb: TClientDataSet;
     dspeb: TDataSetProvider;
     sdseb: TSQLDataSet;
@@ -744,7 +745,10 @@ begin
     end;
     Try
       DecimalSeparator := '.';
-      executaSql(sqlStr);
+      if (naoInsereEstaData <> Self.MesAno) then
+      begin
+        executaSql(sqlStr);
+      end;
       //dm.sqlsisAdimin.Commit();
 
       // Se tiver Movimento no Mes posterior, o Custo tem que ser Refeito
@@ -961,6 +965,7 @@ begin
   DataEntrada := Value;
   diaa := 1;
   _mesAno := EncodeDate(anoa, mesa, diaa);
+  naoInsereEstaData := _mesAno;
 end;
 
 procedure TEstoque.setMesAnoPost(const Value: TDateTime);
