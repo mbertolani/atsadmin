@@ -130,6 +130,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure cbCCustoChange(Sender: TObject);
     procedure cbCCusto1Change(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     CCusto: Integer;
@@ -951,6 +952,13 @@ begin
   inherited;
   if (cds_ccusto.Locate('NOME', cbCCusto1.Text, [loCaseInsensitive])) then
     CCusto := cds_ccustoCODIGO.AsInteger;
+end;
+
+procedure TfInventario.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  dm.EstoqueAtualiza;  
 end;
 
 end.

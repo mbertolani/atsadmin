@@ -1,6 +1,6 @@
 inherited fInventario: TfInventario
-  Left = 203
-  Top = 59
+  Left = 205
+  Top = 61
   Width = 922
   Height = 663
   Caption = 'Inventario'
