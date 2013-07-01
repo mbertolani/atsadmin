@@ -1545,6 +1545,7 @@ begin
   cds_Mov_detFRETE.AsFloat := 0;
   cds_Mov_detVALOR_SEGURO.AsFloat := 0;
   cds_Mov_detVALOR_OUTROS.AsFloat := 0;
+  cds_Mov_detLOTE.AsString := '0';
   cds_mov_detCFOP.asString := edCfop.text;
 end;
 
