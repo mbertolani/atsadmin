@@ -743,15 +743,6 @@ begin
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cds_compraCODCOMPRA.AsInteger;
   scdsCr_proc.Open;
-
-  if (dmnf.baixouEstoque(cds_compraCODMOVIMENTO.AsInteger) = False) then
-  begin
-    Try
-      dmnf.baixaEstoque(cds_compraCODMOVIMENTO.AsInteger, cds_compraDATACOMPRA.AsDateTime, 'COMPRA');
-    Except
-      MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
-    end;
-  end;
   
 end;
 
@@ -882,6 +873,7 @@ begin
   inherited;
   if scdsCr_proc.Active then
      scdsCr_proc.Close;
+  dm.EstoqueAtualiza;     
 end;
 
 procedure TfCompraFinalizar.DtSrcStateChange(Sender: TObject);
@@ -1757,20 +1749,9 @@ begin
           dm.sqlsisAdimin.StartTransaction(TD);
           DtSrc.DataSet.Delete;
           (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-          dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA');
           dm.sqlsisAdimin.Commit(TD);
-          if (dmnf.cancelouEstoque(codmov) = False) then
-          begin
-            if (fCompra.cds_MovimentoCODNATUREZA.AsInteger = 4) then
-              dmnf.cancelaEstoque(codmov, dataCompra, 'COMPRA')
-            else
-              dmnf.cancelaEstoque(codmov, dataCompra, 'DEV.COMPRA');
-            if (dmnf.cancelouEstoque(codMov) = False) then
-            begin
-              MessageDlg('O Sistema não conseguiu cancelar a baixa no Estoque;', mtWarning, [mbOK], 0);
-            end;
-          end;
           excluinf;
+          dm.EstoqueAtualiza;
           ShowMessage('Compra Excluida com Sucesso');
         except
           on E : Exception do
@@ -1800,6 +1781,7 @@ begin
 
         dm.sqlsisAdimin.Commit(TD);
         ShowMessage('Compra Cancelada com Sucesso');
+        dm.EstoqueAtualiza;        
       except
         on E : Exception do
           begin
