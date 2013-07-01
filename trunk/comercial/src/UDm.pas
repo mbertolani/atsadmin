@@ -2062,6 +2062,7 @@ type
     pc: String; valorAnt: String; valorPos: String; campoChave: String; acao: String);
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
     procedure verificaTamCampo;
+    procedure EstoqueAtualiza;
   end;
 var
   DM: TDM;
@@ -2076,7 +2077,7 @@ var
 
 implementation
 
-uses md5;
+uses md5, uEstoqueAtualiza;
 
 //uses uAtualizaSistema;
 
@@ -3264,6 +3265,14 @@ begin
   Result := True;
   if (sqlBusca.IsEmpty) then
     Result := False;
+end;
+
+procedure TDM.EstoqueAtualiza;
+var ThreadEstoque: TEstoqueAtualiza;
+begin
+  ThreadEstoque := TEstoqueAtualiza.Create(True);
+  ThreadEstoque.FreeOnTerminate := True;
+  ThreadEstoque.Resume;
 end;
 
 end.
