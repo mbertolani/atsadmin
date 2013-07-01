@@ -1115,6 +1115,7 @@ begin
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
   cds_Mov_detCFOP.AsString := edCFOP.Text;
+  cds_Mov_detLOTE.AsString := '0';
   if (not (cds_Mov_detFRETE.AsFloat > 0)) then
     cds_Mov_detFRETE.AsFloat := 0;
   if (not (cds_Mov_detCFOP.AsString = '')) then
