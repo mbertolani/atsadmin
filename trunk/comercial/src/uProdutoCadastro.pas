@@ -53,7 +53,6 @@ type
     DBEdit19: TDBEdit;
     Label27: TLabel;
     sds_ClaFiscal: TSQLDataSet;
-    sqlBuscaEstoquePreco: TSQLQuery;
     DtSrc_cm: TDataSource;
     dxButton3: TdxButton;
     Button1: TButton;
@@ -242,17 +241,7 @@ begin
     if (codprodxa > 0) then
     begin
       try
-        //If (codprodxa = 0) then
-          //exit;
-        Dm.cds_Produto.Close;
-        Dm.cds_Produto.Params[0].AsInteger := codprodxa;
-        Dm.cds_Produto.Open;
-        dm.cds_produto.Edit;
-        dm.cds_produtoESTOQUEATUAL.AsFloat := fProcura_prod.cds_procESTOQUEATUAL.AsFloat;
-        //dm.cds_produtoVALORUNITARIOATUAL.AsFloat := fProcura_prod.cds_procPRECO_COMPRA.AsFloat;
-        //dm.cds_produtoPRECOMEDIO.AsFloat := fProcura_prod.cds_procPRECOMEDIO.AsFloat;
-        //dm.cds_produtoVALOR_PRAZO.AsFloat := fProcura_prod.cds_procPRECO_VENDA.AsFloat;
-        dm.cds_produto.Post;
+
         dbMarca.Text := dm.cds_produtoMARCA.AsString;
         dm.cds_produto.Edit;
         if (dm.cds_produtoLOTES.AsString = 'S') then
@@ -505,22 +494,6 @@ begin
     DBEdit19.Enabled := False;
     DBEdit19.Color := clMenuBar;
   end;
-
-  if (sqlBuscaEstoquePreco.Active) then
-    sqlBuscaEstoquePreco.Close;
-  sqlBuscaEstoquePreco.SQL.Clear;
-  sqlBuscaEstoquePreco.SQL.Add('select * from ESTOQUE_VIEW_CUSTO(current_date ' +
-           ', ' + IntToStr(dm.cds_produto.FieldByName('CODPRODUTO').asinteger) +
-           ', ' + IntToStr(dm.CCustoPadrao) +
-           ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
-           ')');
-  sqlBuscaEstoquePreco.Open;
-  if (dm.cds_produto.State in [dsBrowse]) then
-    dm.cds_produto.Edit;
-  dm.cds_produtoVALORUNITARIOATUAL.AsFloat :=  sqlBuscaEstoquePreco.FieldByName('PRECOCOMPRA').AsFloat;
-  dm.cds_produtoPRECOMEDIO.AsFloat := sqlBuscaEstoquePreco.FieldByName('PRECOCUSTO').AsFloat;
-  dm.cds_produto.Post;
-  sqlBuscaEstoquePreco.Close;
 
   calculaPrecoVenda;
 end;
