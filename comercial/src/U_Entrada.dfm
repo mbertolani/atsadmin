@@ -14,6 +14,7 @@ object F_Entrada: TF_Entrada
   OldCreateOrder = False
   PopupMenu = pm1
   Position = poDesktopCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
@@ -36,8 +37,8 @@ object F_Entrada: TF_Entrada
     object JvLabel7: TJvLabel
       Left = 14
       Top = 286
-      Width = 52
-      Height = 24
+      Width = 58
+      Height = 23
       Caption = 'Vale :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -58,8 +59,8 @@ object F_Entrada: TF_Entrada
     object JvLabel6: TJvLabel
       Left = 14
       Top = 242
-      Width = 158
-      Height = 24
+      Width = 177
+      Height = 23
       Caption = 'Cart'#227'o de D'#233'bito :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -80,8 +81,8 @@ object F_Entrada: TF_Entrada
     object JvLabel5: TJvLabel
       Left = 14
       Top = 198
-      Width = 164
-      Height = 24
+      Width = 186
+      Height = 23
       Caption = 'Cart'#227'o de Cr'#233'dito :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -102,8 +103,8 @@ object F_Entrada: TF_Entrada
     object JvLabel4: TJvLabel
       Left = 14
       Top = 155
-      Width = 117
-      Height = 24
+      Width = 125
+      Height = 23
       Caption = 'Cheque-Pr'#233' :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -124,8 +125,8 @@ object F_Entrada: TF_Entrada
     object JvLabel2: TJvLabel
       Left = 14
       Top = 114
-      Width = 81
-      Height = 24
+      Width = 87
+      Height = 23
       Caption = 'Cheque :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -146,8 +147,8 @@ object F_Entrada: TF_Entrada
     object JvLabel1: TJvLabel
       Left = 15
       Top = 71
-      Width = 84
-      Height = 24
+      Width = 101
+      Height = 23
       Caption = 'Dinheiro :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -168,8 +169,8 @@ object F_Entrada: TF_Entrada
     object JvLabel9: TJvLabel
       Left = 14
       Top = 328
-      Width = 71
-      Height = 24
+      Width = 82
+      Height = 23
       Caption = 'Outros :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -191,7 +192,7 @@ object F_Entrada: TF_Entrada
       Left = 369
       Top = 15
       Width = 96
-      Height = 24
+      Height = 23
       Caption = 'TROCO ->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -212,8 +213,8 @@ object F_Entrada: TF_Entrada
     object JvLabel11: TJvLabel
       Left = 9
       Top = 15
-      Width = 176
-      Height = 24
+      Width = 179
+      Height = 23
       Caption = 'Valor Pago     ------->'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -242,8 +243,8 @@ object F_Entrada: TF_Entrada
     object JvLabel13: TJvLabel
       Left = 14
       Top = 371
-      Width = 85
-      Height = 24
+      Width = 102
+      Height = 23
       Caption = 'Caixinha :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -264,8 +265,8 @@ object F_Entrada: TF_Entrada
     object JvLabel14: TJvLabel
       Left = 360
       Top = 371
-      Width = 125
-      Height = 24
+      Width = 142
+      Height = 23
       Caption = 'Tiquet m'#233'dio :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -294,8 +295,8 @@ object F_Entrada: TF_Entrada
     object JvLabel15: TJvLabel
       Left = 14
       Top = 418
-      Width = 96
-      Height = 24
+      Width = 103
+      Height = 23
       Caption = 'Desconto :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindow
@@ -786,8 +787,8 @@ object F_Entrada: TF_Entrada
     object JvLabel8: TJvLabel
       Left = 515
       Top = 3
-      Width = 84
-      Height = 18
+      Width = 99
+      Height = 17
       Caption = 'Total Parcial :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -808,8 +809,8 @@ object F_Entrada: TF_Entrada
     object JvLabel3: TJvLabel
       Left = 409
       Top = 3
-      Width = 84
-      Height = 18
+      Width = 96
+      Height = 17
       Caption = 'Total Pedido :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -830,8 +831,8 @@ object F_Entrada: TF_Entrada
     object JvLabel12: TJvLabel
       Left = 329
       Top = 2
-      Width = 70
-      Height = 18
+      Width = 74
+      Height = 17
       Caption = 'Comiss'#227'o :'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
