@@ -1266,6 +1266,7 @@ begin
        MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
      end;
    end;
+
 end;
 
 procedure TfVendaFinalizar.btnExcluirClick(Sender: TObject);
@@ -1274,7 +1275,7 @@ var    utilcrtitulo : Tutils;
   FEstoque: TEstoque;
   dataVenda: TDateTime;
   FMov : TMovimento;
-  FRec : TReceberCls;  
+  FRec : TReceberCls;
 begin
   dataVenda := cdsDATAVENDA.AsDateTime;
 
@@ -1297,17 +1298,6 @@ begin
       if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
                     [mbYes,mbNo],0) = mrYes then
       begin
-        Try
-          dm.sqlsisAdimin.StartTransaction(TD);
-          dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
-          dm.sqlsisAdimin.Commit(TD);
-        except
-           on E : Exception do
-           begin
-             ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
-             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-           end;
-         end;
 
         if (dm.moduloUsado = 'CITRUS') then
         begin
@@ -1357,8 +1347,7 @@ begin
              end;
            end;
          end;
-
-      end;
+       end;
     end
     else if (cds_cr.IsEmpty) then
     begin
@@ -1379,24 +1368,6 @@ begin
             dm.sqlsisAdimin.StartTransaction(TD);
             DtSrc.DataSet.Delete;
             (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-            dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
-           if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
-           begin
-             if (dm.sqlBusca.Active) then
-               dm.sqlBusca.Close;
-             dm.sqlBusca.SQL.Clear;
-             dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO, DATAMOVIMENTO FROM MOVIMENTO ' +
-               ' WHERE CODPEDIDO   = ' + IntToStr(codigo_moviemento) +
-               '   AND CODNATUREZA = 2'+
-               '   AND CODCLIENTE  = ' + IntToStr(codigo_cliente));
-             dm.sqlBusca.Open;
-             if (not dm.sqlBusca.IsEmpty) then
-             begin
-               dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
-                 dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
-             end;
-           end;
-
             dm.sqlsisAdimin.Commit(TD);
           except
             on E : Exception do
@@ -1406,6 +1377,7 @@ begin
             end;
           end;
       end;
+
     end;
     try
       FRec := TReceberCls.Create;
@@ -1474,15 +1446,6 @@ begin
   end
   else
     BitBtn2.Click;
-
-  if (dmnf.cancelouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
-  begin
-    dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
-    if (dmnf.cancelouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
-    begin
-      MessageDlg('O Sistema não conseguiu cancelar a baixa no Estoque;', mtWarning, [mbOK], 0);
-    end;
-  end;
 
   fAtsAdmin.UserControlComercial.VerificaLogin(usu_n,usu_s);
 end;
@@ -3653,7 +3616,8 @@ begin
     DtSrc.DataSet.Cancel;
   scdsCr_proc.Params[0].Clear;
   cds.Params[0].Clear;
-  cds.Params[1].Clear;  
+  cds.Params[1].Clear;
+  dm.EstoqueAtualiza;
 end;
 
 end.
