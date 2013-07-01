@@ -300,7 +300,8 @@ uses
   uperiodoSem in 'uperiodoSem.pas' {fPeriodoSem},
   uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario},
   uUnidadeMedida in 'uUnidadeMedida.pas' {fUnidadeMedida},
-  uSincronizar in 'uSincronizar.pas' {fSincronizar};
+  uSincronizar in 'uSincronizar.pas' {fSincronizar},
+  uEstoqueAtualiza in 'uEstoqueAtualiza.pas';
 
 {$R *.res}
 
