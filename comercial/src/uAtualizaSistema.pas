@@ -1743,11 +1743,11 @@ begin
     begin
       EXECUTADDL('MOVIMENTODETALHE', 'FRETE_BC', 'VARCHAR(5)');
       executaScript('rel_vendaCompra114.sql');
-//      executaScript('relDre114.sql');
+      //executaScript('relDre114.sql');
       executaScript('view_estoque.sql');
       CriaGenerator('GEN_EMAIL');
       executaSql('SET GENERATOR GEN_EMAIL TO 1200');
-      executaSql('ALTER TABLE EMAIL_ENVIAR ALTER EMAIL TYPE Varchar(100)');
+      //executaSql('ALTER TABLE EMAIL_ENVIAR ALTER EMAIL TYPE Varchar(100)');
       mudaVersao('1.0.0.114');
     end;// Fim Atualizacao Versao 1.0.0.114
 
@@ -1814,8 +1814,6 @@ begin
       executaScript('listaSpEstoqueFiltro118.sql');
       executaScript('spEstoqueFiltro118.sql');      
       executaScript('estoque_view118.sql');
-      executaScript('listaProdutocli118.sql');
-
       mudaVersao('1.0.0.118');
     end;// Fim Atualizacao Versao 1.0.0.118
 
@@ -1829,6 +1827,7 @@ begin
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
       EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
       executaScript('estoque_view_custo119.sql');
+      executaScript('listaProdutocli118.sql');      
       executaScript('listaProduto118.sql');      
       executaScript('rel_vendaCompra119.sql');
       executaScript('spestoque119.sql');
@@ -1848,6 +1847,8 @@ begin
       EXECUTADDL('NOTAFISCAL', 'BASE_PIS', 'double precision');
       EXECUTADDL('NOTAFISCAL', 'BASE_COFINS', 'double precision');
       EXECUTADDL('NOTAFISCAL', 'VLRTOT_TRIB', 'double precision');
+      EXECUTADDL('CFOP', 'TOTTRIB', 'char(1)');
+      EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');      
 
       if (NaoExisteTabela('NCM')) then
       begin
@@ -1884,11 +1885,7 @@ begin
          ')');
         executaSql('alter table CLASSIFICACAOFISCALNCM add constraint PK_CLASS_NCM primary key (NCM, CFOP, UF, CODFISCAL, ORIGEM)');
       end;
-      try
-        ExecutaSql('INSERT INTO NCM (NCM) select distinct TRIM(p.NCM) ' +
-          ' from PRODUTOS p  where trim(p.NCM) is not null and p.NCM <>  ' + QuotedStr(''));
-      except
-      end;
+
       if (NaoExisteTabela('IBPT')) then
       begin
         executaSql('CREATE TABLE IBPT ' +
@@ -1898,7 +1895,14 @@ begin
          ' ALIQIMP double precision ' +
          ')');
       end;
+
       executaScript('trg_ncm_carregaaliq.sql');
+      try
+        ExecutaSql('INSERT INTO NCM (NCM) select distinct TRIM(p.NCM) ' +
+          ' from PRODUTOS p  where trim(p.NCM) is not null and p.NCM <>  ' + QuotedStr(''));
+      except
+      end;
+      executaScript('relContaReceber120.sql');
 
       dm.sqlsisAdimin.StartTransaction(TD);
       try
@@ -1919,9 +1923,18 @@ begin
       end;
 
       MessageDlg('Execute o script TB_IBPT.sql', mtInformation, [mbOK], 0);
-      
+
       mudaVersao('1.0.0.120');
     end;// Fim Atualizacao Versao 1.0.0.120
+
+    if (versaoSistema = '1.0.0.120') then
+    begin
+      executaScript('estoque_fechado_compra.sql');
+      executaScript('estoque_fechado_venda.sql');
+      executaScript('listaProduto120.sql');
+      executaScript('listaProdutocli120.sql');
+      //mudaVersao('1.0.0.121');
+    end;// Fim Atualizacao Versao 1.0.0.121
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
