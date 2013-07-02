@@ -239,6 +239,7 @@ begin
 end;
 
 procedure TfOs.btnGravarClick(Sender: TObject);
+var linhaServ: Integer;
 begin
   if (cdsOSSTATUS.AsString = 'F') then
   begin
@@ -249,12 +250,12 @@ begin
   if (cdsOSSTATUS.AsString = 'E') then
   begin
     ShowMessage('OS excluída.');
-    Exit;            
+    Exit;
   end;
 
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     exit;
-    
+
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   if (edCodCliente.Text = '') then
@@ -315,7 +316,7 @@ begin
       exit;
     end;
     FOsCls.codVeiculo := edVeiculo.Text;
-    FOsCls.cfop       := edcfop.text;   
+    FOsCls.cfop       := edcfop.text;
     FOsCls.codUsuario := usulog;
     FOsCls.dataOs     := edData.Date;
     FOsCls.dataInicio := edData.Date;
@@ -338,6 +339,7 @@ begin
     end;
 
     cdsServico.DisableControls;
+    linhaServ := cdsServico.RecNo;
     if (cdsServico.State in [dsEdit,dsInsert]) then
       cdsServico.Cancel;
     cdsServico.First;
@@ -375,6 +377,7 @@ begin
       end;
       cdsServico.Next;
     end;
+    cdsServico.RecNo := linhaServ;
     cdsServico.EnableControls;
 
     cdsPecas.DisableControls;
@@ -773,7 +776,9 @@ begin
     exit;
   end;
 
-  //btnGravar.Click;
+  btnGravar.Click;
+  modoOs := 'Edit';
+  controlaEventos;
 
   ServCodServ   := cdsServicoID_OS_DET.AsInteger;
   ServDescricao := cdsServicoDESCRICAO_SERV.AsString;
