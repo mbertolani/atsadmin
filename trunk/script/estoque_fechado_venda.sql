@@ -1,6 +1,4 @@
-SET TERM ^ ;
-
-CREATE TRIGGER estoque_fechado_venda FOR VENDA
+CREATE OR ALTER TRIGGER estoque_fechado_venda FOR VENDA
 ACTIVE BEFORE INSERT OR UPDATE OR DELETE POSITION 0
 AS
   declare variable data_estoque date; 
@@ -15,6 +13,4 @@ BEGIN
      
   if (data_venda <= data_estoque) then 
     exception ESTOQUEFECHADO; 	 
-END^
-
-SET TERM ; ^ 
+END
