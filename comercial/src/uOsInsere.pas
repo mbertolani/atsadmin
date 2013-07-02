@@ -90,7 +90,7 @@ procedure TfOsInsere.BitBtn3Click(Sender: TObject);
 begin
   fProcurar := TfProcurar.Create(self,dm.scds_prod);
   fProcurar.BtnProcurar.Click;
-  //fProcurar.EvDBFind1.DataField := 'Serviço';
+  fProcurar.EvDBFind1.DataField := 'PRODUTO';
   fProcurar.btnIncluir.Visible := False;
   fProcurar.BtnProcurar.Click;
   try
