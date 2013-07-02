@@ -66,11 +66,11 @@ uses uOs, uProcurar, UDm, uProcura_prodOficina, sCtrlResize;
 procedure TfOsInsere.BitBtn1Click(Sender: TObject);
 begin
   fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
-  fProcurar.usuarioproc := 'VENDEDOR';
-  fProcurar.BtnProcurar.Click;
-  fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
   try
-   if fProcurar.ShowModal=mrOk then
+    fProcurar.usuarioproc := 'VENDEDOR';
+    fProcurar.BtnProcurar.Click;
+    fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
+    if fProcurar.ShowModal=mrOk then
     begin
       if (fOs.dsServico.State = dsBrowse) then
         fOs.cdsServico.Edit;
@@ -79,21 +79,22 @@ begin
       edColaborador.Text := dm.scds_usuario_procNOMEUSUARIO.AsString;
       edCodUsuario.Text  := IntToStr(dm.scds_usuario_procCODUSUARIO.AsInteger);
     end;
-   finally
+  finally
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
-   end;
+  end;
 
 end;
 
 procedure TfOsInsere.BitBtn3Click(Sender: TObject);
 begin
   fProcurar := TfProcurar.Create(self,dm.scds_prod);
-  fProcurar.BtnProcurar.Click;
-  fProcurar.EvDBFind1.DataField := 'PRODUTO';
-  fProcurar.btnIncluir.Visible := False;
-  fProcurar.BtnProcurar.Click;
   try
+    fProcurar.BtnProcurar.Click;
+    fProcurar.EvDBFind1.DataField := 'PRODUTO';
+    fProcurar.btnIncluir.Visible := False;
+    fProcurar.BtnProcurar.Click;
+
     if (fProcurar.ShowModal = mrOK) then
     begin
       edProdDescr.Text := fProcurar.DescProProc;
