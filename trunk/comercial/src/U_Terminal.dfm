@@ -1,6 +1,6 @@
 object F_Terminal: TF_Terminal
   Left = 232
-  Top = 126
+  Top = 127
   Width = 796
   Height = 573
   BorderIcons = [biSystemMenu, biMaximize]
@@ -22,7 +22,7 @@ object F_Terminal: TF_Terminal
     Left = 372
     Top = 45
     Width = 416
-    Height = 494
+    Height = 501
     Align = alClient
     PopupMenu = PopupMenu1
     TabOrder = 0
@@ -36,7 +36,7 @@ object F_Terminal: TF_Terminal
       Left = 1
       Top = 40
       Width = 414
-      Height = 343
+      Height = 350
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
@@ -246,7 +246,7 @@ object F_Terminal: TF_Terminal
     end
     object MMJPanel9: TMMJPanel
       Left = 1
-      Top = 383
+      Top = 390
       Width = 414
       Height = 110
       Align = alBottom
@@ -2216,8 +2216,8 @@ object F_Terminal: TF_Terminal
     Left = 0
     Top = 45
     Width = 372
-    Height = 494
-    ActivePage = TabSheet1
+    Height = 501
+    ActivePage = TabDelivery
     Align = alLeft
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -2236,7 +2236,7 @@ object F_Terminal: TF_Terminal
         Left = 0
         Top = 0
         Width = 364
-        Height = 465
+        Height = 472
         Align = alClient
         Color = clMoneyGreen
         TabOrder = 0
@@ -2244,7 +2244,7 @@ object F_Terminal: TF_Terminal
           Left = 1
           Top = 40
           Width = 362
-          Height = 363
+          Height = 370
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
@@ -2254,7 +2254,7 @@ object F_Terminal: TF_Terminal
             Left = 2
             Top = 2
             Width = 358
-            Height = 359
+            Height = 366
             Align = alClient
             AutoSize = True
             Center = True
@@ -3132,7 +3132,7 @@ object F_Terminal: TF_Terminal
         end
         object MMJPanel7: TMMJPanel
           Left = 1
-          Top = 403
+          Top = 410
           Width = 362
           Height = 61
           Align = alBottom
@@ -3147,7 +3147,7 @@ object F_Terminal: TF_Terminal
           object JvLabel6: TJvLabel
             Left = 6
             Top = 6
-            Width = 44
+            Width = 51
             Height = 18
             Caption = 'Pedido'
             ShadowSize = 2
@@ -3162,7 +3162,7 @@ object F_Terminal: TF_Terminal
           object JvLabel9: TJvLabel
             Left = 68
             Top = 6
-            Width = 55
+            Width = 60
             Height = 18
             Caption = 'Emiss'#227'o'
             ShadowSize = 2
@@ -3177,7 +3177,7 @@ object F_Terminal: TF_Terminal
           object JvLabel11: TJvLabel
             Left = 151
             Top = 6
-            Width = 48
+            Width = 59
             Height = 18
             Caption = 'Usuario'
             ShadowSize = 2
@@ -5403,7 +5403,7 @@ object F_Terminal: TF_Terminal
         Left = 0
         Top = 83
         Width = 364
-        Height = 382
+        Height = 389
         Align = alClient
         Ctl3D = False
         DataSource = DM_MOV.d_delivery
@@ -7292,5 +7292,11 @@ object F_Terminal: TF_Terminal
     ProviderName = 'dspMesaOcupada'
     Left = 173
     Top = 84
+  end
+  object Timer1: TTimer
+    Interval = 10000
+    OnTimer = Timer1Timer
+    Left = 268
+    Top = 377
   end
 end
