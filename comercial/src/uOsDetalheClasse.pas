@@ -268,7 +268,10 @@ begin
     sqlInsere := sqlInsere + QuotedStr(Self.Tipo) + ', ';
     sqlInsere := sqlInsere + FloatToStr(Self.Desconto) + ', ';
     DecimalSeparator := ',';    
-    sqlInsere := sqlInsere + IntToStr(Self.CodOsServ) + ')';
+    if (Self.CodOsServ > 90000000) then
+      sqlInsere := sqlInsere + IntToStr(Self.CodDet) + ')'
+    else
+      sqlInsere := sqlInsere + IntToStr(Self.CodOsServ) + ')';
     executaSql(sqlInsere);
     Result := Self.CodDet;
   except
