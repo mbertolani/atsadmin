@@ -198,6 +198,7 @@ type
     Ascending : boolean;
     util: TUtils;
     OsServico: String;
+    procedure corrigeCodServ;
     procedure abrirOs;
     function TrocaStatus(StatusNovo: String; OsouServico: String): Boolean;
     function TotalOs(OsTot: Integer): Double;
@@ -410,8 +411,9 @@ begin
 
     cdsOs.CommandText :=  'SELECT OS.*, C.NOMECLIENTE FROM OS, CLIENTES C ' + strAbrirOs;
     cdsOs.Open;
-    if (linhaGrid > 0) then
-      cdsOs.RecNo := linhaGrid;
+    if (not cdsOS.IsEmpty) then
+      if (linhaGrid > 0) then
+        cdsOs.RecNo := linhaGrid;
   Finally
     cdsOs.EnableControls;
   end;
@@ -799,7 +801,7 @@ begin
     PopupMenu1.Items.Items[4].Enabled := False;   //Orçamento
     PopupMenu1.Items.Items[5].Enabled := True;   //Excluido
   end;
-
+  corrigeCodServ;
 end;
 
 procedure TfOsFiltro.btnIncluirClick(Sender: TObject);
@@ -964,6 +966,50 @@ end;
 procedure TfOsFiltro.BitBtn1Click(Sender: TObject);
 begin
   edVeiculo.Clear;
+end;
+
+procedure TfOsFiltro.corrigeCodServ;
+var TD    : TTransactionDesc;
+  strCorrigeCodServ: String;
+begin
+  if (cdsServicoDESCRICAO_SERV.AsString = 'SERVICOS-MECANICO') then
+  begin
+    If (sqlTotal.Active) then
+      sqlTotal.Close;
+    sqlTotal.SQL.Clear;
+    sqlTotal.SQL.Add('SELECT ID_OSDET_SERV, ID_OS_DET FROM OS_DET WHERE ID_OS = ' +
+      IntToStr(cdsServicoID_OS.AsInteger) +
+      ' AND TIPO = ' + QuotedStr('P') +
+      ' AND ID_OSDET_SERV > 90000000');
+    sqlTotal.Open;
+    if (sqlTotal.IsEmpty) then
+    begin
+      exit;
+    end;
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      while not sqlTotal.Eof do
+      begin
+        if (sqlTotal.FieldByName('ID_OSDET_SERV').AsInteger > 90000000) then
+        begin
+          strCorrigeCodServ := 'UPDATE OS_DET SET ID_OSDET_SERV = ' + IntToStr(cdsServicoID_OS_DET.AsInteger) +
+            ' WHERE ID_OS_DET = ' + IntToStr(sqlTotal.FieldByName('ID_OS_DET').AsInteger) +
+            '   AND ID_OS = ' + IntToStr(cdsServicoID_OS.AsInteger);
+          dm.sqlsisAdimin.ExecuteDirect(strCorrigeCodServ);
+        end;
+        sqlTotal.Next;
+      end;
+      dm.sqlsisAdimin.Commit(TD);
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
+    end;
+  end;
 end;
 
 end.
