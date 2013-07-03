@@ -82,7 +82,11 @@ Begin
     cdsB.CommandText := 'SELECT DISTINCT CODALMOXARIFADO from MOVIMENTO ';
     cdsB.Open;
 
-    JvProgressBar1.Max := cdsA.RecordCount;
+    prog2.Max := cdsA.RecordCount;
+    prog2.Position := 0;
+
+
+    JvProgressBar1.Max := cdsB.RecordCount;
     JvProgressBar1.Position := 0;
 
     While not cdsB.eof do  // Percorro os CCUSTOS
@@ -156,9 +160,10 @@ Begin
         end;
 
         DecimalSeparator := ',';
-        JvProgressBar1.Position := cdsA.RecNo;
+        Prog2.Position := cdsA.RecNo;
         cdsA.Next;
       end;
+      JvProgressBar1.Position := cdsB.RecNo;
       cdsB.Next;
     end;
     MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
