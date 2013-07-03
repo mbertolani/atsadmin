@@ -1,0 +1,922 @@
+unit uOsFinaliza;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, JvExButtons, JvBitBtn, ExtCtrls,
+  JvExStdCtrls, JvEdit, JvValidateEdit, JvLabel, Grids, DBGrids,
+  JvExDBGrids, JvDBGrid, JvCombobox, Mask, DBCtrls, JvExControls,
+  JvGroupHeader, FMTBcd, DB, SqlExpr, DBClient, Provider, DBxPress, uReceberCls, uUtils,
+  DBLocal, DBLocalS, JvSpeedButton;
+
+type
+  TfOsFinaliza = class(TForm)
+    Panel1: TPanel;
+    btnIncluir: TJvBitBtn;
+    JvGravar: TJvBitBtn;
+    JvExcluir: TJvBitBtn;
+    btnNotaFiscal: TJvBitBtn;
+    JvBitBtn1: TJvBitBtn;
+    JvBitBtn2: TJvBitBtn;
+    JvBoleto: TJvBitBtn;
+    JvSair: TJvBitBtn;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    JvGroupHeader3: TJvGroupHeader;
+    Label1: TLabel;
+    DBEdit7: TDBEdit;
+    Label2: TLabel;
+    DBEdit8: TDBEdit;
+    JvGroupHeader1: TJvGroupHeader;
+    Label3: TLabel;
+    dbeUsuario: TDBEdit;
+    Label4: TLabel;
+    DBEdit14: TDBEdit;
+    JvGroupHeader2: TJvGroupHeader;
+    Label7: TLabel;
+    dbeSerie: TDBEdit;
+    Label8: TLabel;
+    btnSerie: TBitBtn;
+    DBEdit2: TDBEdit;
+    Label9: TLabel;
+    DBEdit3: TDBEdit;
+    Label10: TLabel;
+    cbPrazo: TJvComboBox;
+    Label11: TLabel;
+    DBEdit5: TDBEdit;
+    Label24: TLabel;
+    ComboBox1: TComboBox;
+    Label20: TLabel;
+    DBEdit1: TDBEdit;
+    Label13: TLabel;
+    cbConta: TComboBox;
+    Label5: TLabel;
+    ComboBox2: TComboBox;
+    JvGroupHeader5: TJvGroupHeader;
+    JvDBGrid1: TJvDBGrid;
+    JvGroupHeader4: TJvGroupHeader;
+    JvLabel3: TJvLabel;
+    jvTotal: TJvValidateEdit;
+    Label17: TLabel;
+    jvDesc: TJvValidateEdit;
+    Label6: TLabel;
+    jvDesconto: TJvValidateEdit;
+    Label12: TLabel;
+    jvAcrescimo: TJvValidateEdit;
+    Label14: TLabel;
+    jvApagar: TJvValidateEdit;
+    Label16: TLabel;
+    BitBtn1: TBitBtn;
+    jvPago: TJvValidateEdit;
+    JvGroupHeader6: TJvGroupHeader;
+    Label15: TLabel;
+    jvTroco: TJvValidateEdit;
+    sqlBuscaNota: TSQLQuery;
+    SQLDataSet1: TSQLDataSet;
+    SQLDataSet1TITULO: TStringField;
+    SQLDataSet1DATAVENCIMENTO: TDateField;
+    SQLDataSet1CAIXA: TSmallintField;
+    SQLDataSet1STATUS: TStringField;
+    SQLDataSet1VIA: TStringField;
+    SQLDataSet1N_DOCUMENTO: TStringField;
+    SQLDataSet1VALORRECEBIDO: TFloatField;
+    SQLDataSet1VALOR_RESTO: TFloatField;
+    SQLDataSet1VALORTITULO: TFloatField;
+    SQLDataSet1VALORREC: TFloatField;
+    SQLDataSet1CODRECEBIMENTO: TIntegerField;
+    SQLDataSet1NOMECLIENTE: TStringField;
+    SQLDataSet1DP: TIntegerField;
+    SQLDataSet1EMISSAO: TDateField;
+    SQLDataSet1VALOR_PRIM_VIA: TFloatField;
+    SQLDataSet1CODCLIENTE: TIntegerField;
+    SQLDataSet1TIT: TStringField;
+    SQLDataSet1SITUACAO: TStringField;
+    SQLDataSet1FORMARECEBIMENTO: TStringField;
+    SQLDataSet1DATARECEBIMENTO: TDateField;
+    SQLDataSet1CODVENDA: TIntegerField;
+    DataSetProvider1: TDataSetProvider;
+    scdsCr_proc: TClientDataSet;
+    scdsCr_procTITULO: TStringField;
+    scdsCr_procEMISSAO: TDateField;
+    scdsCr_procDATAVENCIMENTO: TDateField;
+    scdsCr_procCAIXA: TSmallintField;
+    scdsCr_procSTATUS: TStringField;
+    scdsCr_procVIA: TStringField;
+    scdsCr_procN_DOCUMENTO: TStringField;
+    scdsCr_procVALORRECEBIDO: TFloatField;
+    scdsCr_procVALOR_RESTO: TFloatField;
+    scdsCr_procVALORTITULO: TFloatField;
+    scdsCr_procNOMECLIENTE: TStringField;
+    scdsCr_procVALORREC: TFloatField;
+    scdsCr_procCODRECEBIMENTO: TIntegerField;
+    scdsCr_procDP: TIntegerField;
+    scdsCr_procVALOR_PRIM_VIA: TFloatField;
+    scdsCr_procCODCLIENTE: TIntegerField;
+    scdsCr_procTIT: TStringField;
+    scdsCr_procSITUACAO: TStringField;
+    scdsCr_procFORMARECEBIMENTO: TStringField;
+    scdsCr_procDATARECEBIMENTO: TDateField;
+    scdsCr_procCODVENDA: TIntegerField;
+    scdsCr_procTRecebido: TAggregateField;
+    scdsCr_procTotal_resto: TAggregateField;
+    scdsCr_procTotalTitulo: TAggregateField;
+    ds_Cr: TDataSource;
+    lbl1: TLabel;
+    JvComissao: TJvValidateEdit;
+    scds_serie_proc: TSQLClientDataSet;
+    scds_serie_procCODSERIE: TStringField;
+    scds_serie_procSERIE: TStringField;
+    scds_serie_procULTIMO_NUMERO: TIntegerField;
+    scds_serie_procNOTAFISCAL: TSmallintField;
+    JvSpeedButton3: TJvSpeedButton;
+    btnUsuarioProcura: TJvSpeedButton;
+    procedure btnNotaFiscalClick(Sender: TObject);
+    procedure JvSairClick(Sender: TObject);
+    procedure JvGravarClick(Sender: TObject);
+    procedure btnIncluirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure JvSpeedButton3Click(Sender: TObject);
+    procedure btnUsuarioProcuraClick(Sender: TObject);
+    procedure JvExcluirClick(Sender: TObject);
+  private
+    str_sql : String;
+    TD: TTransactionDesc;
+    Save_Cursor:TCursor;
+    osfinaliza_codvenda: integer;
+    utilcrtitulo : Tutils;
+    codcaixaInterno: Integer;
+    procedure notafiscal;
+    procedure inserevenda;
+    procedure baixatitulos;
+    procedure excluinf;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fOsFinaliza: TfOsFinaliza;
+
+implementation
+
+uses UDM_MOV, UDm, uNotaf, UDMNF, uProcurar, uProcurar_nf;
+
+{$R *.dfm}
+
+procedure TfOsFinaliza.btnNotaFiscalClick(Sender: TObject);
+begin
+  if DM_MOV.d_venda.State in [dsInsert] then
+    JvGravar.Click;
+
+  if (scdsCr_proc.RecordCount = 0) then
+  begin
+    MessageDlg('Titulo do Financeiro nao foi gerado.'+#13+#10+'Clique no botao gravar, para gera-lo.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  NotaFiscal;
+end;
+
+procedure TfOsFinaliza.notafiscal;
+begin
+  if (sqlBuscaNota.Active) then
+	sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select codMovimento, codCliente  from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
+    QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+  if (sqlBuscaNota.IsEmpty) then
+  begin
+    try
+      //codClienteNF := 0;
+      Save_Cursor := Screen.Cursor;
+      Screen.Cursor := crHourGlass;
+      // Nota Fiscal
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+
+      str_sql := 'EXECUTE PROCEDURE GERA_NF_VENDA(';
+      str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
+      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENDA.AsDateTime));
+      str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
+      str_sql := str_sql + ', ' + QuotedStr(DM_MOV.c_vendaSERIE.AsString);
+      str_sql := str_sql + ', ' + QuotedStr(inttostr(DM_MOV.c_vendaNOTAFISCAL.AsInteger));
+      str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
+
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+          dm.sqlsisAdimin.ExecuteDirect(str_sql);
+          dm.sqlsisAdimin.Commit(TD);
+      except
+          dm.sqlsisAdimin.Rollback(TD);
+          MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
+          exit;
+      end;
+      if (sqlBuscaNota.Active) then
+        sqlBuscaNota.Close;
+      sqlBuscaNota.SQL.Clear;
+      sqlBuscaNota.SQL.Add('select codMovimento, codCliente from MOVIMENTO where ( (CODNATUREZA = 15) or (CODNATUREZA = 16) ) AND CONTROLE = ' +
+        QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+      sqlBuscaNota.Open;
+    finally
+      Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    end;
+  end;
+
+  fNotaf := TfNotaf.Create(Application);
+  try
+    fNotaF.codMovFin := sqlBuscaNota.Fields[0].AsInteger;
+    fNotaF.codCliFin := sqlBuscaNota.Fields[1].AsInteger;
+
+    if (not  dm.cds_empresa.Active) then
+    dm.cds_empresa.open;
+      fNotaf.cbFinanceiro.Checked := False;
+      fNotaf.cbEstoque.Checked := False;
+      fNotaf.ShowModal;
+      if (dmnf.cds_nfSTATUS.AsString = 'S') then
+    fNotaf.RadioGroup1.ItemIndex := 0
+      else
+        fNotaf.RadioGroup1.ItemIndex := 1;
+  finally
+  	fNotaf.Free;
+  end;
+
+end;
+
+procedure TfOsFinaliza.JvSairClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TfOsFinaliza.JvGravarClick(Sender: TObject);
+var
+  codRecCR: Integer;
+begin
+  if (DBEdit5.Text = '1') then
+  begin
+    if (jvPago.Value > 0) then
+      if (jvPago.Value < jvApagar.Value) then
+      begin
+        MessageDlg('Valor pago menor que total a pagar, '+#13+#10+' parcela tem que ser maior que "1"', mtWarning, [mbOK], 0);
+        cbPrazo.SetFocus;
+        exit;
+      end;
+  end;
+  if (cbPrazo.Visible = True) then
+  begin
+    if (not dm.cdsPrazo.Locate('PARAMETRO', cbPrazo.Text, [loCaseinsensitive])) then
+    begin
+      MessageDlg('Escolha o prazo de pagamento.', mtError, [mbOK], 0);
+      cbPrazo.SetFocus;
+      exit;
+    end;
+  end;
+  if (dbeSerie.Text = '') then
+  begin
+    MessageDlg('Informe uma Série.', mtError, [mbOK], 0);
+    dbeSerie.SetFocus;
+    exit;
+  end;
+
+  inserevenda;
+
+  if (DM_MOV.c_venda.Active) then
+    DM_MOV.c_venda.Close;
+  DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+  DM_MOV.c_venda.Open;
+
+  scdsCr_proc.Close;
+  scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+  scdsCr_proc.Open;
+
+  if (jvPago.Value > 0) then
+  begin
+    if (codcaixaInterno = 0) then
+      MessageDlg('O Caixa Interno não está definido em parametros PDV.', mtWarning, [mbOK], 0);
+    baixatitulos;
+    scdsCr_proc.Close;
+    scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+    scdsCr_proc.Open;
+  end;
+
+end;
+
+procedure TfOsFinaliza.inserevenda;
+Var vJvValor,  vJvValor1, vJvValor2: Double;
+  strSqlMov: String;
+  FRec : TReceberCls;
+begin
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENVENDA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  osfinaliza_codvenda := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
+
+  str_Sql := 'INSERT INTO VENDA (CODVENDA, CODMOVIMENTO, CODCLIENTE, DATAVENDA';
+  str_Sql := str_sql + ',DATAVENCIMENTO ,BANCO ,CODVENDEDOR ,STATUS ,CODUSUARIO';
+  str_sql := str_sql + ',VALOR ,NOTAFISCAL ,SERIE, DESCONTO, CODCCUSTO, N_PARCELA'; //
+  str_sql := str_sql + ',FORMARECEBIMENTO, ENTRADA, CAIXA, MULTA_JUROS, APAGAR, VALOR_PAGAR, TROCO, COMISSAO, PRAZO ';
+  str_sql := str_sql + ') VALUES (';
+  str_sql := str_sql + IntToStr(osfinaliza_codvenda);
+  str_sql := str_sql + ',' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger);
+  str_sql := str_sql + ',' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
+  str_sql := str_sql + ',''' + formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime) + '''';
+  str_sql := str_sql + ',''' + formatdatetime('mm/dd/yyyy', DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime) + '''';
+  str_sql := str_sql + ',1'; //Banco
+  str_sql := str_sql + ', ' + dbeUsuario.Text; //CodVendedor
+  str_sql := str_sql + ',0'; //status
+  str_sql := str_sql + ', ' + dbeUsuario.Text; //codusuario
+
+  DecimalSeparator := ',';
+  vJvValor := jvTotal.AsFloat + JvComissao.AsFloat + jvAcrescimo.Value; //StrToFloat(jvTotal.Text);
+  if (jvDesconto.Value > 0) then
+  begin
+    vJvValor := (jvTotal.AsFloat + JvComissao.AsFloat + jvAcrescimo.Value) - jvDesconto.Value;
+  end;
+  DecimalSeparator := '.';
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //valor
+
+  str_sql := str_sql + ',' + DBEdit2.Text; //notafiscal
+  str_sql := str_sql + ',''' + dbeSerie.Text + ''''; //serie
+
+
+  DecimalSeparator := ',';
+
+  vJvValor := jvDesconto.AsFloat;
+  DecimalSeparator := '.';
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //DEsconto
+
+  // str_sql := str_sql + ',0'; //desconto
+  str_sql := str_sql + ',' + IntToStr(DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger);//CODCUSTO
+  str_sql := str_sql + ', ' + DBEdit5.Text + ',';
+  try
+    utilcrtitulo := Tutils.Create;
+    if (ComboBox2.Text <> '') then
+      str_sql := str_sql + QuotedStr(utilcrtitulo.pegaForma(ComboBox2.Text))
+    else
+      str_sql := str_sql + QuotedStr(utilcrtitulo.pegaForma(ComboBox1.Text))
+  finally
+    utilcrtitulo.Free;
+  end;
+  DecimalSeparator := ',';
+  vJvValor1 := jvPago.AsFloat;
+  vJvValor2 := jvTroco.AsFloat; //StrToFloat(jvTroco.Text);
+  if (vJvValor2 > 0) then
+    vJvValor := vJvValor1 - vJvValor2
+  else
+    vJvValor := vJvValor1;
+
+  DecimalSeparator := '.';
+
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //ENTRADA
+
+  if (dm.cds_7_contas.Locate('NOME', cbConta.Text, [loCaseInsensitive])) then
+    str_sql := str_sql + ', ' + IntToStr(dm.cds_7_contas.Fields[0].asInteger)
+  else
+    str_sql := str_sql + ', 0'; //Caixa
+
+  DecimalSeparator := ',';
+  vJvValor := jvAcrescimo.AsFloat; //StrToFloat(jvAcrescimo.Text);
+  DecimalSeparator := '.';
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //Multa_juros
+
+  DecimalSeparator := ',';
+  vJvValor := jvApagar.AsFloat; //StrToFloat(jvApagar.Text);
+  DecimalSeparator := '.';
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //VALOR A PaGAR
+
+  DecimalSeparator := ',';
+  vJvValor := jvPago.AsFloat; //StrToFloat(jvPago.Text);
+  DecimalSeparator := '.';
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //VALORPAGO
+
+  DecimalSeparator := ',';
+  vJvValor := jvTroco.AsFloat; //StrToFloat(jvTroco.Text);
+  DecimalSeparator := '.';
+  if (DM_MOV.c_forma.IsEmpty) then
+    str_sql := str_sql + ',' + FloatToStr(vJvValor) //TROCO
+  else
+    str_sql := str_sql + ',' + '0'; //ENTRADA
+
+  DecimalSeparator := ',';
+  vJvValor := JvComissao.AsFloat; //StrToFloat(jvTroco.Text);
+  DecimalSeparator := '.';
+  str_sql := str_sql + ',' + FloatToStr(vJvValor); //COMISSAO
+
+
+  str_sql := str_sql + ',' + QuotedStr(cbPrazo.Text);
+  str_sql := str_sql + ')';
+
+  strSqlMov := 'UPDATE MOVIMENTO SET CODCLIENTE = ' + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger) +
+  ', STATUS = ' + '0 ' +
+  ' where CODMOVIMENTO = ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger);
+
+  Try
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    try
+      FRec := TReceberCls.Create;
+      FRec.geraTitulo(0, osfinaliza_codvenda);
+    finally
+      Frec.Free;
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+  DecimalSeparator := ',';
+  ThousandSeparator := '.';
+
+end;
+
+procedure TfOsFinaliza.btnIncluirClick(Sender: TObject);
+var desconto,  varlor_porc  : Double;
+begin
+  DM_MOV.c_venda.Append;
+  {------Pesquisando na tab Parametro o valor padr?para a Natureza Opera? ---------}
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'SERIETERMINAL';
+  dm.cds_parametro.Open;
+  dbeSerie.Text := dm.cds_parametroDADOS.AsString;
+  DM_MOV.c_vendaSERIE.AsString := dm.cds_parametroDADOS.AsString;
+  dm.cds_parametro.Close;
+  { 006 ------Pesquisando na tab Parametro o Vendedor padr?---- 09-05-2005 -----}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'VENDEDORPADRAO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    dbeUsuario.Text := dm.cds_parametroDADOS.AsString;
+  try
+    DM_MOV.c_vendaCODVENDEDOR.AsInteger := StrToInt(dm.cds_parametroDADOS.AsString);
+  except
+    DM_MOV.c_vendaCODVENDEDOR.AsInteger := 1;
+  end;
+  dm.cds_parametro.Close;
+  { ---- 06 ----}
+  dbeUsuario.SetFocus;
+  if (DM_MOV.PAGECONTROL = 'PDV') then
+  begin
+    DM_MOV.c_vendaCODMOVIMENTO.AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+    DM_MOV.c_vendaCODCLIENTE.AsInteger := DM_MOV.c_movimentoCODCLIENTE.AsInteger;
+    DM_MOV.c_vendaNOMECLIENTE.AsString := DM_MOV.c_movimentoNOMECLIENTE.AsString;
+  end;
+
+  if (DM_MOV.PAGECONTROL = 'COMANDA') then
+  begin
+    DM_MOV.c_vendaCODMOVIMENTO.AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+    DM_MOV.c_vendaCODCLIENTE.AsInteger := DM_MOV.c_comandaCODCLIENTE.AsInteger;
+    DM_MOV.c_vendaNOMECLIENTE.AsString := DM_MOV.c_comandaNOMECLIENTE.AsString;
+  end;
+
+  if (DM_MOV.PAGECONTROL = 'DELIVERY') then
+  begin
+    DM_MOV.c_vendaCODMOVIMENTO.AsInteger := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+    DM_MOV.c_vendaCODCLIENTE.AsInteger := DM_MOV.c_DeliveryCODCLIENTE.AsInteger;
+    DM_MOV.c_vendaNOMECLIENTE.AsString := DM_MOV.c_DeliveryNOMECLIENTE.AsString;
+  end;
+
+  //DM_MOV.c_vendaNOMECLIENTE.AsInteger := DM_MOV.c_movimentonCODCLIENTE.AsInteger;
+  desconto := 0;
+  DM_MOV.c_movdet.First;
+  while ( not DM_MOV.c_movdet.Eof) do
+  begin
+    desconto := desconto + dm_mov.c_movdetQTDE_ALT.AsFloat;
+    DM_MOV.c_movdet.Next;
+  end;
+
+  if (not DM_MOV.c_movdet.IsEmpty) then
+  begin
+    jvApagar.Value :=  DM_MOV.c_movdettotalpedido.Value - desconto;
+    jvTotal.Value := DM_MOV.c_movdettotalpedido.Value - desconto;
+
+    dm.cds_parametro.Close;
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'LANCACOMISSAOCR';
+    dm.cds_parametro.Open;
+
+    if (not dm.cds_parametro.Eof) then
+    begin
+      //JvComissao.Value:= (porc_com /100) * jvTotal.Value;
+      JvComissao.Value := 0;
+      jvApagar.Value := (DM_MOV.c_movdettotalpedido.Value + JvComissao.Value) - desconto;
+    end;
+    dm.cds_parametro.Close;
+
+  end;
+  jvDesconto.Value := 0;
+  jvAcrescimo.Value := 0;
+  jvPago.Value := 0;
+  jvTroco.Value := 0;
+  DM_MOV.c_vendaDATAVENDA.AsDateTime := Now;
+  DM_MOV.c_vendaDATASISTEMA.AsDateTime := Now;
+  cbConta.ItemIndex := 1;
+  ComboBox1.ItemIndex := 0;
+  cbPrazo.ItemIndex := 0;
+  DBEdit5.Text := '1';
+  JvGravar.SetFocus;
+
+  //dbeSerie.OnExit;
+  if DM_MOV.d_venda.State in [dsInsert,dsEdit] then
+  begin
+    if dbeSerie.Text = '' then
+      exit;
+    if scds_serie_proc.Active then
+      scds_serie_proc.Close;
+    scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+    scds_serie_proc.Open;
+    if scds_serie_proc.IsEmpty then
+    begin
+      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
+      [mbOk], 0);
+      btnSerie.Click;
+      exit;
+    end;
+    DM_MOV.c_vendaSERIE.AsString := scds_serie_procSERIE.AsString;
+    //?nota fiscal ?
+    if scds_serie_procNOTAFISCAL.AsInteger=0 then
+    begin
+      //    btnImprimir.Enabled:=False;
+      btnNotaFiscal.Enabled:=True;
+    end
+    else
+    begin
+      //    btnImprimir.Enabled:=True;
+      btnNotaFiscal.Enabled:=False;
+    end;
+    DM_MOV.c_vendaNOTAFISCAL.AsInteger := scds_serie_procULTIMO_NUMERO.AsInteger + 1;
+  end;
+  //==========================================================================
+
+end;
+
+procedure TfOsFinaliza.FormShow(Sender: TObject);
+begin
+  DecimalSeparator := ',';
+  if (not dm.parametro.Active) then
+    dm.parametro.Open;
+  if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then
+  begin
+    if (not dm.cdsPrazo.Active) then
+      dm.cdsPrazo.open;
+    if (not dm.cdsPrazo.IsEmpty) then
+    begin
+      dm.CdsPrazo.first;
+      //nparc := dm.CdsPrazoVALOR.asFloat;
+      cbPrazo.Items.clear;
+      while not dm.CdsPrazo.eof do
+      begin
+        cbPrazo.Items.Add(dm.cdsPrazoPARAMETRO.asString);
+        dm.cdsPrazo.next;
+      end;
+    end;
+  end;
+
+  if (DM_MOV.c_venda.Active) then
+    DM_MOV.c_venda.Close;
+
+  if (DM_MOV.PAGECONTROL = 'PDV') then
+    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+
+  if (DM_MOV.PAGECONTROL = 'COMANDA') then
+    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+
+  if (DM_MOV.PAGECONTROL = 'DELIVERY') then
+    DM_MOV.c_venda.Params[0].AsInteger:= DM_MOV.ID_DO_MOVIMENTO;
+
+  DM_MOV.c_venda.Open;
+  if (DM_MOV.c_venda.IsEmpty) then
+  begin
+    btnIncluir.Click;
+    //dbeSerie.SetFocus;
+    scdsCr_proc.Close;
+     // Verifico se teve entrada
+     if (DM_MOV.c_forma.Active) then
+        DM_MOV.c_forma.close;
+     DM_MOV.c_forma.Params[0].Clear;
+     DM_MOV.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+     DM_MOV.c_forma.Open;
+     if (not DM_MOV.c_forma.IsEmpty) then
+       jvPago.Value := DM_MOV.c_formatotal.Value;
+     DM_MOV.c_forma.Close;
+     DM_MOV.c_forma.Params[0].Clear;
+
+    DM_MOV.s_parametro.Close;
+    DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
+    DM_MOV.s_parametro.Open;
+    codcaixaInterno := 0;
+    if (dm.cds_7_contas.Locate('CONTA', DM_MOV.s_parametroD1.AsString, [loCaseInsensitive])) then
+    begin
+      cbConta.Text := dm.cds_7_contas.Fields[2].asString;
+      codcaixaInterno := dm.cds_7_contasCODIGO.AsInteger;
+    end;
+    cbPrazo.ItemIndex := 0; //= '1-DINHEIRO'
+    DM_MOV.s_parametro.Close;
+    //-------------------------
+  end
+  else
+  begin
+    JvComissao.Value  :=  DM_MOV.c_vendaCOMISSAO.Value;
+    jvApagar.Value    := DM_MOV.c_vendaVALOR.Value;
+    jvTotal.Value     := DM_MOV.c_vendaVALOR.Value;
+    jvDesconto.Value  := DM_MOV.c_vendaDESCONTO.Value;
+    jvAcrescimo.Value := DM_MOV.c_vendaMULTA_JUROS.Value;
+    jvPago.Value      := DM_MOV.c_vendaVALOR_PAGAR.Value;
+    jvTroco.Value     := DM_MOV.c_vendaTROCO.Value;
+    if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
+    begin
+      try
+        utilcrtitulo := Tutils.Create;
+        ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+      finally
+        utilcrtitulo.Free;
+      end;
+    end;
+
+    if (dm.cds_7_contas.Locate('CODIGO', DM_MOV.c_vendaCAIXA.AsInteger, [loCaseInsensitive])) then
+      cbConta.Text := dm.cds_7_contas.Fields[2].asString;
+
+    cbPrazo.Text := DM_MOV.c_vendaPRAZO.AsString;
+    if (scdsCr_proc.Active) then
+        scdsCr_proc.Close;
+    scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+    scdsCr_proc.Open;
+    DM_MOV.c_venda.Edit;
+  end;
+
+  if (DM_MOV.c_vendaFORMARECEBIMENTO.asString <> '') then
+  begin
+    try
+      utilcrtitulo := Tutils.Create;
+      ComboBox1.ItemIndex := utilcrtitulo.retornaForma(DM_MOV.c_vendaFORMARECEBIMENTO.asString);
+    finally
+      utilcrtitulo.Free;
+    end;
+  end;
+
+end;
+
+procedure TfOsFinaliza.baixatitulos;
+var
+  FRecT : TReceberCls;
+  formaRec : string;
+begin
+  // Marco o Título
+  str_sql := 'UPDATE RECEBIMENTO SET DP = 0, USERID = ' + IntToStr(usulog) + ' WHERE CODRECEBIMENTO = ' +
+    IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
+  try
+    utilcrtitulo := Tutils.Create;
+    formaRec := utilcrtitulo.pegaForma(ComboBox1.Text);
+  finally
+    utilcrtitulo.Free;
+  end;
+
+  FRecT := TReceberCls.Create;
+  try
+    FRecT.baixaTitulo(jvPago.Value, //Valor
+                                0, //Funrural
+                                0, // Juros
+                                jvDesconto.Value, // Desconto
+                                0, // Perda
+                                DM_MOV.c_vendaDATAVENDA.AsDateTime, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
+                                DM_MOV.c_vendaDATAVENDA.AsDateTime, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
+                                DM_MOV.c_vendaDATAVENDA.AsDateTime, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
+                                formaRec,  // FormaRecebimento
+                                DM_MOV.c_vendaN_DOCUMENTO.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // Nº Documento
+                                codcaixaInterno, // Caixa
+                                DM_MOV.c_vendaCODCLIENTE.AsInteger, //DM_MOV.c_vendaCODCLIENTE.AsInteger, // Codigo do Cliente
+                                '7-',
+                                usulog, ''); // Usuario Logado
+  finally
+    FrecT.Free;
+  end;
+
+  str_sql := 'UPDATE RECEBIMENTO SET DP = ' + 'null' + ', USERID = ' + 'null' + ' WHERE CODRECEBIMENTO = ' +
+            IntToStr(scdsCr_procCODRECEBIMENTO.AsInteger);;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
+end;
+
+procedure TfOsFinaliza.FormCreate(Sender: TObject);
+var i,j : Integer;
+begin
+  {if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+    usaDll := 'TRUE';
+  dm.cds_parametro.Close;
+
+  nparc := 1;}
+
+  {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
+  {if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BAIXAAUTOMATICA';
+  dm.cds_parametro.Open;
+  usaMateriaPrima := dm.cds_parametroCONFIGURADO.AsString;}
+
+  if (not dm.parametro.Active) then
+    dm.parametro.Open;
+
+  if (dm.parametro.locate('PARAMETRO', 'NOTAFISCALDESATIVADO', [loCaseInsensitive])) then
+    if (dm.parametroCONFIGURADO.AsString = 'S') then
+    begin
+      DbEdit2.ReadOnly := True;
+    end;
+
+  // Listo as Contas Caixa
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CAIXA_BANCO';
+  dm.cds_parametro.Open;
+  if dm.cds_7_contas.Active then
+    dm.cds_7_contas.Close;
+  dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
+  dm.cds_7_contas.Open;
+
+  while not dm.cds_7_contas.Eof do
+  begin
+    cbConta.Items.Add(dm.cds_7_contas.Fields[2].asString);
+    dm.cds_7_contas.Next;
+  end;
+
+  try
+    utilcrtitulo := Tutils.Create;
+    // Popula Status
+    j := utilcrtitulo.Forma.Count;
+    for i := 0 to j - 1 do
+    begin
+      combobox1.Items.Add(utilcrtitulo.Forma.Strings[i]);
+      combobox2.Items.Add(utilcrtitulo.Forma.Strings[i]);
+    end;
+  finally
+    utilcrtitulo.Free;
+  end;
+
+end;
+
+procedure TfOsFinaliza.JvSpeedButton3Click(Sender: TObject);
+begin
+  DM.varNomeCliente := '';
+  dm.codcli := 0;
+  fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
+  fProcurar_nf.BtnProcurar.Click;
+  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
+  fProcurar_nf.btnIncluir.Visible := True;
+  try
+    if (fProcurar_nf.ShowModal = mrOK) then
+    begin
+      if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
+      begin
+        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terap que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        exit;
+      end;
+      if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
+      begin
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda nao permitida.', mtError, [mbOK], 0);
+        exit;
+      end;
+    end;
+    //prazo := dmnf.scds_cli_procPRAZORECEBIMENTO.AsFloat;
+    //desconto := DMNF.scds_cli_procDESCONTO.AsFloat;
+  finally
+    DM_MOV.c_vendaCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
+    DM_MOV.c_vendaNOMECLIENTE.AsString := dmnf.scds_cli_procNOMECLIENTE.AsString;
+    if (fProcurar_nf.novoCliente = 'S') then
+    begin
+      DM_MOV.c_vendaCODCLIENTE.AsInteger := dm.codcli;
+      DM_MOV.c_vendaNOMECLIENTE.AsString := dm.varNomeCliente;
+    end;
+    dmnf.scds_cli_proc.Close;
+    fProcurar_nf.Free;
+  end;
+
+end;
+
+procedure TfOsFinaliza.btnUsuarioProcuraClick(Sender: TObject);
+begin
+  fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
+  fProcurar.usuarioproc := 'VENDEDOR';
+  fProcurar.BtnProcurar.Click;
+  fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
+  try
+    if fProcurar.ShowModal=mrOk then
+    begin
+      if (DM_MOV.c_venda.State = dsBrowse) then
+        DM_MOV.c_venda.Edit;
+      DM_MOV.c_vendaCODVENDEDOR.AsInteger := dm.scds_usuario_ProcCODusuario.AsInteger;
+      DM_MOV.c_vendaNOMEUSUARIO.AsString :=  dm.scds_usuario_procNOMEUSUARIO.AsString;
+    end;
+  finally
+    dm.scds_usuario_proc.Close;
+    fProcurar.Free;
+  end;
+
+end;
+
+procedure TfOsFinaliza.JvExcluirClick(Sender: TObject);
+begin
+  if MessageDlg('Deseja realmente excluir este registro?',mtConfirmation,
+    [mbYes,mbNo],0) = mrNo then
+    exit;
+
+  if (scdsCr_procSTATUS.AsString = '7-') then
+  begin
+    ShowMessage('O titulo já foi recebido, antes de excluir a venda cancele o recebimento');
+    exit;
+  end;
+
+  if (sqlBuscaNota.Active) then
+  sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select m.codMovimento, m.codCliente, v.CODVENDA  from MOVIMENTO m ' +
+    ' inner join venda v on v.CODMOVIMENTO = m.CODMOVIMENTO where ' +
+    ' m.CODNATUREZA = 15 and m.CONTROLE = ' +
+  QuotedStr(IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+
+    if (not sqlBuscaNota.IsEmpty) then
+    begin
+      // Nota Fiscal
+      str_sql := 'DELETE FROM NOTAFISCAL ';
+      str_sql := str_sql + ' where CODVENDA = ' + inttostr(sqlBuscaNota.Fields[2].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      str_sql := 'DELETE FROM VENDA ';
+      str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      str_sql := 'DELETE FROM MOVIMENTO ';
+      str_sql := str_sql + ' where CODMOVIMENTO = ' + inttostr(sqlBuscaNota.Fields[0].AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    end;
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
+    if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
+    begin
+      str_sql := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    end;
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
+    dm.sqlsisAdimin.Commit(TD);
+    ShowMessage('Venda Excluida com Sucesso');
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
+  if (DM_MOV.c_venda.Active) then
+    DM_MOV.c_venda.Close;
+  DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+  DM_MOV.c_venda.Open;  
+
+  if scdscr_proc.Active then
+     scdscr_proc.Close;
+  scdscr_proc.Params[0].Clear;
+  scdscr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+  scdscr_proc.Open;
+end;
+
+procedure TfOsFinaliza.excluinf;
+begin
+
+end;
+
+end.
