@@ -241,9 +241,12 @@ begin
     if (codprodxa > 0) then
     begin
       try
-
+        if (dm.cds_produto.Active) then
+          dm.cds_produto.close;
+        dm.cds_produto.Params[0].AsInteger := codprodxa;
+        dm.cds_produto.Open;
         dbMarca.Text := dm.cds_produtoMARCA.AsString;
-        dm.cds_produto.Edit;
+        //dm.cds_produto.Edit;
         if (dm.cds_produtoLOTES.AsString = 'S') then
           Chk_lote.Checked := True
         else
@@ -265,7 +268,7 @@ begin
         else
           cbTipo.ItemIndex := 0;
 
-        dm.cds_produto.Post;
+        //dm.cds_produto.Post;
       except
         MessageDlg('Erro na consulta ...', mtWarning, [mbOK], 0);
       end;
