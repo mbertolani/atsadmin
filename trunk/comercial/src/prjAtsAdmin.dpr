@@ -301,7 +301,8 @@ uses
   uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario},
   uUnidadeMedida in 'uUnidadeMedida.pas' {fUnidadeMedida},
   uSincronizar in 'uSincronizar.pas' {fSincronizar},
-  uEstoqueAtualiza in 'uEstoqueAtualiza.pas';
+  uEstoqueAtualiza in 'uEstoqueAtualiza.pas',
+  uOsFinaliza in 'uOsFinaliza.pas' {fOsFinaliza};
 
 {$R *.res}
 
@@ -373,8 +374,7 @@ begin
   Application.CreateForm(TfProcura_prod, fProcura_prod);
   Application.CreateForm(TfUso_Prod, fUso_Prod);
   Application.CreateForm(TfProdutoLote, fProdutoLote);
-  //Application.CreateForm(TfTerminal, fTerminal);
-  //Application.CreateForm(TfTerminal_Delivery, fTerminal_Delivery);
+  Application.CreateForm(Tf_Terminal, f_Terminal);
   Application.CreateForm(TfcpTitulo, fcpTitulo);
   Application.CreateForm(TfFiltro_forn_plano, fFiltro_forn_plano);
   Application.CreateForm(TfRateioPag, fRateioPag);
