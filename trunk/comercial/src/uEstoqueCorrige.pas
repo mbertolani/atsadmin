@@ -11,7 +11,6 @@ uses
 type
   TfEstoqueCorrige = class(TForm)
     Edit1: TEdit;
-    Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Button1: TButton;
@@ -36,12 +35,14 @@ type
     BitBtn1: TBitBtn;
     Label8: TLabel;
     cbGrupo: TComboBox;
+    lblUltimo: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
+    dataUltimoFechamento: TDate;
     { Private declarations }
   public
     { Public declarations }
@@ -60,33 +61,43 @@ procedure TfEstoqueCorrige.Button1Click(Sender: TObject);
 var
   TD: TTransactionDesc;
   Save_Cursor:TCursor;
-  codPro1, codPro2 : integer;
+  codPro1, codPro2, progresso : integer;
   sqlStr: String;
 Begin
+  if ((dataUltimoFechamento > JvDateEdit1.Date) or (dataUltimoFechamento > JvDateEdit2.Date)) then
+  begin
+    MessageDlg('A  data do período atual, não pode ser menor do que a do último fechamento.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-
+  progresso := 1;
   Save_Cursor := Screen.Cursor;
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   try
     if (cdsA.Active) then
       cdsA.close;
     cdsA.CommandText := 'SELECT CODPRODUTO FROM PRODUTOS WHERE ((TIPO <> ' +
-        QuotedStr('SERV') + ') OR (TIPO IS NULL))'; // +
-        //' AND CODPRODUTO < 11';
+        QuotedStr('SERV') + ') OR (TIPO IS NULL))'; 
     cdsA.Open;
 
     if (cdsB.Active) then
     cdsB.Close;
 
-    cdsB.CommandText := 'SELECT DISTINCT CODALMOXARIFADO from MOVIMENTO ';
+    cdsB.CommandText := 'select distinct m.CODALMOXARIFADO from movimento m ' +
+      ' where exists (select v.CODCCUSTO from venda v where v.CODCCUSTO = m.CODALMOXARIFADO' +
+      ' AND v.DATAVENDA BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
+      ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ' ) ' +
+      ' AND EXISTS (select c.CODCCUSTO from compra c where c.CODCCUSTO = m.CODALMOXARIFADO ' +
+      ' AND c.DATACOMPRA BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
+      ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ' ) ';
     cdsB.Open;
 
     prog2.Max := cdsA.RecordCount;
     prog2.Position := 0;
 
-
-    JvProgressBar1.Max := cdsB.RecordCount;
+    JvProgressBar1.Max := cdsB.RecordCount*cdsA.RecordCount;
     JvProgressBar1.Position := 0;
 
     While not cdsB.eof do  // Percorro os CCUSTOS
@@ -106,11 +117,6 @@ Begin
         sqlQ.SQL.Clear;
         sqlQ.SQL.Add(sqlStr);
         sqlQ.Open;
-        // Limpo a Estoque Mes
-        //dm.sqlsisAdimin.ExecuteDirect('DELETE FROM ESTOQUEMES WHERE CODPRODUTO = ' +
-        //  IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) +
-        //  ' AND CENTROCUSTO = ' + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) +
-        //  ' AND MESANO      = ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)));
 
         DecimalSeparator := '.';
         sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
@@ -118,8 +124,6 @@ Begin
           'PRECOCOMPRA, PRECOVENDA, CENTROCUSTO, SALDOMESANTERIOR, PRECOCOMPRAULTIMA, QTDEINVENTARIO' +
 
           ') VALUES (';
-          //',DATAVENCIMENTO, DATAFABRICACAO' +
-
 
         dm.sqlsisAdimin.StartTransaction(TD);
         try
@@ -140,11 +144,12 @@ Begin
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('PRECOCOMPRA').asFloat) + ', ';
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('VALORVENDA').asFloat) + ', ';
             sqlStr := sqlStr + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) + ', ';
-            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('SALDOINIACUM').asFloat) + ', ';
+            if (sqlQ.FieldByName('SALDOINIACUM').asFloat < 0.000001) then
+              sqlStr := sqlStr + '0, '
+            else
+              sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('SALDOINIACUM').asFloat) + ', ';
             sqlStr := sqlStr + '0, ';
             sqlStr := sqlStr + '0 ';
-            //sqlStr := sqlStr + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataVencimento)) + ', ';
-            //sqlStr := sqlStr + QuotedStr(FormatDateTime('mm/dd/yyyy',Self.DataFabricacao));
             sqlStr := sqlStr + ')';
             dm.sqlsisAdimin.ExecuteDirect(sqlStr);
             sqlQ.Next;
@@ -161,11 +166,14 @@ Begin
 
         DecimalSeparator := ',';
         Prog2.Position := cdsA.RecNo;
+        JvProgressBar1.Position := progresso;
+        progresso := progresso + 1;
         cdsA.Next;
       end;
-      JvProgressBar1.Position := cdsB.RecNo;
       cdsB.Next;
     end;
+    lblUltimo.Caption := ' Ultimo fechamento : ' + DateToStr(JvDateEdit2.Date);
+    dataUltimoFechamento := JvDateEdit2.Date;
     MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
   finally
     Screen.Cursor := Save_Cursor;  { Always restore to normal }
@@ -478,8 +486,19 @@ begin
 end;
 
 procedure TfEstoqueCorrige.FormCreate(Sender: TObject);
+var sqlR: String;
 begin
-  With DM do
+  sqlR := 'select max(mesano) AS ULTIMO from ESTOQUEMES';
+  sqlQ.SQL.Clear;
+  sqlQ.SQL.Add(sqlR);
+  sqlQ.Open;
+  if (not sqlQ.IsEmpty) then
+  begin
+    lblUltimo.Caption := ' Ultimo fechamento : ' + DateToStr(sqlQ.fieldByName('ULTIMO').AsDateTime);
+    dataUltimoFechamento := sqlQ.fieldByName('ULTIMO').AsDateTime;
+  end;
+  sqlQ.Close;   
+  {With DM do
   begin
     if (not cds_Familia.Active) then
       cds_Familia.Open;
@@ -490,7 +509,7 @@ begin
       cds_Familia.Next;
     end;
     cds_Familia.Close;
-  end;
+  end;}
 end;
 
 end.

@@ -1,8 +1,8 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 315
   Top = 134
-  Width = 415
-  Height = 352
+  Width = 405
+  Height = 339
   Caption = 'Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,13 +15,6 @@ object fEstoqueCorrige: TfEstoqueCorrige
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 120
-    Top = 8
-    Width = 123
-    Height = 13
-    Caption = 'Encerramento do Estoque'
-  end
   object Label2: TLabel
     Left = 20
     Top = 40
@@ -39,14 +32,14 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Visible = False
   end
   object Label5: TLabel
-    Left = 120
-    Top = 79
-    Width = 138
+    Left = 16
+    Top = 95
+    Width = 45
     Height = 13
-    Caption = 'Corrige estoque no per'#237'odo : '
+    Caption = 'Periodo : '
   end
   object Label7: TLabel
-    Left = 177
+    Left = 195
     Top = 99
     Width = 6
     Height = 13
@@ -72,6 +65,21 @@ object fEstoqueCorrige: TfEstoqueCorrige
     ParentFont = False
     Visible = False
   end
+  object lblUltimo: TLabel
+    Left = 0
+    Top = 24
+    Width = 385
+    Height = 41
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '..'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Edit1: TEdit
     Left = 16
     Top = 56
@@ -83,7 +91,7 @@ object fEstoqueCorrige: TfEstoqueCorrige
   end
   object Button1: TButton
     Left = 57
-    Top = 200
+    Top = 216
     Width = 272
     Height = 41
     Hint = 'Executa o Fechamento do estoque no per'#237'odo acima'
@@ -94,17 +102,17 @@ object fEstoqueCorrige: TfEstoqueCorrige
     OnClick = Button1Click
   end
   object JvDateEdit1: TJvDateEdit
-    Left = 16
+    Left = 64
     Top = 96
-    Width = 153
+    Width = 113
     Height = 21
     TabOrder = 1
     OnKeyPress = Edit1KeyPress
   end
   object JvDateEdit2: TJvDateEdit
-    Left = 194
+    Left = 224
     Top = 96
-    Width = 159
+    Width = 129
     Height = 21
     TabOrder = 2
     OnKeyPress = Edit1KeyPress
