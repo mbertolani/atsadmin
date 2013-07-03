@@ -1,6 +1,6 @@
 object fOsFiltro: TfOsFiltro
   Left = 260
-  Top = 87
+  Top = 177
   Width = 766
   Height = 587
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1948,13 +1948,6 @@ object fOsFiltro: TfOsFiltro
       OnClick = EExcluido1Click
     end
   end
-  object sqlTotal: TSQLQuery
-    MaxBlobSize = -1
-    Params = <>
-    SQLConnection = DM.sqlsisAdimin
-    Left = 184
-    Top = 160
-  end
   object ImageList1: TImageList
     Height = 22
     Width = 42
@@ -3429,5 +3422,32 @@ object fOsFiltro: TfOsFiltro
     SQLConnection = DM.sqlsisAdimin
     Left = 448
     Top = 136
+  end
+  object sdsTotal: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 120
+    Top = 176
+  end
+  object dspTotal: TDataSetProvider
+    DataSet = sdsTotal
+    Options = [poAllowCommandText]
+    Left = 152
+    Top = 176
+  end
+  object sqlTotal: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTotal'
+    Left = 184
+    Top = 176
+  end
+  object sdsBuscaMovExiste: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 512
+    Top = 144
   end
 end

@@ -127,7 +127,6 @@ type
     EExcluido1: TMenuItem;
     sdsOsVEICULO: TStringField;
     cdsOsVEICULO: TStringField;
-    sqlTotal: TSQLQuery;
     ImageList1: TImageList;
     rep: TVCLReport;
     sqlUsuario: TSQLQuery;
@@ -160,6 +159,10 @@ type
     sqlMov: TSQLQuery;
     sdsOsCFOP: TStringField;
     cdsOsCFOP: TStringField;
+    sdsTotal: TSQLDataSet;
+    dspTotal: TDataSetProvider;
+    sqlTotal: TClientDataSet;
+    sdsBuscaMovExiste: TSQLDataSet;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
@@ -215,7 +218,7 @@ var
 implementation
 
 uses UDm, uOs, sCtrlResize, uProcurar_nf, UDMNF, UDM_MOV,
-  U_TerminalFinaliza;
+  uOsFinaliza;
 
 {$R *.dfm}
 
@@ -693,7 +696,7 @@ begin
     end;
   end;
   // Abre Financeiro
-  F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
+  fOsFinaliza := TfOsFinaliza.Create(Application);
   try
     DM_MOV.PAGECONTROL := 'PDV';
 
@@ -708,9 +711,10 @@ begin
     DM_MOV.c_movdet.Params[0].AsInteger := codMov;
     DM_MOV.c_movdet.Open;
 
-    F_TerminalFinaliza.ShowModal;
+    fOsFinaliza.ShowModal;
+    btnProcurar.Click;
   finally
-    F_TerminalFinaliza.Free;
+    FreeAndNil(TForm(fOsFinaliza));
   end;
 end;
 
@@ -827,32 +831,32 @@ begin
   end
   else begin
     // Abre Financeiro
-    F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
+    //F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
+    fOsFinaliza := TfOsFinaliza.Create(Application);
     try
       DM_MOV.PAGECONTROL := 'PDV';
 
-      if (dm.sqlBusca.Active) then
-        dm.sqlBusca.Close;
-      dm.sqlBusca.SQL.Clear;
-      dm.sqlBusca.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO WHERE CODORIGEM = ' +
-        IntToStr(cdsOsCODOS.AsInteger));
-      dm.sqlBusca.Open;
+      if (sdsBuscaMovExiste.Active) then
+        sdsBuscaMovExiste.Close;
+      sdsBuscaMovExiste.CommandText := 'SELECT CODMOVIMENTO FROM MOVIMENTO WHERE CODORIGEM = ' +
+        IntToStr(cdsOsCODOS.AsInteger);
+      sdsBuscaMovExiste.Open;
 
       // Abre a Movimento e Mov Detalhe
       DM_MOV.c_movimento.Close;
       DM_MOV.c_movimento.Params[0].Clear;
-      DM_MOV.c_movimento.Params[0].AsInteger := dm.sqlBusca.FieldByName('CODMOVIMENTO').AsInteger;
+      DM_MOV.c_movimento.Params[0].AsInteger := sdsBuscaMovExiste.FieldByName('CODMOVIMENTO').AsInteger;
       DM_MOV.c_movimento.Open;
 
       DM_MOV.c_movdet.Close;
       DM_MOV.c_movdet.Params[0].Clear;
-      DM_MOV.c_movdet.Params[0].AsInteger := dm.sqlBusca.FieldByName('CODMOVIMENTO').AsInteger;
+      DM_MOV.c_movdet.Params[0].AsInteger := sdsBuscaMovExiste.FieldByName('CODMOVIMENTO').AsInteger;
       DM_MOV.c_movdet.Open;
 
-      F_TerminalFinaliza.ShowModal;
-      
+      fOsFinaliza.ShowModal;
+      btnProcurar.Click;
     finally
-      F_TerminalFinaliza.Free;
+      fOsFinaliza.Free;
     end;
   end;
 end;
@@ -866,8 +870,7 @@ function TfOsFiltro.TotalOs(OsTot: Integer): Double;
 begin
   If (sqlTotal.Active) then
     sqlTotal.Close;
-  sqlTotal.SQL.Clear;
-  sqlTotal.SQL.Add('SELECT sum(VALORTOTAL) FROM OS_DET WHERE ID_OS = ' + IntToStr(OsTot));
+  sqlTotal.CommandText := 'SELECT sum(VALORTOTAL) FROM OS_DET WHERE ID_OS = ' + IntToStr(OsTot);
   sqlTotal.Open;
   Result := 0;
   if (not sqlTotal.IsEmpty) then
@@ -976,11 +979,10 @@ begin
   begin
     If (sqlTotal.Active) then
       sqlTotal.Close;
-    sqlTotal.SQL.Clear;
-    sqlTotal.SQL.Add('SELECT ID_OSDET_SERV, ID_OS_DET FROM OS_DET WHERE ID_OS = ' +
+    sqlTotal.commandText := 'SELECT ID_OSDET_SERV, ID_OS_DET FROM OS_DET WHERE ID_OS = ' +
       IntToStr(cdsServicoID_OS.AsInteger) +
       ' AND TIPO = ' + QuotedStr('P') +
-      ' AND ID_OSDET_SERV > 90000000');
+      ' AND ID_OSDET_SERV > 90000000';
     sqlTotal.Open;
     if (sqlTotal.IsEmpty) then
     begin
