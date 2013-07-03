@@ -490,7 +490,7 @@ begin
   if (FileExists('logo.jpg')) then
     Image1.Picture.LoadFromFile('logo.jpg');
 
-  F_Terminal := TF_Terminal.Create(Application);
+  //F_Terminal := TF_Terminal.Create(Application);
 
 end;
 
@@ -611,7 +611,7 @@ begin
   if (dm.sistemaLiberado = 'S') then 
   if MessageDlg('Voce realmente deseja encerrar o sistema ?',mtConfirmation, [mbYes,mbNo],0) = mrYes then
   begin
-    F_Terminal.Free;
+    
     Application.Terminate;
   end
   else
