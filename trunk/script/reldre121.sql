@@ -340,8 +340,13 @@ BEGIN
       INTO :qtdeVenda, :pro
     do begin
        /*CUSTO ITEM    */
-       select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:pDTA1, :pDTA2, :Pro) ev 
-       into :Custo;       
+      -- select ev.CUSTOMEDIO from ESTOQUE_CUSTOMEDIO(:pDTA1, :pDTA2, :Pro) ev 
+      -- into :Custo;       
+      
+      SELECT ((SALDOINI * VLRSALDOINI)+(ENTRADA*VLRENTRADA)-(VALORCUSTO)) as CUSTO
+        FROM SPESTOQUE(:PDTA1, :PDTA2, :PRO, :PRO, 'TODOS OS GRUPOS CADASTRADOS NO SISTEMA', 'TODOS OS SUBGRUPOS CADASTRADOS NO SISTEMA')      
+        into :Custo;       
+      
       if (qtdeVenda is null) then 
         qtdeVenda = 0;
       if ((Custo is null) or (custo = 0)) then 
@@ -351,7 +356,7 @@ BEGIN
       end     
       IF (CUSTO IS NULL) THEN
         CUSTO = 0;
-      custo = custo * qtdeVenda; 
+      --custo = custo * qtdeVenda; 
 
       DESC_CONTA = '     Custo dos Produtos Vendidos';
       TOTALIZA   = TOTALIZA - CUSTO;
