@@ -779,7 +779,7 @@ var
 implementation
 
 uses sCtrlResize, UDm, UDM_MOV, UDMNF, uFiltroMovimento,
-  U_AlteraPedido, U_TerminalFinaliza, ufprocura_prod, U_AUTORIZACAO,
+  U_AlteraPedido, uOsFinaliza, ufprocura_prod, U_AUTORIZACAO,
   u_mesas, U_MudaMesa, U_Entrada, uProcurar_nf, uAbrirCaixa, U_RelTerminal,
   U_AbreComanda, uSangria, uCrTituloPagto, uEntradaCaixa, uMovCaixa,
   uFiscalCls;
@@ -2081,13 +2081,22 @@ begin
     DM_MOV.c_movimento.Open;
   end;
 
-  F_TerminalFinaliza:=TF_TerminalFinaliza.Create(Application);
+  {F_TerminalFinaliza:=TF_TerminalFinaliza.Create(Application);
   try
     F_TerminalFinaliza.porc_com := JvComissao.Value;
     F_TerminalFinaliza.ShowModal;
   finally
     F_TerminalFinaliza.Free;
+  end;}
+  fOsFinaliza := TfOsFinaliza.Create(Application);
+  try
+    fOsFinaliza.porc_com := JvComissao.Value;
+    fOsFinaliza.ShowModal;
+  finally
+    fOsFinaliza.Free;
   end;
+
+
 
   if (s_venda.Active) then
     s_venda.Close;
@@ -2854,7 +2863,7 @@ begin
       end;
       buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
       buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
-      buffer  := buffer + Format(' %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+      buffer  := buffer + Format(' %6.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
       buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
       buffer  := buffer + Format('   %8.2n',[DM_MOV.c_movdetValorTotal.value]);
       buffer  := buffer + Chr(13) + Chr(10);
@@ -4670,7 +4679,7 @@ begin
     end;
     buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
     buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
-    buffer  := buffer + Format('  %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+    buffer  := buffer + Format('  %6.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
     buffer  := buffer + Format('    %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
     buffer  := buffer + Format('  %8.2n',[DM_MOV.c_movdetValorTotal.value]);
     buffer  := '|' +  Format('%-46s  ', [buffer]) + '|';
@@ -4816,7 +4825,7 @@ begin
     end;
     buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
     buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
-    buffer  := buffer + Format('  %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+    buffer  := buffer + Format('  %6.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
     buffer  := buffer + Format('    %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
     buffer  := buffer + Format('  %8.2n',[DM_MOV.c_movdetVALTOTAL.asFloat]);
     buffer  := '|' +  Format('%-46s  ', [buffer]) + '|';
@@ -4964,7 +4973,7 @@ begin
     end;
     buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
     buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
-    buffer  := buffer + Format('  %6.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+    buffer  := buffer + Format('  %6.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
     buffer  := buffer + Format('    %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
     buffer  := buffer + Format('  %8.2n',[DM_MOV.c_movdetValorTotal.value]);
     buffer  := '|' +  Format('%-46s  ', [buffer]) + '|';
@@ -4972,7 +4981,7 @@ begin
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
     if comando = 0 then
     begin
-      MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+      MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
       exit;
     end;
     DM_MOV.c_movdet.next;
@@ -5223,7 +5232,7 @@ begin
         TEXTO_IMPRIMIR  := Format('%-56s  ', [DM_MOV.c_movdetPRODUTO.Value]);
         Writeln(Impressora, c17cpi, TEXTO_IMPRIMIR);
         TEXTO_IMPRIMIR  := Format('%10s  ',[DM_MOV.c_movdetCODPRO.Value]);
-        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.2n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+        TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
         TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %8.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
         TEXTO_IMPRIMIR  := TEXTO_IMPRIMIR + Format('     %10.2n',[DM_MOV.c_movdetValorTotal.value]);
         TEXTO_IMP  := Format('%-56s  ', [TEXTO_IMPRIMIR]);
