@@ -225,6 +225,7 @@ type
     procedure imprimeRecibo;
     { Private declarations }
   public
+    porc_com :  double;
     { Public declarations }
   end;
 
@@ -595,7 +596,7 @@ begin
 
     if (not dm.cds_parametro.Eof) then
     begin
-      //JvComissao.Value:= (porc_com /100) * jvTotal.Value;
+      JvComissao.Value:= (porc_com /100) * jvTotal.Value;
       JvComissao.Value := 0;
       jvApagar.Value := (DM_MOV.c_movdettotalpedido.Value + JvComissao.Value) - desconto;
     end;
@@ -977,9 +978,10 @@ begin
     if ((DM_MOV.c_movimentoCONTROLE.AsString = 'OS') and (not DM_MOV.c_movimentoCODORIGEM.IsNull)) then
     begin
       str_sql := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
+      //dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
     end;
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger));
     dm.sqlsisAdimin.Commit(TD);
     ShowMessage('Venda Excluida com Sucesso');
   except
