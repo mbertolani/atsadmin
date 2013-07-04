@@ -450,9 +450,9 @@ begin
         Self.CodVendedor   := sqlBuscaR.FieldByName('CODVENDEDOR').AsInteger;
         Self.CodUsuario    := sqlBuscaR.FieldByName('CODUSUARIO').AsInteger;
         Self.NParcela      := sqlBuscaR.FieldByName('N_PARCELA').AsInteger;
-        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat;
-        VlrEnt             := sqlBuscaR.FieldByName('ENTRADA').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat;
-        Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat + sqlBuscaR.FieldByName('DESCONTO').AsFloat;
+        Self.Valor         := sqlBuscaR.FieldByName('VALOR').AsFloat;
+        VlrEnt             := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
+        Self.ValorRec      := sqlBuscaR.FieldByName('ENTRADA').AsFloat;
         vlrSt              := sqlBuscaR.FieldByName('VALOR_ST').AsFloat;
         //Self.Desconto      := sqlBuscaR.FieldByName('DESCONTO').AsFloat;
         Self.DtEmissao     := sqlBuscaR.FieldByName('DATAVENDA').AsDateTime;
@@ -556,6 +556,7 @@ begin
   difV := 0;
   if (Self.ValorRec > 0) then
     difV := Self.Valor - Self.ValorRec;
+  if (Self.ValorRec > 0) then
   if ((Self.NParcela = 1) and (difV > 0.009)) then
   begin
     MessageDlg('Parcela não pode ser 1, se o valor de Entrada e menor que o Valor Total.', mtWarning, [mbOK], 0);
