@@ -146,6 +146,12 @@ type
     cdsCJADESC: TStringField;
     BitBtn6: TBitBtn;
     VCLReport1: TVCLReport;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    BitBtn7: TBitBtn;
+    meDta4: TJvDateEdit;
+    meDta3: TJvDateEdit;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -156,6 +162,7 @@ type
     procedure BitBtn5Click(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -175,12 +182,12 @@ uses UDm, uCorreio;
 procedure TFiltroCorreio.btnProcurarClick(Sender: TObject);
  Var SqlTexto ,SqlTex , DataStr  : String;
 begin
- 
+
   datastr:='  /  /    ';
   if(cdsC.Active) then
     cdsC.Close;
   begin
-    cdsC.CommandText:= 'select * from MOVDOC';
+    cdsC.CommandText:= 'select * from MOVDOC ';
   // CODIGO DA EMPRESA
   if JvDBSearchEdit1.Text <> '' then
   begin
@@ -191,14 +198,41 @@ begin
       sqlTexto := sqlTexto + '' + JvDBSearchEdit1.Text + '';
   end;
   // DATA FINAL ARQUIVO
-  if (medta1.Text<>datastr) then
-  if (medta2.Text<>datastr) then
+  if (sqlTexto = '') then
   begin
-    sqlTexto := sqlTexto + ' and DTFIND  between ';
-    sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', medta1.Date) + '''' +
-      ' and ' +
-      '''' + formatdatetime('mm/dd/yy', medta2.Date) + '''';
+    if ((medta1.Text <> '  /  /    ') and (medta2.Text <> '  /  /    ')) then
+    begin
+       sqlTexto := 'WHERE DTFIND between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta1.Text)));
+       sqlTexto:= sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta2.Text)));
+    end;
+  end
+  else
+  begin
+    if ((medta1.Text <> '  /  /    ') and (medta2.Text <> '  /  /    ')) then
+    begin
+      sqlTexto := sqlTexto + ' and DTFIND between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta1.Text)));
+      sqlTexto := sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta2.Text)));
+    end;
   end;
+
+  // DATA INCLUSAO CX ARQUIVO
+  if (sqlTexto = '') then
+  begin
+    if ((medta3.Text <> '  /  /    ') and (medta4.Text <> '  /  /    ')) then
+    begin
+       sqlTexto := 'WHERE DTINC between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)));
+       sqlTexto:= sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta4.Text)));
+    end;
+  end
+  else
+  begin
+    if ((medta3.Text <> '  /  /    ') and (medta4.Text <> '  /  /    ')) then
+    begin
+      sqlTexto := sqlTexto + ' and DTINC between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)));
+      sqlTexto := sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta4.Text)));
+    end;
+  end;
+
   // DEPARTAMENTO
   if (DBComboBox1.Text <> '') then
   begin
@@ -377,6 +411,12 @@ begin
   end;
 
   VCLReport1.Execute;
+end;
+
+procedure TFiltroCorreio.BitBtn7Click(Sender: TObject);
+begin
+  meDta3.Text:='';
+  meDta4.Text:='';
 end;
 
 end.
