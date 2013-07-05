@@ -19,14 +19,14 @@ object fAtsAdmin: TfAtsAdmin
   OnShow = FormShow
   DesignSize = (
     706
-    406)
+    398)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 169
     Top = 47
     Width = 537
-    Height = 335
+    Height = 327
     Align = alClient
     Center = True
     Picture.Data = {
@@ -2071,7 +2071,7 @@ object fAtsAdmin: TfAtsAdmin
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 382
+    Top = 374
     Width = 706
     Height = 24
     Color = clMoneyGreen
@@ -2155,7 +2155,7 @@ object fAtsAdmin: TfAtsAdmin
     Left = 0
     Top = 47
     Width = 169
-    Height = 335
+    Height = 327
     Align = alLeft
     Pages = <
       item
@@ -2483,6 +2483,10 @@ object fAtsAdmin: TfAtsAdmin
       object CFOP1: TMenuItem
         Caption = 'CFOP'
         OnClick = CFOP1Click
+      end
+      object CFOPNCM1: TMenuItem
+        Caption = 'CFOP NCM'
+        OnClick = CFOPNCM1Click
       end
       object CFOPEstados1: TMenuItem
         Caption = 'CFOP-Estados'

@@ -246,6 +246,7 @@ type
     AniversrioClientes1: TMenuItem;
     UnidadeMedida1: TMenuItem;
     ExportarCupom1: TMenuItem;
+    CFOPNCM1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -392,6 +393,7 @@ type
     procedure AniversrioClientes1Click(Sender: TObject);
     procedure UnidadeMedida1Click(Sender: TObject);
     procedure ExportarCupom1Click(Sender: TObject);
+    procedure CFOPNCM1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -445,7 +447,8 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
   uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
-  uLogs, uUnidadeMedida, uSincronizar;
+  uLogs, uUnidadeMedida, uSincronizar, uFluxoEstoque, uClassificacaoFiscalNCM, 
+  uNCM;
 
 {$R *.dfm}
 
@@ -463,7 +466,8 @@ var
  vSaudacao : string;
 begin
   DM.MODULOUSERCONTROL := 'atsadmin';
-  sCtrlResize.CtrlResize(TForm(fAtsAdmin));
+  if (DM.videoW <> '1920') then
+    sCtrlResize.CtrlResize(TForm(fAtsAdmin));
   StatusBar1.Panels[0].Text := ' ATS - Admin versao: ' + GetVersion;
   StatusBar1.Panels[2].Text := Saudacao + ' Hoje e '+formatdatetime('dddddd',date);
 
@@ -1043,7 +1047,7 @@ begin
   DM.cds_parametro.Open;
   if (DM.cds_parametro.Eof) then
   begin
-      F_Terminal.ShowModal;
+    F_Terminal.ShowModal;
   end
   else
   begin
@@ -2283,10 +2287,12 @@ end;
 
 procedure TfAtsAdmin.FluxodeEstoque1Click(Sender: TObject);
 begin
-  VCLReport1.FileName := str_relatorio + 'fluxo_estoque.rep';
-  VCLReport1.Title    := VCLReport1.FileName;
-  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-  VCLReport1.Execute;
+  fFluxoEstoque := TfFluxoEstoque.Create(Application);
+  try
+    fFluxoEstoque.ShowModal;
+  finally
+    fFluxoEstoque.Free;
+  end;
 end;
 
 procedure TfAtsAdmin.CadastroDepartamento1Click(Sender: TObject);
@@ -2387,6 +2393,16 @@ begin
     fSincronizar.ShowModal;
   finally
     fSincronizar.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.CFOPNCM1Click(Sender: TObject);
+begin
+  fNCM := TfNCM.Create(Application);
+  try
+    fNCM.ShowModal;
+  finally
+    fNCM.Free;
   end;
 end;
 
