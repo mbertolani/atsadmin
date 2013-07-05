@@ -244,42 +244,15 @@ begin
     sqlStr := 'select * ' +
     ' FROM LISTA_ESTOQUE(';
      sqlStr := sqlStr + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + ''')';
-    // data mesano
-   {
-    try
-      if (medta1.Text<>datastr) then
-       StrToDate(medta1.Text);
-      if (medta1.Text<>datastr) then
-      begin
-        if sqlTexto = '' then
-          sqlTexto := sqlTexto + ' WHERE mesano BETWEEN '
-        else
-          sqlTexto := sqlTexto + ' AND mesano BETWEEN ';
-          sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
-          sqlTexto := sqlTexto + ' AND ';
-          sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
-      end;
-    except
-      on EConvertError do
-      begin
-         ShowMessage ('Data Inválida! dd/mm/aa');
-         medTa1.SetFocus;
-      end;
-    end;
 
-   }
-
-     //Produto
-
-    if edt3.Text<>'' then
+    //Produto
+    if edit3.Text<>'' then
     begin
-      if sqlTexto ='' then
-        sqlTexto := sqlTexto + ' WHERE codproduto BETWEEN '
+      if sqlTexto = '' then
+        sqlTexto := sqlTexto + ' WHERE codpro = '
       else
-        sqlTexto := sqlTexto + ' AND codproduto BETWEEN ' ;
-       sqlTexto := sqlTexto + '''' + edt3.Text + '''' ;
-       sqlTexto := sqlTexto + ' AND ';
-       sqlTexto := sqlTexto + '''' + edt4.Text + '''';
+        sqlTexto := sqlTexto + ' AND codpro = ';
+      sqlTexto := sqlTexto + QuotedStr(edit3.Text);
     end;
 
     // Aplicação
@@ -290,17 +263,6 @@ begin
       else
         sqlTexto := sqlTexto +  ' AND (aplicacao_produto = ';
       sqlTexto := sqlTexto +  QuotedStr(cbAplicacao.Text) ;
-    end;
-
-    // codproduto
-
-    if edit3.Text<>'' then
-    begin
-      if sqlTexto = '' then
-        sqlTexto := sqlTexto + ' WHERE codproduto = '
-      else
-        sqlTexto := sqlTexto + ' AND codproduto = ';
-        sqlTexto := sqlTexto + edit3.Text ;
     end;
 
     //Marca
@@ -623,28 +585,7 @@ begin
        sqlTexto := sqlTexto + ' AND ';
        sqlTexto := sqlTexto + '''' + edt4.Text + '''';
      end;
-    {
-     try
-       if (medta1.Text<>datastr) then
-       StrToDate(medta1.Text);
-       if (medta1.Text<>datastr) then
-       begin
-         if sqlTexto = '' then
-           sqlTexto := sqlTexto + ' WHERE mesano BETWEEN '
-         else
-          sqlTexto := sqlTexto + ' AND mesano BETWEEN ';
-          sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
-          sqlTexto := sqlTexto + ' AND ';
-          sqlTexto := sqlTexto + '''' + formatdatetime('mm/dd/yy', StrToDate(medta1.Text)) + '''';
-       end;
-     except
-      on EConvertError do
-       begin
-         ShowMessage ('Data Inválida! dd/mm/aa');
-         medTa1.SetFocus;
-       end;
-     end;
-     }
+
      // Aplicação
 
      if (cbAplicacao.Text <> '') then
@@ -661,10 +602,10 @@ begin
      if edit3.Text<>'' then
      begin
        if sqlTexto = '' then
-          sqlTexto := sqlTexto + ' WHERE codproduto = '
+          sqlTexto := sqlTexto + ' WHERE codpro = '
        else
-         sqlTexto := sqlTexto + ' AND codproduto = ';
-        sqlTexto := sqlTexto + edit3.Text ;
+         sqlTexto := sqlTexto + ' AND codpro = ';
+        sqlTexto := sqlTexto + QuotedStr(edit3.Text);
      end;
 
     //------------------------------------------------------------------------------
