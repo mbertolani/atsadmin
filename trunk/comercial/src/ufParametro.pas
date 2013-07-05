@@ -301,6 +301,7 @@ type
     Label55: TLabel;
     Label56: TLabel;
     rgNfe: TRadioGroup;
+    rgCadastroCliente: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -378,6 +379,7 @@ type
     procedure BitBtn32Click(Sender: TObject);
     procedure rgBloqueioClick(Sender: TObject);
     procedure rgNfeClick(Sender: TObject);
+    procedure rgCadastroClienteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -872,6 +874,22 @@ begin
   dm.cds_parametro.Params[0].asString := 'CARGO/FUNCAO';
   dm.cds_parametro.Open;
   Edit14.Text := dm.cds_parametroDADOS.AsString;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CADASTROCLIENTE';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroD3.AsString = 'COMPLETO') then
+    begin
+      rgCadastroCliente.ItemIndex := 0;
+    end;
+    if (dm.cds_parametroD3.AsString = 'SIMPLES') then
+    begin
+      rgCadastroCliente.ItemIndex := 1;
+    end;
+  end;
 end;
 
 
@@ -1704,7 +1722,7 @@ begin
       if (dm.cds_parametro.IsEmpty) then
       begin
         dm.cds_parametro.Append;
-        dm.cds_parametroDESCRICAO.AsString := 'Usa no cadastro do cliente o cadastro de REFERÊNCIA COMRERCIAL.';
+        dm.cds_parametroDESCRICAO.AsString := 'Usa no cadastro do cliente o cadastro de REFERÊNCIA COMERCIAL.';
         dm.cds_parametroPARAMETRO.AsString := 'CADASTROCLIENTE';
         dm.cds_parametroDADOS.AsString := 'REFERENCIA';
       end
@@ -4446,6 +4464,59 @@ begin
       end;
     end;
    end;
+end;
+
+procedure TfParametro.rgCadastroClienteClick(Sender: TObject);
+begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'CADASTROCLIENTE';
+  dm.cds_parametro.Open;
+
+  // Insere ou Altera a tabela PARAMETROS
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    dm.cds_parametro.Edit;
+    if (rgCadastroCliente.ItemIndex = 0) then
+    begin
+      dm.cds_parametroD3.AsString := 'COMPLETO';
+      dm.cadastroClienteTipo := 'COMPLETO';
+    end;
+    if (rgCadastroCliente.ItemIndex = 1) then
+    begin
+      dm.cds_parametroD3.AsString := 'SIMPLES';
+      dm.cadastroClienteTipo := 'SIMPLES';
+    end;
+    dm.cds_parametro.ApplyUpdates(0);
+  end
+  else begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D3';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Cadastro do Cliente Completo ou Simples') + ', ';
+    strSql := strSql + QuotedStr('CADASTROCLIENTE') + ', ';
+    strSql := strSql + QuotedStr('S') + ', ';
+    if (rgCadastroCliente.ItemIndex = 0) then
+    begin
+      dm.cadastroClienteTipo := 'COMPLETO';
+      strSql := strSql + QuotedStr('COMPLETO');
+    end;
+    if (rgCadastroCliente.ItemIndex = 1) then
+    begin
+      strSql := strSql + QuotedStr('SIMPLES');
+      dm.cadastroClienteTipo := 'SIMPLES';
+    end;
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
+  end;
+
 end;
 
 end.

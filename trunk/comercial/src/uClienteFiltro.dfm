@@ -19,7 +19,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox2: TGroupBox
     Left = 0
     Top = 144
-    Width = 583
+    Width = 591
     Height = 55
     Align = alTop
     Caption = 'VENDEDOR'
@@ -76,8 +76,8 @@ object fClienteFiltro: TfClienteFiltro
   end
   object Panel1: TPanel
     Left = 0
-    Top = 310
-    Width = 583
+    Top = 321
+    Width = 591
     Height = 64
     Align = alBottom
     TabOrder = 3
@@ -375,7 +375,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 583
+    Width = 591
     Height = 48
     Align = alTop
     TabOrder = 0
@@ -543,7 +543,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox4: TGroupBox
     Left = 0
     Top = 199
-    Width = 583
+    Width = 591
     Height = 55
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
@@ -623,23 +623,23 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox5: TGroupBox
     Left = 0
     Top = 255
-    Width = 305
+    Width = 164
     Height = 55
     Caption = 'Data do Cadastro'
     TabOrder = 5
     object JvDatePickerEdit2: TJvDatePickerEdit
-      Left = 8
+      Left = 3
       Top = 20
-      Width = 95
+      Width = 81
       Height = 22
       AllowNoDate = True
       Checked = False
       TabOrder = 0
     end
     object JvDatePickerEdit3: TJvDatePickerEdit
-      Left = 110
+      Left = 86
       Top = 20
-      Width = 95
+      Width = 75
       Height = 21
       AllowNoDate = True
       Checked = False
@@ -649,7 +649,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox3: TGroupBox
     Left = 0
     Top = 48
-    Width = 583
+    Width = 591
     Height = 96
     Align = alTop
     Caption = 'CLIENTE'
@@ -763,7 +763,7 @@ object fClienteFiltro: TfClienteFiltro
     end
   end
   object GroupBox8: TGroupBox
-    Left = 312
+    Left = 326
     Top = 255
     Width = 265
     Height = 55
@@ -776,6 +776,39 @@ object fClienteFiltro: TfClienteFiltro
       Height = 21
       ItemHeight = 13
       TabOrder = 0
+    end
+  end
+  object gbNasc: TGroupBox
+    Left = 163
+    Top = 255
+    Width = 164
+    Height = 55
+    Caption = 'M'#234's de Anivers'#225'rio'
+    TabOrder = 7
+    Visible = False
+    object cbAniversario: TComboBox
+      Left = 8
+      Top = 20
+      Width = 145
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Todos'
+      Items.Strings = (
+        'Todos'
+        'Janeiro'
+        'Fevereiro'
+        'Mar'#231'o'
+        'Abril'
+        'Maio'
+        'Junho'
+        'Julho'
+        'Agosto'
+        'Setembro'
+        'Outubro'
+        'Novembro'
+        'Dezembro')
     end
   end
   object DtSrcReg: TDataSource
