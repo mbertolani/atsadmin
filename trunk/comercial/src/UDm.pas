@@ -2037,6 +2037,7 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+    cadastroClienteTipo: String;
     impressora_pc: string;
     videoW, videoH :string;    
     v_CodFuncao : Integer;
@@ -2129,6 +2130,17 @@ begin
   if (not cds_parametro.IsEmpty) then
   begin
     baixaMateriaPrima := cds_parametroCONFIGURADO.AsString;
+  end;
+
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'CADASTROCLIENTE';
+  cds_parametro.Open;
+  cadastroClienteTipo := 'COMPLETO';
+  if (not cds_parametro.IsEmpty) then
+  begin
+    if (cds_parametroD3.AsString = 'SIMPLES') then
+      cadastroClienteTipo := 'SIMPLES';
   end;
 
   cfopEntrada := '';
