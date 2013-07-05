@@ -711,7 +711,8 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uVendaFinalizar, uFiltroMovimento, uClienteVeiculo, uProdutoLote,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
-  uEstoque, uClienteCadastro, uProdutoCadastro, uDetalhe, uEstado;
+  uEstoque, uClienteCadastro, uProdutoCadastro, uDetalhe, uEstado,
+  uCliente1;
 
 {$R *.dfm}
 
@@ -3554,16 +3555,32 @@ procedure TfVendas.GroupBox1Click(Sender: TObject);
 begin
   inherited;
   if (dbeCliente.Text = '') then
-     exit;
+    exit;
 
-   fClienteCadastro:=TfClienteCadastro.Create(Application);
-   try
-    fClienteCadastro.cds_cli.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
-    fClienteCadastro.cds_cli.Open;
-    fClienteCadastro.ShowModal;
-   finally
-     fClienteCadastro.Free;
-   end;
+  if (dm.cadastroClienteTipo = 'COMPLETO') then
+  begin
+    fClienteCadastro := TfClienteCadastro.Create(Application);
+    try
+      fClienteCadastro.cds_cli.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
+      fClienteCadastro.cds_cli.Open;
+      fClienteCadastro.ShowModal;
+    finally
+      fClienteCadastro.Free;
+      varform := '';
+    end;
+  end;
+  if (dm.cadastroClienteTipo = 'SIMPLES') then
+  begin
+    fCliente1 := TfCliente1.Create(Application);
+    try
+      fCliente1.cds_cli.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
+      fCliente1.cds_cli.Open;
+      fCliente1.ShowModal;
+    finally
+      fCliente1.Free;
+      varform := '';
+    end;
+  end;
 end;
 
 procedure TfVendas.Label3Click(Sender: TObject);

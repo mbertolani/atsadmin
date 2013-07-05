@@ -117,31 +117,32 @@ begin
   if (DtSrc.DataSet = dm.scds_forn_proc) then
   begin
   end;
-  //=========================================================
-  //Procura acessado para procurar Cliente
   if (DtSrc.DataSet = dmnf.scds_cli_proc) then
   begin
-    if( dmnf.FormExiste(F_TerminalFinaliza) = True ) then
+    //=========================================================
+    //Procura acessado para procurar Cliente
+    if (dm.cadastroClienteTipo = 'COMPLETO') then
     begin
-      fCliente1 :=TfCliente1.Create(Application);
+      fClienteCadastro := TfClienteCadastro.Create(Application);
+      try
+        jafez := 'S';
+        fClienteCadastro.ShowModal;
+      finally
+        fClienteCadastro.Free;
+        varform := '';
+      end;
+    end;
+    if (dm.cadastroClienteTipo = 'SIMPLES') then
+    begin
+      fCliente1 := TfCliente1.Create(Application);
       try
         jafez := 'S';
         fCliente1.ModoIncluir := 'S';
         novoCliente := 'S';
         fCliente1.ShowModal;
       finally
-        fCliente1.free;
-      end;
-
-    end
-    else
-    begin
-      fClienteCadastro:=TfClienteCadastro.Create(Application);
-      try
-        jafez := 'S';
-        fClienteCadastro.ShowModal;
-      finally
-        fClienteCadastro.free;
+        fCliente1.Free;
+        varform := '';
       end;
     end;
   end;
@@ -175,7 +176,7 @@ end;
 procedure TfProcurar_nf.BtnOkClick(Sender: TObject);
 begin
   if (dm.scds_usuario_proc.Active) then
-  begin                                                      
+  begin
     cod_vendedor := dm.scds_usuario_procCODUSUARIO.AsInteger;
     nome_vendedor := dm.scds_usuario_procNOMEUSUARIO.AsString;
   end;
