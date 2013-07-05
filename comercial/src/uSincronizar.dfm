@@ -473,8 +473,8 @@ object fSincronizar: TfSincronizar
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 287
-    Top = 14
+    Left = 304
+    Top = 8
     object sClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -950,8 +950,8 @@ object fSincronizar: TfSincronizar
   object pCliente: TDataSetProvider
     DataSet = sCliente
     UpdateMode = upWhereKeyOnly
-    Left = 287
-    Top = 43
+    Left = 304
+    Top = 37
   end
   object cProdutos: TClientDataSet
     Aggregates = <>
@@ -1374,8 +1374,8 @@ object fSincronizar: TfSincronizar
     Aggregates = <>
     Params = <>
     ProviderName = 'pCliente'
-    Left = 287
-    Top = 72
+    Left = 304
+    Top = 66
     object cClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1847,8 +1847,8 @@ object fSincronizar: TfSincronizar
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlExporta
-    Left = 320
-    Top = 14
+    Left = 337
+    Top = 8
     object seClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -2313,8 +2313,8 @@ object fSincronizar: TfSincronizar
   object peCliente: TDataSetProvider
     DataSet = seCliente
     UpdateMode = upWhereKeyOnly
-    Left = 319
-    Top = 43
+    Left = 336
+    Top = 37
   end
   object ceCliente: TClientDataSet
     Aggregates = <>
@@ -2325,8 +2325,8 @@ object fSincronizar: TfSincronizar
         ParamType = ptInput
       end>
     ProviderName = 'peCliente'
-    Left = 320
-    Top = 72
+    Left = 337
+    Top = 66
     object ceClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -2796,8 +2796,8 @@ object fSincronizar: TfSincronizar
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 295
-    Top = 118
+    Left = 305
+    Top = 102
     object sFiscalCOD_PROD: TIntegerField
       FieldName = 'COD_PROD'
       Required = True
@@ -2862,15 +2862,15 @@ object fSincronizar: TfSincronizar
   object pFiscal: TDataSetProvider
     DataSet = sFiscal
     UpdateMode = upWhereKeyOnly
-    Left = 295
-    Top = 147
+    Left = 305
+    Top = 131
   end
   object cFiscal: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'pFiscal'
-    Left = 295
-    Top = 176
+    Left = 305
+    Top = 160
     object cFiscalCOD_PROD: TIntegerField
       FieldName = 'COD_PROD'
       Required = True
@@ -2954,8 +2954,8 @@ object fSincronizar: TfSincronizar
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlExporta
-    Left = 327
-    Top = 118
+    Left = 337
+    Top = 102
     object IntegerField1: TIntegerField
       FieldName = 'COD_PROD'
       Required = True
@@ -3020,8 +3020,8 @@ object fSincronizar: TfSincronizar
   object peFiscal: TDataSetProvider
     DataSet = seFiscal
     UpdateMode = upWhereKeyOnly
-    Left = 327
-    Top = 147
+    Left = 337
+    Top = 131
   end
   object ceFiscal: TClientDataSet
     Aggregates = <>
@@ -3042,8 +3042,8 @@ object fSincronizar: TfSincronizar
         ParamType = ptInput
       end>
     ProviderName = 'peFiscal'
-    Left = 327
-    Top = 176
+    Left = 337
+    Top = 160
     object ceFiscalCOD_PROD: TIntegerField
       FieldName = 'COD_PROD'
       Required = True
@@ -3103,6 +3103,263 @@ object fSincronizar: TfSincronizar
     end
     object ceFiscalCOFINS: TFloatField
       FieldName = 'COFINS'
+    end
+  end
+  object seFamilia: TSQLDataSet
+    CommandText = 'SELECT * FROM FAMILIAPRODUTOS '#13#10'where COD_FAMILIA = :ID'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlExporta
+    Left = 39
+    Top = 102
+    object seFamiliaDESCFAMILIA: TStringField
+      FieldName = 'DESCFAMILIA'
+      Required = True
+      Size = 30
+    end
+    object seFamiliaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+    end
+    object seFamiliaMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
+  end
+  object sFamilia: TSQLDataSet
+    CommandText = 'SELECT * FROM FAMILIAPRODUTOS'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 7
+    Top = 102
+  end
+  object pFamilia: TDataSetProvider
+    DataSet = sFamilia
+    Left = 7
+    Top = 131
+  end
+  object peFamilia: TDataSetProvider
+    DataSet = seFamilia
+    UpdateMode = upWhereKeyOnly
+    Left = 39
+    Top = 131
+  end
+  object ceFamilia: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    ProviderName = 'peFamilia'
+    Left = 39
+    Top = 160
+    object ceFamiliaDESCFAMILIA: TStringField
+      FieldName = 'DESCFAMILIA'
+      Required = True
+      Size = 30
+    end
+    object ceFamiliaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+    end
+    object ceFamiliaMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
+  end
+  object cFamilia: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'pFamilia'
+    Left = 8
+    Top = 160
+    object cFamiliaDESCFAMILIA: TStringField
+      FieldName = 'DESCFAMILIA'
+      Required = True
+      Size = 30
+    end
+    object cFamiliaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+    end
+    object cFamiliaMARCA: TStringField
+      FieldName = 'MARCA'
+      Size = 30
+    end
+  end
+  object seCategoria: TSQLDataSet
+    CommandText = 'SELECT * FROM CATEGORIAPRODUTO '#13#10'where COD_CATEGORIA = :ID'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlExporta
+    Left = 39
+    Top = 198
+    object seCategoriaDESCCATEGORIA: TStringField
+      FieldName = 'DESCCATEGORIA'
+      Required = True
+      Size = 30
+    end
+    object seCategoriaCOD_CATEGORIA: TIntegerField
+      FieldName = 'COD_CATEGORIA'
+    end
+    object seCategoriaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+      Required = True
+    end
+  end
+  object sCategoria: TSQLDataSet
+    CommandText = 'SELECT * FROM CATEGORIAPRODUTO'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 7
+    Top = 198
+    object sCategoriaDESCCATEGORIA: TStringField
+      FieldName = 'DESCCATEGORIA'
+      Required = True
+      Size = 30
+    end
+    object sCategoriaCOD_CATEGORIA: TIntegerField
+      FieldName = 'COD_CATEGORIA'
+    end
+    object sCategoriaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+      Required = True
+    end
+  end
+  object pCategoria: TDataSetProvider
+    DataSet = sCategoria
+    Left = 7
+    Top = 227
+  end
+  object peCategoria: TDataSetProvider
+    DataSet = seCategoria
+    UpdateMode = upWhereKeyOnly
+    Left = 39
+    Top = 227
+  end
+  object ceCategoria: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    ProviderName = 'peCategoria'
+    Left = 39
+    Top = 256
+    object ceCategoriaDESCCATEGORIA: TStringField
+      FieldName = 'DESCCATEGORIA'
+      Required = True
+      Size = 30
+    end
+    object ceCategoriaCOD_CATEGORIA: TIntegerField
+      FieldName = 'COD_CATEGORIA'
+    end
+    object ceCategoriaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+      Required = True
+    end
+  end
+  object cCategoria: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'pCategoria'
+    Left = 8
+    Top = 256
+    object cCategoriaDESCCATEGORIA: TStringField
+      FieldName = 'DESCCATEGORIA'
+      Required = True
+      Size = 30
+    end
+    object cCategoriaCOD_CATEGORIA: TIntegerField
+      FieldName = 'COD_CATEGORIA'
+    end
+    object cCategoriaCOD_FAMILIA: TIntegerField
+      FieldName = 'COD_FAMILIA'
+      Required = True
+    end
+  end
+  object seMarca: TSQLDataSet
+    CommandText = 'SELECT DESCMARCAS'#13#10'FROM MARCA'#13#10'where DESCMARCAS = :ID'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlExporta
+    Left = 346
+    Top = 195
+    object seMarcaDESCMARCAS: TStringField
+      FieldName = 'DESCMARCAS'
+      Required = True
+      Size = 30
+    end
+  end
+  object sMarca: TSQLDataSet
+    CommandText = 'SELECT DESCMARCAS'#13#10'FROM MARCA'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 314
+    Top = 195
+    object sMarcaDESCMARCAS: TStringField
+      FieldName = 'DESCMARCAS'
+      Required = True
+      Size = 30
+    end
+  end
+  object pMarca: TDataSetProvider
+    DataSet = sMarca
+    Left = 314
+    Top = 224
+  end
+  object peMarca: TDataSetProvider
+    DataSet = seMarca
+    UpdateMode = upWhereKeyOnly
+    Left = 346
+    Top = 224
+  end
+  object ceMarca: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+    ProviderName = 'peMarca'
+    Left = 346
+    Top = 253
+    object ceMarcaDESCMARCAS: TStringField
+      FieldName = 'DESCMARCAS'
+      Required = True
+      Size = 30
+    end
+  end
+  object cMarca: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'pMarca'
+    Left = 315
+    Top = 253
+    object cMarcaDESCMARCAS: TStringField
+      FieldName = 'DESCMARCAS'
+      Required = True
+      Size = 30
     end
   end
 end
