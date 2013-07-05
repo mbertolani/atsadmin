@@ -200,7 +200,7 @@ var
 implementation
 
 uses ShellAPI,ShlObj, CommDlg, UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize,
-  uEtiquetas_cli, uClienteFiltro;
+  uEtiquetas_cli, uClienteFiltro, uCliente1;
 
 {$R *.dfm}
 
@@ -370,6 +370,20 @@ begin
      varCondicao := 'where cli.REGIAO = ' + IntToStr(fClienteFiltro.cdsRegiaoCODDADOS.asInteger);
   end;
 //********************************************************************************************
+  if (fClienteFiltro.cbAniversario.ItemIndex > 0) then
+  begin
+    if (dm.cadastroClienteTipo = 'SIMPLES') then
+    begin
+      if varCondicao <> '' then
+        varCondicao := varCondicao + ' and UDF_MONTH(cli.DATANASC) =   '
+      else
+        varCondicao := ' where UDF_MONTH(cli.DATANASC) =  ';
+      varCondicao := varCondicao + IntToStr(fClienteFiltro.cbAniversario.ItemIndex) +
+       ' and datanasc > ' + QuotedStr('01/01/1930');
+    end;
+  end;  
+//********************************************************************************************
+
  varCondicao := varSql + varCondicao;
 
   if cds.Active then
@@ -437,35 +451,85 @@ procedure TfListaClientes.BitBtn8Click(Sender: TObject);
 begin
   if (dm.var_teste = 'consulta') then
   begin
-    fClienteCadastro:=TfClienteCadastro.Create(Application);
-    try
-      fClienteCadastro.ShowModal;
-    finally
-      fClienteCadastro.free;
-    end;        
+    if (dm.cadastroClienteTipo = 'COMPLETO') then
+    begin
+      fClienteCadastro := TfClienteCadastro.Create(Application);
+      try
+        fClienteCadastro.cds_cli.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
+        fClienteCadastro.cds_cli.Open;
+        if fClienteCadastro.cdsEnderecoCli.Active then
+          fClienteCadastro.cdsEnderecoCli.Close;
+        fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
+        fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := cdsCODCLIENTE.AsInteger;
+        fClienteCadastro.cdsEnderecoCli.Open;
+        if (not fClienteCadastro.sqlPais.Active) then
+          fClienteCadastro.sqlPais.Open;
+        if (fClienteCadastro.sqlPais.Locate('PAIS', fClienteCadastro.cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+          fClienteCadastro.cbPais.ItemIndex := fClienteCadastro.sqlPais.RecNo-1;
+
+        fClienteCadastro.ShowModal;
+      finally
+        fClienteCadastro.Free;
+      end;
+    end;
+    if (dm.cadastroClienteTipo = 'SIMPLES') then
+    begin
+      fCliente1 := TfCliente1.Create(Application);
+      try
+        fCliente1.cds_cli.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
+        fCliente1.cds_cli.Open;
+        if fCliente1.cds_CliEnd.Active then
+          fCliente1.cds_CliEnd.Close;
+        fCliente1.cds_CliEnd.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
+        fCliente1.cds_CliEnd.Open;
+
+        fCliente1.ShowModal;
+      finally
+        fCliente1.Free;
+      end;
+    end;
   end
   else
   begin
-     fClienteCadastro:=TfClienteCadastro.Create(Application);
-     try
-      fClienteCadastro.cds_cli.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
-      fClienteCadastro.cds_cli.Open;
-      if fClienteCadastro.cdsEnderecoCli.Active then
-         fClienteCadastro.cdsEnderecoCli.Close;
-      fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
-      fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := cdsCODCLIENTE.AsInteger;
-      fClienteCadastro.cdsEnderecoCli.Open;
-      if (not fClienteCadastro.sqlPais.Active) then
-        fClienteCadastro.sqlPais.Open;
-      if (fClienteCadastro.sqlPais.Locate('PAIS', fClienteCadastro.cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
-         fClienteCadastro.cbPais.ItemIndex := fClienteCadastro.sqlPais.RecNo-1;
-//      fClienteCadastro.btnIncluir.Click;
-      fClienteCadastro.ShowModal;
-     finally
-       fClienteCadastro.Free;
-       if (dm.var_teste <> 'consulta') then
-         Close;
-     end;
+    if (dm.cadastroClienteTipo = 'COMPLETO') then
+    begin
+      fClienteCadastro := TfClienteCadastro.Create(Application);
+      try
+        fClienteCadastro.cds_cli.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
+        fClienteCadastro.cds_cli.Open;
+        if fClienteCadastro.cdsEnderecoCli.Active then
+          fClienteCadastro.cdsEnderecoCli.Close;
+        fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
+        fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := cdsCODCLIENTE.AsInteger;
+        fClienteCadastro.cdsEnderecoCli.Open;
+        if (not fClienteCadastro.sqlPais.Active) then
+          fClienteCadastro.sqlPais.Open;
+        if (fClienteCadastro.sqlPais.Locate('PAIS', fClienteCadastro.cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+          fClienteCadastro.cbPais.ItemIndex := fClienteCadastro.sqlPais.RecNo-1;
+        fClienteCadastro.ShowModal;
+      finally
+        fClienteCadastro.Free;
+        if (dm.var_teste <> 'consulta') then
+          Close;
+      end;
+    end;
+    if (dm.cadastroClienteTipo = 'SIMPLES') then
+    begin
+      fCliente1 := TfCliente1.Create(Application);
+      try
+        fCliente1.cds_cli.Params[0].AsInteger := cdsCODCLIENTE.AsInteger;
+        fCliente1.cds_cli.Open;
+        if fCliente1.cds_CliEnd.Active then
+          fCliente1.cds_CliEnd.Close;
+        fCliente1.cds_CliEnd.Params[0].Clear;
+        fCliente1.cds_CliEnd.Params[1].AsInteger := cdsCODCLIENTE.AsInteger;
+        fCliente1.cds_CliEnd.Open;
+        fCliente1.ShowModal;
+      finally
+        fCliente1.Free;
+        varform := '';
+      end;
+    end;
   end;
 end;
 

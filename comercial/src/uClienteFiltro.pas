@@ -69,6 +69,8 @@ type
     SQLDataSet1CODIGOS: TStringField;
     SQLDataSet1OUTROS: TStringField;
     cbbRegiao: TComboBox;
+    gbNasc: TGroupBox;
+    cbAniversario: TComboBox;
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn13Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -163,6 +165,8 @@ begin
     cbbRegiao.Items.Add(cdsRegiaoDESCRICAO.AsString);
     cdsRegiao.Next;
   end;
+  if (dm.cadastroClienteTipo = 'SIMPLES') then
+    gbNasc.Visible := True;   
 end;
 
 procedure TfClienteFiltro.FormCreate(Sender: TObject);

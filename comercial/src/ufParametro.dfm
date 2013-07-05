@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = TabSheet7
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -504,6 +504,20 @@ inherited fParametro: TfParametro
           TabOrder = 2
           Text = '2'
         end
+      end
+      object rgCadastroCliente: TRadioGroup
+        Left = 8
+        Top = 8
+        Width = 353
+        Height = 41
+        Caption = 'Cadastro de Cliente'
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'Cadastro P. Juridico'
+          'Cadastro P. F'#237'sica')
+        TabOrder = 2
+        OnClick = rgCadastroClienteClick
       end
     end
     object TabSheet2: TTabSheet
@@ -3308,7 +3322,7 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 515
+    Top = 522
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
