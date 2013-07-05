@@ -211,8 +211,17 @@ begin
 end;
 
 procedure TfProduto_Mat_prima.btnIncluirClick(Sender: TObject);
+var TipoUsado, PrecoUsado : String;
 begin
+  TipoUsado := '';
+  PrecoUsado := '';
+  if (DBComboBox1.Text <> '') then
+    TipoUsado := DBComboBox1.Text;
+  if (DBComboBox2.Text <> '') then
+    PrecoUsado := DBComboBox2.Text;
   inherited;
+  cdsMtTIPOUSO.AsString := TipoUsado;
+  cdsMtUSAPRECO.AsString := PrecoUsado;
   dbedit1.SetFocus;
 end;
 
