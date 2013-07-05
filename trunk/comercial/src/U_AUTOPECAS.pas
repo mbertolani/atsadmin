@@ -614,7 +614,7 @@ implementation
 uses UDm, sCtrlResize, uListaClientes, U_Boletos, ufprocura_prod,
   uFiltroMovimento, uClienteVeiculo, uProcurar, U_OSBUSCA,
   uClienteCadastro, U_FiltroOS, uProcura_prodOficina, u_SIMILARES,
-  uProdutoCadastro;
+  uProdutoCadastro, uCliente1;
 
 {$R *.dfm}
 
@@ -1854,19 +1854,35 @@ end;
 
 procedure TF_AUTOPECAS.lbl3Click(Sender: TObject);
 begin
-     fClienteCadastro:=TfClienteCadastro.Create(Application);
-     try
+  if (varform <> '') then
+    varform := '';
+  if (dm.cadastroClienteTipo = 'COMPLETO') then
+  begin
+    fClienteCadastro := TfClienteCadastro.Create(Application);
+    try
       fClienteCadastro.cds_cli.Params[0].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
       fClienteCadastro.cds_cli.Open;
       if fClienteCadastro.cdsEnderecoCli.Active then
-         fClienteCadastro.cdsEnderecoCli.Close;
+        fClienteCadastro.cdsEnderecoCli.Close;
       fClienteCadastro.cdsEnderecoCli.Params[0].Clear;
       fClienteCadastro.cdsEnderecoCli.Params[1].AsInteger := ds_movimentoCODCLIENTE.AsInteger;
       fClienteCadastro.cdsEnderecoCli.Open;
       fClienteCadastro.ShowModal;
-     finally
-       fClienteCadastro.Free;
-     end;
+    finally
+      fClienteCadastro.Free;
+      varform := '';
+    end;
+  end;
+  if (dm.cadastroClienteTipo = 'SIMPLES') then
+  begin
+    fCliente1 := TfCliente1.Create(Application);
+    try
+      fCliente1.ShowModal;
+    finally
+      fCliente1.Free;
+      varform := '';
+    end;
+  end;
 end;
 
 procedure TF_AUTOPECAS.AbrirOS1Click(Sender: TObject);
