@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FMTBcd, DBClient, Provider, DB, SqlExpr, StdCtrls, Buttons,
-  TFlatGaugeUnit;
+  TFlatGaugeUnit, DBXpress;
 
 type
   TfSincronizar = class(TForm)
@@ -787,11 +787,57 @@ type
     ceFiscalCSTCOFINS: TStringField;
     ceFiscalPIS: TFloatField;
     ceFiscalCOFINS: TFloatField;
+    seFamilia: TSQLDataSet;
+    sFamilia: TSQLDataSet;
+    pFamilia: TDataSetProvider;
+    peFamilia: TDataSetProvider;
+    ceFamilia: TClientDataSet;
+    cFamilia: TClientDataSet;
+    cFamiliaDESCFAMILIA: TStringField;
+    cFamiliaCOD_FAMILIA: TIntegerField;
+    cFamiliaMARCA: TStringField;
+    seFamiliaDESCFAMILIA: TStringField;
+    seFamiliaCOD_FAMILIA: TIntegerField;
+    seFamiliaMARCA: TStringField;
+    ceFamiliaDESCFAMILIA: TStringField;
+    ceFamiliaCOD_FAMILIA: TIntegerField;
+    ceFamiliaMARCA: TStringField;
+    seCategoria: TSQLDataSet;
+    sCategoria: TSQLDataSet;
+    pCategoria: TDataSetProvider;
+    peCategoria: TDataSetProvider;
+    ceCategoria: TClientDataSet;
+    cCategoria: TClientDataSet;
+    sCategoriaDESCCATEGORIA: TStringField;
+    sCategoriaCOD_CATEGORIA: TIntegerField;
+    sCategoriaCOD_FAMILIA: TIntegerField;
+    cCategoriaDESCCATEGORIA: TStringField;
+    cCategoriaCOD_CATEGORIA: TIntegerField;
+    cCategoriaCOD_FAMILIA: TIntegerField;
+    seCategoriaDESCCATEGORIA: TStringField;
+    seCategoriaCOD_CATEGORIA: TIntegerField;
+    seCategoriaCOD_FAMILIA: TIntegerField;
+    ceCategoriaDESCCATEGORIA: TStringField;
+    ceCategoriaCOD_CATEGORIA: TIntegerField;
+    ceCategoriaCOD_FAMILIA: TIntegerField;
+    seMarca: TSQLDataSet;
+    sMarca: TSQLDataSet;
+    pMarca: TDataSetProvider;
+    peMarca: TDataSetProvider;
+    ceMarca: TClientDataSet;
+    cMarca: TClientDataSet;
+    sMarcaDESCMARCAS: TStringField;
+    cMarcaDESCMARCAS: TStringField;
+    seMarcaDESCMARCAS: TStringField;
+    ceMarcaDESCMARCAS: TStringField;
     procedure btnExpProdClick(Sender: TObject);
     procedure btnExpCliClick(Sender: TObject);
     procedure btnExpCfiscClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure ExportaMarcas();
+    procedure ExportaFamilia();
+    procedure ExportaCategoria();
+    procedure ExportaProdutos();
   public
     { Public declarations }
   end;
@@ -801,54 +847,24 @@ var
 
 implementation
 
+uses UDm;
+
 {$R *.dfm}
 
 procedure TfSincronizar.btnExpProdClick(Sender: TObject);
-var
-  vari: integer;
+var TD: TTransactionDesc;
 begin
-    // Copio dados tabela de PRODUTOS
-  Try
-    if (cProdutos.Active) then
-      cProdutos.Close;
-    cProdutos.Open;
-    FlatGauge1.Progress := 0;
-    FlatGauge1.MaxValue := cProdutos.RecordCount;
-    cProdutos.First;
-    while not cProdutos.Eof do
-    begin
-      ceProdutos.Close;
-      ceProdutos.Params[0].AsInteger := cProdutosCODPRODUTO.AsInteger;
-      ceProdutos.Open;
-      if (ceProdutos.IsEmpty) then
-      begin
-        ceProdutos.append;
-        for vari := 0 to cProdutos.fieldcount -1 do
-        begin
-          if (cProdutos.fields[vari].fieldkind = fkdata) then
-            ceProdutos.fields[vari].value := cProdutos.fieldbyname(cProdutos.fields[vari].fieldname).value;
-        end;
-        ceProdutos.ApplyUpdates(0);
-      end
-      else
-      begin
-        if (ceProdutosVALOR_PRAZO.Value <> cProdutosVALOR_PRAZO.Value) then
-        begin
-          ceProdutos.Edit;
-          ceProdutosCODPRO.Value := cProdutosCODPRO.Value;
-          ceProdutosPRODUTO.AsString := cProdutosPRODUTO.AsString;
-          ceProdutosVALOR_PRAZO.Value := cProdutosVALOR_PRAZO.Value;
-          ceProdutos.ApplyUpdates(0);
-        end;  
-      end;
-      cProdutos.Next;
-      FlatGauge1.Progress := FlatGauge1.Progress + 1;
-    end;
-    MessageDlg('Produtos exportados com suscesso', mtWarning, [mbOK], 0);
-    cProdutos.Close;
-    ceProdutos.Close;
-  Except
-    MessageDlg('Erro ao exportar Produtos', mtWarning, [mbOK], 0);
+  ExportaMarcas();
+  ExportaFamilia();
+  ExportaCategoria();
+  ExportaProdutos();
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlExporta.StartTransaction(TD);
+  try
+    dm.sqlExporta.Commit(TD);
+  except
+    dm.sqlExporta.Rollback(TD);
   end;
 end;
 
@@ -958,6 +974,186 @@ begin
     ceFiscal.Close;
   Except
     MessageDlg('Erro ao exportar Dados Fiscais', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfSincronizar.ExportaProdutos;
+var
+  vari: integer;
+begin
+  // Copio dados tabela de PRODUTOS
+  Try
+    if (cProdutos.Active) then
+      cProdutos.Close;
+    cProdutos.Open;
+    FlatGauge1.Progress := 0;
+    FlatGauge1.MaxValue := cProdutos.RecordCount;
+    cProdutos.First;
+    while not cProdutos.Eof do
+    begin
+      ceProdutos.Close;
+      ceProdutos.Params[0].AsInteger := cProdutosCODPRODUTO.AsInteger;
+      ceProdutos.Open;
+      if (ceProdutos.IsEmpty) then
+      begin
+        ceProdutos.append;
+        for vari := 0 to cProdutos.fieldcount -1 do
+        begin
+          if (cProdutos.fields[vari].fieldkind = fkdata) then
+            ceProdutos.fields[vari].value := cProdutos.fieldbyname(cProdutos.fields[vari].fieldname).value;
+        end;
+        ceProdutos.ApplyUpdates(0);
+      end
+      else
+      begin
+        if (ceProdutosVALOR_PRAZO.Value <> cProdutosVALOR_PRAZO.Value) then
+        begin
+          ceProdutos.Edit;
+          ceProdutosCODPRO.Value := cProdutosCODPRO.Value;
+          ceProdutosPRODUTO.AsString := cProdutosPRODUTO.AsString;
+          ceProdutosVALOR_PRAZO.Value := cProdutosVALOR_PRAZO.Value;
+          ceProdutos.ApplyUpdates(0);
+        end;  
+      end;
+      cProdutos.Next;
+      FlatGauge1.Progress := FlatGauge1.Progress + 1;
+    end;
+    MessageDlg('Produtos exportados com suscesso', mtWarning, [mbOK], 0);
+    cProdutos.Close;
+    ceProdutos.Close;
+  Except
+    MessageDlg('Erro ao exportar Produtos', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfSincronizar.ExportaMarcas;
+var
+  vari: integer;
+begin
+  Try
+    if (cMarca.Active) then
+      cMarca.Close;
+    cMarca.Open;
+    FlatGauge1.Progress := 0;
+    FlatGauge1.MaxValue := cMarca.RecordCount;
+    cMarca.First;
+    while not cMarca.Eof do
+    begin
+      ceMarca.Close;
+      ceMarca.Params[0].AsString := cMarcaDESCMARCAS.AsString;
+      ceMarca.Open;
+      if (ceMarca.IsEmpty) then
+      begin
+        ceMarca.append;
+        for vari := 0 to cMarca.fieldcount -1 do
+        begin
+          if (cMarca.fields[vari].fieldkind = fkdata) then
+            ceMarca.fields[vari].value := cMarca.fieldbyname(cMarca.fields[vari].fieldname).value;
+        end;
+        ceMarca.ApplyUpdates(0);
+      end;
+      cMarca.Next;
+      FlatGauge1.Progress := FlatGauge1.Progress + 1;
+    end;
+    MessageDlg('Marcas exportadas com suscesso', mtWarning, [mbOK], 0);
+    cMarca.Close;
+    ceMarca.Close;
+  Except
+    MessageDlg('Erro ao exportar Marcas', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfSincronizar.ExportaFamilia;
+var
+  vari: integer;
+begin
+  Try
+    if (cFamilia.Active) then
+      cFamilia.Close;
+    cFamilia.Open;
+    FlatGauge1.Progress := 0;
+    FlatGauge1.MaxValue := cFamilia.RecordCount;
+    cFamilia.First;
+    while not cFamilia.Eof do
+    begin
+      ceFamilia.Close;
+      ceFamilia.Params[0].AsInteger := cFamiliaCOD_FAMILIA.AsInteger;
+      ceFamilia.Open;
+      if (ceFamilia.IsEmpty) then
+      begin
+        ceFamilia.append;
+        for vari := 0 to cFamilia.fieldcount -1 do
+        begin
+          if (cFamilia.fields[vari].fieldkind = fkdata) then
+            ceFamilia.fields[vari].value := cFamilia.fieldbyname(cFamilia.fields[vari].fieldname).value;
+        end;
+        ceFamilia.ApplyUpdates(0);
+      end
+      else
+      begin
+        if ( (ceFamiliaDESCFAMILIA.Value <> cFamiliaDESCFAMILIA.Value) or (ceFamiliaMARCA.Value <> ceFamiliaMARCA.Value) )then
+        begin
+          ceFamilia.Edit;
+          ceFamiliaDESCFAMILIA.AsString := cFamiliaDESCFAMILIA.Value;
+          ceFamiliaMARCA.AsString := cFamiliaMARCA.AsString;
+          ceFamilia.ApplyUpdates(0);
+        end;  
+      end;
+      cFamilia.Next;
+      FlatGauge1.Progress := FlatGauge1.Progress + 1;
+    end;
+    MessageDlg('Familias exportadas com suscesso', mtWarning, [mbOK], 0);
+    cFamilia.Close;
+    ceFamilia.Close;
+  Except
+    MessageDlg('Erro ao exportar Familias', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfSincronizar.ExportaCategoria;
+var
+  vari: integer;
+begin
+  try
+    if (cCategoria.Active) then
+      cCategoria.Close;
+    cCategoria.Open;
+    FlatGauge1.Progress := 0;
+    FlatGauge1.MaxValue := cCategoria.RecordCount;
+    cCategoria.First;
+    while not cCategoria.Eof do
+    begin
+      ceCategoria.Close;
+      ceCategoria.Params[0].AsInteger := cCategoriaCOD_CATEGORIA.AsInteger;
+      ceCategoria.Open;
+      if (ceCategoria.IsEmpty) then
+      begin
+        ceCategoria.append;
+        for vari := 0 to cCategoria.fieldcount -1 do
+        begin
+          if (cCategoria.fields[vari].fieldkind = fkdata) then
+            ceCategoria.fields[vari].value := cCategoria.fieldbyname(cFamilia.fields[vari].fieldname).value;
+        end;
+        ceCategoria.ApplyUpdates(0);
+      end
+      else
+      begin
+        if ( (ceCategoriaDESCCATEGORIA.Value <> cCategoriaDESCCATEGORIA.Value) or (ceCategoriaCOD_FAMILIA.Value <> cCategoriaCOD_FAMILIA.Value) )then
+        begin
+          ceCategoria.Edit;
+          ceCategoriaDESCCATEGORIA.AsString := cCategoriaDESCCATEGORIA.AsString;
+          ceCategoriaCOD_FAMILIA.AsInteger := cCategoriaCOD_FAMILIA.AsInteger;
+          ceCategoria.ApplyUpdates(0);
+        end;  
+      end;
+      cCategoria.Next;
+      FlatGauge1.Progress := FlatGauge1.Progress + 1;
+    end;
+    MessageDlg('Categorias exportadas com suscesso', mtWarning, [mbOK], 0);
+    cCategoria.Close;
+    ceCategoria.Close;
+  Except
+    MessageDlg('Erro ao exportar Categorias', mtWarning, [mbOK], 0);
   end;
 end;
 
