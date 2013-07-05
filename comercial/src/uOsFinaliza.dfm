@@ -3,7 +3,7 @@ object fOsFinaliza: TfOsFinaliza
   Top = 107
   Width = 837
   Height = 611
-  Caption = 'Finaliza OS'
+  Caption = 'Finaliza'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
