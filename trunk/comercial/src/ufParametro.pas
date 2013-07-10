@@ -889,7 +889,7 @@ begin
 
   if (dm.cds_param.Locate('PARAMETRO','CARGO/FUNCAO', [loCaseInsensitive])) then
   begin
-    Edit14.Text.Text := dm.cds_paramDADOS.AsString;
+    Edit14.Text := dm.cds_paramDADOS.AsString;
   end;
 
 
