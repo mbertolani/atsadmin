@@ -355,7 +355,6 @@ inherited fParametro: TfParametro
           Width = 201
           Height = 21
           TabOrder = 2
-          Text = 'Edit15'
         end
       end
     end
@@ -1493,6 +1492,46 @@ inherited fParametro: TfParametro
           Caption = 'Inserir Fornec. Padr'#227'o'
           TabOrder = 0
           OnClick = BitBtn28Click
+        end
+      end
+      object GroupBox32: TGroupBox
+        Left = 2
+        Top = 245
+        Width = 780
+        Height = 48
+        Caption = 'Serie Padr'#227'o NFe'
+        TabOrder = 5
+        object Label57: TLabel
+          Left = 10
+          Top = 29
+          Width = 24
+          Height = 13
+          Caption = 'Serie'
+        end
+        object btnNFSerie: TBitBtn
+          Left = 200
+          Top = 20
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = btnNFSerieClick
+        end
+        object edtSerieNF: TEdit
+          Left = 40
+          Top = 23
+          Width = 121
+          Height = 21
+          TabOrder = 1
+        end
+        object BitBtn34: TBitBtn
+          Left = 166
+          Top = 20
+          Width = 26
+          Height = 25
+          Caption = '...'
+          TabOrder = 2
+          OnClick = BitBtn34Click
         end
       end
     end
@@ -3147,6 +3186,30 @@ inherited fParametro: TfParametro
               Height = 21
               TabOrder = 5
             end
+            object Pc2: TEdit
+              Left = 270
+              Top = 37
+              Width = 59
+              Height = 21
+              TabOrder = 6
+            end
+            object Pc1: TEdit
+              Left = 206
+              Top = 37
+              Width = 59
+              Height = 21
+              BevelKind = bkFlat
+              BorderStyle = bsNone
+              TabOrder = 7
+              OnChange = edtModeloChange
+            end
+            object Pc3: TEdit
+              Left = 334
+              Top = 37
+              Width = 61
+              Height = 21
+              TabOrder = 8
+            end
           end
           object rgEstoqueNegativo: TRadioGroup
             Left = 369
@@ -3342,30 +3405,6 @@ inherited fParametro: TfParametro
     inherited btnSair: TBitBtn
       Left = 514
     end
-  end
-  object Pc1: TEdit [3]
-    Left = 579
-    Top = 338
-    Width = 59
-    Height = 21
-    BevelKind = bkFlat
-    BorderStyle = bsNone
-    TabOrder = 3
-    OnChange = edtModeloChange
-  end
-  object Pc2: TEdit [4]
-    Left = 644
-    Top = 339
-    Width = 59
-    Height = 21
-    TabOrder = 4
-  end
-  object Pc3: TEdit [5]
-    Left = 709
-    Top = 339
-    Width = 61
-    Height = 21
-    TabOrder = 5
   end
   inherited XPMenu1: TXPMenu
     Top = 32
@@ -6878,6 +6917,39 @@ inherited fParametro: TfParametro
     end
     object s_parametroVALOR: TFloatField
       FieldName = 'VALOR'
+    end
+  end
+  object scds_serie_proc: TSQLClientDataSet
+    CommandText = 
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL from SERIES wh' +
+      'ere SERIE like :pSERIE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pSERIE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 792
+    Top = 9
+    object scds_serie_procCODSERIE: TStringField
+      FieldName = 'CODSERIE'
+      FixedChar = True
+      Size = 3
+    end
+    object scds_serie_procSERIE: TStringField
+      FieldName = 'SERIE'
+      Required = True
+    end
+    object scds_serie_procULTIMO_NUMERO: TIntegerField
+      FieldName = 'ULTIMO_NUMERO'
+      Required = True
+    end
+    object scds_serie_procNOTAFISCAL: TSmallintField
+      FieldName = 'NOTAFISCAL'
     end
   end
 end
