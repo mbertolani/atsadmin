@@ -8,7 +8,8 @@ uses
   Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel, Mask, DBCtrls,
   ComCtrls,DBXpress, JvExExtCtrls, JvExtComponent, JvDBRadioPanel,
   JvExStdCtrls, JvCheckBox, JvExMask, JvToolEdit, JvBaseEdits,
-  JvComponentBase, JvNavigationPane, ImgList, JvExControls, JvOutlookBar;
+  JvComponentBase, JvNavigationPane, ImgList, JvExControls, JvOutlookBar,
+  DBLocal, DBLocalS;
 
 type
   TfParametro = class(TfPai)
@@ -292,9 +293,6 @@ type
     rgBloqueio: TRadioGroup;
     edtModelo2: TEdit;
     edtModelo3: TEdit;
-    Pc1: TEdit;
-    Pc2: TEdit;
-    Pc3: TEdit;
     Label52: TLabel;
     Label53: TLabel;
     Label54: TLabel;
@@ -302,6 +300,19 @@ type
     Label56: TLabel;
     rgNfe: TRadioGroup;
     rgCadastroCliente: TRadioGroup;
+    Pc2: TEdit;
+    Pc1: TEdit;
+    Pc3: TEdit;
+    GroupBox32: TGroupBox;
+    Label57: TLabel;
+    btnNFSerie: TBitBtn;
+    edtSerieNF: TEdit;
+    BitBtn34: TBitBtn;
+    scds_serie_proc: TSQLClientDataSet;
+    scds_serie_procCODSERIE: TStringField;
+    scds_serie_procSERIE: TStringField;
+    scds_serie_procULTIMO_NUMERO: TIntegerField;
+    scds_serie_procNOTAFISCAL: TSmallintField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -328,7 +339,6 @@ type
     procedure BitBtn23Click(Sender: TObject);
     procedure BitBtn24Click(Sender: TObject);
     procedure BitBtn25Click(Sender: TObject);
-    procedure BitBtn26Click(Sender: TObject);
     procedure BitBtn27Click(Sender: TObject);
     procedure BitBtn28Click(Sender: TObject);
     procedure BitBtn29Click(Sender: TObject);
@@ -380,6 +390,9 @@ type
     procedure rgBloqueioClick(Sender: TObject);
     procedure rgNfeClick(Sender: TObject);
     procedure rgCadastroClienteClick(Sender: TObject);
+    procedure BitBtn34Click(Sender: TObject);
+    procedure BitBtn26Click(Sender: TObject);
+    procedure btnNFSerieClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -396,7 +409,7 @@ var
   
 implementation
 
-uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes;
+uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes, uProcurar;
 
 {$R *.dfm}
 
@@ -869,11 +882,16 @@ begin
       RadioGroup3.ItemIndex := 1;
   end;
 
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'CARGO/FUNCAO';
-  dm.cds_parametro.Open;
-  Edit14.Text := dm.cds_parametroDADOS.AsString;
+  if (dm.cds_param.Locate('PARAMETRO','SERIENFE', [loCaseInsensitive])) then
+  begin
+    edtSerieNF.Text := dm.cds_paramD1.AsString;
+  end;
+
+  if (dm.cds_param.Locate('PARAMETRO','CARGO/FUNCAO', [loCaseInsensitive])) then
+  begin
+    Edit14.Text.Text := dm.cds_paramDADOS.AsString;
+  end;
+
 
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
@@ -1888,27 +1906,6 @@ begin
       dm.cds_parametroCONFIGURADO.AsString := 'N';
       dm.cds_parametroD1.AsString    := '';
     end;
-  end;
-  dm.cds_parametro.ApplyUpdates(0);
-end;
-
-procedure TfParametro.BitBtn26Click(Sender: TObject);
-begin
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'COMPRA';
-  dm.cds_parametro.Open;
-  // Insere ou Altera a tabela PARAMETROS
-  if (dm.cds_parametro.IsEmpty) then
-  begin
-    begin
-      MessageDlg('O Parametro "Aprovação de Compras" é obrigatório para usar esta opção.', mtError,[mbOk], 0);
-      exit;
-    end;
-  end
-  else begin
-    dm.cds_parametro.Edit;
-    dm.cds_parametroD2.AsString := edit22.Text;
   end;
   dm.cds_parametro.ApplyUpdates(0);
 end;
@@ -4430,7 +4427,7 @@ begin
         strSql := strSql + ') VALUES (';
         strSql := strSql + QuotedStr('Mensagem Personalizada de Bloqueio') + ', ';
         strSql := strSql + QuotedStr('EMAILAUTOMATICO') + ', ';
-        strSql := strSql + QuotedStr('S');        
+        strSql := strSql + QuotedStr('S');
         strSql := strSql + ')';
         dm.sqlsisAdimin.StartTransaction(TD);
         dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -4464,6 +4461,79 @@ begin
       end;
     end;
    end;
+end;
+
+procedure TfParametro.BitBtn34Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,scds_serie_proc);
+  fProcurar.BtnProcurar.Click;
+  try
+   fProcurar.EvDBFind1.DataField := 'SERIE';
+   if fProcurar.ShowModal=mrOk then
+     edtSerieNF.Text := scds_serie_procSERIE.AsString;
+   finally
+    scds_serie_proc.Close;
+    fProcurar.Free;
+   end;
+    edtSerieNF.SetFocus;
+end;
+
+procedure TfParametro.BitBtn26Click(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'COMPRA';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    begin
+      MessageDlg('O Parametro "Aprovação de Compras" é obrigatório para usar esta opção.', mtError,[mbOk], 0);
+      exit;
+    end;
+  end
+  else begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD2.AsString := edit22.Text;
+  end;
+  dm.cds_parametro.ApplyUpdates(0);
+end;
+
+procedure TfParametro.btnNFSerieClick(Sender: TObject);
+begin
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Serie para nota fiscal eletronica') + ', ';
+        strSql := strSql + QuotedStr('SERIENFE') + ', ';
+        strSql := strSql + QuotedStr('S') + ', ';
+        strSql := strSql + QuotedStr(edtSerieNF.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD1.AsString := edtSerieNF.Text;
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
 end;
 
 procedure TfParametro.rgCadastroClienteClick(Sender: TObject);
@@ -4516,7 +4586,6 @@ begin
            [mbOk], 0);
     end;
   end;
-
 end;
 
 end.
