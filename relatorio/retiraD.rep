@@ -19,37 +19,15 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'IMPR'
-      DatabaseAlias = 'SGE_ATS'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'SELECT * FROM RECIBO_RETIRA(:PCOD)'
     end
     item
       Alias = 'IMPCAB'
-      DatabaseAlias = 'SGE_ATS'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'SELECT * FROM EMPRESA'
     end>
   DatabaseInfo = <
-    item
-      Alias = 'SGE'
-      LoadParams = True
-      LoadDriverParams = True
-      LoginPrompt = False
-      ReportTable = 'REPMAN_REPORTS'
-      ReportSearchField = 'REPORT_NAME'
-      ReportField = 'REPORT'
-      ReportGroupsTable = 'REPMAN_GROUPS'
-      ADOConnectionString = ''
-    end
-    item
-      Alias = 'SGE_ATS'
-      LoadParams = True
-      LoadDriverParams = True
-      LoginPrompt = False
-      ReportTable = 'REPMAN_REPORTS'
-      ReportSearchField = 'REPORT_NAME'
-      ReportField = 'REPORT'
-      ReportGroupsTable = 'REPMAN_GROUPS'
-      ADOConnectionString = ''
-    end
     item
       Alias = 'SISADMIN'
       LoadParams = True
