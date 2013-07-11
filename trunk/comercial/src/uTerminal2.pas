@@ -9,7 +9,8 @@ uses
   JvExMask, JvToolEdit, JvBaseEdits, JvExControls, JvLabel, ComCtrls,
   JvExComCtrls, JvComCtrls, DB, rpcompobase, rpvclreport, DBLocal,
   DBLocalS, Menus, DBClient, jpeg, JvImage, DBCtrls, Grids, DBGrids,
-  JvExDBGrids, JvDBGrid, JvExStdCtrls, JvEdit, JvValidateEdit, JvGIF, DBxPress, Printers;
+  JvExDBGrids, JvDBGrid, JvExStdCtrls, JvEdit, JvValidateEdit, JvGIF, DBxPress, Printers, IniFiles,
+  XPMenu;
 
 type
   TfTerminal2 = class(TForm)
@@ -385,12 +386,6 @@ type
     TabVenda: TTabSheet;
     TabComanda: TTabSheet;
     TabDelivery: TTabSheet;
-    JvPanel4: TJvPanel;
-    JvLabel7: TJvLabel;
-    EdtCodBarra: TEdit;
-    btnProduto: TBitBtn;
-    JvLabel15: TJvLabel;
-    edtQtde: TJvCalcEdit;
     JvImage1: TJvImage;
     JvPanel5: TJvPanel;
     JvLabel6: TJvLabel;
@@ -418,7 +413,6 @@ type
     edMesa: TEdit;
     JvLabel16: TJvLabel;
     pMesa: TPanel;
-    JvDBGrid2: TJvDBGrid;
     Panel1: TPanel;
     JvLabel2: TJvLabel;
     edtFone: TEdit;
@@ -450,9 +444,16 @@ type
     c_formaFORMA: TStringField;
     c_formaNOME: TStringField;
     c_formatotal: TAggregateField;
+    EdtComanda: TEdit;
+    PopupMenu2: TPopupMenu;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    XPMenu1: TXPMenu;
+    btnProduto: TBitBtn;
     procedure FormCreate(Sender: TObject);
-    procedure procPn2(Sender: TObject);
-    procedure procPn1(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
     procedure JvSairClick(Sender: TObject);
@@ -467,6 +468,35 @@ type
     procedure JvBitBtn6Click(Sender: TObject);
     procedure JvBitBtn5Click(Sender: TObject);
     procedure JvBitBtn1Click(Sender: TObject);
+    procedure edMesaKeyPress(Sender: TObject; var Key: Char);
+    procedure EdtCodBarra1KeyPress(Sender: TObject; var Key: Char);
+    procedure EdtCodBarra1Enter(Sender: TObject);
+    procedure EdtCodBarra1Exit(Sender: TObject);
+    procedure edtQtde1KeyPress(Sender: TObject; var Key: Char);
+    procedure JvPageControl1Change(Sender: TObject);
+    procedure EdtComandaKeyPress(Sender: TObject; var Key: Char);
+    procedure EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
+    procedure JvDBGrid2DblClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnProdutoClick(Sender: TObject);
+    procedure NovoPedido1Click(Sender: TObject);
+    procedure AlterarItendoPedido1Click(Sender: TObject);
+    procedure F5ExcluirItemdoPedido1Click(Sender: TObject);
+    procedure F7ExcluirPedido1Click(Sender: TObject);
+    procedure EditarComanda1Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure edtFoneKeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid2DblClick(Sender: TObject);
+    procedure DBGrid2KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid2KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid2CellClick(Column: TColumn);
+    procedure EfetuarSangria1Click(Sender: TObject);
+    procedure Entrada1Click(Sender: TObject);
+    procedure Pagamentos1Click(Sender: TObject);
+    procedure Fechamentodecaixa1Click(Sender: TObject);
+    procedure AbrirCaixa1Click(Sender: TObject);
   private
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
@@ -480,16 +510,23 @@ type
     vTIPO_PEDIDO: STring;
     str_sql: String;
     numMesa : Integer;
-    Pn1, Pn2: TPanel;
     fantasia, endCli, FoneCli, datasistema, Codigo_Pedido, razao_emp, cnpj : string;
     Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6,texto7, logradouro,cep,fone : string;
+    saldoNegativo, estoque_negativo: String;
     porta: String;
     total, porc, totgeral , desconto : double;
     IMPRESSORA:TextFile;
     TEXTO_IMPRIMIR, TEXTO_IMP: String;
+    deliveryLivre: Boolean;
+    estoque: boolean;
+    var_retorno: boolean;
+    codCliente: integer;
+    retorno : String;
+    tipo_busca: String;
+    codLote: String;
     procedure criarMesas;
     procedure abreDelivery;
-    procedure abreComanda;
+    procedure abreComanda(busca: String);
     procedure pintaBotao;
     procedure testaCaixaAberto;
     function existeVenda: Boolean;
@@ -501,6 +538,15 @@ type
     procedure imprimeCupom;
     procedure imprimeRecibo;
     procedure bloqueia_mesa;
+    procedure incluiPedido;
+    procedure alteraPedido;
+    procedure msgImpressora;
+    procedure permissao;
+    procedure libera_mesa;
+    procedure buscaProduto;
+    procedure incluiItemPedido;
+    procedure buscaLote;
+    procedure abreDeliverySelec;
     { Private declarations }
 
   public
@@ -514,7 +560,9 @@ var
 implementation
 
 uses UDm, UDM_MOV, uFiltroMovimento, U_AlteraPedido, U_RelTerminal,
-  uOsFinaliza, U_Entrada, U_MudaMesa, u_mesas;
+  uOsFinaliza, U_Entrada, U_MudaMesa, u_mesas, U_AUTORIZACAO,
+  ufprocura_prod, U_AbreComanda, uProcurar_nf, UDMNF, uFiscalCls,
+  uAbrirCaixa, uSangria, uEntradaCaixa, uCrTituloPagto, uMovCaixa;
 
 {$R *.dfm}
 
@@ -532,7 +580,7 @@ begin
   TabVenda.TabVisible := False;
   larguraMesa := 110;
   alturaMesa := 60;
-  numMesa := 20;
+  numMesa := 1;
   if (not dm.cds_parametro.IsEmpty) then
   begin
     TabVenda.TabVisible := True;
@@ -561,6 +609,7 @@ begin
   for x:=0 to ((numMesa)-1) do
   begin
     TCustomPanel.Create(pMesa);
+    TPanel(pMesa.Components[(Qtd + i)-1]).ParentBackground := True;
     TControl(pMesa.Components[(Qtd + i)-1]).Name    := 'Panel' + IntToStr(i);
     TControl(pMesa.Components[(Qtd + i)-1]).Parent  := pMesa;
     if i > 1 then
@@ -626,8 +675,7 @@ begin
   if (not dm.cds_parametro.IsEmpty) then
   begin
     TabComanda.TabVisible := True;
-    //populaMesas;
-    abreComanda;
+    abreComanda('');
   end;
 
 
@@ -689,21 +737,8 @@ begin
     DM_MOV.ID_CCUSTO := 0;
   sCaixa1.Close;
 
-  JvDBGrid2.Visible := False;
-end;
+end;
 
-
-procedure TfTerminal2.procPn1(Sender: TObject);
-begin
-  Pn1.Color := clRed;
-  Pn2.Color := clGreen;
-end;
-
-procedure TfTerminal2.procPn2(Sender: TObject);
-begin
-  Pn2.Color := clYellow;
-  Pn1.Color := clGreen;
-end;
 
 procedure TfTerminal2.JvProcurarClick(Sender: TObject);
 begin
@@ -759,18 +794,10 @@ begin
     DM_MOV.c_movimento.Params[0].AsInteger := fFiltroMovimento.cod_mov;
     DM_MOV.c_movimento.Open;
     vTIPO_PEDIDO := DM_MOV.c_movimentoTIPO_PEDIDO.AsString;
-    if (vTIPO_PEDIDO = 'C') then // é COMANDA
+    if (vTIPO_PEDIDO = 'C') then // COMANDA
     begin
       DM_MOV.c_movimento.Close;
-      if (DM_MOV.c_comanda.Active) then
-        DM_MOV.c_comanda.Close;
-      DM_MOV.c_comanda.CommandText := '';
-      str_sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-      str_sql := str_sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-      str_sql := str_sql + 'WHERE m.CODMOVIMENTO = ';
-      str_sql := str_sql + IntToStr(fFiltroMovimento.cod_mov);
-      DM_MOV.c_comanda.CommandText := str_sql;
-      DM_MOV.c_comanda.Open;
+      abreComanda(' AND m.CODMOVIMENTO = ' + IntToStr(fFiltroMovimento.cod_mov));
     end;
 
     DM_MOV.c_movdet.Close;
@@ -844,17 +871,106 @@ begin
 end;
 
 procedure TfTerminal2.PanelClick(Sender: TObject);
+var poc : Double;
 begin
   pintaBotao;
   TPanel(Sender).Color :=  clGreen;
+  JvPanel8.Caption := TPanel(Sender).Caption;
+  if (DM_MOV.s_BuscaComanda.Active) then
+    DM_MOV.s_BuscaComanda.Close;
+  DM_MOV.s_BuscaComanda.Params[0].Clear;
+  DM_MOV.s_BuscaComanda.Params[1].AsString :=  TPanel(Sender).Caption;
+  DM_MOV.s_BuscaComanda.Open;
+  if (DM_MOV.s_BuscaComanda.IsEmpty) then
+  begin
+     DM_MOV.s_BuscaComanda.Close;
+     ShowMessage('Mesa nao Localizada');
+     Exit;
+  end;
+  edMesa.Text := DM_MOV.s_BuscaComandaCOD_CLI.AsString;
+  codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
+  if (DM_MOV.s_buscaMov.Active) then
+     DM_MOV.s_buscaMov.Close;
+
+  str_sql := 'select m.CODMOVIMENTO, c.NOMECLIENTE from MOVIMENTO m ' +
+         'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ' +
+         'where m.CODNATUREZA = ' + IntToStr(3) + ' and m.STATUS = ' +
+         IntToStr(20) + ' and m.CODCLIENTE = ' + IntToStr(codcliente);
+  DM_MOV.s_buscaMov.CommandText := str_sql;
+
+  DM_MOV.s_buscaMov.Open;
+
+
+  if (DM_MOV.s_buscaMov.IsEmpty)then
+     IncluiPedido
+  else
+  begin
+    abreComanda(' and m.CODCLIENTE = ' + IntToStr(codcliente));
+    AlteraPedido;
+  end;
+  if (not DM_MOV.c_movdet.IsEmpty) then
+  begin
+    poc := 0;
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    if (c_forma.Active) then
+      c_forma.Close;
+    c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+    c_forma.Open;
+
+    if (not c_formatotal.IsNull) then
+    begin
+      JvParcial.Value := c_formatotal.Value;
+      JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+    end
+    else
+    begin
+      JvParcial.Value := 0;
+      JvSubtotal.Value := JvTotal.Value + poc;
+    end;
+
+    if (JvComissao.Visible = True) then
+      if (JvComissao.Value > 0) then
+        poc := (JvComissao.Value /100) * JvTotal.Value;
+    JvSubtotal.Value := JvSubtotal.Value + poc;
+    c_forma.Close;
+  end
+  else
+  begin
+    DM_MOV.c_movdet.Close;
+    JvTotal.AsFloat := 0;
+  end;
+  DM_MOV.s_buscaMov.Close;
+  DM_MOV.s_BuscaComanda.Close;
+  if (JvTotal.Value = 0) then
+  begin
+    JvParcial.Value := 0;
+    JvSubtotal.Value := 0;
+  end;
 end;
 
 procedure TfTerminal2.abreDelivery;
+var linhaDelivery: Integer;
 begin
-  //
+  linhaDelivery := 0;
+  if (DM_MOV.c_Delivery.Active) then
+  begin
+    linhaDelivery := DM_MOV.c_Delivery.RecNo;
+    DM_MOV.c_Delivery.Close;
+  end;
+  DM_MOV.c_Delivery.CommandText := '';
+  str_sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
+  str_sql := str_sql + ' inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
+  str_sql := str_sql + ' WHERE m.CODNATUREZA = 3 ';
+  str_sql := str_sql + ' and m.STATUS = 20 ';
+  str_sql := str_sql + ' and m.TIPO_PEDIDO = ';
+  str_sql := str_sql + QuotedStr('D');
+  DM_MOV.c_Delivery.CommandText := str_sql;
+  DM_MOV.c_Delivery.Open;
+  if (linhaDelivery > 0) then
+    DM_MOV.c_Delivery.RecNo := linhaDelivery;
 end;
 
-procedure TfTerminal2.abreComanda;
+procedure TfTerminal2.abreComanda(busca: String);
 begin
   if (DM_MOV.c_comanda.Active) then
     DM_MOV.c_comanda.Close;
@@ -863,6 +979,7 @@ begin
   str_sql := str_sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
   str_sql := str_sql + 'WHERE m.CODNATUREZA = 3';
   str_sql := str_sql + 'and m.STATUS = 20';
+  str_sql := str_sql + busca;
   DM_MOV.c_comanda.CommandText := str_sql;
   DM_MOV.c_comanda.Open;
 end;
@@ -875,7 +992,7 @@ end;
 procedure TfTerminal2.pintaBotao;
 var j: integer;
 begin
-  abreComanda;
+  abreComanda('');
   dm_mov.c_comanda.First;
   for j := 0 to ((numMesa)-1) do
   begin
@@ -914,8 +1031,8 @@ begin
     JvTotal.Value := 0;
     JvSubtotal.Value := 0;
     JvParcial.Value := 0;
-    edtQtde.Value := 0;
-    EdtCodBarra.SetFocus;
+    edtQtde1.Value := 0;
+    EdtCodBarra1.SetFocus;
   end;
   if (jvPageControl1.ActivePage = TabDelivery) then
   begin
@@ -958,7 +1075,7 @@ begin
        Exit;
      end;
   end;
-  
+
  if (not DM_MOV.c_movdet.Active) then
     Exit;
     
@@ -1410,7 +1527,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1418,7 +1535,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1426,7 +1543,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1435,7 +1552,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1443,7 +1560,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+   msgImpressora;
     exit;
   end;
 
@@ -1452,7 +1569,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1461,7 +1578,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1470,7 +1587,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1478,7 +1595,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1486,7 +1603,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1494,7 +1611,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1510,7 +1627,7 @@ begin
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
     if comando = 0 then
     begin
-      MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+      msgImpressora;
       exit;
     end;
     buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -1523,7 +1640,7 @@ begin
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
     if comando = 0 then
     begin
-      MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+      msgImpressora;
       exit;
     end;
     DM_MOV.c_movdet.next;
@@ -1533,7 +1650,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
   Texto5 := '|                         Total.: R$ ';
@@ -1639,24 +1756,16 @@ begin
   buffer  := Texto4 + Chr(13) + Chr(10);
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
-  //if (cds_imovdet.Active) then
-  //  cds_imovdet.Close;
-  //cds_iMovdet.Params[0].AsInteger := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
-  //cds_iMovDet.Open;
-
   DM_MOV.c_movdet.First;
   while not DM_MOV.c_movdet.Eof do
   begin
    // imprime
-   // if (DM.impressaoResumida = 'NAO') then
-   //   buffer  := DM_MOV.c_movdetDESCPRODUTO.Value + Chr(13) + Chr(10)
-   // else
     buffer  := '|' +  Format('%-46s  ', [DM_MOV.c_movdetDESCPRODUTO.Value]) + '|';
     buffer  := buffer + Chr(13) + Chr(10);
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
     if comando = 0 then
     begin
-      MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+      msgImpressora;
       exit;
     end;
     buffer  := Format('%-10s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -1669,7 +1778,7 @@ begin
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
     if comando = 0 then
     begin
-      MessageDlg('Problemas na impressão do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+      msgImpressora;
       exit;
     end;
     DM_MOV.c_movdet.next;
@@ -1724,7 +1833,7 @@ begin
 end;
 
 procedure TfTerminal2.imprimeDLLBema;
-var parcial, poc : Double;
+var parcial: Double;
 begin
   if (not dm.cds_empresa.Active) then
   dm.cds_empresa.Open;
@@ -1787,7 +1896,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1795,7 +1904,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1803,7 +1912,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1811,7 +1920,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1819,7 +1928,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1827,7 +1936,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1835,7 +1944,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1843,7 +1952,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1851,7 +1960,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1859,7 +1968,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1867,7 +1976,7 @@ begin
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
   if comando = 0 then
   begin
-    MessageDlg('Problemas na impressao do texto.' + #10 + 'Possaveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+    msgImpressora;
     exit;
   end;
 
@@ -1882,7 +1991,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgImpressora;
         exit;
       end;
       buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
@@ -1894,7 +2003,7 @@ begin
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
       begin
-        MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+        msgImpressora;
         exit;
       end;
       DM_MOV.c_movdet.next;
@@ -1904,7 +2013,7 @@ begin
    comando := FormataTX(buffer, 3, 0, 0, 0, 0);
    if comando = 0 then
    begin
-     MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+     msgImpressora;
      exit;
    end;
 
@@ -1944,15 +2053,14 @@ begin
    begin
      Texto5 := DateTimeToStr(Now) + '            % : R$ ';
      parcial := JvParcial.Value;
-     //poc := JvSubtotal.Value;
-     poc := total - parcial;
+     porc := total - parcial;
      buffer  := texto5;
      buffer  := buffer + Format('%10.2n',[parcial]);
      buffer  := buffer + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
      buffer  := texto5;
-     buffer  := buffer + Format('%10.2n',[poc]);
+     buffer  := buffer + Format('%10.2n',[porc]);
      buffer  := buffer + Chr(13) + Chr(10);
      comando := FormataTX(buffer, 3, 0, 0, 0, 0);
    end;
@@ -2474,7 +2582,7 @@ begin
     if (DM.USACONTROLECAIXA <> 'SIM') then
     begin
       if (jvPageControl1.ActivePage = TabVenda) then
-       EdtCodBarra.SetFocus;
+       EdtCodBarra1.SetFocus;
       if (jvPageControl1.ActivePage = TabDelivery) then
        edtFone.SetFocus;
       if (jvPageControl1.ActivePage = TabComanda) then
@@ -2524,12 +2632,12 @@ begin
       edMesa.SetFocus;
   end;
   if (jvPageControl1.TabIndex = 0) then
-    EdtCodBarra.SetFocus;
+    EdtCodBarra1.SetFocus;
 
 end;
 
 procedure TfTerminal2.JvBitBtn4Click(Sender: TObject);
-var poc, porc_com : Double;
+var porc_com : Double;
 
 begin
  DM_MOV.ID_DO_MOVIMENTO := 0;
@@ -2607,13 +2715,13 @@ begin
   c_forma.Open;
   if (not c_formatotal.IsNull) then
   begin
-    poc := 0;
+    porc := 0;
     if (JvComissao.Visible = True) then
       if (JvComissao.Value > 0) then
-        poc := (JvComissao.Value /100) * JvTotal.Value;
+        porc := (JvComissao.Value /100) * JvTotal.Value;
     JvParcial.Value := c_formatotal.Value;
     JvParcial.Value := c_formatotal.Value;
-    JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
+    JvSubtotal.Value := JvTotal.Value + porc - JvParcial.Value;
     if (JvSubtotal.Value < 0.009) then
       var_FINALIZOU := 'SIM';
   end;
@@ -2633,7 +2741,7 @@ begin
 
     if (jvPageControl1.ActivePage = TabVenda) then
     begin
-       EdtCodBarra.SetFocus;
+       EdtCodBarra1.SetFocus;
        if (DM_MOV.c_movimento.Active) then
            DM_MOV.c_movimento.Close;
        JvTotal.Value := 0;
@@ -2723,31 +2831,8 @@ begin
   end;
   DM_MOV.s_buscaMov.close;
 
-  if (DM_MOV.c_comanda.Active) then
-    DM_MOV.c_comanda.Close;
-  DM_MOV.c_comanda.CommandText := '';
-  str_sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-  str_sql := str_sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-  str_sql := str_sql + 'WHERE m.CODNATUREZA = ';
-  str_sql := str_sql + IntToStr(3);
-  str_sql := str_sql + 'and m.STATUS = ';
-  str_sql := str_sql + IntToStr(20);
-  DM_MOV.c_comanda.CommandText := str_sql;
-  DM_MOV.c_comanda.Open;
+  abreComanda('');
   JvPanel8.Caption := '...';
-
-  //CtrlResize;
-  if (DM_MOV.c_comanda.Active) then
-    DM_MOV.c_comanda.Close;
-  DM_MOV.c_comanda.CommandText := '';
-  str_sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-  str_sql := str_sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-  str_sql := str_sql + 'WHERE m.CODNATUREZA = ';
-  str_sql := str_sql + IntToStr(3);
-  str_sql := str_sql + 'and m.STATUS = ';
-  str_sql := str_sql + IntToStr(20);
-  DM_MOV.c_comanda.CommandText := str_sql;
-  DM_MOV.c_comanda.Open;
   pintaBotao;
 end;
 
@@ -2759,18 +2844,7 @@ begin
   finally
     F_MESAS.Free;
   end;
-    //CtrlResize;
-    if (DM_MOV.c_comanda.Active) then
-      DM_MOV.c_comanda.Close;
-    DM_MOV.c_comanda.CommandText := '';
-    str_sql := 'select m.*,c.NOMECLIENTE from MOVIMENTO m ';
-    str_sql := str_sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
-    str_sql := str_sql + 'WHERE m.CODNATUREZA = ';
-    str_sql := str_sql + IntToStr(3);
-    str_sql := str_sql + 'and m.STATUS = ';
-    str_sql := str_sql + IntToStr(20);
-    DM_MOV.c_comanda.CommandText := str_sql;
-    DM_MOV.c_comanda.Open;
+  abreComanda('');
 end;
 
 procedure TfTerminal2.JvBitBtn6Click(Sender: TObject);
@@ -2809,6 +2883,1537 @@ begin
 
   iRetorno := 0;
   iRetorno := FechaPorta();
+end;
+
+procedure TfTerminal2.edMesaKeyPress(Sender: TObject; var Key: Char);
+  var i, j: Integer;
+  nomeCliAmarelo: String;
+begin
+  if (key = #13) then
+  begin
+
+    if (DM_MOV.s_BuscaComanda.Active) then
+      DM_MOV.s_BuscaComanda.Close;
+    DM_MOV.s_BuscaComanda.Params[0].AsString := edMesa.Text;
+    DM_MOV.s_BuscaComanda.Params[1].Clear;
+    DM_MOV.s_BuscaComanda.Open;
+    if (DM_MOV.s_BuscaComanda.IsEmpty) then
+    begin
+       DM_MOV.s_BuscaComanda.Close;
+       ShowMessage('Mesa nao Localizada');
+       Exit;
+    end;
+
+    // Pinto de Vermelho os botoes mesas ocupada
+    // *****************************************
+    pintaBotao;
+    for j := 0 to ((numMesa)-1) do
+    begin
+      if (TPanel(pMesa.Components[(j)]).Caption = DM_MOV.s_BuscaComandaNOMECLIENTE.AsString) then
+        TPanel(pMesa.Components[(j)]).Color := clGreen;
+    end;
+    JvPanel8.Caption := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
+    codCliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
+    nomeCliAmarelo := DM_MOV.s_BuscaComandaNOMECLIENTE.AsString;
+    //************************************** FIM DO VERMELHO
+
+    if (DM_MOV.s_buscaMov.Active) then
+       DM_MOV.s_buscaMov.Close;
+
+    str_sql := 'select m.CODMOVIMENTO, c.NOMECLIENTE from MOVIMENTO m ' +
+           'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ' +
+           'where m.CODNATUREZA = ' + IntToStr(3) + ' and m.STATUS = ' +
+           IntToStr(20) + ' and m.CODCLIENTE = ' + IntToStr(codCliente);
+    DM_MOV.s_buscaMov.CommandText := str_sql;
+
+    DM_MOV.s_buscaMov.Open;
+
+    if (DM_MOV.s_buscaMov.IsEmpty)then
+       IncluiPedido
+    else
+    begin
+      abreComanda(' and m.CODCLIENTE = ' + IntToStr(DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger));
+      AlteraPedido;
+    end;
+    if (not DM_MOV.c_movdet.IsEmpty) then
+    begin
+      porc := 0;
+      JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+      if (c_forma.Active) then
+        c_forma.Close;
+      c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+      c_forma.Open;
+
+      if (not c_formatotal.IsNull) then
+      begin
+        JvParcial.Value := c_formatotal.Value;
+        JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+      end
+      else
+      begin
+        JvParcial.Value := 0;
+        JvSubtotal.Value := JvTotal.Value + porc;
+      end;
+
+      if (JvComissao.Visible = True) then
+        if (JvComissao.Value > 0) then
+          porc := (JvComissao.Value /100) * JvTotal.Value;
+      JvSubtotal.Value := JvSubtotal.Value + porc;
+      c_forma.Close;
+    end
+    else
+    begin
+      DM_MOV.c_movdet.Close;
+      JvTotal.AsFloat := 0;
+    end;
+    DM_MOV.s_buscaMov.Close;
+    DM_MOV.s_BuscaComanda.Close;
+    if (JvTotal.Value = 0) then
+    begin
+       JvParcial.Value := 0;
+       JvSubtotal.Value := 0;
+    end;
+  end;
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+    EdtCodBarra1.SetFocus;
+  end;
+
+end;
+
+procedure TfTerminal2.EdtCodBarra1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    if (DM.USACONTROLECAIXA = 'SIM') then
+    begin
+       testacaixaaberto;
+       if DM.resultadoOperacao = 'FALSE' then
+       begin
+          ShowMessage('Caixa nao esta aberto');
+          Exit;
+       end;
+    end;
+
+    if (jvPageControl1.ActivePage = TabComanda) then
+    begin
+      if (DM_MOV.c_comanda.Active) then
+       str_sql := 'SELECT OBS FROM MOVIMENTO WHERE CODMOVIMENTO = ' +
+              IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger);
+      if (s_Bloque.Active) then
+       s_Bloque.Close;
+      s_Bloque.CommandText := str_sql;
+      s_Bloque.Open;
+      if (s_Bloque.Fields[0].AsString = 'BLOQUEADA - PARCIAL IMPRESSA') then
+      begin
+        if (MessageDlg('Mesa/Comanda Bloqueada '+#13+#10+'      DESBLOQUEAR ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNo, mrNone]) then
+        begin
+          permissao;
+
+          if (DM.RESULTADO_APROVA = True) then
+          begin
+            Libera_mesa;
+            s_Bloque.Close;
+          end
+          else
+          begin
+            s_Bloque.Close;
+            Exit;
+          end;
+        end;
+      end;
+      s_Bloque.Close;
+    end;
+    SaldoNegativo := 'FALSE';
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+    dm.cds_parametro.Open;
+    if (dm.cds_parametro.IsEmpty) then
+       estoque_negativo := 'FALSO'
+    else
+       estoque_negativo := 'TRUE';
+
+    if (EdtCodBarra1.Text <> '') then
+      BuscaProduto
+    else
+    begin
+      btnProduto.Click;
+      exit;
+    end;
+
+    if (retorno = 'FALSO') then
+    begin
+      btnProduto.Click;
+      exit;
+    end;
+
+    if (SaldoNegativo = 'TRUE') then
+    begin
+       //ShowMessage('Produto com saldo negativo !');
+       EdtCodBarra1.Clear;
+       EdtCodBarra1.SetFocus;
+       exit;
+    end;
+
+    IncluiItemPedido;
+    edtQtde1.Value := 1;
+    edtQtde1.SetFocus;
+
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
+    if (s_parametro.Active) then
+      s_parametro.Close;
+    s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+    s_parametro.Open;
+    porc    := 0;
+    if (not s_parametro.IsEmpty) then
+    begin
+       if (JvComissao.Value > 0) then
+         porc := (JvComissao.Value / 100) * JvTotal.Value;
+    end;
+    s_parametro.Close;
+
+    if (c_forma.Active) then
+      c_forma.Close;
+    c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+    c_forma.Open;
+    if (not c_formatotal.IsNull) then
+    begin
+      JvParcial.Value := c_formatotal.Value;
+      JvSubtotal.Value := (JvTotal.Value + porc) - JvParcial.Value;
+    end
+    else
+    begin
+      JvParcial.Value := 0;
+      JvSubtotal.Value := JvTotal.Value + porc;
+    end;
+    c_forma.Close;
+
+    if (scds_produto_proc.Active) then
+      scds_produto_proc.Close;
+    EdtCodBarra1.Text := '';
+  end;
+
+end;
+
+procedure TfTerminal2.EdtCodBarra1Enter(Sender: TObject);
+begin
+  EdtCodBarra1.Color := clYellow;
+end;
+
+procedure TfTerminal2.EdtCodBarra1Exit(Sender: TObject);
+begin
+  EdtCodBarra1.Color := clWindow;
+end;
+
+procedure TfTerminal2.edtQtde1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    if (edtQtde1.AsInteger > 1) then
+    begin
+       if (DM_MOV.c_movdet.Active) then
+       begin
+          DM_MOV.c_movdet.Edit;
+          DM_MOV.c_movdetQUANTIDADE.AsFloat := edtQtde1.Value ;
+          DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
+          DM_MOV.c_movdet.ApplyUpdates(0);
+       end
+       else begin
+         MessageDlg('Pedido nao iniciado, use a opcao F2.', mtError, [mbOK], 0);
+         exit;
+       end;
+    end;
+    EdtCodBarra1.SetFocus;
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+
+    if (s_parametro.Active) then
+      s_parametro.Close;
+    s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+    s_parametro.Open;
+    porc := 0;
+    if (not s_parametro.IsEmpty) then
+    begin
+       if (JvComissao.Value > 0) then
+         porc := (JvComissao.Value / 100) * JvTotal.Value;
+    end;
+    s_parametro.Close;
+
+    if (c_forma.Active) then
+      c_forma.Close;
+    c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+    c_forma.Open;
+    if (not c_formatotal.IsNull) then
+    begin
+      JvParcial.Value := c_formatotal.Value;
+      JvSubtotal.Value := (JvTotal.Value + porc) - JvParcial.Value;
+    end
+    else
+    begin
+      JvParcial.Value := 0;
+      JvSubtotal.Value := JvTotal.Value + porc;
+    end;
+    c_forma.Close;
+    if (jvPageControl1.ActivePage = TabComanda) then
+      edMesa.SetFocus;
+  end;
+
+end;
+
+procedure TfTerminal2.JvPageControl1Change(Sender: TObject);
+begin
+  if (DM.USACONTROLECAIXA = 'SIM') then
+  begin
+     testacaixaaberto;
+     if DM.resultadoOperacao = 'FALSE' then
+     begin
+       jvPageControl1.Enabled := False;
+       ShowMessage('O caixa precisa ser aberto');
+       Exit;
+     end;
+  end;
+
+  if (DM_MOV.c_movimento.Active) then
+      DM_MOV.c_movimento.Close;
+  if (DM_MOV.c_movdet.Active) then
+      DM_MOV.c_movdet.Close;
+  JvTotal.AsFloat := 0;
+  JvParcial.Value := 0;
+  JvSubtotal.Value := 0;
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+     deliveryLivre := False;
+     EdtCodBarra1.SetFocus;
+     if (JvBitBtn2.Visible = True) then
+      JvBitBtn2.Visible := False;
+     if (JvBitBtn3.Visible = True) then
+      JvBitBtn3.Visible := False;
+  end;
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+    deliveryLivre := False;
+
+    abreComanda('');
+    JvPanel8.Caption := '...';
+    //EdtComanda.SetFocus;
+    if (JvBitBtn2.Visible = False) then
+      JvBitBtn2.Visible := True;
+    if (JvBitBtn3.Visible = False) then
+      JvBitBtn3.Visible := True;
+    if (JvBitBtn4.Visible = False) then
+      JvBitBtn4.Visible := True;
+    edMesa.SetFocus;
+    pintaBotao;
+  end;
+
+  if (jvPageControl1.ActivePage = TabDelivery) then
+  begin
+    if (JvBitBtn2.Visible = True) then
+      JvBitBtn2.Visible := False;
+    if (JvBitBtn3.Visible = True) then
+      JvBitBtn3.Visible := False;
+    if (JvBitBtn4.Visible = False) then
+      JvBitBtn4.Visible := True;
+    if (EdtCodBarra1.Visible = False) then
+        EdtCodBarra1.Visible := True;
+    if (edtQtde1.Visible = False) then
+        edtQtde1.Visible := True;
+    if (JvLabel1.Visible = False) then
+        JvLabel1.Visible := True;
+    if (JvLabel14.Visible = False) then
+        JvLabel14.Visible := True;
+    deliveryLivre := True;
+    edtFone.Clear;
+    edtNome.Clear;
+    edtCodCli.Clear;
+    edtFone.SetFocus;
+  end;
+
+end;
+
+procedure TfTerminal2.alteraPedido;
+begin
+  DM_MOV.c_movdet.Close;
+  DM_MOV.c_movdet.Params[0].Clear;
+  DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+  DM_MOV.c_movdet.Open;
+end;
+
+procedure TfTerminal2.incluiPedido;
+var id_movimento: integer;
+begin
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  id_movimento := dm.c_6_genid.Fields[0].AsInteger;
+
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
+  dm.cds_parametro.Open;
+
+  str_sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
+    'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE, TIPO_PEDIDO) VALUES ( ' +
+    IntToStr(id_movimento) + ', ' + IntToStr(id_movimento) +
+    ', ' + IntToStr(3) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy HH:MM', now)) +
+    ', ' + IntToStr(20) +
+    ', ' + IntToStr(1) +
+    ', ' + IntToStr(1) + ', ';
+  if (DM_MOV.ID_CCUSTO > 0) then
+    str_sql := str_sql + IntToStr(DM_MOV.ID_CCUSTO)
+  else
+    str_sql := str_sql + DM.cds_parametroD1.AsString;
+
+  str_sql := str_sql +  ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + ', ';
+  if (jvPageControl1.ActivePage = TabVenda) then
+    str_sql := str_sql + QuotedStr('P') + ')'; // Pedido Consumidor
+  if (jvPageControl1.ActivePage = TabComanda) then
+    str_sql := str_sql + QuotedStr('C') + ')'; // Venda Comanda / MESA
+  if (jvPageControl1.ActivePage = TabDelivery) then
+    str_sql := str_sql + QuotedStr('D') + ')'; // Venda Delivery
+
+  dm.c_6_genid.Close;
+  dm.cds_parametro.Close;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+     dm.sqlsisAdimin.ExecuteDirect(str_sql);
+     dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, o Movimento nao foi gravada.', mtError,
+         [mbOk], 0);
+  end;
+
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+    if (DM_MOV.c_movimento.Active) then
+        DM_MOV.c_movimento.Close;
+    DM_MOV.c_movimento.Params[0].AsInteger := id_movimento;
+    DM_MOV.c_movimento.Open;
+  end;
+
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+    abreComanda(' and m.CODMOVIMENTO = ' + IntToStr(id_movimento));
+  end;
+
+  if (jvPageControl1.ActivePage = TabDelivery) then
+  begin
+    abreDelivery;
+  end;
+  JvTotal.Value := 0;
+  JvParcial.Value := 0;
+  JvSubtotal.Value := 0;
+
+  DM_MOV.c_movdet.Close;
+  DM_MOV.c_movdet.Params[0].Clear;
+
+end;
+
+procedure TfTerminal2.msgImpressora;
+begin
+  MessageDlg('Problemas na impressao do texto.' + #10 + 'Possiveis causas: Impressora desligada, off-line ou sem papel', mtError, [mbOk], 0 );
+end;
+
+procedure TfTerminal2.permissao;
+begin
+  if (s_parametro.Active) then
+     s_parametro.Close;
+  s_parametro.Params[0].AsString := 'APROVACAO';
+  s_parametro.Open;
+  if (not s_parametro.Eof) then
+  begin
+    F_AUTORIZACAO := TF_AUTORIZACAO.Create(Application);
+    if (EXISTEPERFIL = 'FALSE') then
+    begin
+      F_AUTORIZACAO.Free;
+      Exit;
+    end;
+    try
+      F_AUTORIZACAO.ShowModal;
+    finally
+      F_AUTORIZACAO.Free;
+    end;
+  end
+  else
+  begin
+    ShowMessage('Parametro de APROVACAO nao configurado !');
+  end;
+  s_parametro.Close;
+
+end;
+
+procedure TfTerminal2.libera_mesa;
+begin
+  str_sql := 'UPDATE MOVIMENTO SET OBS = ' + QuotedStr('') +
+           ' WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movdetCODMOVIMENTO.AsInteger);
+  if (DM_MOV.s_buscaMov.Active) then
+    DM_MOV.s_buscaMov.Close;
+  Try
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.ExecuteDirect(str_sql);
+     dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro ao efetuar troca de Mesa .', mtError,
+         [mbOk], 0);
+  end;
+end;
+
+procedure TfTerminal2.buscaProduto;
+begin
+  RETORNO := '';
+  tipo_busca := '1'; //CODBARRA
+  {------Verifico se a busca sera efetuada pelo CODPRO ou pelo CODBARRA ---------}
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'BUSCAPRODUTO';
+  dm.cds_parametro.Open;
+  if not dm.cds_parametro.IsEmpty then
+     tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+  dm.cds_parametro.Close;
+  str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+         ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
+         ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
+         ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
+         ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
+         ' from PRODUTOS prod ' +
+         ' left outer join ALMOXARIFADO ccus ' +
+         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+         ' left outer join ESTOQUEMES est ' +
+         ' on est.CODPRODUTO = prod.CODPRODUTO ' +
+         ' where ';
+
+  if scds_produto_proc.Active then
+    scds_produto_proc.Close;
+  scds_produto_proc.CommandText := '';
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+    if (tipo_busca = 'CODBARRA') then
+      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+    else
+      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+  end;
+
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+    if (tipo_busca = 'CODBARRA') then
+      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+    else
+      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+  end;
+
+  if (jvPageControl1.ActivePage = TabDelivery) then
+  begin
+    if (tipo_busca = 'CODBARRA') then
+      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+    else
+      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+  end;
+
+  scds_produto_proc.Open;
+
+  if (scds_produto_proc.IsEmpty) then
+  begin
+     //BuscaLote;
+     RETORNO := 'FALSO';
+     scds_produto_proc.Close;
+  end;
+
+  if (estoque_negativo = 'TRUE') then // nao permito venda com saldo negativo
+    if (scds_produto_procESTOQUEATUAL.Value <= 0) then
+    begin
+       ShowMessage('Produto com saldo negativo !');
+       SaldoNegativo := 'TRUE';
+       scds_produto_proc.Close;
+    end;
+
+end;
+
+procedure TfTerminal2.incluiItemPedido;
+var CODIGO_DO_MOVIMENTO, id_movDet : integer;
+begin
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  ID_MOVDET := dm.c_6_genid.Fields[0].AsInteger;
+
+  dm.c_6_genid.Close;
+
+  str_sql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, CODPRODUTO, STATUS, CODALMOXARIFADO, CODMOVIMENTO, QUANTIDADE, UN, '+
+         'PRECO, DESCPRODUTO, LOTE) VALUES ( ' +
+         IntToStr(ID_MOVDET) + ', ' + IntToStr(scds_produto_procCODPRODUTO.AsInteger) + ', ' +
+         'null' + ', ' + IntToStr(0) + ', ';
+  if (jvPageControl1.ActivePage = TabVenda) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+  if (jvPageControl1.ActivePage = TabComanda) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+  if (jvPageControl1.ActivePage = TabDelivery) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+  str_sql := str_sql +  QuotedStr(scds_produto_procUNIDADEMEDIDA.AsString) + ', ';
+  DecimalSeparator := '.';
+  str_sql := str_sql +  FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ';
+  str_sql := str_sql +  QuotedStr(scds_produto_procPRODUTO.AsString) + ', ';
+
+   if (tipo_busca = '3') then  // so preencho o campo Lote se o parametro usa lote for 3
+     str_sql := str_sql + QuotedStr(codlote) + ')'
+   else
+     str_sql := str_sql + 'null' + ')' ;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  DecimalSeparator := ',';
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    MessageDlg('Erro no sistema, o Iten nao foi gravada.', mtError,
+        [mbOk], 0);
+  end;
+
+   if (DM_MOV.c_movdet.Active) then
+         DM_MOV.c_movdet.Close;
+   DM_MOV.c_movdet.Params[0].Clear;
+
+   if (jvPageControl1.ActivePage = TabVenda) then
+     CODIGO_DO_MOVIMENTO := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+
+   if (jvPageControl1.ActivePage = TabComanda) then
+     CODIGO_DO_MOVIMENTO := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+
+   if (jvPageControl1.ActivePage = TabDelivery) then
+     CODIGO_DO_MOVIMENTO := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+
+   DM_MOV.c_movdet.Params[0].AsInteger := CODIGO_DO_MOVIMENTO;
+   DM_MOV.c_movdet.Open;
+   DM_MOV.c_movdet.Locate('CODDETALHE',ID_MOVDET,[loCaseInsensitive]);
+
+    if (c_forma.Active) then
+      c_forma.Close;
+    c_forma.Params[0].AsInteger := CODIGO_DO_MOVIMENTO;
+    c_forma.Open;
+    if (not c_formatotal.IsNull) then
+    begin
+      JvParcial.Value := c_formatotal.Value;
+      JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+    end;
+    c_forma.Close;
+
+
+end;
+
+procedure TfTerminal2.EdtComandaKeyPress(Sender: TObject; var Key: Char);
+begin
+ // Se Precionar ENTER Busco a Comanda se nao Encontrar Adiciona...
+ if (key = #13) then
+ begin
+   if (EdtComanda.Text <> '') then
+   begin
+      if (DM_MOV.s_BuscaComanda.Active) then
+        DM_MOV.s_BuscaComanda.Close;
+      DM_MOV.s_BuscaComanda.Params[1].Clear;
+      DM_MOV.s_BuscaComanda.Params[0].AsString :=  EdtComanda.Text;
+      DM_MOV.s_BuscaComanda.Open;
+      if (DM_MOV.s_BuscaComanda.IsEmpty) then
+      begin
+         DM_MOV.s_BuscaComanda.Close;
+         ShowMessage('Comanda nao Localizada');
+         Exit;
+      end;
+      codcliente := DM_MOV.s_BuscaComandaCODCLIENTE.AsInteger;
+      if (DM_MOV.s_buscaMov.Active) then
+         DM_MOV.s_buscaMov.Close;
+      DM_MOV.s_buscaMov.Params[1].Clear;
+      DM_MOV.s_buscaMov.Params[3].Clear;
+      DM_MOV.s_buscaMov.Params[5].Clear;
+      DM_MOV.s_buscaMov.Params[0].AsInteger := codcliente;
+      DM_MOV.s_buscaMov.Params[2].AsInteger := 3;
+      DM_MOV.s_buscaMov.Params[4].AsInteger := 20;//Pedidos em aberto
+      DM_MOV.s_buscaMov.Open;
+      if (DM_MOV.s_buscaMov.IsEmpty)then
+         IncluiPedido
+      else
+      begin
+         if (DM_MOV.c_comanda.Active) then
+             DM_MOV.c_comanda.Close;
+         DM_MOV.c_comanda.Params[1].Clear;
+         DM_MOV.c_comanda.Params[3].Clear;
+         DM_MOV.c_comanda.Params[5].Clear;
+         DM_MOV.c_comanda.Params[6].Clear;
+         DM_MOV.c_comanda.Params[0].AsInteger := codcliente;
+         DM_MOV.c_comanda.Params[2].AsInteger := 3;
+         DM_MOV.c_comanda.Params[4].AsInteger := 20;
+         DM_MOV.c_comanda.Params[7].AsInteger := 9999999;
+         DM_MOV.c_comanda.Open;
+         AlteraPedido;
+      end;
+
+      DM_MOV.s_buscaMov.Close;
+      DM_MOV.s_BuscaComanda.Close;
+   end
+   else
+   begin
+     if (DM_MOV.c_comanda.Active) then
+       DM_MOV.c_comanda.Close;
+     DM_MOV.c_comanda.Params[0].Clear;
+     DM_MOV.c_comanda.Params[3].Clear;
+     DM_MOV.c_comanda.Params[5].Clear;
+     DM_MOV.c_comanda.Params[6].Clear;
+     DM_MOV.c_comanda.Params[1].AsInteger := 9999999;
+     DM_MOV.c_comanda.Params[2].AsInteger := 3;
+     DM_MOV.c_comanda.Params[4].AsInteger := 20;
+     DM_MOV.c_comanda.Params[7].AsInteger := 9999999;
+     DM_MOV.c_comanda.Open;
+     DM_MOV.c_comanda.First;
+     AlteraPedido;
+   end;
+ end;
+end;
+
+procedure TfTerminal2.EdtCodBarraKeyPress(Sender: TObject; var Key: Char);
+var poc : double;
+  clienteConsumidor: String;
+begin
+   if (key = #13) then
+   begin
+      if (DM.USACONTROLECAIXA = 'SIM') then
+      begin
+         testacaixaaberto;
+         if DM.resultadoOperacao = 'FALSE' then
+         begin
+            ShowMessage('Caixa nao esta aberto');
+            Exit;
+         end;
+      end;
+
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+      dm.cds_parametro.Open;
+      if (dm.cds_parametro.IsEmpty) then
+         estoque_negativo := 'FALSO'
+      else
+         estoque_negativo := 'TRUE';
+
+      SaldoNegativo := 'FALSE';
+
+      clienteConsumidor := '1';
+      if Dm.cds_parametro.Active then
+         dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
+      dm.cds_parametro.Open;
+      if not dm.cds_parametro.IsEmpty then
+        clienteConsumidor := dm.cds_parametroDADOS.AsString;
+      dm.cds_parametro.Close;
+
+      if (b_cliente.Active) then
+        b_cliente.Close;
+      b_cliente.Params[0].AsInteger := StrToInt(clienteConsumidor);
+      b_cliente.Open;
+      if (b_cliente.IsEmpty) then
+      begin
+          ShowMessage('Cliente configurado nos parametros nao consta no cadastro de clientes.');
+          exit;
+      end
+      else
+      begin
+         codcliente := b_clienteCODCLIENTE.AsInteger;
+      end;
+
+      if (EdtCodBarra1.Text <> '') then
+      begin
+        if Dm.cds_parametro.Active then
+            dm.cds_parametro.Close;
+        dm.cds_parametro.Params[0].AsString := 'BUSCACUPOM';
+        dm.cds_parametro.Open;
+        if not dm.cds_parametro.IsEmpty then
+           tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+        dm.cds_parametro.Close;
+
+        if (tipo_busca = '3') then
+        begin
+           BuscaLote;
+           if ( (RETORNO = 'FALSO') and (ESTOQUE = False) ) then
+           begin
+             MessageDlg('Quantidade em estoque insuficiente.', mtWarning, [mbOK], 0);
+             Exit;
+           end;
+           if (RETORNO = 'FALSO') then
+             BuscaProduto;
+        end
+        else
+        begin
+           BuscaProduto;
+        end;
+
+        if (SaldoNegativo = 'TRUE') then
+        begin
+           //ShowMessage('Produto com saldo negativo !');
+           EdtCodBarra1.Clear;
+           EdtCodBarra1.SetFocus;
+           exit;
+        end;
+
+        if (RETORNO = 'FALSO') then
+        begin
+          if (DM_MOV.c_movimento.State in [dsInactive]) then
+             IncluiPedido     // Tabela Movimento
+          else
+             DM_MOV.c_movimento.Edit;
+          btnProduto.Click
+        end
+        else
+        begin
+          if (DM_MOV.c_movimento.State in [dsInactive]) then
+             IncluiPedido     // Tabela Movimento
+          else
+             DM_MOV.c_movimento.Edit;
+          IncluiItemPedido;   // Tabela MovimentoDetalhe
+          edtQtde1.Value := 1;
+          if (tipo_busca <> 'CODBARRA') then
+            edtQtde1.SetFocus;
+        end;
+      end
+      else
+      begin
+          if (DM_MOV.c_movimento.State in [dsInactive]) then
+             IncluiPedido     // Tabela Movimento
+          else
+             DM_MOV.c_movimento.Edit;
+
+          btnProduto.Click;
+
+          if (scds_produto_proc.Active) then
+            scds_produto_proc.Close;
+      end;
+
+      if (not DM_MOV.c_movdet.IsEmpty) then
+      begin
+        JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+        // Verifico se tem % Garcom
+        if (s_parametro.Active) then
+          s_parametro.Close;
+        s_parametro.Params[0].AsString := 'PAGA_COMISSAO';
+        s_parametro.Open;
+        porc    := 0;
+        if (not s_parametro.IsEmpty) then
+        begin
+           if (JvComissao.Value > 0) then
+             porc    := (JvComissao.Value / 100) * JvTotal.Value;
+        end;
+        s_parametro.Close;
+
+        if (c_forma.Active) then
+          c_forma.Close;
+        c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+        c_forma.Open;
+        if (not c_formatotal.IsNull) then
+        begin
+          JvParcial.Value := c_formatotal.Value;
+          JvSubtotal.Value := (JvTotal.Value + poc) - JvParcial.Value;
+        end
+        else
+        begin
+          JvParcial.Value  := 0;
+          JvSubtotal.Value := JvTotal.Value + porc;
+        end;
+        c_forma.Close;
+      end;
+      EdtCodBarra1.Text := '';
+   end;
+end;
+
+procedure TfTerminal2.buscaLote;
+begin
+  str_sql := 'select first 1 prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+         ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
+         ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
+         ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
+         ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
+         ' from PRODUTOS prod ' +
+         ' left outer join ALMOXARIFADO ccus ' +
+         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+         ' left outer join ESTOQUEMES est ' +
+         ' on est.CODPRODUTO = prod.CODPRODUTO ' +
+         ' where ';
+
+  if scds_produto_proc.Active then
+    scds_produto_proc.Close;
+  scds_produto_proc.CommandText := '';
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+    str_sql := str_sql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
+    scds_produto_proc.CommandText := str_sql + ' order by est.MESANO desc';
+  end;
+
+
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+    str_sql := str_sql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
+    scds_produto_proc.CommandText := str_sql;
+  end;
+
+  scds_produto_proc.Open;
+
+  if (scds_produto_proc.IsEmpty) then
+  begin
+    scds_produto_proc.Close;
+    RETORNO := 'FALSO';
+    ESTOQUE := True;
+  end
+  else
+  begin
+    if(scds_produto_procSALDOESTOQUE.asFloat > 0) then
+    begin
+      RETORNO := 'True';
+      ESTOQUE := True;
+    end
+    else
+    begin
+      RETORNO := 'FALSO';
+      ESTOQUE := False;
+    end;
+    if (jvPageControl1.ActivePage = TabVenda) then
+       codlote := EdtCodBarra1.Text;
+    if (jvPageControl1.ActivePage = TabComanda) then
+       codlote := EdtCodBarra1.Text;
+  end;
+
+
+end;
+
+procedure TfTerminal2.JvDBGrid2DblClick(Sender: TObject);
+begin
+  EdtComanda.Text := IntToStr(DM_MOV.c_comandaCODCLIENTE.AsInteger);
+  DM_MOV.c_movdet.Close;
+  DM_MOV.c_movdet.Params[0].Clear;
+  DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+  DM_MOV.c_movdet.Open;
+  if (not DM_MOV.c_movdet.IsEmpty) then
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value
+  else
+    JvTotal.AsFloat := 0;
+
+end;
+
+procedure TfTerminal2.FormShow(Sender: TObject);
+var ImpressoraDet: TIniFile;
+begin
+  ImpressoraDet := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'dbxconnections.ini');
+  try
+    linhaTracejada := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTracejada', '');
+    linhaTituloItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTituloItem', '');
+    linhaDescItem := ImpressoraDet.ReadString('IMPRESSORA', 'linhaDescItem', '');
+    linhaItemUn := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemUn', '');
+    linhaItemQtde := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemQtde', '');
+    linhaItemVlUnit := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlUnit', '');
+    linhaItemVlTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaItemVlTotal', '');
+    linhaTotal := ImpressoraDet.ReadString('IMPRESSORA', 'linhaTotal', '');
+    qntespacos := ImpressoraDet.ReadString('IMPRESSORA', 'qntespacos', '');
+  finally
+    ImpressoraDet.Free;
+  end;
+
+
+  if (s_parametro.Active) then
+   s_parametro.Close;
+  s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
+  s_parametro.Open;
+  if (not s_parametro.Eof) then
+  begin
+    if (JvBitBtn6.Visible = False) then
+      JvBitBtn6.Visible := True;
+     DM_MOV.V_USACONTR_CAIXA := 'SIM';
+  end
+  else
+  begin
+    DM_MOV.V_USACONTR_CAIXA := 'NAO';
+    if (JvBitBtn6.Visible = True) then
+      JvBitBtn6.Visible := False;
+  end;
+  s_parametro.Close;
+  
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+     EdtCodBarra1.SetFocus;
+     JvBitBtn2.Visible := False;
+     JvBitBtn3.Visible := False;
+  end;
+
+  if (DM.USACONTROLECAIXA = 'SIM') then
+  begin
+     testacaixaaberto;
+     if DM.resultadoOperacao = 'FALSE' then
+     begin
+       jvPageControl1.Enabled := False;
+       ShowMessage('O caixa precisa ser aberto');
+     end;
+  end;
+
+end;
+
+procedure TfTerminal2.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+    if (DM_MOV.c_movimento.Active) then
+    begin
+       if (s_venda.Active) then
+          s_venda.Close;
+       s_venda.Params[0].Clear;
+       s_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+       s_venda.Open;
+       if (s_venda.IsEmpty) then
+       begin
+          if (MessageDlg('Existe Pedido em aberto, Excluir pedido ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+          begin
+            DM_MOV.c_movimento.Delete;
+            DM_MOV.c_movimento.ApplyUpdates(0);
+          end;
+       end;
+       s_venda.Close;
+    end;
+  end;
+  if (DM_MOV.c_venda.Active) then
+     DM_MOV.c_venda.Close;
+
+  if (DM_MOV.c_movdet.Active) then
+     DM_MOV.c_movdet.Close;
+
+  if (DM_MOV.c_movimento.Active) then
+     DM_MOV.c_movimento.Close;
+
+  if (DM_MOV.c_comanda.Active) then
+     DM_MOV.c_comanda.Close;
+
+  if (DM_MOV.c_Delivery.Active) then
+     DM_MOV.c_Delivery.Close;
+
+end;
+
+procedure TfTerminal2.btnProdutoClick(Sender: TObject);
+var poc : Double;
+begin
+   if (jvPageControl1.ActivePage = TabVenda) then
+   begin
+     if DM_MOV.d_movimento.DataSet.State in [dsInactive] then
+       exit;
+     DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+   end;
+   if (jvPageControl1.ActivePage = TabComanda) then
+   begin
+     if DM_MOV.d_comanda.DataSet.State in [dsInactive] then
+       exit;
+     DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_comandaCODMOVIMENTO.AsInteger;
+   end;
+   if (jvPageControl1.ActivePage = TabDelivery) then
+   begin
+     if DM_MOV.d_delivery.DataSet.State in [dsInactive] then
+       exit;
+     DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+   end;
+   if (fProcura_prod.Panel2.Visible = False) then
+     fProcura_prod.Panel2.Visible := True;
+   if (fProcura_prod.Panel1.Visible = True) then
+     fProcura_prod.Panel1.Visible := False;
+   var_F := 'terminalloja';
+   fProcura_prod.Edit2.ReadOnly := True;
+   fProcura_prod.Edit2.TabStop := False;
+   // Define busca pelos produtos de venda
+   fProcura_prod.cbTipo.ItemIndex := 2;
+   fProcura_prod.BitBtn1.Click;
+   fProcura_prod.ShowModal;
+
+   if (jvPageControl1.ActivePage = TabDelivery) then
+   begin
+      edtFone.Clear;
+      edtFone.SetFocus;
+   end;
+
+   if (DM_MOV.c_movdet.Active) then
+      DM_MOV.c_movdet.Close;
+   DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+   DM_MOV.c_movdet.Open;
+
+  if (c_forma.Active) then
+    c_forma.Close;
+  c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+  c_forma.Open;
+  if (not c_formatotal.IsNull) then
+  begin
+    JvParcial.Value := c_formatotal.Value;
+    JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+  end;
+
+  if (JvComissao.Visible = True) then
+  begin
+    if (JvComissao.Value > 0) then
+      poc := (JvComissao.Value /100) * JvTotal.Value
+    else
+      poc := 0;
+    if (c_forma.IsEmpty) then
+      JvParcial.Value := 0
+    else
+      JvParcial.Value := c_formatotal.Value;
+    JvSubtotal.Value := JvTotal.Value + poc - JvParcial.Value;
+  end;
+  if (c_forma.Active) then
+    c_forma.Close;
+
+end;
+
+procedure TfTerminal2.NovoPedido1Click(Sender: TObject);
+begin
+  if (DM.USACONTROLECAIXA = 'SIM') then
+  begin
+     testacaixaaberto;
+     if DM.resultadoOperacao = 'FALSE' then
+     begin
+       jvPageControl1.Enabled := False;
+       ShowMessage('O caixa precisa ser aberto');
+       Exit;
+     end;
+  end;
+
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+   edMesa.SetFocus;
+  end;
+
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+    if (DM_MOV.c_movimento.Active) then
+        DM_MOV.c_movimento.Close;
+    if (DM_MOV.c_movdet.Active) then
+        DM_MOV.c_movdet.Close;
+    JvTotal.Value := 0;
+    JvSubtotal.Value := 0;
+    JvParcial.Value := 0;
+    edtQtde1.Value := 0;
+    EdtCodBarra1.SetFocus;
+  end;
+  if (jvPageControl1.ActivePage = TabDelivery) then
+  begin
+    edtFone.Text := '';
+    edtCodCli.Text := '';
+    edtNome.Text := '';
+    edtEnd.Text := '';
+    JvTotal.Value := 0;
+    JvSubtotal.Value := 0;
+    JvParcial.Value := 0;
+    edtFone.SetFocus;
+  end;
+
+end;
+
+procedure TfTerminal2.AlterarItendoPedido1Click(Sender: TObject);
+begin
+  if (DM.USACONTROLECAIXA = 'SIM') then
+  begin
+     testacaixaaberto;
+     if DM.resultadoOperacao = 'FALSE' then
+     begin
+       jvPageControl1.Enabled := False;
+       ShowMessage('O caixa precisa ser aberto');
+       Exit;
+     end;
+  end;
+
+ if (not DM_MOV.c_movdet.Active) then
+    Exit;
+
+ F_AlteraPedido:=TF_AlteraPedido.Create(Application);
+ try
+   DM_MOV.c_movdet.Edit;
+   F_AlteraPedido.JvQtde.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat;
+   F_AlteraPedido.JvUnitario.AsFloat := DM_MOV.c_movdetPRECO.AsFloat;
+   F_AlteraPedido.ShowModal;
+ finally
+   F_AlteraPedido.Free;
+ end;
+
+end;
+
+procedure TfTerminal2.F5ExcluirItemdoPedido1Click(Sender: TObject);
+begin
+  if (DM.USACONTROLECAIXA = 'SIM') then
+  begin
+    testacaixaaberto;
+    if DM.resultadoOperacao = 'FALSE' then
+    begin
+      jvPageControl1.Enabled := False;
+      ShowMessage('O caixa precisa ser aberto');
+      Exit;
+    end;
+  end;
+  if ( MessageDlg('Deseja realmente excluir este registro?',mtConfirmation, [mbYes,mbNo],0) = mrYes )then
+  begin
+    if (s_parametro.Active) then
+     s_parametro.Close;
+    s_parametro.Params[0].AsString := 'APROVACAO';
+    s_parametro.Open;
+    if (not s_parametro.Eof) then
+    begin
+      F_AUTORIZACAO := TF_AUTORIZACAO.Create(Application);
+      try
+        if (EXISTEPERFIL = 'FALSE') then
+        begin
+          Exit;
+        end
+        else
+          F_AUTORIZACAO.ShowModal;
+      finally
+        F_AUTORIZACAO.Free;
+      end;
+      if (DM.RESULTADO_APROVA = True) then
+      begin
+        DM_MOV.d_movdet.DataSet.Delete;
+       (DM_MOV.d_movdet.DataSet as TClientDataSet).ApplyUpdates(0);
+      end
+      else
+      begin
+        ShowMessage('Usuario sem altorizacao para Excluir/Cancelar Itens');
+        Exit;
+      end;
+    end
+    else
+    begin
+      DM_MOV.d_movdet.DataSet.Delete;
+     (DM_MOV.d_movdet.DataSet as TClientDataSet).ApplyUpdates(0);
+    end;
+  end
+  else
+    Abort;
+
+end;
+
+procedure TfTerminal2.F7ExcluirPedido1Click(Sender: TObject);
+begin
+  JvExcluir.Click;
+end;
+
+procedure TfTerminal2.EditarComanda1Click(Sender: TObject);
+begin
+  if (DM.USACONTROLECAIXA = 'SIM') then
+  begin
+     testacaixaaberto;
+     if DM.resultadoOperacao = 'FALSE' then
+     begin
+       jvPageControl1.Enabled := False;
+       ShowMessage('O caixa precisa ser aberto');
+       Exit;
+     end;
+  end;
+
+  porc := 0;
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+     f_AbreComanda := Tf_AbreComanda.Create(Application);
+     try
+        f_AbreComanda.ShowModal;
+        if (DM_MOV.ID_DO_MOVIMENTO > 0) then
+        begin
+           if (DM_MOV.c_movimento.Active) then
+              DM_MOV.c_movimento.Close;
+           DM_MOV.c_movimento.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+           DM_MOV.c_movimento.Open;
+           if (DM_MOV.c_movdet.Active) then
+              DM_MOV.c_movdet.Close;
+           DM_MOV.c_movdet.Params[0].Clear;
+           DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+           DM_MOV.c_movdet.Open;
+
+            JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+            c_forma.Close;
+            c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+            c_forma.Open;
+            if (not c_formatotal.IsNull) then
+            begin
+              JvParcial.Value := c_formatotal.Value;
+              JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+              if (DM_MOV.V_PAGACOMISSAO = 'SIM') then
+              begin
+                if (JvComissao.Value > 0) then
+                  porc := (JvComissao.Value /100) * JvTotal.Value
+                else
+                  porc := 0;
+                JvSubtotal.Value := JvSubtotal.Value + porc;
+                porc := 0;
+              end;
+            end
+            else
+            begin
+              JvParcial.Value := 0;
+              if (DM_MOV.V_PAGACOMISSAO = 'SIM') then
+                JvSubtotal.Value := JvTotal.Value + porc
+              else
+                JvSubtotal.Value := JvTotal.Value;
+            end;
+            c_forma.Close;
+        end;
+     finally
+       f_AbreComanda.Free;
+     end;
+  end;
+
+end;
+
+procedure TfTerminal2.BitBtn1Click(Sender: TObject);
+begin
+  DM.varNomeCliente := '';
+  dm.codcli := 0;
+  fProcurar_nf := TfProcurar_nf.Create(self,scds_cli_proc);
+  fProcurar_nf.BtnProcurar.Click;
+  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
+  fProcurar_nf.btnIncluir.Visible := True;
+  try
+    if (fProcurar_nf.ShowModal = mrOK) then
+      if (dmnf.scds_cli_procSTATUS.AsInteger = 2) then
+      begin
+        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes voce tera que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        exit;
+        edtFone.SetFocus;
+      end;
+      if scds_cli_procBLOQUEIO.AsString = 'S' then
+      begin
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda nao permitida.', mtError, [mbOK], 0);
+        exit;
+        edtFone.SetFocus;
+      end;
+     edtFone.Text := scds_cli_procTELEFONE.AsString;
+     edtCodCli.Text := IntToStr(scds_cli_procCODCLIENTE.AsInteger);
+     edtNome.Text := scds_cli_procNOMECLIENTE.AsString;
+     edtEnd.Text := scds_cli_procLOGRADOURO.AsString + ',' + scds_cli_procNUMERO.AsString + ' ' +  scds_cli_procBAIRRO.AsString;
+     edtFone.SetFocus;
+  finally
+   scds_cli_proc.Close;
+   fProcurar_nf.Free;
+  end;
+
+end;
+
+procedure TfTerminal2.edtFoneKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    if (edtFone.Text <> '') then
+    begin
+      str_sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
+            'e.LOGRADOURO, e.TELEFONE, e.NUMERO, e.BAIRRO ' +
+            'FROM CLIENTES a, ENDERECOCLIENTE e ' +
+            'where e.CODCLIENTE = a.CODCLIENTE ' +
+            ' and e.TIPOEND = 0 ' +
+            ' and e.TELEFONE = ' + QuotedStr(edtFone.Text);
+      if (sbuscaCli.Active) then
+         sbuscaCli.Close;
+      sbuscaCli.CommandText := str_sql;
+      sbuscaCli.Open;
+      if (not sbuscaCli.IsEmpty) then
+      begin
+        edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
+        edtNome.Text := sbuscaCli.Fields[1].AsString;
+        edtEnd.Text := sbuscaCli.Fields[2].AsString + ', ' + sbuscaCli.Fields[4].AsString + ' ' + sbuscaCli.Fields[5].AsString;
+        deliveryLivre := False;
+        if (MessageDlg('Incluir Pedido ?', mtInformation, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
+        begin
+          codcliente := sbuscaCli.Fields[0].AsInteger;
+          IncluiPedido;
+          DM_MOV.c_Delivery.Locate('CODCLIENTE',edtCodCli.Text,[loCaseInsensitive]);
+          EdtCodBarra1.SetFocus;
+          deliveryLivre := True;          
+        end;
+      end
+      else
+      begin
+       edtCodCli.Clear;
+       edtNome.Clear;
+       edtEnd.Clear;
+      end;
+      sbuscaCli.Close;
+    end
+    else
+    begin
+     BitBtn1.Click;
+    end;
+  end;
+
+end;
+
+procedure TfTerminal2.DBGrid2DblClick(Sender: TObject);
+begin
+  abreDeliverySelec;
+  EdtCodBarra1.SetFocus;
+end;
+
+procedure TfTerminal2.DBGrid2KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  abreDeliverySelec;
+end;
+
+procedure TfTerminal2.DBGrid2KeyPress(Sender: TObject; var Key: Char);
+begin
+  abreDeliverySelec;
+end;
+
+procedure TfTerminal2.abreDeliverySelec;
+begin
+  deliveryLivre := False;
+  EdtComanda.Text := IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger);
+  DM_MOV.c_movdet.Close;
+  DM_MOV.c_movdet.Params[0].Clear;
+  DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+  DM_MOV.c_movdet.Open;
+  DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger;
+
+  str_sql := 'SELECT a.CODCLIENTE, a.NOMECLIENTE, ' +
+        'e.LOGRADOURO, e.TELEFONE, e.NUMERO, e.BAIRRO ' +
+        'FROM CLIENTES a, ENDERECOCLIENTE e ' +
+        'where e.CODCLIENTE = a.CODCLIENTE ' +
+        '  and a.CODCLIENTE = ' + IntToStr(DM_MOV.c_DeliveryCODCLIENTE.AsInteger) +
+        ' and e.TIPOEND = 0 ';
+  if (sbuscaCli.Active) then
+      sbuscaCli.Close;
+  sbuscaCli.CommandText := str_sql;
+  sbuscaCli.Open;
+  if (not sbuscaCli.IsEmpty) then
+  begin
+     edtCodCli.Text := IntToStr(sbuscaCli.Fields[0].AsInteger);
+     edtNome.Text := sbuscaCli.Fields[1].AsString;
+     edtEnd.Text := sbuscaCli.Fields[2].AsString + ',' + sbuscaCli.Fields[4].AsString + sbuscaCli.Fields[5].AsString;
+     edtFone.Text := sbuscaCli.Fields[3].AsString;
+  end;
+  sbuscaCli.Close;
+
+  if (not DM_MOV.c_movdet.IsEmpty) then
+  begin
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    if (c_forma.Active) then
+      c_forma.Close;
+    c_forma.Params[0].AsInteger := DM_MOV.c_movdetCODMOVIMENTO.Value;
+    c_forma.Open;
+    if (not c_formatotal.IsNull) then
+    begin
+      JvParcial.Value := c_formatotal.Value;
+      JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+    end;
+    c_forma.Close;
+  end
+  else
+    JvTotal.AsFloat := 0;
+  deliveryLivre := True;
+
+end;
+
+procedure TfTerminal2.DBGrid2CellClick(Column: TColumn);
+begin
+  abreDeliverySelec;
+end;
+
+procedure TfTerminal2.EfetuarSangria1Click(Sender: TObject);
+var
+  FclsSangria : TFiscalCls;
+begin
+  try
+    FclsSangria := TFiscalCls.Create;
+    // Pego o Caixa Aberto
+    var_Retorno := FclsSangria.VerificaCaixaAberto();
+  finally
+    FclsSangria.Free;
+  end;
+  if (var_Retorno = True) then
+  begin
+    fSangria := TfSangria.create(Application);
+    try
+      fSangria.ShowModal;
+    finally
+      fSangria.Free;
+    end;
+  end
+  else
+  begin
+     ShowMessage('Nao existe Caixa Aberto');
+     Exit;
+  end;
+end;
+
+procedure TfTerminal2.Entrada1Click(Sender: TObject);
+var
+  FclsEntCaixa : TFiscalCls;
+begin
+  try
+    FclsEntCaixa := TFiscalCls.Create;
+    var_Retorno := FclsEntCaixa.VerificaCaixaAberto();   // Pego o Caixa Aberto
+  finally
+    FclsEntCaixa.Free;
+  end;
+
+  if (var_Retorno = True) then
+  begin
+    fEntradaCaixa := TfEntradaCaixa.create(Application);
+    try
+      fEntradaCaixa.ShowModal;
+    finally
+      fEntradaCaixa.Free;
+    end;
+  end
+  else
+  begin
+     ShowMessage('Nao existe Caixa Aberto');
+     Exit;
+  end;
+end;
+
+procedure TfTerminal2.Pagamentos1Click(Sender: TObject);
+begin
+  fcrTituloPagto.ShowModal;
+end;
+
+procedure TfTerminal2.Fechamentodecaixa1Click(Sender: TObject);
+var
+  Caixa : TFiscalCls;
+begin
+  fMovCaixa := TfMovCaixa.Create(Application);
+  try
+    fMovCaixa.ShowModal;
+  finally
+    fMovCaixa.Free;
+    try
+      Caixa := TFiscalCls.Create;
+      // Pego o Caixa Aberto
+      var_Retorno := Caixa.VerificaCaixaAberto();
+    finally
+      Caixa.Free;
+    end;
+    if var_Retorno = False then
+      jvPageControl1.Enabled := False;
+  end;
+end;
+
+procedure TfTerminal2.AbrirCaixa1Click(Sender: TObject);
+var
+  Caixa : TFiscalCls;
+begin
+  fAbrirCaixa := TfAbrirCaixa.create(Application);
+  try
+    fAbrirCaixa.ShowModal;
+    if (DM.USACONTROLECAIXA = 'SIM') then
+    begin
+    end;
+    Caixa := TFiscalCls.Create;
+    var_Retorno := Caixa.VerificaCaixaAberto();
+    if var_Retorno = True then
+      jvPageControl1.Enabled := True;
+  finally
+    fAbrirCaixa.Free;
+    Caixa.Free;
+  end;
 end;
 
 end.

@@ -1,8 +1,8 @@
 object fTerminal2: TfTerminal2
-  Left = 22
-  Top = 107
-  Width = 1200
-  Height = 760
+  Left = 249
+  Top = 231
+  Width = 913
+  Height = 636
   Caption = 'Terminal'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,13 +11,16 @@ object fTerminal2: TfTerminal2
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesktopCenter
+  OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object JvPanel1: TJvPanel
     Left = 0
     Top = 0
-    Width = 1192
+    Width = 905
     Height = 57
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
@@ -25,10 +28,8 @@ object fTerminal2: TfTerminal2
     HotTrackFont.Name = 'MS Sans Serif'
     HotTrackFont.Style = []
     Align = alTop
+    Color = 16776176
     TabOrder = 0
-    DesignSize = (
-      1192
-      57)
     object JvProcurar: TJvBitBtn
       Left = 2
       Top = 1
@@ -1655,12 +1656,11 @@ object fTerminal2: TfTerminal2
       HotTrackFont.Style = []
     end
     object JvSair: TJvBitBtn
-      Left = 853
+      Left = 856
       Top = 2
       Width = 44
       Height = 44
       Hint = 'F9 - Sair'
-      Anchors = [akTop, akRight]
       ParentShowHint = False
       ShowHint = True
       TabOrder = 12
@@ -1774,8 +1774,8 @@ object fTerminal2: TfTerminal2
   object JvPanel2: TJvPanel
     Left = 0
     Top = 57
-    Width = 782
-    Height = 676
+    Width = 495
+    Height = 552
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
@@ -1786,11 +1786,13 @@ object fTerminal2: TfTerminal2
     object JvPageControl1: TJvPageControl
       Left = 1
       Top = 1
-      Width = 780
-      Height = 674
-      ActivePage = TabComanda
+      Width = 493
+      Height = 550
+      ActivePage = TabVenda
       Align = alClient
       TabOrder = 0
+      TabPosition = tpBottom
+      OnChange = JvPageControl1Change
       object TabVenda: TTabSheet
         Caption = 'Venda'
         object JvImage1: TJvImage
@@ -2558,115 +2560,10 @@ object fTerminal2: TfTerminal2
           PopupMenu = PopupMenu1
           Proportional = True
         end
-        object JvPanel4: TJvPanel
-          Left = 0
-          Top = 0
-          Width = 772
-          Height = 49
-          HotTrackFont.Charset = DEFAULT_CHARSET
-          HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -11
-          HotTrackFont.Name = 'MS Sans Serif'
-          HotTrackFont.Style = []
-          Align = alTop
-          TabOrder = 0
-          object JvLabel7: TJvLabel
-            Left = 5
-            Top = 10
-            Width = 85
-            Height = 25
-            Caption = 'C'#243'digo :'
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Cooper Black'
-            Font.Style = []
-            ParentFont = False
-            ShadowColor = clWindow
-            ShadowSize = 2
-            Transparent = True
-            HintColor = clBlack
-            HotTrackFont.Charset = ANSI_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -20
-            HotTrackFont.Name = 'Cooper Black'
-            HotTrackFont.Style = []
-          end
-          object JvLabel15: TJvLabel
-            Left = 613
-            Top = 1
-            Width = 64
-            Height = 47
-            Align = alRight
-            Caption = 'Qtde :'
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Cooper Black'
-            Font.Style = []
-            ParentFont = False
-            ShadowColor = clWindow
-            ShadowSize = 2
-            Transparent = True
-            HintColor = clBlack
-            HotTrackFont.Charset = ANSI_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -20
-            HotTrackFont.Name = 'Cooper Black'
-            HotTrackFont.Style = []
-          end
-          object EdtCodBarra: TEdit
-            Left = 87
-            Top = 3
-            Width = 218
-            Height = 35
-            BevelKind = bkFlat
-            BorderStyle = bsNone
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Times New Roman'
-            Font.Style = [fsBold]
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            TabOrder = 0
-          end
-          object btnProduto: TBitBtn
-            Left = 313
-            Top = 7
-            Width = 79
-            Height = 27
-            Caption = 'Procura'
-            PopupMenu = PopupMenu1
-            TabOrder = 1
-            Visible = False
-          end
-          object edtQtde: TJvCalcEdit
-            Left = 677
-            Top = 1
-            Width = 94
-            Height = 47
-            BevelKind = bkFlat
-            Align = alRight
-            BorderStyle = bsNone
-            DecimalPlaces = 3
-            DisplayFormat = ',#0.000'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -20
-            Font.Name = 'Cooper Blk BT'
-            Font.Style = []
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            ShowButton = False
-            TabOrder = 2
-            DecimalPlacesAlwaysShown = False
-          end
-        end
         object JvPanel5: TJvPanel
           Left = 0
-          Top = 589
-          Width = 772
+          Top = 467
+          Width = 485
           Height = 57
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
@@ -2674,7 +2571,7 @@ object fTerminal2: TfTerminal2
           HotTrackFont.Name = 'MS Sans Serif'
           HotTrackFont.Style = []
           Align = alBottom
-          TabOrder = 1
+          TabOrder = 0
           object JvLabel6: TJvLabel
             Left = 6
             Top = 6
@@ -2760,14 +2657,24 @@ object fTerminal2: TfTerminal2
             TabOrder = 2
           end
         end
+        object btnProduto: TBitBtn
+          Left = 392
+          Top = 8
+          Width = 75
+          Height = 25
+          Caption = 'Procurar'
+          TabOrder = 1
+          Visible = False
+          OnClick = btnProdutoClick
+        end
       end
       object TabComanda: TTabSheet
-        Caption = 'Comanda'
+        Caption = 'Mesas'
         ImageIndex = 1
         object JvPanel8: TJvPanel
           Left = 0
           Top = 0
-          Width = 772
+          Width = 485
           Height = 49
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
@@ -2785,10 +2692,10 @@ object fTerminal2: TfTerminal2
           ParentFont = False
           TabOrder = 0
           DesignSize = (
-            772
+            485
             49)
           object JvLabel16: TJvLabel
-            Left = 568
+            Left = 281
             Top = 10
             Width = 114
             Height = 26
@@ -2813,7 +2720,7 @@ object fTerminal2: TfTerminal2
             HotTrackFont.Style = []
           end
           object edMesa: TEdit
-            Left = 676
+            Left = 389
             Top = 4
             Width = 77
             Height = 33
@@ -2827,13 +2734,32 @@ object fTerminal2: TfTerminal2
             ParentBiDiMode = False
             ParentFont = False
             TabOrder = 0
+            OnKeyPress = edMesaKeyPress
+          end
+          object EdtComanda: TEdit
+            Left = 147
+            Top = 7
+            Width = 119
+            Height = 35
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBlack
+            Font.Height = -19
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            PopupMenu = PopupMenu1
+            TabOrder = 1
+            Visible = False
+            OnKeyPress = EdtComandaKeyPress
           end
         end
         object pMesa: TPanel
           Left = 0
           Top = 49
-          Width = 772
-          Height = 597
+          Width = 485
+          Height = 475
           Align = alClient
           TabOrder = 1
           object Image1: TImage
@@ -2884,54 +2810,6 @@ object fTerminal2: TfTerminal2
               0475B081066DF2B90161720504003B}
             Visible = False
           end
-          object JvDBGrid2: TJvDBGrid
-            Left = 7
-            Top = 278
-            Width = 349
-            Height = 79
-            BorderStyle = bsNone
-            Ctl3D = False
-            DataSource = DM_MOV.d_comanda
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -9
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            Options = [dgAlwaysShowEditor, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
-            ParentCtl3D = False
-            ParentFont = False
-            PopupMenu = PopupMenu1
-            ReadOnly = True
-            TabOrder = 0
-            TitleFont.Charset = DEFAULT_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -11
-            TitleFont.Name = 'MS Sans Serif'
-            TitleFont.Style = []
-            Visible = False
-            BevelKind = bkFlat
-            AutoSizeColumns = True
-            SelectColumnsDialogStrings.Caption = 'Select columns'
-            SelectColumnsDialogStrings.OK = '&OK'
-            SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-            EditControls = <>
-            RowsHeight = 16
-            TitleRowHeight = 16
-            Columns = <
-              item
-                Expanded = False
-                FieldName = 'NOMECLIENTE'
-                Title.Alignment = taCenter
-                Title.Caption = 'MESAS / COMANDAS ABERTAS'
-                Title.Font.Charset = DEFAULT_CHARSET
-                Title.Font.Color = clWindowText
-                Title.Font.Height = -9
-                Title.Font.Name = 'Times New Roman'
-                Title.Font.Style = []
-                Width = 332
-                Visible = True
-              end>
-          end
         end
       end
       object TabDelivery: TTabSheet
@@ -2940,7 +2818,7 @@ object fTerminal2: TfTerminal2
         object Panel1: TPanel
           Left = 0
           Top = 0
-          Width = 772
+          Width = 481
           Height = 73
           Align = alTop
           TabOrder = 0
@@ -3022,6 +2900,7 @@ object fTerminal2: TfTerminal2
             ParentFont = False
             PopupMenu = PopupMenu1
             TabOrder = 0
+            OnKeyPress = edtFoneKeyPress
           end
           object edtCodCli: TEdit
             Left = 80
@@ -3066,6 +2945,7 @@ object fTerminal2: TfTerminal2
             Height = 25
             Caption = '...'
             TabOrder = 3
+            OnClick = BitBtn1Click
           end
           object edtEnd: TEdit
             Left = 2
@@ -3089,8 +2969,8 @@ object fTerminal2: TfTerminal2
         object DBGrid2: TDBGrid
           Left = 0
           Top = 73
-          Width = 772
-          Height = 573
+          Width = 481
+          Height = 426
           Align = alClient
           Ctl3D = False
           DataSource = DM_MOV.d_delivery
@@ -3110,6 +2990,11 @@ object fTerminal2: TfTerminal2
           TitleFont.Height = -15
           TitleFont.Name = 'MS Sans Serif'
           TitleFont.Style = []
+          OnCellClick = DBGrid2CellClick
+          OnDblClick = DBGrid2DblClick
+          OnKeyDown = DBGrid2KeyUp
+          OnKeyPress = DBGrid2KeyPress
+          OnKeyUp = DBGrid2KeyUp
           Columns = <
             item
               Expanded = False
@@ -3137,10 +3022,10 @@ object fTerminal2: TfTerminal2
     end
   end
   object JvPanel3: TJvPanel
-    Left = 782
+    Left = 495
     Top = 57
     Width = 410
-    Height = 676
+    Height = 552
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
@@ -3219,6 +3104,9 @@ object fTerminal2: TfTerminal2
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 0
+        OnEnter = EdtCodBarra1Enter
+        OnExit = EdtCodBarra1Exit
+        OnKeyPress = EdtCodBarra1KeyPress
       end
       object edtQtde1: TJvCalcEdit
         Left = 333
@@ -3238,11 +3126,12 @@ object fTerminal2: TfTerminal2
         ShowButton = False
         TabOrder = 1
         DecimalPlacesAlwaysShown = False
+        OnKeyPress = edtQtde1KeyPress
       end
     end
     object JvPanel7: TJvPanel
       Left = 1
-      Top = 547
+      Top = 423
       Width = 408
       Height = 128
       HotTrackFont.Charset = DEFAULT_CHARSET
@@ -3434,7 +3323,7 @@ object fTerminal2: TfTerminal2
       Left = 1
       Top = 57
       Width = 408
-      Height = 490
+      Height = 366
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
@@ -3890,22 +3779,27 @@ object fTerminal2: TfTerminal2
     end
   end
   object pmCaixa: TPopupMenu
-    Left = 612
-    Top = 157
+    Left = 620
+    Top = 141
     object AbrirCaixa1: TMenuItem
       Caption = '&Abrir Caixa'
+      OnClick = AbrirCaixa1Click
     end
     object EfetuarSangria1: TMenuItem
       Caption = '&Sangria'
+      OnClick = EfetuarSangria1Click
     end
     object Entrada1: TMenuItem
       Caption = '&Entrada'
+      OnClick = Entrada1Click
     end
     object Pagamentos1: TMenuItem
       Caption = '&Pagamentos'
+      OnClick = Pagamentos1Click
     end
     object Fechamentodecaixa1: TMenuItem
       Caption = '&Fechamento de caixa'
+      OnClick = Fechamentodecaixa1Click
     end
   end
   object scds_cli_proc: TSQLClientDataSet
@@ -4112,42 +4006,52 @@ object fTerminal2: TfTerminal2
     object AlterarItendoPedido1: TMenuItem
       Caption = 'F4-Alterar Iten do Pedido'
       ShortCut = 115
+      OnClick = AlterarItendoPedido1Click
     end
     object F5ExcluirItemdoPedido1: TMenuItem
       Caption = 'F5-Excluir Item do Pedido'
       ShortCut = 116
+      OnClick = F5ExcluirItemdoPedido1Click
     end
     object F7ExcluirPedido1: TMenuItem
       Caption = 'F7-Excluir Pedido'
       ShortCut = 118
+      OnClick = F7ExcluirPedido1Click
     end
     object LocalizarPedido1: TMenuItem
       Caption = 'F8-Localizar Pedido'
       ShortCut = 119
+      OnClick = JvProcurarClick
     end
     object Finalizar1: TMenuItem
       Caption = 'F6-Finalizar'
       ShortCut = 117
+      OnClick = JvFinalizarClick
     end
     object F11ImprimirPedido1: TMenuItem
       Caption = 'F11-Imprimir Pedido'
       ShortCut = 122
+      OnClick = JvImprimirClick
     end
     object F9Sair1: TMenuItem
       Caption = 'F9-Sair'
       ShortCut = 120
+      OnClick = JvSairClick
     end
     object Parcial1: TMenuItem
       Caption = 'Parcial'
       ShortCut = 121
+      OnClick = JvBitBtn4Click
     end
     object NovoPedido1: TMenuItem
       Caption = 'Novo Pedido'
       ShortCut = 113
+      OnClick = JvBitBtn7Click
     end
     object EditarComanda1: TMenuItem
       Caption = 'Editar Comanda'
       ShortCut = 114
+      OnClick = EditarComanda1Click
     end
   end
   object pmImp: TPopupMenu
@@ -5206,5 +5110,54 @@ object fTerminal2: TfTerminal2
       DisplayFormat = ',#0.00'
       Expression = 'SUM(VALOR_PAGO)'
     end
+  end
+  object PopupMenu2: TPopupMenu
+    Left = 668
+    Top = 141
+    object MenuItem1: TMenuItem
+      Caption = '&Abrir Caixa'
+    end
+    object MenuItem2: TMenuItem
+      Caption = '&Sangria'
+    end
+    object MenuItem3: TMenuItem
+      Caption = '&Entrada'
+    end
+    object MenuItem4: TMenuItem
+      Caption = '&Pagamentos'
+    end
+    object MenuItem5: TMenuItem
+      Caption = '&Fechamento de caixa'
+    end
+  end
+  object XPMenu1: TXPMenu
+    DimLevel = 30
+    GrayLevel = 10
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clMenuText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Color = clBtnFace
+    DrawMenuBar = False
+    IconBackColor = clBtnFace
+    MenuBarColor = clBtnFace
+    SelectColor = clHighlight
+    SelectBorderColor = clHighlight
+    SelectFontColor = clMenuText
+    DisabledColor = clInactiveCaption
+    SeparatorColor = clBtnFace
+    CheckedColor = clHighlight
+    IconWidth = 24
+    DrawSelect = True
+    UseSystemColors = True
+    UseDimColor = False
+    OverrideOwnerDraw = False
+    Gradient = False
+    FlatMenu = False
+    AutoDetect = False
+    Active = False
+    Left = 520
+    Top = 32
   end
 end
