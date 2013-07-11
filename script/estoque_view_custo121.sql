@@ -107,7 +107,7 @@ BEGIN
 
      SALDOFIMACUM = ENTRADA + saldoiniacum - SAIDA;   
      
-   if (saldofimacum > 0.00001) then 
+   if (saldofimacum < 0.00001) then 
      saldofimacum = 0;  
 
    if (lotes = 'TODOS OS LOTES SISTEMA') then 
