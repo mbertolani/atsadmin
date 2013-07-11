@@ -7,56 +7,19 @@ uses
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, DB, FMTBcd, SqlExpr,
   Provider, DBClient, JvExStdCtrls, JvCombobox, JvDBSearchComboBox, JvEdit,
   JvDBSearchEdit, Mask, JvExMask, JvToolEdit, DBCtrls, JvExDBGrids,
-  JvDBGrid, Menus, rpcompobase, rpvclreport,rplabelitem;
+  JvDBGrid, Menus, rpcompobase, rpvclreport,rplabelitem, ExtCtrls;
 
 type
   TFiltroCorreio = class(TForm)
-    dsC: TDataSource;
-    btnProcurar: TBitBtn;
-    cdsC: TClientDataSet;
-    dspC: TDataSetProvider;
-    sqlC: TSQLDataSet;
-    JvDBSearchEdit2: TJvDBSearchComboBox;
-    sCliente: TSQLDataSet;
-    sClienteCODCLIENTE: TIntegerField;
-    sClienteNOMECLIENTE: TStringField;
-    pCliente: TDataSetProvider;
-    cCliente: TClientDataSet;
-    cClienteCODCLIENTE: TIntegerField;
-    cClienteNOMECLIENTE: TStringField;
-    dCliente: TDataSource;
-    Label1: TLabel;
-    JvDBSearchEdit1: TJvDBSearchEdit;
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-    meDta2: TJvDateEdit;
-    meDta1: TJvDateEdit;
-    DBComboBox1: TDBComboBox;
     cdsDep: TClientDataSet;
     dspDep: TDataSetProvider;
     sqlDep: TSQLDataSet;
     dsDep: TDataSource;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    BitBtn3: TBitBtn;
-    DBComboBox2: TDBComboBox;
     cdsDoc: TClientDataSet;
     dspDoc: TDataSetProvider;
     sqlDoc: TSQLDataSet;
     dsDoc: TDataSource;
-    Label6: TLabel;
-    BitBtn4: TBitBtn;
-    Label7: TLabel;
-    Label8: TLabel;
-    BitBtn5: TBitBtn;
     JvDBGrid1: TJvDBGrid;
-    Edit1: TEdit;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Edit2: TEdit;
     PopupMenu1: TPopupMenu;
     Procurar1: TMenuItem;
     Sair1: TMenuItem;
@@ -64,46 +27,24 @@ type
     cdsDepCODDEP: TStringField;
     sqlDocCODDOC: TStringField;
     cdsDocCODDOC: TStringField;
-    sqlCCODOC: TIntegerField;
-    sqlCCODFIR: TSmallintField;
-    sqlCFOTO: TSmallintField;
-    sqlCROLO: TSmallintField;
-    sqlCNUMCAI: TFloatField;
-    sqlCCODDEP: TStringField;
-    sqlCCODSEC: TStringField;
-    sqlCCODLOC: TSmallintField;
-    sqlCATIVO: TStringField;
-    sqlCCODDOC: TStringField;
-    sqlCDTINID: TDateField;
-    sqlCDTFIND: TDateField;
-    sqlCDOCINI: TFloatField;
-    sqlCDOCFIN: TFloatField;
-    sqlCESTANTE: TSmallintField;
-    sqlCPRATEL: TSmallintField;
-    sqlCDESCARTE: TFloatField;
-    sqlCDTRET: TDateField;
-    sqlCNOMERET: TStringField;
-    sqlCNDOCRET: TStringField;
-    sqlCDTPREV: TDateField;
-    sqlCOBSRET: TStringField;
-    sqlCOBS: TMemoField;
-    sqlCDTINC: TDateField;
-    sqlCCOLUNA: TSmallintField;
-    sqlCNCAICLI: TFloatField;
-    sqlCOBS2: TStringField;
-    sqlCTAMANHO: TStringField;
-    sqlCA: TStringField;
-    sqlCNUMDOC: TStringField;
-    sqlCDATA: TStringField;
-    sqlCQTDADE: TFloatField;
-    sqlCCODIDIO: TSmallintField;
-    sqlCDESCR: TStringField;
-    sqlCFASE: TStringField;
-    sqlCUSUARIO: TStringField;
-    sqlCDTUSU: TDateField;
-    sqlCHORAUSU: TStringField;
-    sqlCREGCAI: TFloatField;
-    sqlCJADESC: TStringField;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label6: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    JvDBSearchEdit2: TJvDBSearchComboBox;
+    JvDBSearchEdit1: TJvDBSearchEdit;
+    BitBtn1: TBitBtn;
+    DBComboBox1: TDBComboBox;
+    BitBtn3: TBitBtn;
+    DBComboBox2: TDBComboBox;
+    BitBtn4: TBitBtn;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    dsC: TDataSource;
+    cdsC: TClientDataSet;
     cdsCCODOC: TIntegerField;
     cdsCCODFIR: TSmallintField;
     cdsCFOTO: TSmallintField;
@@ -144,14 +85,75 @@ type
     cdsCHORAUSU: TStringField;
     cdsCREGCAI: TFloatField;
     cdsCJADESC: TStringField;
-    BitBtn6: TBitBtn;
+    dspC: TDataSetProvider;
+    sqlC: TSQLDataSet;
+    sqlCCODOC: TIntegerField;
+    sqlCCODFIR: TSmallintField;
+    sqlCFOTO: TSmallintField;
+    sqlCROLO: TSmallintField;
+    sqlCNUMCAI: TFloatField;
+    sqlCCODDEP: TStringField;
+    sqlCCODSEC: TStringField;
+    sqlCCODLOC: TSmallintField;
+    sqlCATIVO: TStringField;
+    sqlCCODDOC: TStringField;
+    sqlCDTINID: TDateField;
+    sqlCDTFIND: TDateField;
+    sqlCDOCINI: TFloatField;
+    sqlCDOCFIN: TFloatField;
+    sqlCESTANTE: TSmallintField;
+    sqlCPRATEL: TSmallintField;
+    sqlCDESCARTE: TFloatField;
+    sqlCDTRET: TDateField;
+    sqlCNOMERET: TStringField;
+    sqlCNDOCRET: TStringField;
+    sqlCDTPREV: TDateField;
+    sqlCOBSRET: TStringField;
+    sqlCOBS: TMemoField;
+    sqlCDTINC: TDateField;
+    sqlCCOLUNA: TSmallintField;
+    sqlCNCAICLI: TFloatField;
+    sqlCOBS2: TStringField;
+    sqlCTAMANHO: TStringField;
+    sqlCA: TStringField;
+    sqlCNUMDOC: TStringField;
+    sqlCDATA: TStringField;
+    sqlCQTDADE: TFloatField;
+    sqlCCODIDIO: TSmallintField;
+    sqlCDESCR: TStringField;
+    sqlCFASE: TStringField;
+    sqlCUSUARIO: TStringField;
+    sqlCDTUSU: TDateField;
+    sqlCHORAUSU: TStringField;
+    sqlCREGCAI: TFloatField;
+    sqlCJADESC: TStringField;
+    sCliente: TSQLDataSet;
+    sClienteCODCLIENTE: TIntegerField;
+    sClienteNOMECLIENTE: TStringField;
+    pCliente: TDataSetProvider;
+    cCliente: TClientDataSet;
+    cClienteCODCLIENTE: TIntegerField;
+    cClienteNOMECLIENTE: TStringField;
+    dCliente: TDataSource;
     VCLReport1: TVCLReport;
-    Label12: TLabel;
-    Label13: TLabel;
+    Panel3: TPanel;
+    Label8: TLabel;
+    Label7: TLabel;
+    Panel1: TPanel;
+    btnProcurar: TBitBtn;
+    BitBtn5: TBitBtn;
+    BitBtn11: TBitBtn;
+    GroupBox1: TGroupBox;
     Label14: TLabel;
     BitBtn7: TBitBtn;
     meDta4: TJvDateEdit;
     meDta3: TJvDateEdit;
+    GroupBox2: TGroupBox;
+    Label5: TLabel;
+    meDta1: TJvDateEdit;
+    meDta2: TJvDateEdit;
+    BitBtn2: TBitBtn;
+    chkAtivo: TCheckBox;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -163,6 +165,8 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn6Click(Sender: TObject);
     procedure BitBtn7Click(Sender: TObject);
+    procedure meDta4KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit2KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -268,6 +272,16 @@ begin
     else
       sqlTexto := sqlTexto + ' and NUMCAI = ';
       sqlTexto := sqlTexto + QuotedStr(Edit2.Text);
+  end;
+
+  // ATIVO
+  if (chkAtivo.Checked) then
+  begin
+    if sqlTexto = '' then
+      sqlTexto := sqlTexto + ' where ATIVO = '
+    else
+      sqlTexto := sqlTexto + ' and ATIVO = ';
+      sqlTexto := sqlTexto + QuotedStr('S');
   end;
 
   cdsC.CommandText := cdsC.CommandText + sqlTexto + ' order by NUMCAI' ;
@@ -399,7 +413,7 @@ begin
   VCLReport1.FileName := str_relatorio + 'movdoc.rep';
   VCLReport1.Title := VCLReport1.Filename;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
-//  VCLReport1.Report.Params.ParamByName('codfir').Value := StrToInt(JvDBSearchEdit1.Text);
+  //  VCLReport1.Report.Params.ParamByName('codfir').Value := StrToInt(JvDBSearchEdit1.Text);
   VCLReport1.Report.DataInfo.Items[0].SQL:= cdsC.CommandText;
 
   nomecli  := TRpLabel(VCLReport1.Report.FindComponent('TRpLabel3'));
@@ -417,6 +431,28 @@ procedure TFiltroCorreio.BitBtn7Click(Sender: TObject);
 begin
   meDta3.Text:='';
   meDta4.Text:='';
+end;
+
+procedure TFiltroCorreio.meDta4KeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   btnProcurar.Click;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
+
+end;
+
+procedure TFiltroCorreio.Edit2KeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   btnProcurar.Click;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
+
 end;
 
 end.

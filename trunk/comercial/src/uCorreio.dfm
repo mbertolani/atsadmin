@@ -1,6 +1,6 @@
 inherited fCorreio: TfCorreio
   Left = 252
-  Top = 55
+  Top = 41
   Width = 876
   Height = 655
   Caption = 'Arquivo'
@@ -24,7 +24,7 @@ inherited fCorreio: TfCorreio
     Caption = 'Label44'
   end
   inherited MMJPanel1: TMMJPanel
-    Width = 860
+    Width = 868
     object Label36: TLabel
       Left = 527
       Top = 23
@@ -69,8 +69,8 @@ inherited fCorreio: TfCorreio
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 566
-    Width = 860
+    Top = 577
+    Width = 868
     inherited btnGravar: TBitBtn
       Left = 272
       Width = 106
@@ -80,11 +80,12 @@ inherited fCorreio: TfCorreio
     end
   end
   object Arquivo: TPageControl [4]
-    Left = 1
-    Top = 53
-    Width = 856
-    Height = 509
+    Left = 0
+    Top = 51
+    Width = 868
+    Height = 526
     ActivePage = TabSheet1
+    Align = alClient
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Arquivo'
@@ -201,8 +202,8 @@ inherited fCorreio: TfCorreio
         ParentFont = False
       end
       object Label9: TLabel
-        Left = 279
-        Top = 201
+        Left = 294
+        Top = 198
         Width = 27
         Height = 16
         Caption = 'AT'#201
@@ -228,8 +229,8 @@ inherited fCorreio: TfCorreio
         ParentFont = False
       end
       object Label11: TLabel
-        Left = 278
-        Top = 229
+        Left = 295
+        Top = 225
         Width = 27
         Height = 16
         Caption = 'AT'#201
@@ -242,8 +243,8 @@ inherited fCorreio: TfCorreio
         ParentFont = False
       end
       object Label12: TLabel
-        Left = 217
-        Top = 282
+        Left = 256
+        Top = 280
         Width = 64
         Height = 16
         Caption = 'ESTANTE'
@@ -256,8 +257,8 @@ inherited fCorreio: TfCorreio
         ParentFont = False
       end
       object Label13: TLabel
-        Left = 375
-        Top = 282
+        Left = 436
+        Top = 278
         Width = 84
         Height = 16
         Caption = 'PRATELEIRA'
@@ -270,11 +271,11 @@ inherited fCorreio: TfCorreio
         ParentFont = False
       end
       object Label14: TLabel
-        Left = 270
-        Top = 309
-        Width = 145
+        Left = 397
+        Top = 306
+        Width = 123
         Height = 16
-        Caption = 'PRAZO DE DESCARTE'
+        Caption = 'PRAZO DESCARTE'
         FocusControl = DBEdit15
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -413,7 +414,7 @@ inherited fCorreio: TfCorreio
       object DBEdit6: TDBEdit
         Left = 143
         Top = 249
-        Width = 81
+        Width = 83
         Height = 24
         DataField = 'CODLOC'
         DataSource = DtSrc
@@ -493,9 +494,9 @@ inherited fCorreio: TfCorreio
         OnKeyPress = FormKeyPress
       end
       object DBEdit13: TDBEdit
-        Left = 291
+        Left = 325
         Top = 278
-        Width = 57
+        Width = 87
         Height = 24
         DataField = 'ESTANTE'
         DataSource = DtSrc
@@ -509,9 +510,9 @@ inherited fCorreio: TfCorreio
         OnKeyPress = FormKeyPress
       end
       object DBEdit14: TDBEdit
-        Left = 469
+        Left = 534
         Top = 276
-        Width = 57
+        Width = 89
         Height = 24
         DataField = 'PRATEL'
         DataSource = DtSrc
@@ -525,7 +526,7 @@ inherited fCorreio: TfCorreio
         OnKeyPress = FormKeyPress
       end
       object DBEdit15: TDBEdit
-        Left = 436
+        Left = 534
         Top = 304
         Width = 90
         Height = 24
@@ -552,7 +553,7 @@ inherited fCorreio: TfCorreio
       object DBEdit17: TDBEdit
         Left = 143
         Top = 276
-        Width = 41
+        Width = 83
         Height = 24
         DataField = 'COLUNA'
         DataSource = DtSrc
@@ -568,7 +569,7 @@ inherited fCorreio: TfCorreio
       object DBEdit18: TDBEdit
         Left = 143
         Top = 303
-        Width = 57
+        Width = 83
         Height = 24
         DataField = 'NCAICLI'
         DataSource = DtSrc
@@ -658,7 +659,7 @@ inherited fCorreio: TfCorreio
         end
       end
       object btnRetirada: TBitBtn
-        Left = 552
+        Left = 680
         Top = 314
         Width = 115
         Height = 41
