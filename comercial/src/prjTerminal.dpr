@@ -11,7 +11,18 @@ uses
   uOsFinaliza in 'uOsFinaliza.pas' {fOsFinaliza},
   U_Entrada in 'U_Entrada.pas' {F_Entrada},
   U_MudaMesa in 'U_MudaMesa.pas' {F_MudaMesa},
-  u_mesas in 'u_mesas.pas' {F_MESAS};
+  u_mesas in 'u_mesas.pas' {F_MESAS},
+  U_AUTORIZACAO in 'U_AUTORIZACAO.pas' {F_AUTORIZACAO},
+  ufprocura_prod in 'ufprocura_prod.pas' {fProcura_prod},
+  U_AbreComanda in 'U_AbreComanda.pas' {f_AbreComanda},
+  uProcurar_nf in 'uProcurar_nf.pas' {fProcurar_nf},
+  UDMNF in 'UDMNF.pas' {DMNF: TDataModule},
+  uAbrirCaixa in 'uAbrirCaixa.pas' {fAbrirCaixa},
+  uSangria in 'uSangria.pas' {fSangria},
+  uEntradaCaixa in 'uEntradaCaixa.pas' {fEntradaCaixa},
+  uCrTituloPagto in 'uCrTituloPagto.pas',
+  uPai in 'uPai.pas' {fPai},
+  uMovCaixa in 'uMovCaixa.pas' {fMovCaixa};
 
 {$R *.res}
 
@@ -27,5 +38,15 @@ begin
   Application.CreateForm(TF_Entrada, F_Entrada);
   Application.CreateForm(TF_MudaMesa, F_MudaMesa);
   Application.CreateForm(TF_MESAS, F_MESAS);
+  Application.CreateForm(TF_AUTORIZACAO, F_AUTORIZACAO);
+  Application.CreateForm(TfProcura_prod, fProcura_prod);
+  Application.CreateForm(Tf_AbreComanda, f_AbreComanda);
+  Application.CreateForm(TfProcurar_nf, fProcurar_nf);
+  Application.CreateForm(TDMNF, DMNF);
+  Application.CreateForm(TfAbrirCaixa, fAbrirCaixa);
+  Application.CreateForm(TfSangria, fSangria);
+  Application.CreateForm(TfEntradaCaixa, fEntradaCaixa);
+  Application.CreateForm(TfPai, fPai);
+  Application.CreateForm(TfMovCaixa, fMovCaixa);
   Application.Run;
 end.

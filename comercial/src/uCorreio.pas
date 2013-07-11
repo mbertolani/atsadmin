@@ -8,7 +8,8 @@ uses
   MMJPanel, Mask, DBCtrls, EDBFind, FMTBcd, SqlExpr, Provider, DBClient,
   Grids, DBGrids, JvExStdCtrls, JvCombobox, JvDBSearchComboBox ,DBxPress,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
-  JvDBDatePickerEdit, ComCtrls, JvDBControls, rpcompobase, rpvclreport;
+  JvDBDatePickerEdit, ComCtrls, JvDBControls, rpcompobase, rpvclreport,
+  JvExComCtrls, JvDateTimePicker, JvDBDateTimePicker;
 
 type
   TfCorreio = class(TfPai_new)
@@ -307,7 +308,6 @@ type
     Label45: TLabel;
     Label46: TLabel;
     procedure FormShow(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -328,7 +328,10 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
+    numCaixa: String;
+    function NumCaixaInvalido(Caixa: String): Boolean;
     { Private declarations }
   public
     { Public declarations }
@@ -340,140 +343,248 @@ var
 implementation
 
 uses UDm, uProcurar_nf, UDMNF, uFiltroCorreio, uRetira, uUtils,
-  uFiltroCadDoc, uFiltroSetor, uFiltroDep, uCx;
+  uFiltroCadDoc, uFiltroSetor, uFiltroDep, uCx, DateUtils;
 
 {$R *.dfm}
 
-
-
 procedure TfCorreio.FormShow(Sender: TObject);
 begin
-//  inherited;
+  //inherited;
   if(cCliente.Active) then
     cCliente.Close;
-    cCliente.Open;
+  cCliente.Open;
   jvCod.Text := '';
   jvNome.Text := '';
-
-end;
-
-procedure TfCorreio.FormCreate(Sender: TObject);
-begin
- // inherited;
-
 end;
 
 procedure TfCorreio.btnProcurarClick(Sender: TObject);
 begin
   inherited;
-  FiltroCorreio := TFiltroCorreio.Create(Application);
-  try
-    FiltroCorreio.ShowModal;
-  finally
-    FiltroCorreio.Free;
-  end;
+  FiltroCorreio.ShowModal;
 end;
 
 procedure TfCorreio.btnGravarClick(Sender: TObject);
 var strSql ,resu : string;
     TD: TTransactionDesc;
     descar : Tutils;
+    cod: Integer;
 begin
-    descar := TUtils.Create;
-    resu := descar.RemoveChar(DBEdit15.Text);
+  descar := TUtils.Create;
+  resu := descar.RemoveChar(DBEdit15.Text);
 
-    if DtSrc.DataSet.State in [dsInsert] then
+  if (DBEdit3.Text = '') then
+  begin
+    MessageDlg('Informe o número da Caixa.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if (dbEdit1.Text = '') then
+  begin
+    MessageDlg('Informe a Empresa.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if ((dbEdit7.Text <> 'S') and (dbEdit7.Text <> 'N')) then
+  begin
+    MessageDlg('Informe S para Ativo e N para Inativo.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if DtSrc.DataSet.State in [dsInsert] then
+  begin
+    if (NumCaixaInvalido(DBEdit3.Text)) then
     begin
-      if dm.c_6_genid.Active then
-        dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CODOC, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
-      dm.c_6_genid.Open;
-      fCorreio.cdsCorreioCODOC.AsInteger := dm.c_6_genidCODIGO.AsInteger;
+      exit;
+    end;
+
+    if dm.c_6_genid.Active then
       dm.c_6_genid.Close;
-      fCorreio.cdsCorreioCODFIR.AsInteger := StrToInt(jvCod.Text);
-    end;
-    if DtSrc.DataSet.State in [dsEdit] then
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_CODOC, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cod := dm.c_6_genidCODIGO.AsInteger;
+    dm.c_6_genid.Close;
+    cdsCorreioCODFIR.AsInteger := StrToInt(jvCod.Text);
+    cdsCorreioCODOC.AsInteger := cod;
+
+    strSql := ' INSERT INTO MOVDOC (CODOC, CODFIR, NUMCAI, CODDEP,' +
+      ' CODSEC, CODLOC, ATIVO, CODDOC, DTINID, DTFIND, DOCINI, DOCFIN, ESTANTE, PRATEL, ' +
+      ' DESCARTE, OBS, DTINC, COLUNA, NCAICLI,'  +
+      ' TAMANHO, USUARIO, DTUSU, HORAUSU) ' +
+      '  VALUES ( ' ;
+    strSql := strSql + IntToStr(cod);
+    strSql := strSql + ', ' + DBEdit1.Text;
+    strSql := strSql + ', ' + DBEdit3.Text + ', '; // NUMCAI
+    if (DBEdit4.Text <> '') then // CODDEP
+      strSql := strSql + QuotedStr(DBEdit4.Text) + ','
+    else
+      strSql := strSql + ' null, ';
+    if (dbEdit5.Text <> '') then // CODSEC
+      strSql := strSql + QuotedStr(DBEdit5.Text) + ','
+    else
+      strSql := strSql + ' null, ';
+    if (dbEdit6.Text <> '') then // CODLOC
+      strSql := strSql + DBEdit6.Text + ','
+    else
+      strSql := strSql + ' 0, ';
+    if (dbEdit7.Text <> '') then // Ativo
+      strSql := strSql + QuotedStr(dbEdit7.Text) + ','
+    else
+      strSql := strSql + QuotedStr('S') + ',';
+    if (dbEdit8.Text <> '') then // CODDOC
+      strSql := strSql + QuotedStr(DBEdit8.Text) + ', '
+    else
+      strSql := strSql + ' null, ';
+
+    if (DBEdit9.Text <> '  /  /    ') then // DTINID
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', DBEdit9.Date)) + ','
+    else
+      strSql := strSql + ' null, ';
+    if (dbEdit10.text <> '  /  /    ') then // DTFIND
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', DBEdit10.Date)) + ','
+    else
+      strSql := strSql + ' null, ';
+    if (dbEdit11.text <> '') then // DOCINI
+      strSql := strSql + QuotedStr(DBEdit11.Text) + ','
+    else
+      strSql := strSql + ' null, ';
+    if (dbEdit11.text <> '') then // DOCFIN
+      strSql := strSql + QuotedStr(DBEdit12.Text) + ','
+    else
+      strSql := strSql + ' null, ';
+    if (DBEdit13.Text <> '') then  // ESTANTE
+      strSql := strSql + DBEdit13.Text + ','
+    else
+      strSql := strSql + ' null, ';
+    if (DBEdit14.Text <> '') then  // PRATELEIRA
+      strSql := strSql + DBEdit14.Text + ','
+    else
+      strSql := strSql + ' null, ';
+
+    if (resu = '') then
+      strSql := strSql + ' 0, '
+    else
+      strSql := strSql + resu + ',';  // DESCARTE
+    strSql := strSql +  QuotedStr(DBMemo1.Text) + ',';  // OBS
+    if (DBEdit16.Text <> '  /  /    ') then // DTINC
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', DBEdit16.Date)) + ','
+    else
+      strSql := strSql + ' null, ';
+    if(DBEdit17.Text = '') then
+      strSql := strSql + ' null ,'
+    else
+      strSql := strSql + DBEdit17.Text + ','; // COLUNA
+    if(DBEdit18.Text = '') then
+      strSql := strSql + ' null ,'
+    else
+      strSql := strSql + DBEdit18.Text + ',';  //NCAICLI
+    strSql := strSql + QuotedStr(DBEdit19.Text) + ','; // TAMANHO
+    strSql := strSql + QuotedStr(dm.varLogado) + ', ';
+    strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', Today)) + ', ';
+    strSql := strSql + QuotedStr(FormatDateTime('hh:mm', now));
+    strSql := strSql  + ')';
+  end;
+
+  if DtSrc.DataSet.State in [dsEdit] then
+  begin
+    strSql := 'UPDATE MOVDOC SET OBS = ';
+    strSql := strSql +  QuotedStr(DBMemo1.Text) + ',';
+    strSql := strSql + 'NUMCAI = ';
+    strSql := strSql + DBEdit3.Text + ',';
+    strSql := strSql + 'TAMANHO = ';
+    strSql := strSql + QuotedStr(DBEdit19.Text) + ',';
+    if(DBEdit16.Text = '  /  /    ') then
     begin
-
-      strSql := 'UPDATE MOVDOC SET OBS = ';
-      strSql := strSql +  QuotedStr(DBMemo1.Text) + ',';
-      strSql := strSql + 'NUMCAI = ';
-      strSql := strSql + QuotedStr(DBEdit3.Text) + ',';
-      strSql := strSql + 'TAMANHO = ';
-      strSql := strSql + QuotedStr(DBEdit19.Text) + ',';
-      if(DBEdit16.Text = '  /  /    ') then
-      begin
-        strSql := strSql + 'DTINC = null ,';
-      end
-      else begin
-        strSql := strSql + 'DTINC = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit16.Text))) + ',';
-      end;
-      strSql := strSql + 'CODDEP = ';
-      strSql := strSql + QuotedStr(DBEdit4.Text) + ',';
-      strSql := strSql + 'CODSEC = ';
-      strSql := strSql + QuotedStr(DBEdit5.Text) + ',';
-      if(DBEdit9.Text = '  /  /    ') then
-      begin
-        strSql := strSql + 'DTINID = null ,';
-      end
-      else begin
-        strSql := strSql + 'DTINID = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit9.Text))) + ',';
-      end;
-      if(DBEdit10.Text = '  /  /    ') then
-      begin
-        strSql := strSql + 'DTFIND = null ,';
-      end
-      else begin
-        strSql := strSql + 'DTFIND = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit10.Text))) + ',';
-      end;
-      strSql := strSql + 'DOCINI = ';
-      strSql := strSql + QuotedStr(DBEdit11.Text) + ',';
-      strSql := strSql + 'DOCFIN = ';
-      strSql := strSql + QuotedStr(DBEdit12.Text) + ',';
-      strSql := strSql + 'COLUNA = ';
-      strSql := strSql + QuotedStr(DBEdit17.Text) + ',';
-      strSql := strSql + 'ESTANTE = ';
-      strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
-      strSql := strSql + 'PRATEL = ';
-      strSql := strSql + QuotedStr(DBEdit14.Text) + ',';
-////////////
-      if(DBEdit18.Text = '') then
-      begin
-        strSql := strSql + 'NCAICLI = null ,';
-      end
-      else begin
-        strSql := strSql + 'NCAICLI = ';
-        strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
-      end;
-
-///////////
-   //   strSql := strSql + 'NCAICLI = ';
-   //   strSql := strSql + QuotedStr(DBEdit18.Text) + ',';
-
-      strSql := strSql + 'DESCARTE = ';
-      strSql := strSql + QuotedStr(resu) + ',';
-      strSql := strSql + 'ATIVO = ';
-      strSql := strSql + QuotedStr(DBEdit7.Text) + ',';
-      /////
-      strSql := strSql + 'CODDOC = ';
-      strSql := strSql + QuotedStr(DBEdit8.Text) + ' ';
-      strSql := strSql + ' where CODOC = ';
-      strSql := strSql +  IntToStr(cdsCorreioCODOC.AsInteger);
-
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(strSql);
-      Try
-        dm.sqlsisAdimin.Commit(TD);
-      except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro ao Gravar Alteração.', mtError, [mbOk], 0);
-      end;
+      strSql := strSql + 'DTINC = null ,';
+    end
+    else begin
+      strSql := strSql + 'DTINC = ';
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit16.Text))) + ',';
     end;
-  inherited;
+    strSql := strSql + 'CODDEP = ';
+    strSql := strSql + QuotedStr(DBEdit4.Text) + ',';
+    strSql := strSql + 'CODSEC = ';
+    strSql := strSql + QuotedStr(DBEdit5.Text) + ',';
+    if(DBEdit9.Text = '  /  /    ') then
+    begin
+      strSql := strSql + 'DTINID = null ,';
+    end
+    else begin
+      strSql := strSql + 'DTINID = ';
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit9.Text))) + ',';
+    end;
+    if(DBEdit10.Text = '  /  /    ') then
+    begin
+      strSql := strSql + 'DTFIND = null ,';
+    end
+    else begin
+      strSql := strSql + 'DTFIND = ';
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(DBEdit10.Text))) + ',';
+    end;
+    if (DBEdit11.Text <> '') then
+    begin
+      strSql := strSql + 'DOCINI = ';
+      strSql := strSql + DBEdit11.Text + ',';
+    end;
+    if (DBEdit12.Text <> '') then
+    begin
+      strSql := strSql + 'DOCFIN = ';
+      strSql := strSql + DBEdit12.Text + ',';
+    end;
+    if (DBEdit17.Text <> '') then
+    begin
+      strSql := strSql + 'COLUNA = ';
+      strSql := strSql + DBEdit17.Text + ',';
+    end;  
+    if (DBEdit13.Text <> '') then
+    begin
+      strSql := strSql + 'ESTANTE = ';
+      strSql := strSql + DBEdit13.Text + ',';
+    end;
+    if (DBEdit14.Text <> '') then
+    begin
+      strSql := strSql + 'PRATEL = ';
+      strSql := strSql + DBEdit14.Text + ',';
+    end;  
+    if(DBEdit18.Text <> '') then
+    begin
+      strSql := strSql + 'NCAICLI = ';
+      strSql := strSql + DBEdit18.Text + ',';
+    end;
 
+    if (resu <> '') then
+    begin
+      strSql := strSql + 'DESCARTE = ';
+      strSql := strSql + resu + ',';
+    end;
+
+    if (dbEdit6.Text <> '') then // CODLOC
+    begin
+      strSql := strSql + 'CODLOC = ';
+      strSql := strSql + DBEdit6.Text + ',';
+    end;
+    strSql := strSql + 'ATIVO = ';
+    strSql := strSql + QuotedStr(DBEdit7.Text) + ',';
+    strSql := strSql + 'CODDOC = ';
+    if (DBEdit8.Text <> '') then
+      strSql := strSql + QuotedStr(DBEdit8.Text)
+    else
+      strSql := strSql + ' null ';
+    strSql := strSql + ' where CODOC = ';
+    strSql := strSql +  IntToStr(cdsCorreioCODOC.AsInteger);
+  end;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    cdsCorreio.Post;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      exit;
+    end;
+  end;
 end;
 
 procedure TfCorreio.btnIncluirClick(Sender: TObject);
@@ -482,9 +593,7 @@ begin
   cdsCorreioATIVO.Text := 'S';
   jvCod.Enabled := True;
   jvNome.Enabled := True;
- /// btnproc.Enabled := True;
- /// btnproc1.Enabled := True;
- /// btnproc2.Enabled := True;
+  DBEdit16.Date := Today;
   btncx.Enabled := True;
   Edit1.Text := '';
   Edit2.Text := '';
@@ -499,9 +608,6 @@ begin
   jvNome.Text := '';
   jvCod.Enabled := False;
   jvNome.Enabled := False;
- /// btnproc.Enabled := False;
- /// btnproc1.Enabled := False;
- /// btnproc2.Enabled := False;
 end;
 
 procedure TfCorreio.jvNomeChange(Sender: TObject);
@@ -509,7 +615,6 @@ begin
   inherited;
   DBEdit2.Text := jvNome.Text;
   DBEdit1.Text := jvCod.Text;
-
 end;
 
 procedure TfCorreio.jvCodChange(Sender: TObject);
@@ -523,29 +628,31 @@ procedure TfCorreio.btnExcluirClick(Sender: TObject);
 var TD: TTransactionDesc;
     strSql : string;
 begin
- // inherited;
-   strSql := 'UPDATE MOVDOC SET ATIVO = ' + QuotedStr('N') + ' WHERE CODOC = ' + IntToStr(fCorreio.cdsCorreioCODOC.AsInteger);
-
-    Try
-       dm.sqlsisAdimin.StartTransaction(TD);
-       dm.sqlsisAdimin.ExecuteDirect(strSql);
-       dm.sqlsisAdimin.Commit(TD);
-       MessageDlg('Alterado para Inativo', mtInformation, [mbOK], 0);
-       fCorreio.cdsCorreio.Refresh;
-    except
-       dm.sqlsisAdimin.Rollback(TD);
-       MessageDlg('Erro ao mudar Status para Inativo .', mtError, [mbOk], 0);
+  strSql := 'UPDATE MOVDOC SET ATIVO = ' + QuotedStr('N') +
+    ' WHERE CODOC = ' + IntToStr(fCorreio.cdsCorreioCODOC.AsInteger);
+  Try
+     dm.sqlsisAdimin.StartTransaction(TD);
+     dm.sqlsisAdimin.ExecuteDirect(strSql);
+     dm.sqlsisAdimin.Commit(TD);
+     MessageDlg('Alterado para Inativo', mtInformation, [mbOK], 0);
+     fCorreio.cdsCorreio.Refresh;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      exit;
     end;
-
+  end;
 end;
 
 procedure TfCorreio.btnRetiradaClick(Sender: TObject);
 begin
-//  inherited;
+  // inherited;
   fRetira := TfRetira.Create(Application);
   try
-  if(fRetira.cdsCorreio.Active) then
-    fRetira.cdsCorreio.Close;
+    if(fRetira.cdsCorreio.Active) then
+      fRetira.cdsCorreio.Close;
     fRetira.cdsCorreio.Params[0].AsInteger := cdsCorreioCODOC.AsInteger;
     fRetira.cdsCorreio.Open;
     fRetira.Label14.Caption := 'RETIRA';
@@ -562,10 +669,11 @@ begin
   fFiltroCadDoc := TfFiltroCadDoc.Create(Application);
   try
     fFiltroCadDoc.btnvoltar.Visible := False;
+    if (DtSrc.DataSet.State in [dsBrowse]) then
+      DtSrc.DataSet.Edit;
     fFiltroCadDoc.ShowModal;
   finally
     fFiltroCadDoc.Free;
-   DtSrc.DataSet.Edit;  
   end;
 end;
 
@@ -574,10 +682,11 @@ begin
   inherited;
   fFiltroSetor := TfFiltroSetor.Create(Application);
   try
+    if (DtSrc.DataSet.State in [dsBrowse]) then
+      DtSrc.DataSet.Edit;
     fFiltroSetor.ShowModal;
   finally
     fFiltroSetor.Free;
-  DtSrc.DataSet.Edit;  
   end;
 end;
 
@@ -586,10 +695,11 @@ begin
   inherited;
   fFiltroDep := TfFiltroDep.Create(Application);
   try
+    if (DtSrc.DataSet.State in [dsBrowse]) then
+      DtSrc.DataSet.Edit;
     fFiltroDep.ShowModal;
   finally
     fFiltroDep.Free;
-  DtSrc.DataSet.Edit;
   end;
 end;
 
@@ -600,13 +710,12 @@ begin
   Label36.Caption := 'CX :' + DBEdit3.Text;
   Label37.Caption :=  DBEdit1.Text;
   Label38.Caption :=  DBEdit2.Text;
-
 end;
 
 procedure TfCorreio.TabSheet1Show(Sender: TObject);
 begin
   inherited;
-    MMJPanel2.Visible := True;
+  MMJPanel2.Visible := True;
 end;
 
 procedure TfCorreio.TabSheet3Show(Sender: TObject);
@@ -617,16 +726,16 @@ end;
 
 procedure TfCorreio.btnDevolucaoClick(Sender: TObject);
 begin
-//  inherited;
+  //  inherited;
   fRetira := TfRetira.Create(Application);
   try
-  if(fRetira.cdsCorreio.Active) then
-    fRetira.cdsCorreio.Close;
+    if(fRetira.cdsCorreio.Active) then
+      fRetira.cdsCorreio.Close;
     fRetira.cdsCorreio.Params[0].AsInteger := cdsCorreioCODOC.AsInteger;
     fRetira.cdsCorreio.Open;
     fRetira.Label14.Caption := 'DEVOLUÇÂO';
     fRetira.Label1.Caption := 'DEVOLVIDO POR :';
-    fRetira.ShowModal;    
+    fRetira.ShowModal;
   finally
     fRetira.Free;
   end;
@@ -651,62 +760,60 @@ begin
   finally
     fCx.Free;
   end;
-
-
 end;
 
 procedure TfCorreio.BitBtn2Click(Sender: TObject);
 var strSql : string;
     TD: TTransactionDesc;
 begin
-  inherited;
   if dsDetR.DataSet.State in [dsEdit] then
+  begin
+    strSql := 'UPDATE MOVDOCDET SET NOMERET = ';
+    strSql := strSql +  QuotedStr(DBEdit20.Text) + ',';
+    strSql := strSql + 'NDOCRET = ';
+    strSql := strSql + QuotedStr(DBEdit21.Text) + ',';
+
+    if(JvDBDateEdit2.Text = '  /  /    ') then
     begin
-      strSql := 'UPDATE MOVDOCDET SET NOMERET = ';
-      strSql := strSql +  QuotedStr(DBEdit20.Text) + ',';
-      strSql := strSql + 'NDOCRET = ';
-      strSql := strSql + QuotedStr(DBEdit21.Text) + ',';
-
-      if(JvDBDateEdit2.Text = '  /  /    ') then
-      begin
-        strSql := strSql + ' DTRET = null ,';
-      end
-      else begin
-        strSql := strSql + ' DTRET = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit2.Text))) + ',';
-      end;
-
-
-      if(JvDBDateEdit1.Text = '  /  /    ') then
-      begin
-        strSql := strSql + ' DTPREV = null ,';
-       end
-      else begin
-        strSql := strSql + ' DTPREV = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit1.Text))) + ',';
-      end;
-
-      strSql := strSql + 'OBSRET = ';
-      strSql := strSql + QuotedStr(DBEdit24.Text) + ',';
-
-      strSql := strSql + 'OBS = ';
-      strSql := strSql +  QuotedStr(DBMemo2.Text) + ' ';
-
-
-      strSql := strSql + ' where CODOC = ';
-      strSql := strSql +  IntToStr(cdsDetRCODOC.AsInteger);
-
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(strSql);
-       Try
-        dm.sqlsisAdimin.Commit(TD);
-        MessageDlg('Dados Alterados com Sucesso !', mtInformation, [mbOK], 0);
-       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro ao Gravar Alteração.', mtError,
-           [mbOk], 0);
-       end;
+      strSql := strSql + ' DTRET = null ,';
+    end
+    else begin
+      strSql := strSql + ' DTRET = ';
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit2.Text))) + ',';
     end;
+
+    if(JvDBDateEdit1.Text = '  /  /    ') then
+    begin
+      strSql := strSql + ' DTPREV = null ,';
+    end
+    else begin
+      strSql := strSql + ' DTPREV = ';
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit1.Text))) + ',';
+    end;
+
+    strSql := strSql + 'OBSRET = ';
+    strSql := strSql + QuotedStr(DBEdit24.Text) + ',';
+
+    strSql := strSql + 'OBS = ';
+    strSql := strSql +  QuotedStr(DBMemo2.Text) + ' ';
+
+    strSql := strSql + ' where CODOC = ';
+    strSql := strSql +  IntToStr(cdsDetRCODOC.AsInteger);
+
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Dados Alterados com Sucesso !', mtInformation, [mbOK], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;  
+  end;
 end;
 
 procedure TfCorreio.BitBtn3Click(Sender: TObject);
@@ -715,55 +822,96 @@ var strSql : string;
 begin
   inherited;
   if dsDetR.DataSet.State in [dsEdit] then
+  begin
+    strSql := 'UPDATE MOVDOCDET SET OBSDEV  = ';
+    strSql := strSql +  QuotedStr(DBMemo4.Text) + ',';
+
+    if(JvDBDateEdit5.Text = '  /  /    ') then
     begin
-      strSql := 'UPDATE MOVDOCDET SET OBSDEV  = ';
-      strSql := strSql +  QuotedStr(DBMemo4.Text) + ',';
-
-
-      if(JvDBDateEdit5.Text = '  /  /    ') then
-      begin
-        strSql := strSql + ' DTDEV = null ,';
-       end
-      else begin
-        strSql := strSql + ' DTDEV = ';
-        strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit5.Text))) + ',';
-      end;
-
-      if(DBEdit22.Text = '') then
-      begin
-        strSql := strSql + ' NOMEDEV = null ,';
-       end
-      else begin
-        strSql := strSql + ' NOMEDEV = ';
-        strSql := strSql + QuotedStr(DBEdit22.Text) + ' ';
-      end;
-
-
-      strSql := strSql + ' where CODOC = ';
-      strSql := strSql +  IntToStr(cdsDetRCODOC.AsInteger);
-
-      dm.sqlsisAdimin.StartTransaction(TD);
-      dm.sqlsisAdimin.ExecuteDirect(strSql);
-       Try
-        dm.sqlsisAdimin.Commit(TD);
-        MessageDlg('Dados Alterados com Sucesso !', mtInformation, [mbOK], 0);
-       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro ao Gravar Alteração.', mtError,
-           [mbOk], 0);
-       end;
+      strSql := strSql + ' DTDEV = null ,';
+     end
+    else begin
+      strSql := strSql + ' DTDEV = ';
+      strSql := strSql + QuotedStr(FormatDateTime('mm/dd/yy', StrToDate(JvDBDateEdit5.Text))) + ',';
     end;
 
+    if(DBEdit22.Text = '') then
+    begin
+      strSql := strSql + ' NOMEDEV = null ,';
+     end
+    else begin
+      strSql := strSql + ' NOMEDEV = ';
+      strSql := strSql + QuotedStr(DBEdit22.Text) + ' ';
+    end;
+
+    strSql := strSql + ' where CODOC = ';
+    strSql := strSql +  IntToStr(cdsDetRCODOC.AsInteger);
+
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Dados Alterados com Sucesso !', mtInformation, [mbOK], 0);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
+  end;
 end;
 
 procedure TfCorreio.BitBtn4Click(Sender: TObject);
 begin
- // inherited;
+  // inherited;
   VCLReport1.FileName := str_relatorio + 'retiraD.rep';
   VCLReport1.Title := VCLReport1.Filename;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('pcod').Value := cdsDetRCODDETALHE.AsInteger;
   VCLReport1.Execute;
+end;
+
+function TfCorreio.NumCaixaInvalido(Caixa: String): Boolean;
+var strSql: String;
+begin
+  numCaixa := '';
+  strSql := 'SELECT ID FROM caixas ' +
+    ' WHERE ID = ' + caixa;
+  if (dm.sqlBusca.Active) then
+    dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add(strSql);
+  dm.sqlBusca.Open;
+  if (dm.sqlBusca.IsEmpty) then
+  begin
+    result := true;
+    MessageDlg('Número de caixa fora da faixa permitido.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  strSql := 'SELECT distinct  NUMCAI ' +
+    ' from MOVDOC WHERE NUMCAI = ' + caixa + ' AND ATIVO = ' + QuotedStr('S');
+  if (dm.sqlBusca.Active) then
+    dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add(strSql);
+  dm.sqlBusca.Open;
+  Result := true;
+  if (dm.sqlBusca.IsEmpty) then
+  begin
+    Result := false;
+    exit;
+  end;
+  MessageDlg('Número de caixa já utilizado.', mtWarning, [mbOK], 0);
+
+end;
+
+procedure TfCorreio.FormCreate(Sender: TObject);
+begin
+  //inherited;
+
 end;
 
 end.
