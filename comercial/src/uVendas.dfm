@@ -2663,6 +2663,10 @@ inherited fVendas: TfVendas
       ShortCut = 121
       OnClick = BitBtn2Click
     end
+    object rocarProduto1: TMenuItem
+      Caption = 'Trocar Produto'
+      OnClick = rocarProduto1Click
+    end
   end
   inherited DtSrc: TDataSource
     DataSet = cds_Movimento

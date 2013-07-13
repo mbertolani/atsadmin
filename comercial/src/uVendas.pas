@@ -597,6 +597,7 @@ type
     btnEstoqueMatPrima: TBitBtn;
     Label30: TLabel;
     lblEstoque: TLabel;
+    rocarProduto1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -681,6 +682,7 @@ type
     procedure Label29Click(Sender: TObject);
     procedure btnEstoqueVendaClick(Sender: TObject);
     procedure btnEstoqueMatPrimaClick(Sender: TObject);
+    procedure rocarProduto1Click(Sender: TObject);
   private
     { Private declarations }
     procurouProd : String;
@@ -712,7 +714,7 @@ uses UDm, ufprocura_prod, uComercial, uMostra_Contas, uListaClientes,
   uProcurar, uLotes, uVendaLoteLancao, ufDlgLogin, sCtrlResize,
   uProcurar_nf, UDMNF, uAtsAdmin, Math, uFiltroEstoque, uUtils, uftransp,
   uEstoque, uClienteCadastro, uProdutoCadastro, uDetalhe, uEstado,
-  uCliente1;
+  uCliente1, uTroca;
 
 {$R *.dfm}
 
@@ -3677,7 +3679,7 @@ begin
       ' ,esta.NAOENVFATURA, esta.CSOSN, esta.CODFISCAL' +
       ' FROM ESTADO_ICMS esta ' +
       ' left outer join CFOP cfo on cfo.CFCOD = esta.CFOP ' +
-      ' where esta.CFOP = ' + QuotedStr(edCfop.text) + 
+      ' where esta.CFOP = ' + QuotedStr(edCfop.text) +
       ' order by esta.CFOP';
     fEstado.ShowModal;
   finally
@@ -3880,6 +3882,23 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TfVendas.rocarProduto1Click(Sender: TObject);
+begin
+  if (cds_Mov_detBAIXA.AsString = '1') then
+  begin
+    fTroca := TfTroca.Create(Application);
+    try
+      fTroca.codMovTroca := cds_MovimentoCODMOVIMENTO.AsInteger;
+      fTroca.codProdATrocar := cds_Mov_detCODPRODUTO.AsInteger;
+      fTroca.produtoATrocar := cds_Mov_detCODPRO.AsString + '-' + cds_Mov_detDESCPRODUTO.AsString;
+      fTroca.valorATrocar := cds_Mov_detVALTOTAL.AsFloat;
+      fTroca.ShowModal;
+    finally
+      fTroca.Free;
+    end;
+  end;  
 end;
 
 end.
