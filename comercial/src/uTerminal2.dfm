@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
-  Left = 249
-  Top = 231
+  Left = 250
+  Top = 224
   Width = 913
   Height = 636
   Caption = 'Terminal'
@@ -28,7 +28,7 @@ object fTerminal2: TfTerminal2
     HotTrackFont.Name = 'MS Sans Serif'
     HotTrackFont.Style = []
     Align = alTop
-    Color = 16776176
+    ParentBackground = False
     TabOrder = 0
     object JvProcurar: TJvBitBtn
       Left = 2
@@ -1774,19 +1774,19 @@ object fTerminal2: TfTerminal2
   object JvPanel2: TJvPanel
     Left = 0
     Top = 57
-    Width = 495
+    Width = 393
     Height = 552
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
     HotTrackFont.Name = 'MS Sans Serif'
     HotTrackFont.Style = []
-    Align = alClient
+    Align = alLeft
     TabOrder = 1
     object JvPageControl1: TJvPageControl
       Left = 1
       Top = 1
-      Width = 493
+      Width = 391
       Height = 550
       ActivePage = TabVenda
       Align = alClient
@@ -1797,10 +1797,10 @@ object fTerminal2: TfTerminal2
         Caption = 'Venda'
         object JvImage1: TJvImage
           Left = 0
-          Top = 49
-          Width = 765
-          Height = 370
-          Align = alCustom
+          Top = 0
+          Width = 383
+          Height = 467
+          Align = alClient
           AutoSize = True
           Center = True
           Picture.Data = {
@@ -2563,7 +2563,7 @@ object fTerminal2: TfTerminal2
         object JvPanel5: TJvPanel
           Left = 0
           Top = 467
-          Width = 485
+          Width = 383
           Height = 57
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
@@ -2658,7 +2658,7 @@ object fTerminal2: TfTerminal2
           end
         end
         object btnProduto: TBitBtn
-          Left = 392
+          Left = 296
           Top = 8
           Width = 75
           Height = 25
@@ -2674,7 +2674,7 @@ object fTerminal2: TfTerminal2
         object JvPanel8: TJvPanel
           Left = 0
           Top = 0
-          Width = 485
+          Width = 383
           Height = 49
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
@@ -2692,10 +2692,10 @@ object fTerminal2: TfTerminal2
           ParentFont = False
           TabOrder = 0
           DesignSize = (
-            485
+            383
             49)
           object JvLabel16: TJvLabel
-            Left = 281
+            Left = 179
             Top = 10
             Width = 114
             Height = 26
@@ -2720,7 +2720,7 @@ object fTerminal2: TfTerminal2
             HotTrackFont.Style = []
           end
           object edMesa: TEdit
-            Left = 389
+            Left = 287
             Top = 4
             Width = 77
             Height = 33
@@ -2758,7 +2758,7 @@ object fTerminal2: TfTerminal2
         object pMesa: TPanel
           Left = 0
           Top = 49
-          Width = 485
+          Width = 383
           Height = 475
           Align = alClient
           TabOrder = 1
@@ -2818,7 +2818,7 @@ object fTerminal2: TfTerminal2
         object Panel1: TPanel
           Left = 0
           Top = 0
-          Width = 481
+          Width = 383
           Height = 73
           Align = alTop
           TabOrder = 0
@@ -2969,8 +2969,8 @@ object fTerminal2: TfTerminal2
         object DBGrid2: TDBGrid
           Left = 0
           Top = 73
-          Width = 481
-          Height = 426
+          Width = 383
+          Height = 451
           Align = alClient
           Ctl3D = False
           DataSource = DM_MOV.d_delivery
@@ -3022,21 +3022,21 @@ object fTerminal2: TfTerminal2
     end
   end
   object JvPanel3: TJvPanel
-    Left = 495
+    Left = 393
     Top = 57
-    Width = 410
+    Width = 512
     Height = 552
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
     HotTrackFont.Name = 'MS Sans Serif'
     HotTrackFont.Style = []
-    Align = alRight
+    Align = alClient
     TabOrder = 2
     object JvPanel6: TJvPanel
       Left = 1
       Top = 1
-      Width = 408
+      Width = 510
       Height = 56
       HotTrackFont.Charset = DEFAULT_CHARSET
       HotTrackFont.Color = clWindowText
@@ -3068,7 +3068,7 @@ object fTerminal2: TfTerminal2
         HotTrackFont.Style = []
       end
       object JvLabel14: TJvLabel
-        Left = 275
+        Left = 315
         Top = 8
         Width = 64
         Height = 25
@@ -3092,7 +3092,7 @@ object fTerminal2: TfTerminal2
       object EdtCodBarra1: TEdit
         Left = 85
         Top = 3
-        Width = 187
+        Width = 220
         Height = 37
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -3109,9 +3109,9 @@ object fTerminal2: TfTerminal2
         OnKeyPress = EdtCodBarra1KeyPress
       end
       object edtQtde1: TJvCalcEdit
-        Left = 333
+        Left = 381
         Top = 3
-        Width = 72
+        Width = 92
         Height = 37
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -3132,7 +3132,7 @@ object fTerminal2: TfTerminal2
     object JvPanel7: TJvPanel
       Left = 1
       Top = 423
-      Width = 408
+      Width = 510
       Height = 128
       HotTrackFont.Charset = DEFAULT_CHARSET
       HotTrackFont.Color = clWindowText
@@ -3142,10 +3142,11 @@ object fTerminal2: TfTerminal2
       Align = alBottom
       TabOrder = 1
       object LabelComissao: TJvLabel
-        Left = 18
+        Left = 90
         Top = 22
         Width = 20
         Height = 25
+        Alignment = taRightJustify
         Caption = '%'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -3165,10 +3166,11 @@ object fTerminal2: TfTerminal2
         HotTrackFont.Style = []
       end
       object JvLabel3: TJvLabel
-        Left = 170
+        Left = 242
         Top = 16
         Width = 68
         Height = 25
+        Alignment = taRightJustify
         Caption = 'Total :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -3187,10 +3189,11 @@ object fTerminal2: TfTerminal2
         HotTrackFont.Style = []
       end
       object JvLabel13: TJvLabel
-        Left = 145
+        Left = 220
         Top = 95
         Width = 90
         Height = 25
+        Alignment = taRightJustify
         Caption = #224' Pagar :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -3209,10 +3212,11 @@ object fTerminal2: TfTerminal2
         HotTrackFont.Style = []
       end
       object JvLabel12: TJvLabel
-        Left = 169
+        Left = 245
         Top = 55
         Width = 64
         Height = 25
+        Alignment = taRightJustify
         Caption = 'Pago :'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -3231,7 +3235,7 @@ object fTerminal2: TfTerminal2
         HotTrackFont.Style = []
       end
       object JvComissao: TJvValidateEdit
-        Left = 47
+        Left = 119
         Top = 8
         Width = 61
         Height = 47
@@ -3253,7 +3257,7 @@ object fTerminal2: TfTerminal2
         Visible = False
       end
       object JvTotal: TJvValidateEdit
-        Left = 240
+        Left = 312
         Top = 7
         Width = 166
         Height = 38
@@ -3275,7 +3279,7 @@ object fTerminal2: TfTerminal2
         TabOrder = 1
       end
       object JvParcial: TJvValidateEdit
-        Left = 240
+        Left = 312
         Top = 47
         Width = 166
         Height = 39
@@ -3297,7 +3301,7 @@ object fTerminal2: TfTerminal2
         TabOrder = 2
       end
       object JvSubtotal: TJvValidateEdit
-        Left = 240
+        Left = 312
         Top = 86
         Width = 166
         Height = 39
@@ -3322,7 +3326,7 @@ object fTerminal2: TfTerminal2
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 57
-      Width = 408
+      Width = 510
       Height = 366
       Align = alClient
       BorderStyle = bsNone
@@ -3369,7 +3373,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 218
+          Width = 273
           Visible = True
         end
         item
@@ -3387,7 +3391,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 34
+          Width = 43
           Visible = True
         end
         item
@@ -3405,7 +3409,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 67
+          Width = 85
           Visible = True
         end
         item
@@ -3423,7 +3427,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 85
+          Width = 105
           Visible = True
         end>
     end
