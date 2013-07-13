@@ -609,7 +609,7 @@ begin
   for x:=0 to ((numMesa)-1) do
   begin
     TCustomPanel.Create(pMesa);
-    TPanel(pMesa.Components[(Qtd + i)-1]).ParentBackground := True;
+    TPanel(pMesa.Components[(Qtd + i)-1]).ParentBackground := False;
     TControl(pMesa.Components[(Qtd + i)-1]).Name    := 'Panel' + IntToStr(i);
     TControl(pMesa.Components[(Qtd + i)-1]).Parent  := pMesa;
     if i > 1 then
@@ -3096,7 +3096,10 @@ begin
       scds_produto_proc.Close;
     EdtCodBarra1.Text := '';
   end;
-
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+    edMesa.SetFocus;
+  end;
 end;
 
 procedure TfTerminal2.EdtCodBarra1Enter(Sender: TObject);
@@ -3965,7 +3968,10 @@ begin
   end;
   if (c_forma.Active) then
     c_forma.Close;
-
+  if (jvPageControl1.ActivePage = TabComanda) then
+  begin
+    edMesa.SetFocus;
+  end;
 end;
 
 procedure TfTerminal2.NovoPedido1Click(Sender: TObject);
