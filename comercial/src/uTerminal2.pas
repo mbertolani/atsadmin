@@ -1019,15 +1019,15 @@ begin
 
   if (jvPageControl1.ActivePage = TabComanda) then
   begin
-   edMesa.SetFocus;
+    edMesa.SetFocus;
   end;
 
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
     if (DM_MOV.c_movimento.Active) then
-        DM_MOV.c_movimento.Close;
+      DM_MOV.c_movimento.Close;
     if (DM_MOV.c_movdet.Active) then
-        DM_MOV.c_movdet.Close;
+      DM_MOV.c_movdet.Close;
     JvTotal.Value := 0;
     JvSubtotal.Value := 0;
     JvParcial.Value := 0;
@@ -2508,7 +2508,6 @@ end;
 procedure TfTerminal2.JvFinalizarClick(Sender: TObject);
 var i: integer;
 begin
-
   if (DM_MOV.c_movdet.IsEmpty) then
   begin
     ShowMessage('Selecione um Pedido');
@@ -2554,6 +2553,16 @@ begin
   try
     fOsFinaliza.porc_com := JvComissao.Value;
     fOsFinaliza.ShowModal;
+    if (fOsFinaliza.OSFinalizaStatus = 'FINALIZADO') then
+    begin
+      if (jvPageControl1.ActivePage = TabVenda) then
+      begin
+        if (DM_MOV.c_movimento.Active) then
+          DM_MOV.c_movimento.Close;
+        if (DM_MOV.c_movdet.Active) then
+          DM_MOV.c_movdet.Close;
+      end;
+    end;
   finally
     fOsFinaliza.Free;
   end;
@@ -2638,7 +2647,6 @@ end;
 
 procedure TfTerminal2.JvBitBtn4Click(Sender: TObject);
 var porc_com : Double;
-
 begin
  DM_MOV.ID_DO_MOVIMENTO := 0;
  if (jvPageControl1.ActivePage = TabVenda) then
@@ -2732,11 +2740,13 @@ begin
   begin
     if (jvPageControl1.ActivePage = TabComanda) then
     begin
-       if (DM_MOV.c_comanda.Active) then
-           DM_MOV.c_comanda.Close;
-       pintaBotao;
-       JvPanel8.Caption := '...';
-       JvTotal.Value := 0;
+      if (DM_MOV.c_comanda.Active) then
+        DM_MOV.c_comanda.Close;
+      pintaBotao;
+      edMesa.Text := '';
+      edMesa.SetFocus;
+      JvPanel8.Caption := '...';
+      JvTotal.Value := 0;
     end;
 
     if (jvPageControl1.ActivePage = TabVenda) then
@@ -2782,12 +2792,6 @@ begin
   if(not dm.cds_parametro.IsEmpty) then
     JvComissao.Value := StrToFloat(dm.cds_parametroDADOS.AsString);
   dm.cds_parametro.Close;
-  if (TabComanda.TabVisible = True) then
-  begin
-    edMesa.Text := '';
-    pintaBotao;
-    edMesa.SetFocus;
-  end;
 
 end;
 
@@ -3028,34 +3032,36 @@ begin
     end;
     SaldoNegativo := 'FALSE';
     if Dm.cds_parametro.Active then
-       dm.cds_parametro.Close;
+      dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
     dm.cds_parametro.Open;
     if (dm.cds_parametro.IsEmpty) then
-       estoque_negativo := 'FALSO'
+      estoque_negativo := 'FALSO'
     else
-       estoque_negativo := 'TRUE';
+      estoque_negativo := 'TRUE';
 
     if (EdtCodBarra1.Text <> '') then
       BuscaProduto
     else
     begin
       btnProduto.Click;
+      EdtCodBarra1.Clear;
       exit;
     end;
 
     if (retorno = 'FALSO') then
     begin
       btnProduto.Click;
+      EdtCodBarra1.Clear;
       exit;
     end;
 
     if (SaldoNegativo = 'TRUE') then
     begin
-       //ShowMessage('Produto com saldo negativo !');
-       EdtCodBarra1.Clear;
-       EdtCodBarra1.SetFocus;
-       exit;
+      //ShowMessage('Produto com saldo negativo !');
+      EdtCodBarra1.Clear;
+      EdtCodBarra1.SetFocus;
+      exit;
     end;
 
     IncluiItemPedido;
@@ -3071,8 +3077,11 @@ begin
     porc    := 0;
     if (not s_parametro.IsEmpty) then
     begin
-       if (JvComissao.Value > 0) then
-         porc := (JvComissao.Value / 100) * JvTotal.Value;
+      if (JvComissao.Value > 0) then
+      begin
+        porc := (JvComissao.Value / 100) * JvTotal.Value;
+        JvSubtotal.AsFloat := porc + JvTotal.Value;
+      end;
     end;
     s_parametro.Close;
 
@@ -3095,10 +3104,6 @@ begin
     if (scds_produto_proc.Active) then
       scds_produto_proc.Close;
     EdtCodBarra1.Text := '';
-  end;
-  if (jvPageControl1.ActivePage = TabComanda) then
-  begin
-    edMesa.SetFocus;
   end;
 end;
 
@@ -3162,6 +3167,7 @@ begin
     c_forma.Close;
     if (jvPageControl1.ActivePage = TabComanda) then
       edMesa.SetFocus;
+
   end;
 
 end;
@@ -3442,6 +3448,14 @@ end;
 procedure TfTerminal2.incluiItemPedido;
 var CODIGO_DO_MOVIMENTO, id_movDet : integer;
 begin
+  if (jvPageControl1.ActivePage = TabVenda) then
+    if (DM_MOV.c_movimento.State in [dsInactive]) then
+      incluiPedido;
+  if (jvPageControl1.ActivePage = TabComanda) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+  if (jvPageControl1.ActivePage = TabDelivery) then
+    str_sql := str_sql +  IntToStr(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger) + ', ' + IntToStr(1) + ', ';
+
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
@@ -3906,7 +3920,7 @@ begin
    if (jvPageControl1.ActivePage = TabVenda) then
    begin
      if DM_MOV.d_movimento.DataSet.State in [dsInactive] then
-       exit;
+       incluiPedido;
      DM_MOV.ID_DO_MOVIMENTO := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
    end;
    if (jvPageControl1.ActivePage = TabComanda) then
@@ -3935,12 +3949,12 @@ begin
 
    if (jvPageControl1.ActivePage = TabDelivery) then
    begin
-      edtFone.Clear;
-      edtFone.SetFocus;
+     edtFone.Clear;
+     edtFone.SetFocus;
    end;
 
    if (DM_MOV.c_movdet.Active) then
-      DM_MOV.c_movdet.Close;
+     DM_MOV.c_movdet.Close;
    DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
    DM_MOV.c_movdet.Open;
 
