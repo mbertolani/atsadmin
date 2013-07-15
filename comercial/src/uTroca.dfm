@@ -1,6 +1,6 @@
 object fTroca: TfTroca
   Left = 239
-  Top = 176
+  Top = 181
   Width = 637
   Height = 526
   Caption = 'Troca'
@@ -856,6 +856,7 @@ object fTroca: TfTroca
       Width = 89
       Height = 21
       DisplayFormat = ',0.00'
+      ReadOnly = True
       ShowButton = False
       TabOrder = 0
       DecimalPlacesAlwaysShown = False
@@ -876,8 +877,8 @@ object fTroca: TfTroca
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
-    Left = 16
-    Top = 392
+    Left = 24
+    Top = 384
   end
   object dspMovDet: TDataSetProvider
     DataSet = sdsMovDet
