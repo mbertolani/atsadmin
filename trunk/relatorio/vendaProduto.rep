@@ -34,8 +34,9 @@ object TRpReport
         'PRODUTO'#13#10'inner join movimento m on m.codmovimento = rec.codmovim' +
         'ento'#13#10'where m.codnatureza = 3 and  rec.DATAVENDA between :DATA1 ' +
         'and :DATA2   and rec.codcliente > 0 '#13#10'and ((rec.CODCLIENTE = :PR' +
-        'O1) or (:PRO1 = 9999999)) '#13#10'GROUP by  prod.CODPRO, prod.PRODUTO,' +
-        ' prod.VALORUNITARIOATUAL '#13#10'order by 2 '
+        'O1) or (:PRO1 = 9999999)) '#13#10' and ((cli.RAZAOSOCIAL = :pRazao) or' +
+        ' (:pRazao = '#39'TODAS AS RAZOES SOCIAIS'#39'))'#13#10'GROUP by  prod.CODPRO, ' +
+        'prod.PRODUTO, prod.VALORUNITARIOATUAL '#13#10'order by 2 '
     end>
   DatabaseInfo = <
     item
@@ -93,6 +94,18 @@ object TRpReport
       Datasets.Strings = (
         'VENDAS')
       Description = 'C'#243'digo do Cliente'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PRAZAO'
+      AllowNulls = False
+      Value = 'TODAS AS RAZOES SOCIAIS'
+      Datasets.Strings = (
+        'VENDAS')
+      Description = 'Razao Social'
       Hint = ''
       Search = ''
       ErrorMessage = ''

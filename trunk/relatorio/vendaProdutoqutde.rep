@@ -17,30 +17,34 @@ object TRpReport
   DataInfo = <
     item
       Alias = 'EMPRESA'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 'select * from EMPRESA'
     end
     item
       Alias = 'VENDAS'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         'select prod.CODPRO, '#13#10'          prod.PRODUTO, '#13#10'          prod.V' +
         'ALORUNITARIOATUAL , '#13#10'          SUM(IT.QUANTIDADE), '#13#10'          ' +
-        'SUM((case when it.qtde_alt is null then 1 when it.qtde_alt = 0 t' +
-        'hen 1 else (1-(it.qtde_alt/100))  end) * IT.VALTOTAL)'#13#10'from VEND' +
-        'A rec '#13#10'inner join CLIENTES cli on cli.codCliente = rec.codclien' +
-        'te '#13#10'inner join MOVIMENTODETALHE it on it.CODMOVIMENTO = rec.COD' +
-        'MOVIMENTO '#13#10'inner join PRODUTOS prod on prod.CODPRODUTO = it.COD' +
-        'PRODUTO'#13#10'inner join movimento m on m.codmovimento = rec.codmovim' +
-        'ento'#13#10'where m.codnatureza = 3 and  rec.DATAVENDA between :DATA1 ' +
-        'and :DATA2   and rec.codcliente > 0 '#13#10'and ((rec.CODCLIENTE = :PR' +
-        'O1) or (:PRO1 = 9999999)) '#13#10'GROUP by  prod.CODPRO, prod.PRODUTO,' +
-        ' prod.VALORUNITARIOATUAL '#13#10'order by 2 desc'
+        'SUM(it.valtotal) '#13#10'from VENDA rec '#13#10'inner join CLIENTES cli on c' +
+        'li.codCliente = rec.codcliente '#13#10'inner join MOVIMENTODETALHE it ' +
+        'on it.CODMOVIMENTO = rec.CODMOVIMENTO '#13#10'inner join PRODUTOS prod' +
+        ' on prod.CODPRODUTO = it.CODPRODUTO'#13#10'inner join movimento m on m' +
+        '.codmovimento = rec.codmovimento'#13#10'where m.codnatureza = 3 '#13#10'   a' +
+        'nd  rec.DATAVENDA between :DATA1 and :DATA2   '#13#10'   and  rec.codc' +
+        'liente > 0 '#13#10'   and ((rec.CODCLIENTE = :PRO1) or (:PRO1 = 999999' +
+        '9)) '#13#10'   and ((cli.RAZAOSOCIAL = :pRazao) or (:pRazao = '#39'TODAS A' +
+        'S RAZOES SOCIAIS'#39'))'#13#10'GROUP by  prod.CODPRO, prod.PRODUTO, prod.V' +
+        'ALORUNITARIOATUAL '#13#10'order by 2 desc'
     end
     item
       Alias = 'CLIENTE'
-      DatabaseAlias = 'SGE'
-      SQL = 'select nomecliente from clientes where codcliente = :pro1'
+      DatabaseAlias = 'SISADMIN'
+      SQL = 
+        'select razaosocial, nomecliente from clientes '#13#10'where    codclie' +
+        'nte > 0 '#13#10' and ((CODCLIENTE = :PRO1) or (:PRO1 = 9999999))'#13#10' and' +
+        ' ((RAZAOSOCIAL = :pRazao) or (:pRazao = '#39'TODAS AS RAZOES SOCIAIS' +
+        #39'))'
     end>
   DatabaseInfo = <
     item
@@ -68,7 +72,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 39814d
+      Value = 41275d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -80,7 +84,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39841d
+      Value = 41302d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -99,6 +103,19 @@ object TRpReport
         'VENDAS'
         'CLIENTE')
       Description = 'C'#243'digo do Cliente'
+      Hint = ''
+      Search = ''
+      ErrorMessage = ''
+      Validation = ''
+    end
+    item
+      Name = 'PRAZAO'
+      AllowNulls = False
+      Value = 'TODAS AS RAZOES SOCIAIS'
+      Datasets.Strings = (
+        'CLIENTE'
+        'VENDAS')
+      Description = 'Razao Social'
       Hint = ''
       Search = ''
       ErrorMessage = ''
