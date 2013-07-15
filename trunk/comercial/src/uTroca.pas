@@ -56,12 +56,15 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
   private
+    str_sql: String;
     codProduto : integer;
     procedure abreMovDet;
+    procedure insereTitulo;
     procedure pesquisaProdutos;
     { Private declarations }
   public
     codMovTroca: integer;
+    codDetTroca: integer;
     codVendaTroca: Integer;
     produtoATrocar: String;
     codProdATrocar: Integer;
@@ -213,12 +216,15 @@ end;
 procedure TfTroca.BitBtn1Click(Sender: TObject);
 var  TDA: TTransactionDesc;
   fmDet: TMovimentoDetalhe;
+  itensAdicionado: integer;
 begin
   TDA.TransactionID  := 1;
   TDA.IsolationLevel := xilREADCOMMITTED;
   Try
     fmDet := TMovimentoDetalhe.Create;
+    //FRec := TReceberCls.Create;
     cdsMovDet.First;
+    itensAdicionado := cdsMovDet.RecordCount;
     while not cdsMovDet.Eof do
     begin
       fmDet.CodMov := codMovTroca;
@@ -228,7 +234,26 @@ begin
       fmDet.Preco := cdsMovDetPRECO.AsFloat;
       dm.sqlsisAdimin.StartTransaction(TDA);
       try
+        // desativarTrigger
         fmDet.inserirMovDet;
+
+        str_sql := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('T') +
+          ' BAIXA = null WHERE CODDETALHE = ' + IntToStr(codDetTroca);
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        edSaldo.Value := edSaldo.Value - (edProdPreco.Value * edQtde.Value);
+        if (itensAdicionado = cdsMovDet.RecNo) then
+        begin
+          if (edSaldo.Value < 0) then
+          begin
+            //Gera um título com a diferenca
+
+                //FRec.geraTitulo(sqsBusca.FieldByName('CODRECEBIMENTO').AsInteger, 0);
+          end
+          else begin
+            // Baixa o Saldo que sobrou do Titulo que existe
+          end;
+        end;
+
         dm.sqlsisAdimin.Commit(TDA);
         MessageDlg('Troca executada com sucesso.', mtInformation,
              [mbOk], 0);
@@ -242,6 +267,7 @@ begin
       cdsMovDet.Next;
     end;
   finally
+    //Frec.Free;
     fmDet.Free;
   end;
 end;
@@ -260,6 +286,41 @@ end;
 procedure TfTroca.btnSairClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfTroca.insereTitulo;
+var codRec: integer;
+begin
+  if (sqsBusca.Active) then
+    sqsBusca.Close;
+  sqsBusca.SQL.Clear;
+  sqsBusca.SQL.Add('SELECT TITULO, VIA, PARCELA, CODCLIENTE FROM RECEBIMENTO ' +
+    ' WHERE CODVENDA = ' + IntToStr(codVendaTroca));
+  sqsBusca.Open;
+  //if (sqsBusca.FieldByName('CODRECEBIMENTO').AsInteger > 0) then
+  // gera um titulo com a troca
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(COD_AREC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  CodRec := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
+  str_sql := ' INSERT INTO RECEBIMENTO ' +
+          ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
+          ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
+          ' CODVENDA ,       CODALMOXARIFADO, CODVENDEDOR,     CODUSUARIO,      ' +
+          ' DATASISTEMA,     VALOR_PRIM_VIA,  VALOR_RESTO,     VALORTITULO,     ' +
+          ' VALORRECEBIDO,   PARCELAS,        DESCONTO,        JUROS,           ' +
+          ' FUNRURAL,        PERDA,           TROCA,           N_DOCUMENTO,     ' +
+          ' OUTRO_CREDITO,   CAIXA,           SITUACAO,        CODORIGEM        ' +
+          ') VALUES(';
+  str_sql := str_sql + IntToStr(codRec);
+  str_sql := str_sql + ', ' + QuotedStr(sqsBusca.FieldByName('TITULO').AsString);
+  str_sql := str_sql + ', current_date'; // Emissao
+  str_sql := str_sql + ', ' + IntToStr(sqsBusca.FieldByName('CODCLIENTE').AsInteger);
+  str_sql := str_sql + ', current_date'; // Vcto
+  str_sql := str_sql + ', '  + QuotedStr('5-');
+  str_sql := str_sql + ', ' + IntToStr(sqsBusca.FieldByName('CODCLIENTE').AsInteger);
 end;
 
 end.
