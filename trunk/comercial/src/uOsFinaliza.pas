@@ -225,6 +225,7 @@ type
     procedure imprimeRecibo;
     { Private declarations }
   public
+    OSFinalizaStatus: String;
     porc_com :  double;
     { Public declarations }
   end;
@@ -389,7 +390,7 @@ begin
     scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
     scdsCr_proc.Open;
   end;
-
+  OSFinalizaStatus := 'FINALIZADO';
 end;
 
 procedure TfOsFinaliza.inserevenda;
@@ -597,7 +598,6 @@ begin
     if (not dm.cds_parametro.Eof) then
     begin
       JvComissao.Value:= (porc_com /100) * jvTotal.Value;
-      JvComissao.Value := 0;
       jvApagar.Value := (DM_MOV.c_movdettotalpedido.Value + JvComissao.Value) - desconto;
     end;
     dm.cds_parametro.Close;
@@ -651,6 +651,7 @@ end;
 
 procedure TfOsFinaliza.FormShow(Sender: TObject);
 begin
+  OSFinalizaStatus := '';
   DecimalSeparator := ',';
   if (not dm.parametro.Active) then
     dm.parametro.Open;

@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
   Left = 250
-  Top = 224
+  Top = 231
   Width = 913
   Height = 636
   Caption = 'Terminal'
