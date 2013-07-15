@@ -1,4 +1,4 @@
-unit uRelVendas;
+unit uRelVendas;            
 
 interface
 
@@ -246,7 +246,8 @@ begin
 
   if (cds.Active) then
     cds.close;
-  cds.CommandText := 'SELECT RAZAOSOCIAL FROM CLIENTES WHERE STATUS = 1 ORDER BY RAZAOSOCIAL';
+  cds.CommandText := 'SELECT DISTINCT RAZAOSOCIAL FROM CLIENTES ' +
+    ' WHERE STATUS = 1 ORDER BY RAZAOSOCIAL';
   cds.Open;
   while not cds.Eof do
   begin
@@ -614,26 +615,37 @@ begin
     end;
   end;
   {*** ClienteO **** }
-  if (jvComboBox1.Text <> '') then
+  if (RadioGroup1.ItemIndex = 0) then
   begin
-    if (cds.Active) then
-      cds.close;
-    cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE STATUS = 1 and NOMECLIENTE = ' +
-    QuotedStr(JvComboBox1.Text);
-    cds.Open;
-    if (cds.IsEmpty) then
+    if (jvComboBox1.Text <> '') then
     begin
-      ShowMessage ('Não existe este Cliente no Cadastro.');
-      exit;
-    end;
-    Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
-  end
-  else
+      if (cds.Active) then
+        cds.close;
+      cds.CommandText := 'SELECT CODCLIENTE FROM CLIENTES WHERE STATUS = 1 and NOMECLIENTE = ' +
+      QuotedStr(JvComboBox1.Text);
+      cds.Open;
+      if (cds.IsEmpty) then
+      begin
+        ShowMessage ('Não existe este Cliente no Cadastro.');
+        exit;
+      end;
+      Rep.Report.Params.ParamByName('PRO1').Value := cds.Fields[0].AsInteger;
+    end
+    else
+      Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
+  end;
+  if (RadioGroup1.ItemIndex = 1) then
+  begin
     Rep.Report.Params.ParamByName('PRO1').Value := 9999999;
-
+    if (cbRazao.Text <> '') then
+      Rep.Report.Params.ParamByName('PRazao').Value := cbRazao.Text
+    else
+      Rep.Report.Params.ParamByName('PRazao').Value :=
+        'TODAS AS RAZOES SOCIAIS                                     ';
+  end;
   if (rdbProduto.Checked = True) then
     if (Edit3.Text <> '') then
-      Rep.Report.Params.ParamByName('PRO2').Value := StrToInt(Edit3.Text);
+      Rep.Report.Params.ParamByName('PRO2').Value := Edit3.Text;
 
   Rep.Execute;
 end;
@@ -894,10 +906,16 @@ begin
   begin
     JvComboBox1.Enabled := True;
     cbRazao.Enabled     := False;
+    BitBtn8.Enabled     := True;
+    BitBtn3.Enabled     := True;
+    BitBtn4.Enabled     := True;
   end
   else begin
     JvComboBox1.Enabled := False;
     cbRazao.Enabled     := True;
+    BitBtn8.Enabled     := False;
+    BitBtn3.Enabled     := False;
+    BitBtn4.Enabled     := False;
   end;
 end;
 
