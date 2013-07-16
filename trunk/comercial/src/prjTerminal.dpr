@@ -22,7 +22,8 @@ uses
   uEntradaCaixa in 'uEntradaCaixa.pas' {fEntradaCaixa},
   uCrTituloPagto in 'uCrTituloPagto.pas',
   uPai in 'uPai.pas' {fPai},
-  uMovCaixa in 'uMovCaixa.pas' {fMovCaixa};
+  uMovCaixa in 'uMovCaixa.pas' {fMovCaixa},
+  uTroca in 'uTroca.pas' {fTroca};
 
 {$R *.res}
 
@@ -48,5 +49,6 @@ begin
   Application.CreateForm(TfEntradaCaixa, fEntradaCaixa);
   Application.CreateForm(TfPai, fPai);
   Application.CreateForm(TfMovCaixa, fMovCaixa);
+  Application.CreateForm(TfTroca, fTroca);
   Application.Run;
 end.
