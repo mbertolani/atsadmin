@@ -691,6 +691,7 @@ object fTroca: TfTroca
       Width = 36
       Height = 36
       TabOrder = 6
+      OnClick = BitBtn8Click
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
         0800000000000004000000000000000000000001000000000000000000000000
@@ -865,8 +866,8 @@ object fTroca: TfTroca
   object sdsMovDet: TSQLDataSet
     CommandText = 
       'SELECT p.CODPRO, md.CODPRODUTO, md.QUANTIDADE, '#13#10'     md.PRECO, ' +
-      'md.UN, md.DESCPRODUTO '#13#10'     FROM MOVIMENTODETALHE md, PRODUTOS ' +
-      'p'#13#10'     WHERE md.CODPRODUTO = p.CODPRODUTO'
+      'md.UN, md.DESCPRODUTO , md.SUITE'#13#10'     FROM MOVIMENTODETALHE md,' +
+      ' PRODUTOS p'#13#10'     WHERE md.CODPRODUTO = p.CODPRODUTO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -913,6 +914,10 @@ object fTroca: TfTroca
     object cdsMovDetDESCPRODUTO: TStringField
       FieldName = 'DESCPRODUTO'
       Size = 300
+    end
+    object cdsMovDetSUITE: TStringField
+      FieldName = 'SUITE'
+      Size = 40
     end
   end
   object dsMovDet: TDataSource
