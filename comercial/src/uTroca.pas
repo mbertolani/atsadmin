@@ -48,6 +48,7 @@ type
     cdsMovDetPRECO: TFloatField;
     cdsMovDetUN: TStringField;
     cdsMovDetDESCPRODUTO: TStringField;
+    cdsMovDetSUITE: TStringField;
     procedure FormShow(Sender: TObject);
     procedure edProdExit(Sender: TObject);
     procedure edProdKeyPress(Sender: TObject; var Key: Char);
@@ -55,17 +56,21 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
   private
     str_sql: String;
     codProduto : integer;
+    codRec: integer;
     procedure abreMovDet;
     procedure insereTitulo;
     procedure pesquisaProdutos;
+    procedure buscaTitulo;
     { Private declarations }
   public
     codMovTroca: integer;
     codDetTroca: integer;
     codVendaTroca: Integer;
+    codCCustoTroca: Integer;
     produtoATrocar: String;
     codProdATrocar: Integer;
     valorATrocar: Double;
@@ -86,6 +91,7 @@ begin
   edProdutoatrocar.Text := produtoATrocar;
   edPrecoaTrocar.Value := valorATrocar;
   edSaldo.Value  := valorATrocar;
+  abreMovDet;
 end;
 
 procedure TfTroca.edProdExit(Sender: TObject);
@@ -206,74 +212,84 @@ begin
   if (cdsMovDet.Active) then
     cdsMovDet.Close;
   cdsMovDet.CommandText := 'SELECT p.CODPRO, md.CODPRODUTO, md.QUANTIDADE, ' +
-    ' md.PRECO, md.UN, md.DESCPRODUTO ' +
+    ' md.PRECO, md.UN, md.DESCPRODUTO, md.SUITE ' +
     ' FROM MOVIMENTODETALHE md, PRODUTOS p ' +
     ' WHERE md.CODPRODUTO = p.CODPRODUTO ' +
     '   AND md.CODMOVIMENTO = ' + IntToStr(codMovTroca) +
-    '   AND CODMOVRATEIO = 1';
+    '   AND SUITE = ' + QuotedStr(IntToStr(codDetTroca));
+  cdsMovDet.Open;  
 end;
 
 procedure TfTroca.BitBtn1Click(Sender: TObject);
 var  TDA: TTransactionDesc;
   fmDet: TMovimentoDetalhe;
   itensAdicionado: integer;
+  saldoTotal: double;
 begin
-  TDA.TransactionID  := 1;
-  TDA.IsolationLevel := xilREADCOMMITTED;
-  Try
-    fmDet := TMovimentoDetalhe.Create;
-    //FRec := TReceberCls.Create;
-    cdsMovDet.First;
-    itensAdicionado := cdsMovDet.RecordCount;
-    while not cdsMovDet.Eof do
-    begin
-      fmDet.CodMov := codMovTroca;
-      fmDet.CodProduto := cdsMovDetCODPRODUTO.AsInteger;
-      fmDet.Descricao := cdsMovDetDESCPRODUTO.AsString;
-      fmDet.Qtde := cdsMovDetQUANTIDADE.AsFloat;
-      fmDet.Preco := cdsMovDetPRECO.AsFloat;
+  if (cdsMovDet.RecordCount > 0) then
+  begin
+    saldoTotal := valorATrocar;
+    TDA.TransactionID  := 1;
+    TDA.IsolationLevel := xilREADCOMMITTED;
+    Try
+      fmDet := TMovimentoDetalhe.Create;
+      //FRec := TReceberCls.Create;
+      cdsMovDet.First;
+      buscaTitulo;
       dm.sqlsisAdimin.StartTransaction(TDA);
       try
-        // desativarTrigger
-        fmDet.inserirMovDet;
-
-        str_sql := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('T') +
-          ' BAIXA = null WHERE CODDETALHE = ' + IntToStr(codDetTroca);
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
-        edSaldo.Value := edSaldo.Value - (edProdPreco.Value * edQtde.Value);
-        if (itensAdicionado = cdsMovDet.RecNo) then
+        while not cdsMovDet.Eof do
         begin
-          if (edSaldo.Value < 0) then
+          if (cdsMovDetSUITE.AsString = '') then
           begin
-            //Gera um título com a diferenca
-
-                //FRec.geraTitulo(sqsBusca.FieldByName('CODRECEBIMENTO').AsInteger, 0);
-          end
-          else begin
-            // Baixa o Saldo que sobrou do Titulo que existe
+            fmDet.CodMov := codMovTroca;
+            fmDet.CodProduto := cdsMovDetCODPRODUTO.AsInteger;
+            fmDet.Descricao := cdsMovDetDESCPRODUTO.AsString;
+            fmDet.Qtde := cdsMovDetQUANTIDADE.AsFloat;
+            fmDet.Preco := cdsMovDetPRECO.AsFloat;
+            fmDet.Suite := IntToStr(codDetTroca);
+            saldoTotal := saldoTotal - (cdsMovDetQUANTIDADE.AsFloat*cdsMovDetPRECO.AsFloat);
+              // desativarTrigger
+            fmDet.inserirMovDet;
           end;
+          cdsMovDet.Next;
         end;
-
+        str_sql := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr('T') +
+          ', BAIXA = null , DESCPRODUTO = ' + QuotedStr('TROCADO-') + ' || DESCPRODUTO ' +
+          ' WHERE CODDETALHE = ' + IntToStr(codDetTroca);
+        dm.sqlsisAdimin.ExecuteDirect(str_sql);
+        if (saldoTotal < 0) then
+        begin
+          //Gera um título com a diferenca
+          insereTitulo;
+        end
+        else begin
+          // Baixa o Saldo que sobrou do Titulo que existe
+        end;
         dm.sqlsisAdimin.Commit(TDA);
-        MessageDlg('Troca executada com sucesso.', mtInformation,
-             [mbOk], 0);
+        cdsMovDet.Delete;
+        edQtde.Value := 0;
+        edProdPreco.Value := 0;
+        MessageDlg('Troca executada com sucesso.', mtInformation, [mbOk], 0);
       except
         on E : Exception do
         begin
           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
           dm.sqlsisAdimin.Rollback(TDA); //on failure, undo the changes}
+          exit;
         end;
       end;
-      cdsMovDet.Next;
+    finally
+      //Frec.Free;
+      fmDet.Free;
     end;
-  finally
-    //Frec.Free;
-    fmDet.Free;
   end;
 end;
 
 procedure TfTroca.btnNovoClick(Sender: TObject);
 begin
+  if (not cdsMovDet.Active) then
+     abreMovDet;
   cdsMovDet.Append;
   cdsMovDetCODPRO.AsString := edProd.Text;
   cdsMovDetCODPRODUTO.AsInteger := codProduto;
@@ -281,6 +297,9 @@ begin
   cdsMovDetQUANTIDADE.AsFloat := edQtde.Value;
   cdsMovDetPRECO.AsFloat := edProdPreco.Value;
   cdsMovDet.Post;
+  edSaldo.Value := edSaldo.Value - (edQtde.Value * edProdPreco.Value);
+  edProd.Text := '';
+  edProdNome.Text := '';
 end;
 
 procedure TfTroca.btnSairClick(Sender: TObject);
@@ -289,22 +308,7 @@ begin
 end;
 
 procedure TfTroca.insereTitulo;
-var codRec: integer;
 begin
-  if (sqsBusca.Active) then
-    sqsBusca.Close;
-  sqsBusca.SQL.Clear;
-  sqsBusca.SQL.Add('SELECT TITULO, VIA, PARCELA, CODCLIENTE FROM RECEBIMENTO ' +
-    ' WHERE CODVENDA = ' + IntToStr(codVendaTroca));
-  sqsBusca.Open;
-  //if (sqsBusca.FieldByName('CODRECEBIMENTO').AsInteger > 0) then
-  // gera um titulo com a troca
-  if dm.c_6_genid.Active then
-    dm.c_6_genid.Close;
-  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(COD_AREC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-  dm.c_6_genid.Open;
-  CodRec := dm.c_6_genid.Fields[0].AsInteger;
-  dm.c_6_genid.Close;
   str_sql := ' INSERT INTO RECEBIMENTO ' +
           ' (CODRECEBIMENTO, TITULO,          EMISSAO,         CODCLIENTE,      ' +
           ' DATAVENCIMENTO,  STATUS,          VIA,             FORMARECEBIMENTO,' +
@@ -320,7 +324,62 @@ begin
   str_sql := str_sql + ', ' + IntToStr(sqsBusca.FieldByName('CODCLIENTE').AsInteger);
   str_sql := str_sql + ', current_date'; // Vcto
   str_sql := str_sql + ', '  + QuotedStr('5-');
-  str_sql := str_sql + ', ' + IntToStr(sqsBusca.FieldByName('CODCLIENTE').AsInteger);
+  str_sql := str_sql + ', ' + IntToStr(StrToInt(Trim(sqsBusca.FieldByName('VIA').AsString)) + 1);
+  str_sql := str_sql + ', 0';
+  str_sql := str_sql + ', ' + IntToStr(codVendaTroca);
+  str_sql := str_sql + ', ' + IntToStr(codCCustoTroca);
+  str_sql := str_sql + ', ' + IntToStr(dm.varUSERID);
+  str_sql := str_sql + ', ' + IntToStr(dm.varUSERID);
+  str_sql := str_sql + ', current_date'; // DataSistema
+  DecimalSeparator := '.';
+  str_sql := str_sql + ', 0'; // Valor_prim_via
+  str_sql := str_sql + ', ' + FloatToStr(edSaldo.Value*(-1)); // Valor_resto
+  str_sql := str_sql + ', ' + FloatToStr(edSaldo.Value*(-1)); // Valor_Titulo
+  str_sql := str_sql + ', 0'; // Valor_Recebido
+  str_sql := str_sql + ', ' + IntToStr(sqsBusca.FieldByName('PARCELAS').AsInteger + 1);
+  str_sql := str_sql + ', 0'; // Desconto
+  str_sql := str_sql + ', 0'; // Juros
+  str_sql := str_sql + ', 0'; // Funrural
+  str_sql := str_sql + ', 0'; // Perda
+  str_sql := str_sql + ', 0'; // Troca
+  str_sql := str_sql + ', null'; // N_Documento
+  str_sql := str_sql + ', 0'; // Outro Credito
+  str_sql := str_sql + ', 0'; // Caixa
+  str_sql := str_sql + ', null'; // Situacao
+  str_sql := str_sql + ', 0'; // CodOrigem
+  str_sql := str_sql + ')';
+  DecimalSeparator := ',';
+  dm.sqlsisAdimin.ExecuteDirect(str_sql);
+end;
+
+procedure TfTroca.BitBtn8Click(Sender: TObject);
+begin
+  cdsMovDet.Delete;
+end;
+
+procedure TfTroca.buscaTitulo;
+begin
+  if (sqsBusca.Active) then
+    sqsBusca.Close;
+  sqsBusca.SQL.Clear;
+  sqsBusca.SQL.Add('SELECT CODVENDA FROM VENDA ' +
+    ' WHERE CODMOVIMENTO = ' + IntToStr(codMovTroca));
+  sqsBusca.Open;
+  codVendaTroca := sqsBusca.FieldByName('CODVENDA').AsInteger;
+  if (sqsBusca.Active) then
+    sqsBusca.Close;
+  sqsBusca.SQL.Clear;
+  sqsBusca.SQL.Add('SELECT TITULO, MAX(VIA) AS VIA, PARCELAS, CODCLIENTE FROM RECEBIMENTO ' +
+    ' WHERE CODVENDA = ' + IntToStr(codVendaTroca) +
+    ' GROUP BY TITULO, PARCELAS, CODCLIENTE');
+  sqsBusca.Open;
+  // gera um titulo com a troca
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(COD_AREC, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  CodRec := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
 end;
 
 end.
