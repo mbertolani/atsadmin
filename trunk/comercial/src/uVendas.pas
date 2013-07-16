@@ -3894,6 +3894,8 @@ begin
       fTroca.codProdATrocar := cds_Mov_detCODPRODUTO.AsInteger;
       fTroca.produtoATrocar := cds_Mov_detCODPRO.AsString + '-' + cds_Mov_detDESCPRODUTO.AsString;
       fTroca.valorATrocar := cds_Mov_detVALTOTAL.AsFloat;
+      fTroca.codCCustoTroca := cds_MovimentoCODALMOXARIFADO.AsInteger;
+      fTroca.codDetTroca := cds_Mov_detCODDETALHE.AsInteger;
       fTroca.ShowModal;
     finally
       fTroca.Free;
