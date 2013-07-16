@@ -453,6 +453,7 @@ type
     MenuItem5: TMenuItem;
     XPMenu1: TXPMenu;
     btnProduto: TBitBtn;
+    FazerTroca1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -497,6 +498,7 @@ type
     procedure Pagamentos1Click(Sender: TObject);
     procedure Fechamentodecaixa1Click(Sender: TObject);
     procedure AbrirCaixa1Click(Sender: TObject);
+    procedure FazerTroca1Click(Sender: TObject);
   private
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
@@ -562,7 +564,7 @@ implementation
 uses UDm, UDM_MOV, uFiltroMovimento, U_AlteraPedido, U_RelTerminal,
   uOsFinaliza, U_Entrada, U_MudaMesa, u_mesas, U_AUTORIZACAO,
   ufprocura_prod, U_AbreComanda, uProcurar_nf, UDMNF, uFiscalCls,
-  uAbrirCaixa, uSangria, uEntradaCaixa, uCrTituloPagto, uMovCaixa;
+  uAbrirCaixa, uSangria, uEntradaCaixa, uCrTituloPagto, uMovCaixa, uTroca;
 
 {$R *.dfm}
 
@@ -2648,6 +2650,7 @@ end;
 procedure TfTerminal2.JvBitBtn4Click(Sender: TObject);
 var porc_com : Double;
 begin
+  var_FINALIZOU := 'NAO';
  DM_MOV.ID_DO_MOVIMENTO := 0;
  if (jvPageControl1.ActivePage = TabVenda) then
  begin
@@ -4434,6 +4437,29 @@ begin
     fAbrirCaixa.Free;
     Caixa.Free;
   end;
+end;
+
+procedure TfTerminal2.FazerTroca1Click(Sender: TObject);
+begin
+  if (jvPageControl1.ActivePage = TabVenda) then
+  begin
+    if (not DM_MOV.c_movimento.Active) then
+    if (DM_MOV.c_movdetBAIXA.AsString = '1') then
+    begin
+      fTroca := TfTroca.Create(Application);
+      try
+        fTroca.codMovTroca := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
+        fTroca.codProdATrocar := DM_MOV.c_movdetCODPRODUTO.AsInteger;
+        fTroca.produtoATrocar := DM_MOV.c_movdetCODPRO.AsString + '-' + DM_MOV.c_movdetDESCPRODUTO.AsString;
+        fTroca.valorATrocar := DM_MOV.c_movdetVALTOTAL.AsFloat;
+        fTroca.codCCustoTroca := DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger;
+        fTroca.codDetTroca := DM_MOV.c_movdetCODDETALHE.AsInteger;
+        fTroca.ShowModal;
+      finally
+        fTroca.Free;
+      end;
+    end;
+  end;  
 end;
 
 end.
