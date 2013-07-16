@@ -4057,6 +4057,10 @@ object fTerminal2: TfTerminal2
       ShortCut = 114
       OnClick = EditarComanda1Click
     end
+    object FazerTroca1: TMenuItem
+      Caption = 'Fazer Troca'
+      OnClick = FazerTroca1Click
+    end
   end
   object pmImp: TPopupMenu
     Left = 646
