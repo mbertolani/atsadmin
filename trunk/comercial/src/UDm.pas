@@ -2372,19 +2372,19 @@ begin
   end;
   verificaTamCampo;
 
-  if (sResolucao.Active) then
-   sResolucao.Close;
-  sResolucao.Params[0].AsString := MICRO;
-  sResolucao.Open;
-  if (sResolucao.IsEmpty) then
+  if cds_parametro.Active then
+    cds_parametro.Close;
+  cds_parametro.Params[0].AsString := 'VIDEO';
+  cds_parametro.Open;
+  if (cds_parametro.IsEmpty) then
   begin
     videoW := '800';
     videoH := '600';
   end
   else
   begin
-    videoW := sResolucaoMODULO.AsString;
-    videoH := sResolucaoUSUARIO.AsString;
+    videoW := cds_parametroD1.AsString;
+    videoH := cds_parametroD2.AsString;
   end;
 
 
