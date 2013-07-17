@@ -147,6 +147,7 @@ object fPainelControle: TfPainelControle
       Width = 475
       Height = 256
       AllowPanning = pmNone
+      AllowZoom = False
       BackWall.Brush.Color = clWhite
       BackWall.Brush.Style = bsClear
       BackWall.Pen.Visible = False
@@ -407,12 +408,12 @@ object fPainelControle: TfPainelControle
   end
   object sdsVendaCliente: TSQLDataSet
     CommandText = 
-      'SELECT First 10 v.CODCLIENTE || '#39'-'#39' || UDF_LEFT(cli.RAZAOSOCIAL,' +
+      'SELECT First 10 v.CODCLIENTE || '#39'-'#39' || UDF_LEFT(cli.NOMECLIENTE,' +
       '10) CLIENTE, SUM(v.VALOR) VENDA'#13#10'   FROM VENDA v, CLIENTES cli, ' +
       'MOVIMENTO m'#13#10'WHERE v.CODMOVIMENTO = m.CODMOVIMENTO'#13#10'      AND m.' +
       'CODNATUREZA = 3'#13#10'      AND v.CODCLIENTE = cli.CODCLIENTE'#13#10'      ' +
       'AND v.DATAVENDA BETWEEN :dataIni AND :dataFim '#13#10'GROUP BY v.CODCL' +
-      'IENTE, cli.RAZAOSOCIAL'#13#10'ORDER BY 2 DESC '
+      'IENTE, cli.NOMECLIENTE'#13#10'ORDER BY 2 DESC '
     MaxBlobSize = -1
     Params = <
       item
