@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvExStdCtrls, JvEdit, JvValidateEdit, StdCtrls, Mask, DBCtrls,
-  JvSpeedButton, JvExControls, JvLabel, ExtCtrls, MMJPanel, Menus, U_Terminal;
+  JvSpeedButton, JvExControls, JvLabel, ExtCtrls, MMJPanel, Menus;
 
 type
   TF_AlteraPedido = class(TForm)
@@ -38,7 +38,7 @@ var
 
 implementation
 
-uses UDM_MOV;
+uses UDM_MOV, uTerminal2;
 
 {$R *.dfm}
 
@@ -48,7 +48,7 @@ begin
   DM_MOV.c_movdetPRECO.AsFloat := JvUnitario.AsFloat;
   DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
   DM_MOV.c_movdet.ApplyUpdates(0);
-  F_Terminal.JvTotal.Value := DM_MOV.c_movdettotalpedido.Value;
+  fTerminal2.JvTotal.Value := DM_MOV.c_movdettotalpedido.Value;
   close;
 end;
 

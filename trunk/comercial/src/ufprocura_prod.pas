@@ -259,8 +259,8 @@ uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uNFCompra,
   uMovimenta_Estoque,
   UDM_MOV,
-  U_Terminal,
-  uLotes_Produtos;
+  uLotes_Produtos,
+  uTerminal2;
 
 {$R *.dfm}
 
@@ -1415,13 +1415,13 @@ begin
    TD.TransactionID := 1;
    TD.IsolationLevel := xilREADCOMMITTED;
 
-   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+   if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
      if (DM_MOV.c_movimento.State in [dsInactive]) then
        incluimovimento;     // Tabela Movimento
-   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+   if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
      if (DM_MOV.c_comanda.State in [dsInactive]) then
        incluimovimento;     // Tabela Movimento
-   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+   if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
      if (DM_MOV.c_Delivery.State in [dsInactive]) then
        incluimovimento;     // Tabela Movimento
 
@@ -1440,9 +1440,6 @@ begin
 
   // if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
      strSql := strSql + IntToStr(DM_MOV.ID_DO_MOVIMENTO) + ', ';
-
-//   if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
-//     strSql := strSql + IntToStr(DM_MOV.c_comandaCODMOVIMENTO.AsInteger) + ', ';
 
    strSql := strSql + IntToStr(cds_procCODPRODUTO.AsInteger) + ', ';
    strSql := strSql + QuotedStr(cds_procPRODUTO.Value) + ', ';
@@ -1948,7 +1945,7 @@ procedure TfProcura_prod.incluimovimento;
 var codcliente :integer;
     nomecliente, clienteConsumidor :string;
 begin
-  if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+  if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
   begin
       if Dm.cds_parametro.Active then
          dm.cds_parametro.Close;
@@ -1958,19 +1955,19 @@ begin
         clienteConsumidor := dm.cds_parametroDADOS.AsString;
       dm.cds_parametro.Close;
 
-      if (F_Terminal.b_cliente.Active) then
-        F_Terminal.b_cliente.Close;
-      F_Terminal.b_cliente.Params[0].AsInteger := StrToInt(clienteConsumidor);
-      F_Terminal.b_cliente.Open;
-      if (F_Terminal.b_cliente.IsEmpty) then
+      if (fTerminal2.b_cliente.Active) then
+        fTerminal2.b_cliente.Close;
+      fTerminal2.b_cliente.Params[0].AsInteger := StrToInt(clienteConsumidor);
+      fTerminal2.b_cliente.Open;
+      if (fTerminal2.b_cliente.IsEmpty) then
       begin
         ShowMessage('Cliente configurado nos parametros não consta no cadastro de clientes.');
         exit;
       end
       else
       begin
-       codcliente := F_Terminal.b_clienteCODCLIENTE.AsInteger;
-       nomecliente := F_Terminal.b_clienteNOMECLIENTE.AsString;
+       codcliente := fTerminal2.b_clienteCODCLIENTE.AsInteger;
+       nomecliente := fTerminal2.b_clienteNOMECLIENTE.AsString;
       end;
 
       DM_MOV.c_movimento.Open;
@@ -1993,10 +1990,10 @@ begin
     DM_MOV.c_movimentoCODCLIENTE.AsInteger := codcliente;
     DM_MOV.c_movimentoNOMECLIENTE.AsString := nomecliente;
     DM_MOV.c_movimentoCODALMOXARIFADO.AsInteger := 1;
-    DM_MOV.c_DeliveryTIPO_PEDIDO.AsString := 'P';    
+    DM_MOV.c_DeliveryTIPO_PEDIDO.AsString := 'P';
     DM_MOV.c_movimento.ApplyUpdates(0);
   end;
-  if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+  if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
   begin
     DM_MOV.c_comanda.Open;
     DM_MOV.c_comanda.Append;
@@ -2020,7 +2017,7 @@ begin
     DM_MOV.c_comanda.ApplyUpdates(0);
   end;
 
-  if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+  if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
   begin
     DM_MOV.c_Delivery.Open;
     DM_MOV.c_Delivery.Append;

@@ -51,7 +51,8 @@ implementation
 
 uses UDM, uFornecedorCadastro, ufuncionario, uClienteCadastro,
   uClientePlano, UDmSaude, sCtrlResize, UDMNF, uNF, uProcurar, uNotaf,
-  U_Terminal,  U_TerminalFinaliza,  uCliente1;
+  U_Terminal,  U_TerminalFinaliza,  uCliente1,
+  uTerminal2;
 
 {$R *.dfm}
 
@@ -148,13 +149,13 @@ begin
   end;
 
   //Procura acessado para procurar Cliente
-  if ((dmnf.FormExiste(F_Terminal) = True) and (jafez = 'N')) then
+  if ((dmnf.FormExiste(fTerminal2) = True) and (jafez = 'N')) then
   begin
     fCliente1 :=TfCliente1.Create(Application);
     try
         if (fCliente1.cds_cli.Active) then
             fCliente1.cds_cli.Close;
-        fCliente1.cds_cli.Params[0].AsInteger := F_Terminal.scds_cli_procCODCLIENTE.AsInteger;
+        fCliente1.cds_cli.Params[0].AsInteger := fTerminal2.scds_cli_procCODCLIENTE.AsInteger;
         fCliente1.cds_cli.Open;
         if (fCliente1.cds_CliEnd.Active) then
            fCliente1.cds_CliEnd.Close;
