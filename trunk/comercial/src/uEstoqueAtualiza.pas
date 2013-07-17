@@ -34,7 +34,7 @@ begin
     Priority := tpLower;
     if (dm.cdsBusca.Active) then
       dm.cdsBusca.Close;
-    dm.cdsBusca.CommandText := 'SELECT FIRST 500 DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO, MD.LOTE ' +
+    dm.cdsBusca.CommandText := 'SELECT FIRST 50 DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO, MD.LOTE ' +
       '  FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NP  ' +
       ' WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
       '   AND M.CODNATUREZA = NP.CODNATUREZA ' +
