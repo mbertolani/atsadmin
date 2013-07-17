@@ -3617,7 +3617,7 @@ begin
   scdsCr_proc.Params[0].Clear;
   cds.Params[0].Clear;
   cds.Params[1].Clear;
-  dm.EstoqueAtualiza;
+  //dm.EstoqueAtualiza;
 end;
 
 end.

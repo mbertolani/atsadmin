@@ -2,7 +2,7 @@ inherited fVendas: TfVendas
   Left = 215
   Top = 103
   Width = 806
-  Height = 594
+  Height = 600
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Venda'
   Font.Height = -13
@@ -1443,7 +1443,7 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [16]
     Left = 0
-    Top = 539
+    Top = 538
     Width = 798
     Height = 28
     Align = alBottom
@@ -2354,7 +2354,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2408,7 +2408,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
