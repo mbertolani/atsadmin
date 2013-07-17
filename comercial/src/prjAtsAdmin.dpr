@@ -301,8 +301,11 @@ uses
   uClientesAniversario in 'uClientesAniversario.pas' {fClientesAniversario},
   uUnidadeMedida in 'uUnidadeMedida.pas' {fUnidadeMedida},
   uSincronizar in 'uSincronizar.pas' {fSincronizar},
-  uEstoqueAtualiza in 'uEstoqueAtualiza.pas',
   uOsFinaliza in 'uOsFinaliza.pas' {fOsFinaliza},
+  uCx in 'uCx.pas' {fCx},
+  uClassificacaoFiscalNCM in 'uClassificacaoFiscalNCM.pas' {fClassificacaoFiscalNCM},
+  uNCM in 'uNCM.pas' {fNCM},
+  uEstoqueAtualiza in 'uEstoqueAtualiza.pas',
   uTroca in 'uTroca.pas' {fTroca};
 
 {$R *.res}
@@ -375,7 +378,6 @@ begin
   Application.CreateForm(TfProcura_prod, fProcura_prod);
   Application.CreateForm(TfUso_Prod, fUso_Prod);
   Application.CreateForm(TfProdutoLote, fProdutoLote);
-  //Application.CreateForm(Tf_Terminal, f_Terminal);
   Application.CreateForm(TfcpTitulo, fcpTitulo);
   Application.CreateForm(TfFiltro_forn_plano, fFiltro_forn_plano);
   Application.CreateForm(TfRateioPag, fRateioPag);
@@ -384,7 +386,7 @@ begin
   Application.CreateForm(TfProdutoProc, fProdutoProc);
   Application.CreateForm(TfProcura_prod, fProcura_prod);
   Application.CreateForm(TfClienteFiltro, fClienteFiltro);
-
+  //Application.CreateForm(TF_Terminal, F_Terminal);  //
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     Application.CreateForm(TfOs, fOs);
