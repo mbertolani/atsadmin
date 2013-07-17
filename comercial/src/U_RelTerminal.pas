@@ -88,7 +88,6 @@ type
     s_parametroD9: TStringField;
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
-    sVendaVCOMISSAO: TFloatField;
     procedure btnVendasClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
@@ -579,7 +578,7 @@ begin
     totalprod := sVendaQUTDE.value * sVendaVARLORUNIT.value;
     Writeln(Impressora, c10cpi + Format('%10.2n',[totalprod]));
     Totalgeral := Totalgeral + totalprod;
-    TotalComissao := TotalComissao + sVendaVCOMISSAO.AsFloat;
+    //TotalComissao := TotalComissao + sVendaVCOMISSAO.AsFloat;
     sVenda.next;
   end;
   Writeln(Impressora, c10cpi + Format('%-38s',['----------------------------------------']));
