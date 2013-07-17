@@ -246,7 +246,6 @@ type
     AniversrioClientes1: TMenuItem;
     UnidadeMedida1: TMenuItem;
     ExportarCupom1: TMenuItem;
-    CFOPNCM1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -448,7 +447,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
   uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
   uLogs, uUnidadeMedida, uSincronizar, uFluxoEstoque, uClassificacaoFiscalNCM, 
-  uNCM;
+  uNCM, uFiltroCorreio;
 
 {$R *.dfm}
 
@@ -502,23 +501,26 @@ procedure TfAtsAdmin.ClientesClick(Sender: TObject);
 begin
   if (varform <> '') then
     varform := '';
-  fClienteCadastro := TfClienteCadastro.Create(Application);
-  try
-    fClienteCadastro.ShowModal;
-  finally
-    fClienteCadastro.Free;
-    varform := '';
+  if (dm.cadastroClienteTipo = 'COMPLETO') then
+  begin
+    fClienteCadastro := TfClienteCadastro.Create(Application);
+    try
+      fClienteCadastro.ShowModal;
+    finally
+      fClienteCadastro.Free;
+      varform := '';
+    end;
   end;
-  {fCliente1 := TfCliente1.Create(Application);
-  fEndereco := TfEndereco.Create(Application);
-  try
-    fCliente1.ShowModal;
-  finally
-    fEndereco.Free;
-    fCliente1.Free;
-    varform := '';
+  if (dm.cadastroClienteTipo = 'SIMPLES') then
+  begin
+    fCliente1 := TfCliente1.Create(Application);
+    try
+      fCliente1.ShowModal;
+    finally
+      fCliente1.Free;
+      varform := '';
+    end;
   end;
-   }
 end;
 
 procedure TfAtsAdmin.FornecedoresClick(Sender: TObject);
@@ -1047,7 +1049,8 @@ begin
   DM.cds_parametro.Open;
   if (DM.cds_parametro.Eof) then
   begin
-    F_Terminal.ShowModal;
+    //F_Terminal.ShowModal;
+    WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
   end
   else
   begin
@@ -2248,10 +2251,12 @@ end;
 procedure TfAtsAdmin.Correio1Click(Sender: TObject);
 begin
    fCorreio := TfCorreio.Create(Application);
+   FiltroCorreio := TFiltroCorreio.Create(Application);
    try
       fCorreio.ShowModal;
    finally
-      fCorreio.Free;      
+     FiltroCorreio.Free;
+     fCorreio.Free;      
    end;
 end;
 
