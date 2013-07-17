@@ -2555,10 +2555,10 @@ begin
             pesoB := 0;
         end;
 
-        if ( (trim(RemoveChar(cdsNFPLACATRANSP.AsString)) <> '') and (trim(RemoveChar(cdsNFPLACATRANSP.AsString)) <> null) ) then
+        if ( (trim(StringReplace(cdsNFPLACATRANSP.AsString, '-', '', [rfReplaceAll])) <> '') and (trim(RemoveChar(cdsNFPLACATRANSP.AsString)) <> null) ) then
          if ( (cdsNFUF_VEICULO_TRANSP.AsString <> '') and (cdsNFUF_VEICULO_TRANSP.AsString <> null) ) then
          begin
-           veicTransp.placa := trim(RemoveChar(cdsNFPLACATRANSP.AsString));
+           veicTransp.placa := trim(StringReplace(cdsNFPLACATRANSP.AsString, '-', '', [rfReplaceAll]));
            veicTransp.UF := cdsNFUF_VEICULO_TRANSP.AsString;
          end;
       end;
