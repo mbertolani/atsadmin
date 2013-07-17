@@ -7,7 +7,7 @@ uses
   Dialogs, JvExControls, JvLabel, StdCtrls, JvExStdCtrls, JvEdit,
   JvValidateEdit, ExtCtrls, MMJPanel, FMTBcd, DBClient, Provider, DB,
   SqlExpr, Buttons, JvExButtons, JvBitBtn, Grids, DBGrids, JvExDBGrids,
-  JvDBGrid, Mask, DBCtrls, U_Terminal, DBLocal, DBLocalS, umovimento, uVendaCls,
+  JvDBGrid, Mask, DBCtrls, DBLocal, DBLocalS, umovimento, uVendaCls,
   uCompraCls, uReceberCls,DateUtils, DBxPress, Menus, rpcompobase,
   rpvclreport, uUtils, Printers, JvExMask, JvSpin;
 
@@ -296,7 +296,7 @@ var
 
 implementation
 
-uses UDm, UDM_MOV, UDMNF, uFiscalCls;
+uses UDm, UDM_MOV, UDMNF, uFiscalCls, uTerminal2;
 
 {$R *.dfm}
 
@@ -777,17 +777,17 @@ begin
       fven.DataVcto             := Now;
       fven.Serie                := serie_padrao;
       fven.NotaFiscal           := nota_fiscal;
-      if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
       begin
          codigo_cliente            := DM_MOV.c_movimentoCODCLIENTE.AsInteger;
          codigo_almox              := DM_MOV.ID_CCUSTO;
       end;
-      if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
       begin
          codigo_cliente            := DM_MOV.c_comandaCODCLIENTE.AsInteger;
          codigo_almox              := DM_MOV.ID_CCUSTO;//DM_MOV.c_comandaCODALMOXARIFADO.AsInteger;
       end;
-      if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
       begin
          codigo_cliente            := DM_MOV.c_DeliveryCODCLIENTE.AsInteger;
          codigo_almox              := DM_MOV.ID_CCUSTO; //DM_MOV.c_DeliveryCODALMOXARIFADO.AsInteger;
@@ -812,11 +812,11 @@ begin
       FVen.ValorComissao        := JvComissao.Value;
       //fven.inserirVenda(0);
       codigo_venda := fven.inserirVenda(0);
-      if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
         dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
-      if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
         dmnf.baixaEstoque(DM_MOV.c_comandaCODMOVIMENTO.AsInteger, DM_MOV.c_comandaDATAMOVIMENTO.AsDateTime, 'VENDA');
-      if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
         dmnf.baixaEstoque(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger, DM_MOV.c_DeliveryDATAMOVIMENTO.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TDA);
       //Gravando o numero sequencial
@@ -975,7 +975,7 @@ begin
  //   caixinha;
 
   // Encerra Processos do terminal
-  F_Terminal.var_FINALIZOU := 'SIM';
+  fTerminal2.var_FINALIZOU := 'SIM';
   Close;
   DecimalSeparator := ',';
 end;
@@ -1006,13 +1006,13 @@ begin
      Texto3 := 'Produto                                               ' ;
      Texto4 := 'Codigo             UN      Qtde     V.Un.     V.Total ' ;
 
-     if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+     if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
        cliente := 'Cliente : ' + DM_MOV.c_movimentoNOMECLIENTE.Value;
 
-     if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabComanda) then
+     if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
        cliente := 'Cliente : ' + DM_MOV.c_comandaNOMECLIENTE.Value;
 
-     if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabDelivery) then
+     if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
        cliente := 'Cliente : ' + DM_MOV.c_DeliveryNOMECLIENTE.Value;
 
 
@@ -1104,7 +1104,7 @@ begin
      s_parametro.Open;
      if (not s_parametro.IsEmpty) then
      begin
-       if (F_Terminal.JvComissao.Value > 0) then
+       if (fTerminal2.JvComissao.Value > 0) then
        begin
          Texto5 := '% : R$ ';
          Write(Impressora, c17cpi + Format('%40s',[texto5]));
@@ -1123,7 +1123,7 @@ begin
          Texto5 := 'Desconto : R$ ';
          Write(Impressora, c17cpi + Format('%40s',[texto5]));
          Writeln(Impressora, c17cpi + Format('%10.2n',[vlrDesc]));
-         porc    := (F_Terminal.JvComissao.Value / 100) * total;
+         porc    := (fTerminal2.JvComissao.Value / 100) * total;
          total   := total - vlrDesc;
          Texto5 := 'Total : R$ ';
          Write(Impressora, c17cpi + Format('%40s',[texto5]));
@@ -1361,11 +1361,11 @@ begin
      s_parametro.Open;
      if (not s_parametro.IsEmpty) then
      begin
-       if (F_Terminal.JvComissao.Value > 0) then
+       if (fTerminal2.JvComissao.Value > 0) then
        begin
          Texto5 := DateTimeToStr(Now) + '               % : R$ ';
          buffer  := texto5;
-         porc    := (F_Terminal.JvComissao.Value / 100) * total;
+         porc    := (fTerminal2.JvComissao.Value / 100) * total;
          buffer  := buffer + Format('%10.2n',[porc]);
          buffer  := buffer + Chr(13) + Chr(10);
          comando := FormataTX(buffer, 3, 0, 0, 0, 0);
