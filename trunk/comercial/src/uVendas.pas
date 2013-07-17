@@ -2379,6 +2379,7 @@ begin
     ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
     ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
   end;
+  dm.EstoqueAtualiza;
 end;
 
 procedure TfVendas.DBEdit15Exit(Sender: TObject);

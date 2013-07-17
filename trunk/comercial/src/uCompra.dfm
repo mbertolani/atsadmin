@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 812
+    Width = 795
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 561
-    Width = 812
+    Top = 556
+    Width = 795
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
