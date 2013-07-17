@@ -70,6 +70,7 @@ type
     procedure acNfeEmitirExecute(Sender: TObject);
     procedure dxButton11Click(Sender: TObject);
     procedure UserControlAutoAfterLogin(Sender: TObject);
+    procedure JvOutlookBar1Pages0Buttons8Click(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -98,7 +99,7 @@ uses
   uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
   uRelOS,
   uNotaf,
-  UDMNF;
+  UDMNF, uNCM;
 
 {$R *.dfm}
 
@@ -750,6 +751,16 @@ end;
 procedure TfAtsOS.UserControlAutoAfterLogin(Sender: TObject);
 begin
   Dm.varLogado := UserControlAuto.CurrentUser.UserLogin;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages0Buttons8Click(Sender: TObject);
+begin
+ fNCM := TfNCM.Create(Application);
+ try
+   fNCM.ShowModal;
+ finally
+   fNCM.Free;
+ end;
 end;
 
 end.

@@ -27906,6 +27906,13 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages0Buttons7Click
+          end
+          item
+            Caption = 'Cadastro NCM'
+            ImageIndex = 22
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages0Buttons8Click
           end>
         ButtonSize = olbsLarge
         Caption = '&Cadastro'
