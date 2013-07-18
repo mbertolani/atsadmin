@@ -1458,33 +1458,7 @@ begin
     btnGravar.Click;
   end;
 
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'SERIENFE';
-  dm.cds_parametro.Open;
-
-  if (not dmnf.scds_serienfe.Active) then
-    dmnf.scds_serienfe.Close;
-  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
-  dmnf.scds_serienfe.Open;
-
-  if (not dm.cds_parametro.IsEmpty) then
-  begin
-    if ( (DMNF.scds_serienfeNOTASERIE.AsInteger + 1) = cdsNOTAFISCAL.AsInteger ) then
-    begin
-      if ( dm.cds_parametroD1.AsString = cdsSERIE.AsString ) then
-        nfe := 'S';
-    end
-    else
-    begin
-      nfe := 'N';
-      MessageDlg('Nota fiscal com Série e/ou Número incorreto. Ultimo utilizado: '
-      + IntToStr(DMNF.scds_serienfeNOTASERIE.AsInteger) + '/' + dm.cds_parametroD1.AsString
-      , mtWarning, [mbOK], 0);
-    end;
-  end
-  else
-    nfe := 'S';
+  nfe := 'S';
 
   if (nfe = 'S' ) then
   begin
@@ -3075,6 +3049,7 @@ procedure TfVendaFinalizar.notaFiscal;
 var
   Save_Cursor:TCursor;
   codClienteNF: integer;
+  serieNf: String;
   str_sql : string;
 begin
   if (sqlBuscaNota.Active) then
@@ -3089,6 +3064,28 @@ begin
       codClienteNF := 0;
       Save_Cursor := Screen.Cursor;
       Screen.Cursor := crHourGlass;    { Show hourglass cursor }
+
+      if (dm.cds_parametro.Active) then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].asString := 'SERIENFE';
+      dm.cds_parametro.Open;
+
+      if (dmnf.scds_serienfe.Active) then
+        dmnf.scds_serienfe.Close;
+      dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+
+      dmnf.scds_serienfe.Open;
+
+      if (not dm.cds_parametro.IsEmpty) then
+      begin
+        serieNf := dm.cds_parametroD1.AsString;
+      end
+      else
+      begin
+        MessageDlg('Cadastre o Parametro SERIENFE para prosseguir', mtWarning, [mbOK], 0);
+        exit;
+      end;
+
       // Nota Fiscal
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
@@ -3100,8 +3097,8 @@ begin
           str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
-          str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
-          str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
+          str_sql := str_sql + ', ' + QuotedStr(serieNF);
+          str_sql := str_sql + ', ' + QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1));
           str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
           dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
@@ -3111,11 +3108,14 @@ begin
           str_sql := str_sql + IntToStr(cdsCODCLIENTE.AsInteger);
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
-          str_sql := str_sql + ', ' + QuotedStr(cdsSERIE.AsString);
-          str_sql := str_sql + ', ' + QuotedStr(inttostr(cdsNOTAFISCAL.AsInteger));
+          str_sql := str_sql + ', ' + QuotedStr(serieNF);
+          str_sql := str_sql + ', ' + QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1));
           str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
           dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
+        dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = ' +
+          QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1) + '-' + serieNF) +
+          ' where CODMOVIMENTO = ' +  IntToStr(cdsCODMOVIMENTO.AsInteger));
         dm.sqlsisAdimin.Commit(TD);
       except
         on E : Exception do
