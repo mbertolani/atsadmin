@@ -71,6 +71,8 @@ begin
       end;
       if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
       begin
+        dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = null' +
+          ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString);
          dmnf.DtSrcVenda.DataSet.Delete;
          (dmnf.DtSrcVenda.DataSet as TClientDataSet).ApplyUpdates(0);
       end;

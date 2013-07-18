@@ -560,7 +560,21 @@ begin
 end;
 
 procedure TfNotaf.btnIncluirClick(Sender: TObject);
+var numNf: String;
 begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+
+  dmnf.scds_serienfe.Open;
+  numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+
+
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
   if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
@@ -570,6 +584,8 @@ begin
     sdsTotal.params[0].AsInteger := codMovFin;
     sdsTotal.open;
     incluiNotaFiscal;
+    dmnf.cds_nfSERIE.AsString := dm.cds_parametroD1.AsString;
+    dmnf.cds_nfNOTASERIE.AsString := numNf;
     dmnf.cds_nfVALOR_PRODUTO.AsFloat := sdsTotal.Fields[0].AsFloat;
     dmnf.cds_nfVALOR_TOTAL_NOTA.AsFloat := dmnf.cds_nfVALOR_PRODUTO.AsFloat +
        dmnf.cds_vendaVALOR_ICMS.AsFloat + dmnf.cds_vendaVALOR_FRETE.AsFloat +
@@ -840,7 +856,7 @@ begin
   DMNF.cds_nf.Params[1].Clear;
   dmnf.cds_nf.Open;
   dmnf.cds_nf.Append;
-  DMNF.cds_nfNOTASERIE.AsString := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
+
 end;
 
 procedure TfNotaf.incluiVenda;
