@@ -37,6 +37,7 @@ AS
  Declare variable NCM_P varchar(8);
  Declare variable origem integer;
  Declare variable CALCTRIB varchar(1); 
+ DECLARE VARIABLE TOTALITENS DOUBLE PRECISION;
 BEGIN
 	if ( (new.cfop = '') or (new.CFOP is null) ) then
             select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
@@ -91,6 +92,8 @@ BEGIN
 			where ef.TIPOEND = 0 and m.CODMOVIMENTO = new.CODMOVIMENTO
 			into :UF, :PESSOA, IE;
 		end
+		
+		TOTALITENS = new.VLR_BASE * new.QUANTIDADE;
 	
 		select first 1 COALESCE(cfp.ICMS_SUBST, 0), COALESCE(cfp.ICMS_SUBST_IC, 0), COALESCE(cfp.ICMS_SUBST_IC, 0),
 		COALESCE(cfp.ICMS, 0), COALESCE(cfp.ICMS_BASE, 1), cfp.CST, COALESCE(cfp.IPI, 0), cfp.CSOSN, COALESCE(cfp.PIS, 0), COALESCE(cfp.COFINS, 0), cfp.CSTCOFINS, cfp.CSTPIS, cfp.CSTIPI,
@@ -118,8 +121,8 @@ BEGIN
 			--CALCULO DE IPI
 			if (IND_IPI > 0) then
 			begin
-				new.VLRBC_IPI = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
-				new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
+				new.VLRBC_IPI = UDF_ROUNDDEC(TOTALITENS , :arredondar);
+				new.VIPI = UDF_ROUNDDEC((TOTALITENS * IND_IPI/100), :arredondar);
 				new.PIPI = IND_IPI;
 			end
 			else
@@ -132,7 +135,7 @@ BEGIN
 			--CALCULO DE PIS
 			if (PIS > 0) then
 			begin
-				new.VLRBC_PIS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+				new.VLRBC_PIS = UDF_ROUNDDEC(TOTALITENS , :arredondar);
 				new.PPIS = :PIS;
 				new.VALOR_PIS = (new.VLRBC_PIS * new.PPIS)/100;
 			end
@@ -146,7 +149,7 @@ BEGIN
 			--CALCULO DO COFINS
 			if (cofins > 0) then
 			begin
-				new.VLRBC_COFINS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+				new.VLRBC_COFINS = UDF_ROUNDDEC(TOTALITENS , :arredondar);
 				new.PCOFINS = :cofins;	
 				new.VALOR_COFINS = (new.VLRBC_COFINS * new.PCOFINS)/100;
 			end
@@ -178,30 +181,38 @@ BEGIN
 				begin
 					--Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS
 					if (new.DESCONTO_BC = 'True') then
-						new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFrete - :vd)* ind_reduzicms), :arredondar);
+						new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS + :vFrete - :vd)* ind_reduzicms), :arredondar);
 					--Soma Frete na BC ICMS e Não Subtrai Desconto da BC ICMS
 					else	
-						new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) + :vFrete))* ind_reduzicms), :arredondar);
+						new.VLR_BASEICMS = UDF_ROUNDDEC(( ((TOTALITENS + :vFrete))* ind_reduzicms), :arredondar);
 				end
 				else
 				begin
 					--Subtrair Desconto a BC ICMS 
 					if (new.DESCONTO_BC <> 'True') then
-						new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - :vd )* ind_reduzicms), :arredondar);
+						new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
 					--Não Subtrai Desconto da BC ICMS, não soma Frete a BC ICMS
 					else
-					new.VLR_BASEICMS = UDF_ROUNDDEC(( (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), :arredondar);
+					new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
 				end
 				new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (:CICMS / 100), :arredondar);
 			end
 
 			----------- TEM ST -------------
+			
+			if (CICMS_SUBST > 0 ) then
+                CICMS_SUBST = 1+ ( CICMS_SUBST/100);
+            if (CICMS_SUBST_IND > 0 ) then
+                CICMS_SUBST_IND = CICMS_SUBST_IND/100;
+            if (CICMS_SUBST_IC > 0 ) then
+                CICMS_SUBST_IC = CICMS_SUBST_IC/100;
+				
 			if (CICMS_SUBST > 0) then
-			new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), :arredondar);
+			new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS * CICMS_SUBST), :arredondar);
 			if ( new.ICMS_SUBSTD > 0) then
 			begin
-				VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * (CICMS_SUBST_IND/100); 
-				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(:VALOR_SUBDESC), :arredondar);
+				VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
+				new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(:VALOR_SUBDESC), :arredondar);
 			end     
 			else	
 				new.ICMS_SUBST = 0;
@@ -248,7 +259,7 @@ BEGIN
                 --CALCULO DE IPI
                 if (IND_IPI > 0) then
                 begin
-                    new.VLRBC_IPI = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+                    new.VLRBC_IPI = UDF_ROUNDDEC(TOTALITENS , :arredondar);
                     new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
                     new.PIPI = IND_IPI;
                 end
@@ -262,7 +273,7 @@ BEGIN
                 --CALCULO DE PIS
                 if (PIS > 0) then
                 begin
-                    new.VLRBC_PIS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+                    new.VLRBC_PIS = UDF_ROUNDDEC(TOTALITENS, :arredondar);
                     new.PPIS = :PIS;
                     new.VALOR_PIS = (new.VLRBC_PIS * new.PPIS)/100;
                 end
@@ -276,7 +287,7 @@ BEGIN
                 --CALCULO DO COFINS
                 if (cofins > 0) then
                 begin
-                    new.VLRBC_COFINS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+                    new.VLRBC_COFINS = UDF_ROUNDDEC(TOTALITENS , :arredondar);
                     new.PCOFINS = :cofins;	
                     new.VALOR_COFINS = (new.VLRBC_COFINS * new.PCOFINS)/100;
                 end
@@ -308,30 +319,38 @@ BEGIN
                     begin
                         --Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS
                         if (new.DESCONTO_BC = 'True') then
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFrete - :vd)* ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS + :vFrete - :vd)* ind_reduzicms), :arredondar);
 					--Soma Frete na BC ICMS e Não Subtrai Desconto da BC ICMS
                         else	
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) + :vFrete))* ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( ((TOTALITENS + :vFrete))* ind_reduzicms), :arredondar);
                     end
                     else
                     begin
                         --Subtrair Desconto a BC ICMS 
 					if (new.DESCONTO_BC <> 'True') then
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - :vd )* ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
                         --Não Subtrai Desconto da BC ICMS, não soma Frete a BC ICMS
                         else
-                        new.VLR_BASEICMS = UDF_ROUNDDEC(( (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), :arredondar);
+                        new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
                     end
                     new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (:CICMS / 100), :arredondar);
                 end
 
                 ----------- TEM ST -------------
+				
+				if (CICMS_SUBST > 0 ) then
+					CICMS_SUBST = 1+ ( CICMS_SUBST/100);
+				if (CICMS_SUBST_IND > 0 ) then
+					CICMS_SUBST_IND = CICMS_SUBST_IND/100;
+				if (CICMS_SUBST_IC > 0 ) then
+					CICMS_SUBST_IC = CICMS_SUBST_IC/100;
+				
                 if (CICMS_SUBST > 0) then
-                    new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) *(1+(CICMS_SUBST/100))), :arredondar);
+                    new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS *CICMS_SUBST), :arredondar);
                 if ( new.ICMS_SUBSTD > 0) then
                 begin
-                    VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * (CICMS_SUBST_IND/100); 
-                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * (CICMS_SUBST_IC/100))-(:VALOR_SUBDESC), :arredondar);
+                    VALOR_SUBDesc = TOTALITENS * CICMS_SUBST_IND; 
+                    new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD * CICMS_SUBST_IC)-(:VALOR_SUBDESC), :arredondar);
                 end     
                 else	
                     new.ICMS_SUBST = 0;
@@ -397,8 +416,8 @@ BEGIN
                 --CALCULO DE IPI
                 if (IND_IPI > 0) then
                 begin
-                    new.VLRBC_IPI = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
-                    new.VIPI = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) * IND_IPI/100), :arredondar);
+                    new.VLRBC_IPI = UDF_ROUNDDEC(TOTALITENS , :arredondar);
+                    new.VIPI = UDF_ROUNDDEC((TOTALITENS * IND_IPI/100), :arredondar);
                     new.PIPI = IND_IPI;
                 end
                 else
@@ -411,7 +430,7 @@ BEGIN
                 --CALCULO DE PIS
                 if (PIS > 0) then
                 begin
-                    new.VLRBC_PIS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+                    new.VLRBC_PIS = UDF_ROUNDDEC(TOTALITENS , :arredondar);
                     new.PPIS = :PIS;
                     new.VALOR_PIS = (new.VLRBC_PIS * new.PPIS)/100;
                 end
@@ -425,7 +444,7 @@ BEGIN
                 --CALCULO DO COFINS
                 if (cofins > 0) then
                 begin
-                    new.VLRBC_COFINS = UDF_ROUNDDEC((new.VLR_BASE*new.QUANTIDADE) , :arredondar);
+                    new.VLRBC_COFINS = UDF_ROUNDDEC(TOTALITENS , :arredondar);
                     new.PCOFINS = :cofins;	
                     new.VALOR_COFINS = (new.VLRBC_COFINS * new.PCOFINS)/100;
                 end
@@ -459,19 +478,19 @@ BEGIN
                     begin
                         --Somar Frete a BC ICMS e Subtrai Desconto a BC ICMS
                         if (new.DESCONTO_BC = 'True') then
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) + :vFrete - :vd)* ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS + :vFrete - :vd)* ind_reduzicms), :arredondar);
                         --Soma Frete na BC ICMS e Não Subtrai Desconto da BC ICMS
                         else
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (((new.VLR_BASE*new.QUANTIDADE) + :vFrete))* ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( ((TOTALITENS + :vFrete))* ind_reduzicms), :arredondar);
                     end
                     else
                     begin
                         --Subtrair Desconto a BC ICMS 
                         if (new.DESCONTO_BC <> 'True') then
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( ((new.VLR_BASE*new.QUANTIDADE) - :vd )* ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (TOTALITENS - :vd )* ind_reduzicms), :arredondar);
                         --Não Subtrai Desconto da BC ICMS, não soma Frete a BC ICMS
                         else
-                            new.VLR_BASEICMS = UDF_ROUNDDEC(( (new.VLR_BASE*new.QUANTIDADE) * ind_reduzicms), :arredondar);
+                            new.VLR_BASEICMS = UDF_ROUNDDEC(( TOTALITENS * ind_reduzicms), :arredondar);
                     end
                     new.VALOR_ICMS = UDF_ROUNDDEC((new.VLR_BASEICMS) * (:CICMS / 100), :arredondar);
                 end
@@ -504,12 +523,10 @@ BEGIN
                     end
                     else 
                         CICMS_SUBST = CICMS_SUBST ;
-                    new.ICMS_SUBSTD = UDF_ROUNDDEC(((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * UDF_ROUNDDEC(:CICMS_SUBST, 4), :arredondar); 
-                    VALOR_SUBDesc = ((new.VLR_BASE*new.QUANTIDADE) + new.vipi) * CICMS_SUBST_IND; 
+                    new.ICMS_SUBSTD = UDF_ROUNDDEC((TOTALITENS + new.vipi) * UDF_ROUNDDEC(:CICMS_SUBST, 4), :arredondar); 
+                    VALOR_SUBDesc = TOTALITENS  * CICMS_SUBST_IND; 
                     new.ICMS_SUBST = UDF_ROUNDDEC((new.ICMS_SUBSTD  * CICMS_SUBST_IC) - :Valor_SubDesc, :arredondar);
                 end
-                    new.VALOR_COFINS = UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * :COFINS) /100, :arredondar);
-                new.VALOR_PIS =  UDF_ROUNDDEC(((new.VLR_BASE * new.QUANTIDADE) * :PIS) /100, :arredondar);
 				
 				--TOTAIS TRIBUTOS ITEM
 				if(:CALCTRIB = 'T') then
