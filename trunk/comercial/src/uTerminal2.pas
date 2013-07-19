@@ -499,6 +499,7 @@ type
     procedure Fechamentodecaixa1Click(Sender: TObject);
     procedure AbrirCaixa1Click(Sender: TObject);
     procedure FazerTroca1Click(Sender: TObject);
+    procedure RelatriosFechamentos1Click(Sender: TObject);
   private
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
@@ -4459,6 +4460,16 @@ begin
         fTroca.Free;
       end;
     end;
+  end;  
+end;
+
+procedure TfTerminal2.RelatriosFechamentos1Click(Sender: TObject);
+begin
+  F_RelTerminal := TF_RelTerminal.Create(Application);
+  try
+    F_RelTerminal.ShowModal;
+  finally
+    F_RelTerminal.Free;
   end;  
 end;
 
