@@ -3,6 +3,7 @@ object fTerminal2: TfTerminal2
   Top = 231
   Width = 913
   Height = 636
+  AutoSize = True
   Caption = 'Terminal'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1775,7 +1776,7 @@ object fTerminal2: TfTerminal2
     Left = 0
     Top = 57
     Width = 393
-    Height = 552
+    Height = 545
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
@@ -1787,7 +1788,7 @@ object fTerminal2: TfTerminal2
       Left = 1
       Top = 1
       Width = 391
-      Height = 550
+      Height = 543
       ActivePage = TabVenda
       Align = alClient
       TabOrder = 0
@@ -1799,7 +1800,7 @@ object fTerminal2: TfTerminal2
           Left = 0
           Top = 0
           Width = 383
-          Height = 467
+          Height = 460
           Align = alClient
           AutoSize = True
           Center = True
@@ -2562,7 +2563,7 @@ object fTerminal2: TfTerminal2
         end
         object JvPanel5: TJvPanel
           Left = 0
-          Top = 467
+          Top = 460
           Width = 383
           Height = 57
           HotTrackFont.Charset = DEFAULT_CHARSET
@@ -2759,7 +2760,7 @@ object fTerminal2: TfTerminal2
           Left = 0
           Top = 49
           Width = 383
-          Height = 475
+          Height = 468
           Align = alClient
           TabOrder = 1
           object Image1: TImage
@@ -3025,7 +3026,7 @@ object fTerminal2: TfTerminal2
     Left = 393
     Top = 57
     Width = 512
-    Height = 552
+    Height = 545
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
@@ -3131,7 +3132,7 @@ object fTerminal2: TfTerminal2
     end
     object JvPanel7: TJvPanel
       Left = 1
-      Top = 423
+      Top = 416
       Width = 510
       Height = 128
       HotTrackFont.Charset = DEFAULT_CHARSET
@@ -3327,7 +3328,7 @@ object fTerminal2: TfTerminal2
       Left = 1
       Top = 57
       Width = 510
-      Height = 366
+      Height = 359
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
@@ -4079,6 +4080,7 @@ object fTerminal2: TfTerminal2
     end
     object RelatriosFechamentos1: TMenuItem
       Caption = 'Relat'#243'rios (Fechamentos)'
+      OnClick = RelatriosFechamentos1Click
     end
   end
   object s_venda: TSQLDataSet
