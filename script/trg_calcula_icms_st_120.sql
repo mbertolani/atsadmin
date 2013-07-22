@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER TRIGGER CALCULA_ICMS_ST ACTIVE
 BEFORE INSERT OR UPDATE POSITION 0
 AS
@@ -39,6 +40,8 @@ AS
  Declare variable CALCTRIB varchar(1); 
  DECLARE VARIABLE TOTALITENS DOUBLE PRECISION;
 BEGIN
+  IF ((NEW.PAGOU IS NULL) or (new.PAGOU <> 'M')) THEN  -- Calculo manual 
+  begin 
 	if ( (new.cfop = '') or (new.CFOP is null) ) then
             select first 1 cfp.CFOP from CLASSIFICACAOFISCALPRODUTO cfp 
             where cfp.COD_PROD = new.CODPRODUTO
@@ -565,4 +568,5 @@ BEGIN
             end
         end
     end
+  end  
 END
