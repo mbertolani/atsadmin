@@ -2096,6 +2096,9 @@ begin
   try
   SQl.Connected := False;
   SQl.LoadParamsFromIniFile('dbxconnections.ini');
+  SQl.LibraryName := 'dbexpUIBfire15.dll';
+  SQl.VendorLib := 'FBCLIENT.DLL';
+  Sql.Connected := True;
   sqlsisAdimin.Connected := False;
   sqlsisAdimin.LoadParamsFromIniFile('dbxconnections.ini');
   sqlsisAdimin.LibraryName := 'dbexpUIBfire15.dll';
