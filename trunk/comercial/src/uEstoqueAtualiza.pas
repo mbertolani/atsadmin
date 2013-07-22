@@ -74,14 +74,17 @@ begin
       dm.cdsBusca.Close;
     dm.sdsBusca.SQLConnection := dm.SQl;
     dm.cdsBusca.CommandText := 'SELECT FIRST 50 DISTINCT MD.CODPRODUTO, ' +
-     ' M.CODALMOXARIFADO, MD.LOTE , ' +
-     ' ve.PRECO_CUSTO, ve.ESTOQUE, ve.PRECO_COMPRA ' +
-     '  FROM MOVIMENTO M, MOVIMENTODETALHE MD, NATUREZAOPERACAO NP, VIEW_ESTOQUE ve ' +
-     ' WHERE M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
-     '   AND M.CODNATUREZA = NP.CODNATUREZA ' +
-     '   AND MD.CODPRODUTO = ve.CODPRODUTO ' +
-     '   AND NP.BAIXAMOVIMENTO in (0,1) ' +
-     '   ORDER BY M.CODMOVIMENTO DESC ';
+     ' M.CODALMOXARIFADO, coalesce(MD.LOTE,0) LOTE , ' +
+     ' COALESCE(ve.PRECO_CUSTO, 0) PRECO_CUSTO, COALESCE(ve.ESTOQUE,0) ESTOQUE ' +
+     ' , COALESCE(ve.PRECO_COMPRA,0) PRECO_COMPRA, p.LOTES, coalesce(lt.CODLOTE,0) CODLOTE ' +
+     '  FROM MOVIMENTO M ' +
+     ' INNER JOIN MOVIMENTODETALHE MD ON M.CODMOVIMENTO = MD.CODMOVIMENTO ' +
+     ' INNER JOIN NATUREZAOPERACAO NP ON M.CODNATUREZA = NP.CODNATUREZA ' +
+     ' INNER JOIN VIEW_ESTOQUE ve ON MD.CODPRODUTO = ve.CODPRODUTO ' +
+     ' INNER JOIN PRODUTOS P on p.CODPRODUTO = md.CODPRODUTO ' +
+     '  LEFT OUTER JOIN LOTES lt on lt.CODPRODUTO = MD.CODPRODUTO and lt.LOTE = md.LOTE ' +
+     ' WHERE  NP.BAIXAMOVIMENTO in (0,1) ' +
+     ' ORDER BY M.CODMOVIMENTO DESC ';
     dm.cdsBusca.Open;
     DecimalSeparator := '.';
     dm.SQl.StartTransaction(TDA);
@@ -98,30 +101,31 @@ begin
         IntToStr(dm.cdsBusca.FieldByName('CODPRODUTO').asInteger);
         dm.SQl.ExecuteDirect(strAtualiza);
         // atualiza lote
-        {if (dm.cdsBusca.FieldByName('LOTE').asString <> '0') then
+        if (dm.cdsBusca.FieldByName('LOTES').asString = 'S') then
         begin
-          if (sqlBuscaEstoque.active) then
-            sqlBuscaEstoque.Close;
-          sqlBuscaEstoque.sql.clear;
-          strEstoqueAtual := 'SELECT ESTOQUE, PRECO FROM LOTES WHERE CODPRODUTO = ' +
-            IntToStr(dm.cdsBusca.FieldByName('CODPRODUTO').asInteger) +
-            ' AND LOTE = ' + QuotedStr(dm.cdsBusca.FieldByName('LOTE').asString);
-          sqlBuscaEstoque.SQL.Add(strEstoqueAtual);
-          sqlBuscaEstoque.Open;
-          if (sqlBuscaEstoque.IsEmpty) then
+          if (dm.cdsBusca.FieldByName('CODLOTE').AsInteger = 0) then
           begin
-            strAtualizaLote := 'INSERT INTO LOTE, CODPRODUTO, DATAFABRICACAO ' +
-              ', DATAVENCIMENTO, ESTOQUE, PRECO, NOTAFISCAL, SERIEINI, SERIEFIM '
+            strAtualizaLote := 'INSERT INTO LOTES (LOTE, CODPRODUTO, DATAFABRICACAO ' +
+              ', DATAVENCIMENTO, ESTOQUE, PRECO) VALUES (';  // , NOTAFISCAL, SERIEINI, SERIEFIM
+            strAtualizaLote := strAtualizaLote + QuotedStr(dm.cdsBusca.FieldByName('LOTE').AsString);
+            strAtualizaLote := strAtualizaLote + ', ' + InttoStr(dm.cdsBusca.FieldByName('CODLOTE').AsInteger);
+            strAtualizaLote := strAtualizaLote + ', ' + QuotedStr('01/01/01');
+            strAtualizaLote := strAtualizaLote + ', ' + QuotedStr('01/01/01');
+            strAtualizaLote := strAtualizaLote + ', ' + FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat);
+            strAtualizaLote := strAtualizaLote + ', ' + FloatToStr(dm.cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+            strAtualizaLote := strAtualizaLote + ')';
           end
           else
           begin
+            strAtualizaLote := 'UPDATE LOTES SET ESTOQUE = ' +
+              FloatToStr(dm.cdsBusca.FieldByName('ESTOQUE').asfloat) +
+              ' WHERE CODLOTE = ' + IntToStr(dm.cdsBusca.FieldByName('CODLOTE').AsInteger);
           end;
-        end;}
-        dm.cdsBusca.next;
+          dm.SQl.ExecuteDirect(strAtualizaLote);
+        end;
+        dm.cdsBusca.Next;
       end;
       DecimalSeparator := ',';
-      dm.sdsBusca.Close;
-      dm.sdsBusca.SQLConnection := dm.sqlsisAdimin;
       dm.SQl.Commit(TDA);
     except
       on E : Exception do
@@ -129,6 +133,9 @@ begin
         dm.SQl.Rollback(TDA); //on failure, undo the changes}
       end;
     end;
+    dm.sdsBusca.Close;
+    dm.sdsBusca.SQLConnection := dm.sqlsisAdimin;
+
     dm.SQl.StartTransaction(TDA);
     try
       dm.SQl.ExecuteDirect('UPDATE ATUALIZA SET INSERIDO = ' + QuotedStr('N') +
