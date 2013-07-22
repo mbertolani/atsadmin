@@ -1,4 +1,4 @@
-unit uNotaf;
+unit uNotaf;             
 
 interface
 
@@ -1745,6 +1745,8 @@ end;
 procedure TfNotaf.calculaicms(Estado: String);
 var str_sql: string;
 begin
+  if (calcman.Checked = False) then
+  begin
   Try
     if (dmnf.sds_calculo.Active) then
       dmnf.sds_calculo.Close;
@@ -1776,7 +1778,7 @@ begin
     DecimalSeparator := ',';
     MessageDlg('Erro no cálculo!', mtError, [mbOK], 0);
   end;
-
+  end;
 end;
 
 procedure TfNotaf.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -2213,9 +2215,31 @@ begin
 end;
 
 procedure TfNotaf.calcmanClick(Sender: TObject);
+var TD: TTransactionDesc;
 begin
- if DMNF.DtSrc_NF.State in [dsBrowse] then
-      DMNF.DtSrc_NF.DataSet.Edit;
+  if DMNF.DtSrc_NF.State in [dsBrowse] then
+    DMNF.DtSrc_NF.DataSet.Edit;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    if (calcman.Checked) then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = ' +
+        QuotedStr('M') + ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end
+    else
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = NULL ' +
+        ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
 end;
 
 procedure TfNotaf.ChkCompClick(Sender: TObject);
