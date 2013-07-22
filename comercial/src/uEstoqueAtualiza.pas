@@ -23,7 +23,6 @@ var strBuscaItem: string;
   strEstoqueAtual: String;
   strAtualiza: String;
   strAtualizaLote: String;
-  sqlBuscaEstoque: TSqlQuery;
   sqlB: TSqlQuery;
   strMudaStatus: String;
   TDA: TTransactionDesc;
@@ -35,7 +34,14 @@ begin
     sqlB.Open;
     strMudaStatus := 'S';
     if ((sqlB.FieldByName('INSERIDO').AsString = 'N') or (sqlB.FieldByName('INSERIDO').IsNull)) then
+    begin
       strMudaStatus := 'N';
+    end;
+    if (strMudaStatus = 'S') then
+    begin
+      if ((now - sqlB.FieldByName('DATA_MODIFICADO').AsDateTime) > 1) then
+        strMudaStatus := 'N';
+    end;    
   finally
     sqlB.Destroy;
   end;
