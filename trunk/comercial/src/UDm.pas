@@ -2039,7 +2039,8 @@ type
     { Public declarations }
     cadastroClienteTipo: String;
     impressora_pc: string;
-    videoW, videoH :string;    
+    videoW, videoH :string;
+    EstoquecodMOV: Integer;  
     v_CodFuncao : Integer;
     mensagemInicial, sistemaLiberado, cfopEntrada, cfopEntradaF, cfopSaida, cfopSaidaF, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
@@ -2063,7 +2064,7 @@ type
     pc: String; valorAnt: String; valorPos: String; campoChave: String; acao: String);
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
     procedure verificaTamCampo;
-    procedure EstoqueAtualiza;
+    procedure EstoqueAtualiza(codMovimento: integer);
   end;
 var
   DM: TDM;
@@ -2090,7 +2091,7 @@ var index, I: integer;
 begin
   danfeDec := 2;
   MICRO := NomeComputador;
-  dm.dataComputador := StrToDate('19/04/2012');
+  dm.dataComputador := StrToDate('20/07/2013');
   // LOGADO := '';
   conectado := True;
   try
@@ -3002,7 +3003,9 @@ begin
     sistemaLiberado := 'S';
     verificaNumeroDias(dia, 10);
     if (mensagemInicial <> 'N') then
-      MessageDlg(mensagemInicial , mtWarning, [mbOK], 0);
+      MessageDlg(mensagemInicial , mtWarning, [mbOK], 0)
+    else
+      sistemaLiberado := 'N';
     exit;
   end;
 
@@ -3012,7 +3015,9 @@ begin
     sistemaLiberado := 'S';
     verificaNumeroDias(dia, 20);
     if (mensagemInicial <> 'N') then
-      MessageDlg(mensagemInicial , mtWarning, [mbOK], 0);
+      MessageDlg(mensagemInicial , mtWarning, [mbOK], 0)
+    else
+      sistemaLiberado := 'N';
     exit;
   end;
 end;
@@ -3282,9 +3287,68 @@ begin
     Result := False;
 end;
 
-procedure TDM.EstoqueAtualiza;
+procedure TDM.EstoqueAtualiza(codMovimento: integer);
 var ThreadEstoque: TEstoqueAtualiza;
+//var   TDA: TTransactionDesc;
+//  strAtualiza: String;
+//  strAtualizaLote: String;
 begin
+  EstoquecodMOV := codMovimento;
+  {if (cdsBusca.Active) then
+    cdsBusca.Close;
+  cdsBusca.CommandText := 'SELECT p.CODPRODUTO, p.CODALMOXARIFADO, p.LOTE, ' +
+    ' p.PRECO_CUSTO, p.ESTOQUE, p.PRECO_COMPRA, p.USA_LOTE, p.CODLOTE, p.ESTOQUELOTE ' +
+    ' FROM ESTOQUE_ATUALIA (' + IntToStr(codMovimento) + ') p';
+  cdsBusca.Open;
+  DecimalSeparator := '.';
+  TDA.TransactionID  := 1;
+  TDA.IsolationLevel := xilREADCOMMITTED;
+  sqlsisAdimin.StartTransaction(TDA);
+  try
+    while not cdsBusca.eof do
+    begin
+      strAtualiza := 'UPDATE PRODUTOS SET VALORUNITARIOATUAL = ';
+      strAtualiza := strAtualiza + FloatToStr(cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+      strAtualiza := strAtualiza + ' , PRECOMEDIO = ';
+      strAtualiza := strAtualiza + FloatToStr(cdsBusca.FieldByName('PRECO_CUSTO').asfloat);
+      strAtualiza := strAtualiza + ' , ESTOQUEATUAL = ';
+      strAtualiza := strAtualiza + FloatToStr(cdsBusca.FieldByName('ESTOQUE').asfloat);
+      strAtualiza := strAtualiza + ' WHERE CODPRODUTO = ' +
+      IntToStr(cdsBusca.FieldByName('CODPRODUTO').asInteger);
+      // atualiza lote
+      if (cdsBusca.FieldByName('USA_LOTE').asString = 'S') then
+      begin
+        if (cdsBusca.FieldByName('CODLOTE').AsInteger = 0) then
+        begin
+          strAtualizaLote := 'INSERT INTO LOTES (LOTE, CODPRODUTO, DATAFABRICACAO ' +
+            ', DATAVENCIMENTO, ESTOQUE, PRECO) VALUES (';  // , NOTAFISCAL, SERIEINI, SERIEFIM
+          strAtualizaLote := strAtualizaLote + QuotedStr(cdsBusca.FieldByName('LOTE').AsString);
+          strAtualizaLote := strAtualizaLote + ', ' + InttoStr(cdsBusca.FieldByName('CODLOTE').AsInteger);
+          strAtualizaLote := strAtualizaLote + ', ' + QuotedStr('01/01/01');
+          strAtualizaLote := strAtualizaLote + ', ' + QuotedStr('01/01/01');
+          strAtualizaLote := strAtualizaLote + ', ' + FloatToStr(cdsBusca.FieldByName('ESTOQUELOTE').asfloat);
+          strAtualizaLote := strAtualizaLote + ', ' + FloatToStr(cdsBusca.FieldByName('PRECO_COMPRA').asfloat);
+          strAtualizaLote := strAtualizaLote + ')';
+        end
+        else
+        begin
+          strAtualizaLote := 'UPDATE LOTES SET ESTOQUE = ' +
+            FloatToStr(cdsBusca.FieldByName('ESTOQUELOTE').asfloat) +
+            ' WHERE CODLOTE = ' + IntToStr(cdsBusca.FieldByName('CODLOTE').AsInteger);
+        end;
+        sqlsisAdimin.ExecuteDirect(strAtualizaLote);
+      end;
+      sqlsisAdimin.ExecuteDirect(strAtualiza);
+      cdsBusca.Next;
+    end;
+    DecimalSeparator := ',';
+    sqlsisAdimin.Commit(TDA);
+  except
+    on E : Exception do
+    begin
+      sqlsisAdimin.Rollback(TDA);
+    end;
+  end;}
   ThreadEstoque := TEstoqueAtualiza.Create(True);
   ThreadEstoque.FreeOnTerminate := True;
   ThreadEstoque.Resume;
