@@ -1659,7 +1659,7 @@ begin
      cdslotes.Close;
   fLotes.Free;
   inherited;
-  dm.EstoqueAtualiza;
+  //dm.EstoqueAtualiza;
 end;
 
 procedure TfCompra.btnRateioClick(Sender: TObject);
