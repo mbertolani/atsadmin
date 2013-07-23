@@ -516,11 +516,12 @@ end;
 procedure TfEntra_Sai_estoque.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  if (cds_MovimentoCODMOVIMENTO.AsInteger > 0) then
+    dm.EstoqueAtualiza(cds_MovimentoCODMOVIMENTO.AsInteger);
   if (cds_Movimento.Active) then
     cds_Movimento.Close;
   if (cds_Mov_det.Active) then
     cds_Mov_det.Close;
-  dm.EstoqueAtualiza;      
 end;
 
 procedure TfEntra_Sai_estoque.FormKeyPress(Sender: TObject; var Key: Char);
