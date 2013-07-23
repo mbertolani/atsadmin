@@ -1,8 +1,8 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 315
   Top = 134
-  Width = 405
-  Height = 339
+  Width = 407
+  Height = 353
   Caption = 'Estoque'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -168,6 +168,24 @@ object fEstoqueCorrige: TfEstoqueCorrige
     ParentFont = False
     TabOrder = 8
     Visible = False
+  end
+  object Button3: TButton
+    Left = 57
+    Top = 272
+    Width = 272
+    Height = 41
+    Hint = 'Re-calcula todo o estoque.'
+    Caption = 'Atualizar Estoque'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clAqua
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 9
+    OnClick = Button3Click
   end
   object sqlQ: TSQLQuery
     MaxBlobSize = -1

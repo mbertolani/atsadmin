@@ -36,11 +36,13 @@ type
     Label8: TLabel;
     cbGrupo: TComboBox;
     lblUltimo: TLabel;
+    Button3: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     dataUltimoFechamento: TDate;
     { Private declarations }
@@ -510,6 +512,13 @@ begin
     end;
     cds_Familia.Close;
   end;}
+end;
+
+procedure TfEstoqueCorrige.Button3Click(Sender: TObject);
+begin
+  if  MessageDlg('Confirma a atualização do estoque ? ',
+    mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+    dm.EstoqueAtualiza(0);
 end;
 
 end.
