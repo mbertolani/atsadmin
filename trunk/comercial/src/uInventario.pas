@@ -793,11 +793,8 @@ var
   codMovSaida, codMovEntrada : Integer;
   Save_Cursor:TCursor;
 begin
-  {if (dta.Date < today) then
-  begin
-    MessageDlg('Data Inválida', mtError, [mbOK], 0);
-    exit;
-  end; }
+  codMovSaida := 0;
+  codMovEntrada := 0;
 
   if (cdsInventSITUACAO.AsString = 'G') then
   begin
@@ -904,7 +901,6 @@ begin
         fven.NParcela             := 1;
         fven.inserirVenda(0);
 
-        dmnf.baixaEstoque(codMovSaida, dta.Date, 'SAIDA');
       end;
       if (movEntrada = 'S') then
       begin
@@ -920,7 +916,6 @@ begin
         fCom.NParcela             := 1;
         fCom.inserirCompra(0);
 
-        dmnf.baixaEstoque(codMovEntrada, dta.Date, 'ENTRADA');
       end;
 
       // Muda o Status da Lista
@@ -929,6 +924,15 @@ begin
         '   and SITUACAO     = ' + QuotedStr('A'));
 
       dm.sqlsisAdimin.Commit(TDA);
+      if (codMovSaida > codMovEntrada) then
+      begin
+        if (codMovSaida > 0) then
+          dm.EstoqueAtualiza(codMovSaida);
+      end
+      else begin
+        if (codMovEntrada > 0) then
+          dm.EstoqueAtualiza(codMovEntrada);
+      end;
       MessageDlg('Inventário gerado com sucesso.', mtInformation,
            [mbOk], 0);
     except
@@ -958,7 +962,7 @@ procedure TfInventario.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   inherited;
-  dm.EstoqueAtualiza;  
+  //dm.EstoqueAtualiza;  
 end;
 
 end.

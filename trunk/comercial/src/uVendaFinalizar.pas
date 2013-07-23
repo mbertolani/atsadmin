@@ -1315,8 +1315,6 @@ begin
              dm.sqlsisAdimin.StartTransaction(TD);
              DtSrc.DataSet.Delete;
              (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-             if (cdsCODMOVIMENTO.AsInteger > 0) then
-               dmnf.cancelaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
              if (usaMateriaPrima = 'S') then   // Usa Materia Prima então tem que excluir tbem;
              begin
                if (dm.sqlBusca.Active) then
@@ -1329,7 +1327,6 @@ begin
                dm.sqlBusca.Open;
                if (not dm.sqlBusca.IsEmpty) then
                begin
-                 dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger, dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
                  dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
                    IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
                  dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
@@ -1397,40 +1394,6 @@ begin
     // Excluindo a baixa da materia Prima
     codigo_cliente :=  fVendas.cds_MovimentoCODCLIENTE.AsInteger;
     data_movimento :=  DateToStr(fVendas.cds_MovimentoDATAMOVIMENTO.AsDateTime);
-
-    {Try
-      FEstoque := TEstoque.Create;
-      with fVendas do begin
-      cds_Mov_det.First;
-      While not cds_Mov_det.Eof do
-      begin
-        if (cds_Mov_detSTATUS.AsString = '9') then
-        begin
-          FEstoque.QtdeVenda   := (-1) * cds_Mov_detQUANTIDADE.AsFloat;
-          FEstoque.CodProduto  := cds_Mov_detCODPRODUTO.AsInteger;
-          FEstoque.Lote        := cds_Mov_detLOTE.AsString;
-          FEstoque.CentroCusto := cds_MovimentoCODALMOXARIFADO.AsInteger;
-          FEstoque.MesAno      := dataVenda;
-          FEstoque.PrecoVenda  := cds_Mov_detPRECO.AsFloat;
-          FEstoque.CodDetalhe  := cds_Mov_detCODDETALHE.AsInteger;
-          FEstoque.Status      := '0';
-          FEstoque.inserirMes;
-        end;
-        cds_Mov_det.Next;
-      end;
-      end;
-    Finally
-      FEstoque.Free;
-    end;}
-
-   { Try
-      FMov := TMovimento.Create;
-      //FMov.MovDetalhe.verMovimentoDet();
-      //FMov.excluirMovimento();
-    Finally
-      FMov.Free;
-    end;   }
-
   end;
 
   if (dm.moduloUsado = 'CITRUS') then
@@ -3612,12 +3575,13 @@ end;
 procedure TfVendaFinalizar.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  if (fVendas.cds_MovimentoCODMOVIMENTO.AsInteger > 0) then
+    dm.EstoqueAtualiza(fVendas.cds_MovimentoCODMOVIMENTO.AsInteger);
   if (DtSrc.State in [dsEdit, dsInsert]) then
     DtSrc.DataSet.Cancel;
   scdsCr_proc.Params[0].Clear;
   cds.Params[0].Clear;
   cds.Params[1].Clear;
-  //dm.EstoqueAtualiza;
 end;
 
 end.

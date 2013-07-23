@@ -870,6 +870,8 @@ end;
 procedure TfCompraFinalizar.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
+  if (fcompra.cds_MovimentoCODMOVIMENTO.AsInteger > 0) then
+    dm.EstoqueAtualiza(fcompra.cds_MovimentoCODMOVIMENTO.AsInteger);
   inherited;
   if scdsCr_proc.Active then
      scdsCr_proc.Close;
@@ -1751,7 +1753,6 @@ begin
           (DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
           dm.sqlsisAdimin.Commit(TD);
           excluinf;
-          dm.EstoqueAtualiza;
           ShowMessage('Compra Excluida com Sucesso');
         except
           on E : Exception do
@@ -1771,7 +1772,6 @@ begin
     begin
       try
         dm.sqlsisAdimin.StartTransaction(TD);
-        dmnf.cancelaEstoque(codmov,dataCompra , 'COMPRA');        
         str := 'update MOVIMENTODETALHE set BAIXA = NULL where CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.AsInteger);
         dm.sqlsisAdimin.ExecuteDirect(str);
         str := 'update COMPRA set STATUS = 14 where CODCOMPRA = ' + IntToStr(cds_compraCODCOMPRA.AsInteger);
@@ -1781,7 +1781,6 @@ begin
 
         dm.sqlsisAdimin.Commit(TD);
         ShowMessage('Compra Cancelada com Sucesso');
-        dm.EstoqueAtualiza;        
       except
         on E : Exception do
           begin
