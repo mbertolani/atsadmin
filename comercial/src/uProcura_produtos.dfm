@@ -2147,6 +2147,7 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procPRECO_COMPRA: TFloatField
       FieldName = 'PRECO_COMPRA'
       ReadOnly = True
+      DisplayFormat = ',##0.00'
     end
     object cds_procVALOR_PRAZO: TFloatField
       FieldName = 'VALOR_PRAZO'
@@ -2161,6 +2162,7 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procESTOQUEATUAL: TFloatField
       FieldName = 'ESTOQUEATUAL'
       ReadOnly = True
+      DisplayFormat = ',##0.0'
     end
     object cds_procLOCALIZACAO: TStringField
       FieldName = 'LOCALIZACAO'
@@ -2219,14 +2221,17 @@ object fProcura_produtos: TfProcura_produtos
     object cds_procESTOQUEMAXIMO: TFloatField
       FieldName = 'ESTOQUEMAXIMO'
       ReadOnly = True
+      DisplayFormat = ',##0.0'
     end
     object cds_procESTOQUEREPOSICAO: TFloatField
       FieldName = 'ESTOQUEREPOSICAO'
       ReadOnly = True
+      DisplayFormat = ',##0.0'
     end
     object cds_procESTOQUEMINIMO: TFloatField
       FieldName = 'ESTOQUEMINIMO'
       ReadOnly = True
+      DisplayFormat = ',##0.0'
     end
     object cds_procPRECOMEDIO_1: TBCDField
       FieldName = 'PRECOMEDIO_1'
