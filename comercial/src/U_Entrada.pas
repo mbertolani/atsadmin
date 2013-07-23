@@ -1541,7 +1541,7 @@ end;
 
 procedure TF_Entrada.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  dm.EstoqueAtualiza;  
+  //dm.EstoqueAtualiza();
 end;
 
 end.
