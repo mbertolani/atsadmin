@@ -883,17 +883,17 @@ begin
   Try
     if (not scdsCr_proc.IsEmpty) then
     begin
-      if (scdsCr_proctot_titulo.Value > 0) then
+      if (scdsCr_proctot_titulo.Value > 0.0001) then
         JvCalcEdit1.Text := scdsCr_proctot_titulo.Value
       else
         JvCalcEdit1.Text := '0';
 
-      if (scdsCr_procTotPend.Value > 0) then
+      if (scdsCr_procTotPend.Value > 0.0001) then
         JvCalcEdit3.Text := scdsCr_procTotPend.Value
       else
         JvCalcEdit3.Text := '0';
 
-      if (scdsCr_proctot_recebido.Value > 0) then
+      if (scdsCr_proctot_recebido.Value > 0.0001) then
         JvCalcEdit2.Text := scdsCr_proctot_recebido.Value
       else
         JvCalcEdit2.Text := '0';
