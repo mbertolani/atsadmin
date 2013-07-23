@@ -474,7 +474,7 @@ begin
   ComboBox13.ItemIndex := 0;
   ComboBox14Change(ComboBox14);
   ComboBox13Change(ComboBox13);}
-  
+
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     //dxButton2.Caption := 'Ordem Serv.(CTRL+V)';
@@ -492,8 +492,6 @@ begin
   end;
   if (FileExists('logo.jpg')) then
     Image1.Picture.LoadFromFile('logo.jpg');
-
-  //F_Terminal := TF_Terminal.Create(Application);
 
 end;
 
@@ -788,7 +786,7 @@ begin
   lblMensagemSistema.Caption := dm.mensagemInicial;
   if (dm.sistemaLiberado = 'N') then
   begin
-    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)3827-3001.', mtWarning, [mbOK], 0);
+    MessageDlg('Licença do uso expirada, entre em contato com a ATS (19)3877-4889.', mtWarning, [mbOK], 0);
     Close;
   end;
   if (UserControlComercial.AutoStart = False) then
