@@ -34,29 +34,12 @@ type
     Image1: TImage;
     sbusca: TSQLDataSet;
     TabSheet3: TTabSheet;
-    GroupBox6: TGroupBox;
-    Label14: TLabel;
-    Label15: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    Label18: TLabel;
-    Edit17: TEdit;
-    BitBtn7: TBitBtn;
-    Edit18: TEdit;
-    Edit19: TEdit;
-    ComboBox2: TComboBox;
     GroupBox9: TGroupBox;
     Label19: TLabel;
     BitBtn9: TBitBtn;
     ComboBox3: TComboBox;
     ComboBox4: TComboBox;
     Label20: TLabel;
-    GroupBox12: TGroupBox;
-    Label25: TLabel;
-    Label26: TLabel;
-    BitBtn12: TBitBtn;
-    MaskEdit1: TMaskEdit;
-    MaskEdit2: TMaskEdit;
     GroupBox13: TGroupBox;
     Label24: TLabel;
     Label27: TLabel;
@@ -299,20 +282,44 @@ type
     Label55: TLabel;
     Label56: TLabel;
     rgNfe: TRadioGroup;
-    rgCadastroCliente: TRadioGroup;
     Pc2: TEdit;
     Pc1: TEdit;
     Pc3: TEdit;
-    GroupBox32: TGroupBox;
-    Label57: TLabel;
-    btnNFSerie: TBitBtn;
-    edtSerieNF: TEdit;
-    BitBtn34: TBitBtn;
     scds_serie_proc: TSQLClientDataSet;
     scds_serie_procCODSERIE: TStringField;
     scds_serie_procSERIE: TStringField;
     scds_serie_procULTIMO_NUMERO: TIntegerField;
     scds_serie_procNOTAFISCAL: TSmallintField;
+    rgCadastroCliente: TRadioGroup;
+    GroupBox6: TGroupBox;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Edit17: TEdit;
+    BitBtn7: TBitBtn;
+    Edit18: TEdit;
+    Edit19: TEdit;
+    ComboBox2: TComboBox;
+    GroupBox12: TGroupBox;
+    Label25: TLabel;
+    Label26: TLabel;
+    BitBtn12: TBitBtn;
+    MaskEdit1: TMaskEdit;
+    MaskEdit2: TMaskEdit;
+    GroupBox32: TGroupBox;
+    Label57: TLabel;
+    btnNFSerie: TBitBtn;
+    edtSerieNF: TEdit;
+    BitBtn34: TBitBtn;
+    RadioGroup4: TRadioGroup;
+    GroupBox33: TGroupBox;
+    Label58: TLabel;
+    BitBtn33: TBitBtn;
+    edNotaFiscalNatureza: TEdit;
+    BitBtn35: TBitBtn;
+    edNotaFiscalNaturezaDesc: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -393,6 +400,8 @@ type
     procedure BitBtn34Click(Sender: TObject);
     procedure BitBtn26Click(Sender: TObject);
     procedure btnNFSerieClick(Sender: TObject);
+    procedure RadioGroup4Click(Sender: TObject);
+    procedure BitBtn33Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -4585,6 +4594,84 @@ begin
        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
            [mbOk], 0);
     end;
+  end;
+end;
+
+procedure TfParametro.RadioGroup4Click(Sender: TObject);
+begin
+  inherited;
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'NOTAFISCALDESATIVADO';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Permite alteração do número da Nota') + ', ';
+    strSql := strSql + QuotedStr('NOTAFISCALDESATIVADO') + ', ';
+    if (RadioGroup4.ItemIndex = 0) then
+      strSql := strSql + QuotedStr('N');
+    if (RadioGroup4.ItemIndex = 1) then
+      strSql := strSql + QuotedStr('S');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    if (RadioGroup4.ItemIndex = 0) then
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+    if (RadioGroup4.ItemIndex = 1) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
+
+end;
+
+procedure TfParametro.BitBtn33Click(Sender: TObject);
+begin
+  inherited;
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'NATUREZANF';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Serie para nota fiscal eletronica') + ', ';
+    strSql := strSql + QuotedStr('SERIENFE') + ', ';
+    strSql := strSql + QuotedStr('S') + ', ';
+    strSql := strSql + QuotedStr(edtSerieNF.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD1.AsString := edtSerieNF.Text;
+    dm.cds_parametro.ApplyUpdates(0);
   end;
 end;
 
