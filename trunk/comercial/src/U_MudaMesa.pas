@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, MMJPanel, FMTBcd, Provider, SqlExpr, DB,
-  DBClient, JvExControls, JvLabel, Buttons, DBxPress, u_terminal;
+  DBClient, JvExControls, JvLabel, Buttons, DBxPress;
 
 type
   TF_MudaMesa = class(TForm)

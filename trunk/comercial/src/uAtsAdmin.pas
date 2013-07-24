@@ -440,7 +440,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uCompraRecebimento, uCompraCotacao2, uCotacoesHist, uFiltroMov_compra,
   uDeclaracaoImportacao, uDadosImportacao, u_SIMILARES, U_AUTOPECAS,
   uExpedicao, uProcura_prodOficina, uCaixaBanco, uMovimenta_Estoque,
-  uEndereco, uCliente1, uNaturezaOperacao, U_Terminal, JvJVCLUtils,
+  uEndereco, uCliente1, uNaturezaOperacao, JvJVCLUtils,
   uListaEstoque, uOsFiltro, uPainelControle, uPainelControleCompra,u_mesas,
   uEstoqueAjuste, uCCe, uBancoExtrato, uBancoDePara,
   uRel_LucroPresumido, uNfePisCofins, uRelTitulos,
@@ -1047,7 +1047,6 @@ begin
   DM.cds_parametro.Open;
   if (DM.cds_parametro.Eof) then
   begin
-    //F_Terminal.ShowModal;
     WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
   end
   else

@@ -93,7 +93,7 @@ uses
   JvJVCLUtils, uEmpresa, UDm, uAgendamento, uselectempresa, sCtrlResize,
   uClienteCadastro, uOs, uOsFiltro, uCompra, uVendas, ufcr, ufcpproc,
   uCrTituloPagto, uAtsAdmin, uProdutoCadastro, uFornecedorCadastro,
-  ufuncionario, uPainelControle, uSobre, ufParametro, U_Terminal, UDM_MOV,
+  ufuncionario, uPainelControle, uSobre, ufParametro, UDM_MOV,
   uCliente1, uEntra_Sai_estoque, uMovimenta_Estoque, uFiltroEstoque,
   uInventario, uEstado, ufContabilLanc, ufContasAssistente, uRelVendas,
   uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
@@ -405,13 +405,7 @@ begin
   end
   else
   begin
-    F_Terminal := TF_Terminal.Create(Application);
-    try
-      sCtrlResize.CtrlResize(TForm(F_Terminal));
-      F_Terminal.ShowModal;
-    finally
-      F_Terminal.Free;
-    end;
+
   end;
   DM.cds_parametro.Close;  
 end;
