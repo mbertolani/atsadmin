@@ -51,8 +51,7 @@ implementation
 
 uses UDM, uFornecedorCadastro, ufuncionario, uClienteCadastro,
   uClientePlano, UDmSaude, sCtrlResize, UDMNF, uNF, uProcurar, uNotaf,
-  U_Terminal,  U_TerminalFinaliza,  uCliente1,
-  uTerminal2;
+  uCliente1, uTerminal2;
 
 {$R *.dfm}
 

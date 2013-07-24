@@ -496,12 +496,6 @@ var
 begin
   //DM_MOV.PAGECONTROL := 'OS';
 
-  {F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
-  try
-    F_TerminalFinaliza.ShowModal;
-  finally
-    F_TerminalFinaliza.Free;
-  end;}
 
   XY := Point(50, -10);
   XY := btnStatusOs.ClientToScreen(XY);
@@ -832,7 +826,6 @@ begin
   end
   else begin
     // Abre Financeiro
-    //F_TerminalFinaliza := TF_TerminalFinaliza.Create(Application);
     fOsFinaliza := TfOsFinaliza.Create(Application);
     try
       DM_MOV.PAGECONTROL := 'PDV';
