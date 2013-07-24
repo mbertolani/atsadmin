@@ -191,6 +191,7 @@ type
     procedure JvBitBtn1Click(Sender: TObject);
     procedure btnAlteraRecClick(Sender: TObject);
     procedure btnCancelaBaixaClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     str_sql : String;
     usaDll: String;
@@ -1589,6 +1590,13 @@ begin
     end;
   end;
 
+end;
+
+procedure TfOsFinaliza.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if (DM_MOV.ID_DO_MOVIMENTO  > 0) then
+    dm.EstoqueAtualiza(DM_MOV.ID_DO_MOVIMENTO);
 end;
 
 end.
