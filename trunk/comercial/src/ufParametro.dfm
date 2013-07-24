@@ -359,164 +359,115 @@ inherited fParametro: TfParametro
       end
     end
     object TabSheet3: TTabSheet
-      Caption = 'Par'#226'metros Formul'#225'rios '
+      Caption = 'Nota Fiscal'
       ImageIndex = 2
-      object GroupBox6: TGroupBox
-        Left = 1
-        Top = 180
-        Width = 769
-        Height = 52
-        Caption = 
-          'Usado PDV: Inseri CODCLIENTE, CODALMOXARIFADO, CODNATUREZA (PDV)' +
-          ' e CUPOM ou PEDIDO(mesmo Venda Finalizar) para o bot'#227'o imprimir'
+      object GroupBox32: TGroupBox
+        Left = 10
+        Top = 21
+        Width = 290
+        Height = 48
+        Caption = 'Serie Padr'#227'o NFe'
         TabOrder = 0
-        object Label14: TLabel
-          Left = 8
-          Top = 24
-          Width = 170
+        object Label57: TLabel
+          Left = 10
+          Top = 29
+          Width = 24
           Height = 13
-          Caption = 'Campos padr'#245'es PDV, bot'#227'o incluir.'
+          Caption = 'Serie'
         end
-        object Label15: TLabel
-          Left = 181
-          Top = 24
-          Width = 51
-          Height = 13
-          Caption = 'CodCliente'
-        end
-        object Label16: TLabel
-          Left = 299
-          Top = 24
-          Width = 64
-          Height = 13
-          Caption = 'CodAlmoxarif.'
-        end
-        object Label17: TLabel
-          Left = 421
-          Top = 24
-          Width = 62
-          Height = 13
-          Caption = 'CodNatureza'
-        end
-        object Label18: TLabel
-          Left = 528
-          Top = 24
-          Width = 51
-          Height = 13
-          Caption = 'Forma imp.'
-        end
-        object Edit17: TEdit
-          Left = 366
-          Top = 21
-          Width = 49
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 1
-        end
-        object BitBtn7: TBitBtn
-          Left = 679
-          Top = 19
-          Width = 75
+        object btnNFSerie: TBitBtn
+          Left = 200
+          Top = 20
+          Width = 76
           Height = 25
           Caption = 'Gravar'
-          TabOrder = 3
-          OnClick = BitBtn7Click
-        end
-        object Edit18: TEdit
-          Left = 235
-          Top = 21
-          Width = 58
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
           TabOrder = 0
+          OnClick = btnNFSerieClick
         end
-        object Edit19: TEdit
-          Left = 490
-          Top = 21
-          Width = 36
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          TabOrder = 2
-        end
-        object ComboBox2: TComboBox
-          Left = 583
-          Top = 21
-          Width = 80
-          Height = 21
-          BevelKind = bkFlat
-          ItemHeight = 13
-          TabOrder = 4
-          Text = 'CUPOM'
-          Items.Strings = (
-            'CUPOM'
-            'PEDIDO')
-        end
-      end
-      object GroupBox12: TGroupBox
-        Left = 2
-        Top = 357
-        Width = 769
-        Height = 41
-        Caption = 
-          'Formata'#231#227'o usadas no sistema (n. casas decimais...) D1 : Qtde, D' +
-          '2 : Valor'
-        TabOrder = 1
-        object Label25: TLabel
+        object edtSerieNF: TEdit
           Left = 40
-          Top = 14
-          Width = 197
-          Height = 13
-          Caption = 'Masc'#225'ra Quantidade(N. casas decimais) :'
-        end
-        object Label26: TLabel
-          Left = 312
-          Top = 16
-          Width = 169
-          Height = 13
-          Caption = 'Masc'#225'ra Valor (N. casas decimais) :'
-        end
-        object BitBtn12: TBitBtn
-          Left = 678
-          Top = 11
-          Width = 75
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 0
-          OnClick = BitBtn12Click
-        end
-        object MaskEdit1: TMaskEdit
-          Left = 248
-          Top = 15
-          Width = 41
+          Top = 23
+          Width = 121
           Height = 21
           TabOrder = 1
-          Text = '1'
         end
-        object MaskEdit2: TMaskEdit
-          Left = 495
-          Top = 14
-          Width = 34
-          Height = 21
+        object BitBtn34: TBitBtn
+          Left = 166
+          Top = 20
+          Width = 26
+          Height = 25
+          Caption = '...'
           TabOrder = 2
-          Text = '2'
+          OnClick = BitBtn34Click
         end
       end
-      object rgCadastroCliente: TRadioGroup
+      object RadioGroup4: TRadioGroup
         Left = 8
-        Top = 8
-        Width = 353
-        Height = 41
-        Caption = 'Cadastro de Cliente'
+        Top = 80
+        Width = 293
+        Height = 49
+        Caption = 'N'#250'mero da Nota'
         Columns = 2
         ItemIndex = 0
         Items.Strings = (
-          'Cadastro P. Juridico'
-          'Cadastro P. F'#237'sica')
+          'Permite altera'#231#227'o'
+          'N'#227'o Permite altera'#231#227'o')
+        TabOrder = 1
+        OnClick = RadioGroup4Click
+      end
+      object GroupBox33: TGroupBox
+        Left = 8
+        Top = 139
+        Width = 649
+        Height = 48
+        Caption = 'C'#243'd. da Natureza da Nota Fiscal'
         TabOrder = 2
-        OnClick = rgCadastroClienteClick
+        object Label58: TLabel
+          Left = 10
+          Top = 29
+          Width = 25
+          Height = 13
+          Caption = 'C'#243'd.:'
+        end
+        object BitBtn33: TBitBtn
+          Left = 560
+          Top = 20
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          Enabled = False
+          TabOrder = 0
+          Visible = False
+          OnClick = BitBtn33Click
+        end
+        object edNotaFiscalNatureza: TEdit
+          Left = 40
+          Top = 23
+          Width = 81
+          Height = 21
+          ReadOnly = True
+          TabOrder = 1
+          Text = '12'
+        end
+        object BitBtn35: TBitBtn
+          Left = 126
+          Top = 20
+          Width = 26
+          Height = 25
+          Caption = '...'
+          Enabled = False
+          TabOrder = 2
+          OnClick = BitBtn34Click
+        end
+        object edNotaFiscalNaturezaDesc: TEdit
+          Left = 153
+          Top = 23
+          Width = 400
+          Height = 21
+          ReadOnly = True
+          TabOrder = 3
+          Text = 'Nota Fiscal'
+        end
       end
     end
     object TabSheet2: TTabSheet
@@ -1494,46 +1445,6 @@ inherited fParametro: TfParametro
           OnClick = BitBtn28Click
         end
       end
-      object GroupBox32: TGroupBox
-        Left = 2
-        Top = 245
-        Width = 780
-        Height = 48
-        Caption = 'Serie Padr'#227'o NFe'
-        TabOrder = 5
-        object Label57: TLabel
-          Left = 10
-          Top = 29
-          Width = 24
-          Height = 13
-          Caption = 'Serie'
-        end
-        object btnNFSerie: TBitBtn
-          Left = 200
-          Top = 20
-          Width = 76
-          Height = 25
-          Caption = 'Gravar'
-          TabOrder = 0
-          OnClick = btnNFSerieClick
-        end
-        object edtSerieNF: TEdit
-          Left = 40
-          Top = 23
-          Width = 121
-          Height = 21
-          TabOrder = 1
-        end
-        object BitBtn34: TBitBtn
-          Left = 166
-          Top = 20
-          Width = 26
-          Height = 25
-          Caption = '...'
-          TabOrder = 2
-          OnClick = BitBtn34Click
-        end
-      end
     end
     object TabSheet4: TTabSheet
       Caption = 'Par'#226'metros II'
@@ -1675,8 +1586,8 @@ inherited fParametro: TfParametro
         end
       end
       object GroupBox21: TGroupBox
-        Left = 0
-        Top = 243
+        Left = 5
+        Top = 115
         Width = 778
         Height = 43
         Caption = 'COMPRADORPADRAO / VENDEDORPADRAO'
@@ -1692,8 +1603,8 @@ inherited fParametro: TfParametro
         end
       end
       object GroupBox22: TGroupBox
-        Left = 1
-        Top = 290
+        Left = 6
+        Top = 161
         Width = 778
         Height = 43
         Caption = 'BLOQUEIOVENDACADASTROIMCOMPLETO'
@@ -1706,6 +1617,163 @@ inherited fParametro: TfParametro
           Caption = 'Gravar'
           TabOrder = 0
           OnClick = BitBtn19Click
+        end
+      end
+      object rgCadastroCliente: TRadioGroup
+        Left = 8
+        Top = 208
+        Width = 353
+        Height = 41
+        Caption = 'Cadastro de Cliente'
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'Cadastro P. Juridico'
+          'Cadastro P. F'#237'sica')
+        TabOrder = 4
+        OnClick = rgCadastroClienteClick
+      end
+      object GroupBox6: TGroupBox
+        Left = 9
+        Top = 260
+        Width = 769
+        Height = 52
+        Caption = 
+          'Usado PDV: Inseri CODCLIENTE, CODALMOXARIFADO, CODNATUREZA (PDV)' +
+          ' e CUPOM ou PEDIDO(mesmo Venda Finalizar) para o bot'#227'o imprimir'
+        TabOrder = 5
+        object Label14: TLabel
+          Left = 8
+          Top = 24
+          Width = 170
+          Height = 13
+          Caption = 'Campos padr'#245'es PDV, bot'#227'o incluir.'
+        end
+        object Label15: TLabel
+          Left = 181
+          Top = 24
+          Width = 51
+          Height = 13
+          Caption = 'CodCliente'
+        end
+        object Label16: TLabel
+          Left = 299
+          Top = 24
+          Width = 64
+          Height = 13
+          Caption = 'CodAlmoxarif.'
+        end
+        object Label17: TLabel
+          Left = 421
+          Top = 24
+          Width = 62
+          Height = 13
+          Caption = 'CodNatureza'
+        end
+        object Label18: TLabel
+          Left = 528
+          Top = 24
+          Width = 51
+          Height = 13
+          Caption = 'Forma imp.'
+        end
+        object Edit17: TEdit
+          Left = 366
+          Top = 21
+          Width = 49
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 1
+        end
+        object BitBtn7: TBitBtn
+          Left = 679
+          Top = 19
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 3
+          OnClick = BitBtn7Click
+        end
+        object Edit18: TEdit
+          Left = 235
+          Top = 21
+          Width = 58
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 0
+        end
+        object Edit19: TEdit
+          Left = 490
+          Top = 21
+          Width = 36
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          TabOrder = 2
+        end
+        object ComboBox2: TComboBox
+          Left = 583
+          Top = 21
+          Width = 80
+          Height = 21
+          BevelKind = bkFlat
+          ItemHeight = 13
+          TabOrder = 4
+          Text = 'CUPOM'
+          Items.Strings = (
+            'CUPOM'
+            'PEDIDO')
+        end
+      end
+      object GroupBox12: TGroupBox
+        Left = 10
+        Top = 325
+        Width = 769
+        Height = 41
+        Caption = 
+          'Formata'#231#227'o usadas no sistema (n. casas decimais...) D1 : Qtde, D' +
+          '2 : Valor'
+        TabOrder = 6
+        object Label25: TLabel
+          Left = 40
+          Top = 14
+          Width = 197
+          Height = 13
+          Caption = 'Masc'#225'ra Quantidade(N. casas decimais) :'
+        end
+        object Label26: TLabel
+          Left = 312
+          Top = 16
+          Width = 169
+          Height = 13
+          Caption = 'Masc'#225'ra Valor (N. casas decimais) :'
+        end
+        object BitBtn12: TBitBtn
+          Left = 678
+          Top = 11
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn12Click
+        end
+        object MaskEdit1: TMaskEdit
+          Left = 248
+          Top = 15
+          Width = 41
+          Height = 21
+          TabOrder = 1
+          Text = '1'
+        end
+        object MaskEdit2: TMaskEdit
+          Left = 495
+          Top = 14
+          Width = 34
+          Height = 21
+          TabOrder = 2
+          Text = '2'
         end
       end
     end
