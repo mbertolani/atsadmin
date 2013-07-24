@@ -1,5 +1,3 @@
-SET TERM ^ ;
-
 CREATE or alter PROCEDURE ESTOQUE_ATUALIZA(CODMOVIMENTO INTEGER) 
 RETURNS 
  (CODPRODUTO INTEGER, 
@@ -55,6 +53,4 @@ BEGIN
       preco_compra = 0;
       lote = '0';
     end
-END^
-
-SET TERM ; ^
+END
