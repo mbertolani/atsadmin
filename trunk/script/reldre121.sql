@@ -1,5 +1,4 @@
-SET TERM ^ ;
-ALTER PROCEDURE RELDRE (
+CREATE OR ALTER PROCEDURE RELDRE (
     PDTA1 date,
     PDTA2 date,
     PCC integer )

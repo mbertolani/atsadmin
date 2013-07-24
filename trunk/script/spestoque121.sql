@@ -1,5 +1,4 @@
-set term ^ ;
-ALTER PROCEDURE SPESTOQUE (
+CREATE OR ALTER PROCEDURE SPESTOQUE (
     DTA1 date,
     DTA2 date,
     PROD1 integer,
