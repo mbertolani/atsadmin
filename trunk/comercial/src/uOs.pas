@@ -334,8 +334,15 @@ begin
 
     if (modoOs = 'Edit') then
     begin
-      FOsCls.alterarOs(cdsOSCODOS.AsInteger);
-      CodigoOs := cdsOSCODOS.AsInteger;
+      if (cdsOSCODOS.AsInteger = 0) then
+      begin
+        FOsCls.alterarOs(StrToInt(edNumOS.Text));
+        CodigoOs := StrToInt(edNumOS.Text);
+      end
+      else begin
+        FOsCls.alterarOs(cdsOSCODOS.AsInteger);
+        CodigoOs := cdsOSCODOS.AsInteger;
+      end;
     end;
 
     cdsServico.DisableControls;
@@ -417,6 +424,7 @@ begin
     cdsPecas.EnableControls;
     dm.sqlsisAdimin.Commit(TD);
     edNumOS.Text := IntToStr(CodigoOs);
+
     if (modoOs = 'Insert') then
       MessageDlg('OS gerada com sucesso.', mtInformation, [mbOK], 0)
     else
@@ -424,7 +432,9 @@ begin
     modoOs := 'Browse';
     controlaEventos;
     if (cdsOs.State in [dsEdit, dsInsert]) then
+    begin
       cdsOs.Post;
+    end;
   except
     on E : Exception do
     begin
@@ -776,7 +786,8 @@ begin
     exit;
   end;
 
-  btnGravar.Click;
+  if (modoOs = 'Insert') then
+    btnGravar.Click;
   modoOs := 'Edit';
   controlaEventos;
 
