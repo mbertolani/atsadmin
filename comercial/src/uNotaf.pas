@@ -574,7 +574,6 @@ begin
   dmnf.scds_serienfe.Open;
   numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
 
-
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
   if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
@@ -887,8 +886,8 @@ begin
     dm.parametro.Open;
   if (RadioGroup1.ItemIndex = 1) then
   begin
-    if (dm.parametro.Locate('PARAMETRO', 'SERIENF', [loCaseInsensitive])) then
-       dbeSerie.Text := dm.parametroDADOS.AsString;
+    if (dm.parametro.Locate('PARAMETRO', 'SERIENFE', [loCaseInsensitive])) then
+       dbeSerie.Text := dm.parametroD1.AsString;
   end;
   if (RadioGroup1.ItemIndex = 0) then
   begin
