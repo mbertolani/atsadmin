@@ -271,6 +271,7 @@ begin
 end;
 
 procedure TfOsFinaliza.notafiscal;
+var   serieNf: String;
 begin
   if (sqlBuscaNota.Active) then
 	sqlBuscaNota.Close;
@@ -284,6 +285,28 @@ begin
       //codClienteNF := 0;
       Save_Cursor := Screen.Cursor;
       Screen.Cursor := crHourGlass;
+
+      if (dm.cds_parametro.Active) then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].asString := 'SERIENFE';
+      dm.cds_parametro.Open;
+
+      if (dmnf.scds_serienfe.Active) then
+        dmnf.scds_serienfe.Close;
+      dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+
+      dmnf.scds_serienfe.Open;
+
+      if (not dm.cds_parametro.IsEmpty) then
+      begin
+        serieNf := dm.cds_parametroD1.AsString;
+      end
+      else
+      begin
+        MessageDlg('Cadastre o Parametro SERIENFE para prosseguir', mtWarning, [mbOK], 0);
+        exit;
+      end;
+
       // Nota Fiscal
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
@@ -292,8 +315,8 @@ begin
       str_sql := str_sql + IntToStr(DM_MOV.c_vendaCODCLIENTE.AsInteger);
       str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENDA.AsDateTime));
       str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', DM_MOV.c_vendaDATAVENCIMENTO.AsDateTime));
-      str_sql := str_sql + ', ' + QuotedStr(DM_MOV.c_vendaSERIE.AsString);
-      str_sql := str_sql + ', ' + QuotedStr(inttostr(DM_MOV.c_vendaNOTAFISCAL.AsInteger));
+      str_sql := str_sql + ', ' + QuotedStr(serieNF);
+      str_sql := str_sql + ', ' + QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1));
       str_sql := str_sql + ', ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
 
       dm.sqlsisAdimin.StartTransaction(TD);
