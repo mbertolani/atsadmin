@@ -1438,7 +1438,7 @@ begin
    strSql := strSql + '0' + ', '; //0=Ativo, 1=Cancelado, 2=Excluido
    strSql := strSql + IntToStr(cds_procCODALMOXARIFADO.AsInteger) + ', ';
 
-  // if (F_Terminal.PageControl1.ActivePage = F_Terminal.TabSheet1) then
+
      strSql := strSql + IntToStr(DM_MOV.ID_DO_MOVIMENTO) + ', ';
 
    strSql := strSql + IntToStr(cds_procCODPRODUTO.AsInteger) + ', ';
