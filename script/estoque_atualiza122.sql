@@ -15,9 +15,13 @@ AS
  declare variable codM integer;
 BEGIN
   if (codMovimento = 0) then 
+  begin
+    select max(codmovimento) from MOVIMENTO
+      into :codMovimento;
     codM = 0;
+  end  
   if (codMovimento > 0) then 
-    codM = codMovimento;
+    codM = codMovimento - 3;
     
   for SELECT DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO , coalesce(MD.LOTE,'0')
      , coalesce(p.LOTES, 'N'), coalesce(lt.CODLOTE,0) CODLOTE 
@@ -28,7 +32,7 @@ BEGIN
     LEFT OUTER JOIN LOTES lt on lt.CODPRODUTO = md.CODPRODUTO and lt.LOTE = md.LOTE 
     where  NP.BAIXAMOVIMENTO in (0,1)
       and ((p.tipo <> 'SERV') or (p.tipo is null)) 
-      and m.CODMOVIMENTO > :codM
+      and m.CODMOVIMENTO between :codM and :codMovimento
     ORDER BY M.CODMOVIMENTO DESC
     into :CODPRODUTO, :CODALMOXARIFADO, :LOTE, :USA_LOTE, :CODLOTE         
     do begin 
