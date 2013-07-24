@@ -705,6 +705,7 @@ begin
     DM_MOV.c_movimento.Params[0].Clear;
     DM_MOV.c_movimento.Params[0].AsInteger := codMov;
     DM_MOV.c_movimento.Open;
+    DM_MOV.ID_DO_MOVIMENTO := codMov;
 
     DM_MOV.c_movdet.Close;
     DM_MOV.c_movdet.Params[0].Clear;
@@ -847,6 +848,7 @@ begin
       DM_MOV.c_movimento.Params[0].Clear;
       DM_MOV.c_movimento.Params[0].AsInteger := sdsBuscaMovExiste.FieldByName('CODMOVIMENTO').AsInteger;
       DM_MOV.c_movimento.Open;
+      DM_MOV.ID_DO_MOVIMENTO := sdsBuscaMovExiste.FieldByName('CODMOVIMENTO').AsInteger;
 
       DM_MOV.c_movdet.Close;
       DM_MOV.c_movdet.Params[0].Clear;
