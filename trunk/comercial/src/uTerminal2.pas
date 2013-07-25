@@ -399,16 +399,6 @@ type
     JvDBGrid1: TJvDBGrid;
     JvLabel1: TJvLabel;
     EdtCodBarra1: TEdit;
-    JvLabel14: TJvLabel;
-    edtQtde1: TJvCalcEdit;
-    LabelComissao: TJvLabel;
-    JvComissao: TJvValidateEdit;
-    JvLabel3: TJvLabel;
-    JvTotal: TJvValidateEdit;
-    JvParcial: TJvValidateEdit;
-    JvSubtotal: TJvValidateEdit;
-    JvLabel13: TJvLabel;
-    JvLabel12: TJvLabel;
     JvPanel8: TJvPanel;
     edMesa: TEdit;
     JvLabel16: TJvLabel;
@@ -454,6 +444,19 @@ type
     XPMenu1: TXPMenu;
     btnProduto: TBitBtn;
     FazerTroca1: TMenuItem;
+    Panel2: TPanel;
+    LabelComissao: TJvLabel;
+    JvComissao: TJvValidateEdit;
+    Panel3: TPanel;
+    JvLabel3: TJvLabel;
+    JvLabel12: TJvLabel;
+    JvLabel13: TJvLabel;
+    JvTotal: TJvValidateEdit;
+    JvParcial: TJvValidateEdit;
+    JvSubtotal: TJvValidateEdit;
+    Panel4: TPanel;
+    edtQtde1: TJvCalcEdit;
+    JvLabel14: TJvLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -595,8 +598,8 @@ begin
       alturaMesa := StrToInt(dm.cds_parametroD3.AsString);
   end;
 
-  Height := StrToInt(dm.videoH);
-  Width  := StrToInt(dm.videoW);
+  ClientHeight := StrToInt(dm.videoH);
+  ClientWidth  := StrToInt(dm.videoW);
   jvSair.Left := Width - 52;
   JvBitBtn1.Left := Width - 99;
   JvBitBtn5.Left := Width - 143;
@@ -877,7 +880,7 @@ procedure TfTerminal2.PanelClick(Sender: TObject);
 var poc : Double;
 begin
   pintaBotao;
-  TPanel(Sender).Color :=  clGreen;
+  TPanel(Sender).Color :=  clYellow;
   JvPanel8.Caption := TPanel(Sender).Caption;
   if (DM_MOV.s_BuscaComanda.Active) then
     DM_MOV.s_BuscaComanda.Close;
@@ -1002,7 +1005,7 @@ begin
     if (dm_mov.c_comanda.Locate('NOMECLIENTE', TPanel(pMesa.Components[(j)]).Caption, [loCaseInsensitive])) then
       TPanel(pMesa.Components[(j)]).Color := clRed
     else
-      TPanel(pMesa.Components[(j)]).Color := clWindow;
+      TPanel(pMesa.Components[(j)]).Color := clMoneyGreen;
   end;
 
 end;
@@ -3971,7 +3974,7 @@ begin
     JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
   end;
-
+  JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
   if (JvComissao.Visible = True) then
   begin
     if (JvComissao.Value > 0) then

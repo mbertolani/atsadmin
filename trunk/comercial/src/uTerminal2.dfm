@@ -13,6 +13,7 @@ object fTerminal2: TfTerminal2
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -1775,22 +1776,24 @@ object fTerminal2: TfTerminal2
   object JvPanel2: TJvPanel
     Left = 0
     Top = 57
-    Width = 393
-    Height = 545
+    Width = 473
+    Height = 552
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
     HotTrackFont.Name = 'MS Sans Serif'
     HotTrackFont.Style = []
     Align = alLeft
+    AutoSize = True
     TabOrder = 1
     object JvPageControl1: TJvPageControl
       Left = 1
       Top = 1
-      Width = 391
-      Height = 543
-      ActivePage = TabVenda
+      Width = 471
+      Height = 550
+      ActivePage = TabComanda
       Align = alClient
+      PopupMenu = PopupMenu1
       TabOrder = 0
       TabPosition = tpBottom
       OnChange = JvPageControl1Change
@@ -1799,8 +1802,8 @@ object fTerminal2: TfTerminal2
         object JvImage1: TJvImage
           Left = 0
           Top = 0
-          Width = 383
-          Height = 460
+          Width = 463
+          Height = 467
           Align = alClient
           AutoSize = True
           Center = True
@@ -2563,8 +2566,8 @@ object fTerminal2: TfTerminal2
         end
         object JvPanel5: TJvPanel
           Left = 0
-          Top = 460
-          Width = 383
+          Top = 467
+          Width = 463
           Height = 57
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
@@ -2675,7 +2678,7 @@ object fTerminal2: TfTerminal2
         object JvPanel8: TJvPanel
           Left = 0
           Top = 0
-          Width = 383
+          Width = 463
           Height = 49
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
@@ -2693,10 +2696,10 @@ object fTerminal2: TfTerminal2
           ParentFont = False
           TabOrder = 0
           DesignSize = (
-            383
+            463
             49)
           object JvLabel16: TJvLabel
-            Left = 179
+            Left = 259
             Top = 10
             Width = 114
             Height = 26
@@ -2721,7 +2724,7 @@ object fTerminal2: TfTerminal2
             HotTrackFont.Style = []
           end
           object edMesa: TEdit
-            Left = 287
+            Left = 367
             Top = 4
             Width = 77
             Height = 33
@@ -2734,6 +2737,7 @@ object fTerminal2: TfTerminal2
             Font.Style = []
             ParentBiDiMode = False
             ParentFont = False
+            PopupMenu = PopupMenu1
             TabOrder = 0
             OnKeyPress = edMesaKeyPress
           end
@@ -2759,9 +2763,10 @@ object fTerminal2: TfTerminal2
         object pMesa: TPanel
           Left = 0
           Top = 49
-          Width = 383
-          Height = 468
+          Width = 463
+          Height = 475
           Align = alClient
+          PopupMenu = PopupMenu1
           TabOrder = 1
           object Image1: TImage
             Left = 152
@@ -2819,9 +2824,10 @@ object fTerminal2: TfTerminal2
         object Panel1: TPanel
           Left = 0
           Top = 0
-          Width = 383
+          Width = 463
           Height = 73
           Align = alTop
+          PopupMenu = PopupMenu1
           TabOrder = 0
           object JvLabel2: TJvLabel
             Left = 1
@@ -2970,7 +2976,7 @@ object fTerminal2: TfTerminal2
         object DBGrid2: TDBGrid
           Left = 0
           Top = 73
-          Width = 383
+          Width = 463
           Height = 451
           Align = alClient
           Ctl3D = False
@@ -3023,21 +3029,23 @@ object fTerminal2: TfTerminal2
     end
   end
   object JvPanel3: TJvPanel
-    Left = 393
+    Left = 473
     Top = 57
-    Width = 512
-    Height = 545
+    Width = 432
+    Height = 552
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
     HotTrackFont.Name = 'MS Sans Serif'
     HotTrackFont.Style = []
     Align = alClient
+    Alignment = taRightJustify
+    AutoSize = True
     TabOrder = 2
     object JvPanel6: TJvPanel
       Left = 1
       Top = 1
-      Width = 510
+      Width = 430
       Height = 56
       HotTrackFont.Charset = DEFAULT_CHARSET
       HotTrackFont.Color = clWindowText
@@ -3045,6 +3053,8 @@ object fTerminal2: TfTerminal2
       HotTrackFont.Name = 'MS Sans Serif'
       HotTrackFont.Style = []
       Align = alTop
+      Alignment = taRightJustify
+      PopupMenu = PopupMenu1
       TabOrder = 0
       object JvLabel1: TJvLabel
         Left = 5
@@ -3068,32 +3078,10 @@ object fTerminal2: TfTerminal2
         HotTrackFont.Name = 'Cooper Black'
         HotTrackFont.Style = []
       end
-      object JvLabel14: TJvLabel
-        Left = 315
-        Top = 8
-        Width = 64
-        Height = 25
-        Caption = 'Qtde :'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -20
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
       object EdtCodBarra1: TEdit
         Left = 85
         Top = 3
-        Width = 220
+        Width = 172
         Height = 37
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -3109,31 +3097,65 @@ object fTerminal2: TfTerminal2
         OnExit = EdtCodBarra1Exit
         OnKeyPress = EdtCodBarra1KeyPress
       end
-      object edtQtde1: TJvCalcEdit
-        Left = 381
-        Top = 3
-        Width = 92
-        Height = 37
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        DecimalPlaces = 3
-        DisplayFormat = '0.###'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Blk BT'
-        Font.Style = []
-        ParentFont = False
-        ShowButton = False
+      object Panel4: TPanel
+        Left = 264
+        Top = 1
+        Width = 165
+        Height = 54
+        Align = alRight
         TabOrder = 1
-        DecimalPlacesAlwaysShown = False
-        OnKeyPress = edtQtde1KeyPress
+        object JvLabel14: TJvLabel
+          Left = 1
+          Top = 8
+          Width = 64
+          Height = 25
+          Align = alCustom
+          Caption = 'Qtde :'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Black'
+          Font.Style = []
+          ParentFont = False
+          ShadowColor = clWindow
+          ShadowSize = 2
+          Transparent = True
+          HintColor = clBlack
+          HotTrackFont.Charset = ANSI_CHARSET
+          HotTrackFont.Color = clWindowText
+          HotTrackFont.Height = -20
+          HotTrackFont.Name = 'Cooper Black'
+          HotTrackFont.Style = []
+        end
+        object edtQtde1: TJvCalcEdit
+          Left = 65
+          Top = 6
+          Width = 93
+          Height = 40
+          BevelKind = bkFlat
+          Align = alCustom
+          AutoSize = False
+          BorderStyle = bsNone
+          DecimalPlaces = 3
+          DisplayFormat = '0.###'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Blk BT'
+          Font.Style = []
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          ShowButton = False
+          TabOrder = 0
+          DecimalPlacesAlwaysShown = False
+          OnKeyPress = edtQtde1KeyPress
+        end
       end
     end
     object JvPanel7: TJvPanel
       Left = 1
-      Top = 416
-      Width = 510
+      Top = 423
+      Width = 430
       Height = 128
       HotTrackFont.Charset = DEFAULT_CHARSET
       HotTrackFont.Color = clWindowText
@@ -3141,194 +3163,218 @@ object fTerminal2: TfTerminal2
       HotTrackFont.Name = 'MS Sans Serif'
       HotTrackFont.Style = []
       Align = alBottom
+      Alignment = taRightJustify
       TabOrder = 1
-      object LabelComissao: TJvLabel
-        Left = 90
-        Top = 22
-        Width = 20
-        Height = 25
-        Alignment = taRightJustify
-        Caption = '%'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        Visible = False
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -20
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object JvLabel3: TJvLabel
-        Left = 242
-        Top = 16
-        Width = 68
-        Height = 25
-        Alignment = taRightJustify
-        Caption = 'Total :'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -20
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object JvLabel13: TJvLabel
-        Left = 220
-        Top = 95
-        Width = 90
-        Height = 25
-        Alignment = taRightJustify
-        Caption = #224' Pagar :'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -20
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object JvLabel12: TJvLabel
-        Left = 245
-        Top = 55
-        Width = 64
-        Height = 25
-        Alignment = taRightJustify
-        Caption = 'Pago :'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -20
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object JvComissao: TJvValidateEdit
-        Left = 119
-        Top = 8
-        Width = 61
-        Height = 47
-        Flat = False
-        ParentFlat = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
-        DisplayFormat = dfFloat
-        EditText = '10'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -39
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
+      object Panel2: TPanel
+        Left = 1
+        Top = 1
+        Width = 155
+        Height = 126
+        Align = alClient
         TabOrder = 0
-        Visible = False
+        object LabelComissao: TJvLabel
+          Left = 34
+          Top = 13
+          Width = 20
+          Height = 25
+          Alignment = taRightJustify
+          Caption = '%'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Black'
+          Font.Style = []
+          ParentFont = False
+          ShadowColor = clWindow
+          ShadowSize = 2
+          Transparent = True
+          Visible = False
+          HintColor = clBlack
+          HotTrackFont.Charset = ANSI_CHARSET
+          HotTrackFont.Color = clWindowText
+          HotTrackFont.Height = -20
+          HotTrackFont.Name = 'Cooper Black'
+          HotTrackFont.Style = []
+        end
+        object JvComissao: TJvValidateEdit
+          Left = 60
+          Top = 8
+          Width = 61
+          Height = 47
+          Flat = False
+          ParentFlat = False
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          CriticalPoints.MaxValueIncluded = False
+          CriticalPoints.MinValueIncluded = False
+          DisplayFormat = dfFloat
+          EditText = '10'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -39
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Visible = False
+        end
       end
-      object JvTotal: TJvValidateEdit
-        Left = 312
-        Top = 7
-        Width = 166
-        Height = 38
-        Flat = False
-        ParentFlat = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
-        DisplayFormat = dfFloat
-        DecimalPlaces = 2
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -28
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
+      object Panel3: TPanel
+        Left = 156
+        Top = 1
+        Width = 273
+        Height = 126
+        Align = alRight
         TabOrder = 1
-      end
-      object JvParcial: TJvValidateEdit
-        Left = 312
-        Top = 47
-        Width = 166
-        Height = 39
-        Flat = False
-        ParentFlat = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
-        DisplayFormat = dfFloat
-        DecimalPlaces = 2
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlue
-        Font.Height = -28
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object JvSubtotal: TJvValidateEdit
-        Left = 312
-        Top = 86
-        Width = 166
-        Height = 39
-        Flat = False
-        ParentFlat = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
-        DisplayFormat = dfFloat
-        DecimalPlaces = 2
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clRed
-        Font.Height = -28
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ReadOnly = True
-        TabOrder = 3
+        DesignSize = (
+          273
+          126)
+        object JvLabel3: TJvLabel
+          Left = 36
+          Top = 11
+          Width = 68
+          Height = 25
+          Alignment = taRightJustify
+          Caption = 'Total :'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Black'
+          Font.Style = []
+          ParentFont = False
+          ShadowColor = clWindow
+          ShadowSize = 2
+          Transparent = True
+          HintColor = clBlack
+          HotTrackFont.Charset = ANSI_CHARSET
+          HotTrackFont.Color = clWindowText
+          HotTrackFont.Height = -20
+          HotTrackFont.Name = 'Cooper Black'
+          HotTrackFont.Style = []
+        end
+        object JvLabel12: TJvLabel
+          Left = 40
+          Top = 50
+          Width = 64
+          Height = 25
+          Alignment = taRightJustify
+          Caption = 'Pago :'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Black'
+          Font.Style = []
+          ParentFont = False
+          ShadowColor = clWindow
+          ShadowSize = 2
+          Transparent = True
+          HintColor = clBlack
+          HotTrackFont.Charset = ANSI_CHARSET
+          HotTrackFont.Color = clWindowText
+          HotTrackFont.Height = -20
+          HotTrackFont.Name = 'Cooper Black'
+          HotTrackFont.Style = []
+        end
+        object JvLabel13: TJvLabel
+          Left = 15
+          Top = 90
+          Width = 90
+          Height = 25
+          Alignment = taRightJustify
+          Caption = #224' Pagar :'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Black'
+          Font.Style = []
+          ParentFont = False
+          ShadowColor = clWindow
+          ShadowSize = 2
+          Transparent = True
+          HintColor = clBlack
+          HotTrackFont.Charset = ANSI_CHARSET
+          HotTrackFont.Color = clWindowText
+          HotTrackFont.Height = -20
+          HotTrackFont.Name = 'Cooper Black'
+          HotTrackFont.Style = []
+        end
+        object JvTotal: TJvValidateEdit
+          Left = 120
+          Top = 7
+          Width = 150
+          Height = 38
+          Anchors = [akTop, akRight]
+          Flat = False
+          ParentFlat = False
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          CriticalPoints.MaxValueIncluded = False
+          CriticalPoints.MinValueIncluded = False
+          DisplayFormat = dfFloat
+          DecimalPlaces = 2
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -28
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+        end
+        object JvParcial: TJvValidateEdit
+          Left = 120
+          Top = 47
+          Width = 150
+          Height = 39
+          Anchors = [akTop, akRight]
+          AutoAlignment = False
+          Flat = False
+          ParentFlat = False
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          CriticalPoints.MaxValueIncluded = False
+          CriticalPoints.MinValueIncluded = False
+          DisplayFormat = dfFloat
+          DecimalPlaces = 2
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlue
+          Font.Height = -28
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object JvSubtotal: TJvValidateEdit
+          Left = 120
+          Top = 87
+          Width = 150
+          Height = 39
+          Anchors = [akTop, akRight]
+          Flat = False
+          ParentFlat = False
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          CriticalPoints.MaxValueIncluded = False
+          CriticalPoints.MinValueIncluded = False
+          DisplayFormat = dfFloat
+          DecimalPlaces = 2
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clRed
+          Font.Height = -28
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 2
+        end
       end
     end
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 57
-      Width = 510
-      Height = 359
+      Width = 430
+      Height = 366
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
@@ -3374,7 +3420,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 273
+          Width = 230
           Visible = True
         end
         item
@@ -3392,7 +3438,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 43
+          Width = 36
           Visible = True
         end
         item
@@ -3410,7 +3456,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 85
+          Width = 71
           Visible = True
         end
         item
@@ -3428,7 +3474,7 @@ object fTerminal2: TfTerminal2
           Title.Font.Height = -13
           Title.Font.Name = 'Times New Roman'
           Title.Font.Style = [fsBold]
-          Width = 105
+          Width = 89
           Visible = True
         end>
     end
