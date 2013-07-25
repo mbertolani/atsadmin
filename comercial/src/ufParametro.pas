@@ -320,6 +320,19 @@ type
     edNotaFiscalNatureza: TEdit;
     BitBtn35: TBitBtn;
     edNotaFiscalNaturezaDesc: TEdit;
+    GroupBox34: TGroupBox;
+    Label59: TLabel;
+    BitBtn36: TBitBtn;
+    edSerieScan: TEdit;
+    BitBtn37: TBitBtn;
+    BitBtn39: TBitBtn;
+    BitBtn40: TBitBtn;
+    GroupBox35: TGroupBox;
+    edNumNfe: TEdit;
+    btnNumNfe: TBitBtn;
+    GroupBox36: TGroupBox;
+    edNumNfeScam: TEdit;
+    BitBtn41: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -402,7 +415,13 @@ type
     procedure btnNFSerieClick(Sender: TObject);
     procedure RadioGroup4Click(Sender: TObject);
     procedure BitBtn33Click(Sender: TObject);
+    procedure BitBtn37Click(Sender: TObject);
+    procedure BitBtn36Click(Sender: TObject);
+    procedure BitBtn38Click(Sender: TObject);
+    procedure btnNumNfeClick(Sender: TObject);
+    procedure BitBtn41Click(Sender: TObject);
   private
+    procedure carregaParametroNotaFiscal;
     { Private declarations }
   public
     procedure DoCustomDraw(Sender: TObject; ACanvas: TCanvas; ARect: TRect;
@@ -418,7 +437,8 @@ var
   
 implementation
 
-uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes, uProcurar;
+uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes, uProcurar, uSeriaNF,
+  UDMNF;
 
 {$R *.dfm}
 
@@ -2156,6 +2176,9 @@ end;
 procedure TfParametro.ParametroChange(Sender: TObject);
 begin
   inherited;
+  if (TabSheet3.Visible = True) then
+    carregaParametroNotaFiscal;
+
   if (Parametro.ActivePage = TabPDV) then
   begin
 
@@ -2586,7 +2609,7 @@ end;
 procedure TfParametro.FormShow(Sender: TObject);
 begin
 //  inherited;
-  Parametro.ActivePage := TabSheet1;
+  Parametro.ActivePage := TabSheet2;
 end;
 
 procedure TfParametro.chkImprimirTXTClick(Sender: TObject);
@@ -4673,6 +4696,216 @@ begin
     dm.cds_parametroD1.AsString := edtSerieNF.Text;
     dm.cds_parametro.ApplyUpdates(0);
   end;
+end;
+
+procedure TfParametro.BitBtn37Click(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,scds_serie_proc);
+  fProcurar.BtnProcurar.Click;
+  try
+   fProcurar.EvDBFind1.DataField := 'SERIE';
+   if fProcurar.ShowModal=mrOk then
+     edSerieScan.Text := scds_serie_procSERIE.AsString;
+   finally
+    scds_serie_proc.Close;
+    fProcurar.Free;
+   end;
+    edtSerieNF.SetFocus;
+end;
+
+procedure TfParametro.BitBtn36Click(Sender: TObject);
+begin
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFESCAN';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Serie para nota fiscal eletronica - SCAN') + ', ';
+    strSql := strSql + QuotedStr('SERIENFESCAN') + ', ';
+    strSql := strSql + QuotedStr('S') + ', ';
+    strSql := strSql + QuotedStr(edSerieScan.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD1.AsString := edSerieScan.Text;
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
+end;
+
+procedure TfParametro.BitBtn38Click(Sender: TObject);
+begin
+  inherited;
+ fSeriaNF := TfSeriaNF.Create(Application);
+ try
+  fSeriaNF.ShowModal;
+ finally
+  fSeriaNF.Free;
+ end;
+end;
+
+procedure TfParametro.btnNumNfeClick(Sender: TObject);
+var numNf: Integer;
+begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    MessageDlg('Cadastre a Série primeiro.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := edtSerieNF.Text;
+
+  dmnf.scds_serienfe.Open;
+  if (not dmnf.scds_serienfe.IsEmpty) then
+  begin
+    MessageDlg('Já existe Notas com está série, não precisa informar número inicial.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_NF, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  NUMNF := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
+
+  strSql := 'INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NATUREZA, SERIE, CORPONF1';
+  strSql := strSql + ') VALUES (';
+  strSql := strSql + QuotedStr(edNumNfe.Text) + ', ';
+  strSql := strSql + IntToStr(numNf) + ', ';
+  strSql := strSql + edNotaFiscalNatureza.Text + ', ';
+  strSql := strSql + QuotedStr(edtSerieNF.Text) + ', ';
+  strSql := strSql + QuotedStr('NOTA INICIAL CADASTRADO EM PARAMETRO - ' +
+    dm.varLogado + ' - ' + DateToStr(now));
+  strSql := strSql + ')';
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+         [mbOk], 0);
+  end;
+end;
+
+procedure TfParametro.BitBtn41Click(Sender: TObject);
+var numNf: Integer;
+begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFESCAN';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    MessageDlg('Cadastre a Série - SCAN primeiro.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := edSerieScan.Text;
+
+  dmnf.scds_serienfe.Open;
+  if (not dmnf.scds_serienfe.IsEmpty) then
+  begin
+    MessageDlg('Já existe Notas com está série, não precisa informar número inicial.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_NF, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  NUMNF := dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
+
+  strSql := 'INSERT INTO NOTAFISCAL (NOTASERIE, NUMNF, NATUREZA, SERIE, CORPONF1';
+  strSql := strSql + ') VALUES (';
+  strSql := strSql + QuotedStr(edNumNfeScam.Text) + ', ';
+  strSql := strSql + IntToStr(numNf) + ', ';
+  strSql := strSql + edNotaFiscalNatureza.Text + ', ';
+  strSql := strSql + QuotedStr(edSerieScan.Text) + ', ';
+  strSql := strSql + QuotedStr('NOTA INICIAL CADASTRADO EM PARAMETRO - ' +
+    dm.varLogado + ' - ' + DateToStr(now));
+  strSql := strSql + ')';
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+         [mbOk], 0);
+  end;
+end;
+
+procedure TfParametro.carregaParametroNotaFiscal;
+begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+  edtSerieNF.Text := dm.cds_parametroD1.AsString;
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := edtSerieNF.Text;
+  dmnf.scds_serienfe.Open;
+  if (not dmnf.scds_serienfe.IsEmpty) then
+  begin
+    edNumNfe.Text := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+  end;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFESCAN';
+  dm.cds_parametro.Open;
+  edSerieScan.Text := dm.cds_parametroD1.AsString;
+  if (not dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := edSerieScan.Text;
+  dmnf.scds_serienfe.Open;
+  if (dmnf.scds_serienfe.IsEmpty) then
+  begin
+    edNumNfeScam.Text := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+  end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'NOTAFISCALDESATIVADO';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
+      RadioGroup4.ItemIndex := 0;
+    if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+      RadioGroup4.ItemIndex := 1;
+  end;
+
 end;
 
 end.

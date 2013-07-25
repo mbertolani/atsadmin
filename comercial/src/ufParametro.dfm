@@ -362,18 +362,18 @@ inherited fParametro: TfParametro
       Caption = 'Nota Fiscal'
       ImageIndex = 2
       object GroupBox32: TGroupBox
-        Left = 10
-        Top = 21
-        Width = 290
+        Left = 9
+        Top = 61
+        Width = 367
         Height = 48
-        Caption = 'Serie Padr'#227'o NFe'
+        Caption = 'Serie NFe'
         TabOrder = 0
         object Label57: TLabel
           Left = 10
           Top = 29
           Width = 24
           Height = 13
-          Caption = 'Serie'
+          Caption = 'S'#233'rie'
         end
         object btnNFSerie: TBitBtn
           Left = 200
@@ -389,6 +389,7 @@ inherited fParametro: TfParametro
           Top = 23
           Width = 121
           Height = 21
+          ReadOnly = True
           TabOrder = 1
         end
         object BitBtn34: TBitBtn
@@ -400,10 +401,19 @@ inherited fParametro: TfParametro
           TabOrder = 2
           OnClick = BitBtn34Click
         end
+        object BitBtn39: TBitBtn
+          Left = 281
+          Top = 20
+          Width = 76
+          Height = 25
+          Caption = 'Nova S'#233'rie'
+          TabOrder = 3
+          OnClick = BitBtn38Click
+        end
       end
       object RadioGroup4: TRadioGroup
         Left = 8
-        Top = 80
+        Top = 8
         Width = 293
         Height = 49
         Caption = 'N'#250'mero da Nota'
@@ -417,7 +427,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox33: TGroupBox
         Left = 8
-        Top = 139
+        Top = 275
         Width = 649
         Height = 48
         Caption = 'C'#243'd. da Natureza da Nota Fiscal'
@@ -467,6 +477,104 @@ inherited fParametro: TfParametro
           ReadOnly = True
           TabOrder = 3
           Text = 'Nota Fiscal'
+        end
+      end
+      object GroupBox34: TGroupBox
+        Left = 9
+        Top = 171
+        Width = 369
+        Height = 48
+        Caption = 'S'#233'rie NFe - Modo SCAN'
+        TabOrder = 3
+        object Label59: TLabel
+          Left = 10
+          Top = 29
+          Width = 24
+          Height = 13
+          Caption = 'S'#233'rie'
+        end
+        object BitBtn36: TBitBtn
+          Left = 200
+          Top = 20
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn36Click
+        end
+        object edSerieScan: TEdit
+          Left = 40
+          Top = 23
+          Width = 121
+          Height = 21
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object BitBtn37: TBitBtn
+          Left = 166
+          Top = 20
+          Width = 26
+          Height = 25
+          Caption = '...'
+          TabOrder = 2
+          OnClick = BitBtn37Click
+        end
+        object BitBtn40: TBitBtn
+          Left = 281
+          Top = 20
+          Width = 76
+          Height = 25
+          Caption = 'Nova S'#233'rie'
+          TabOrder = 3
+          OnClick = BitBtn38Click
+        end
+      end
+      object GroupBox35: TGroupBox
+        Left = 10
+        Top = 112
+        Width = 369
+        Height = 45
+        Caption = 'N'#250'mero NFe '#224' utilizar'
+        TabOrder = 4
+        object edNumNfe: TEdit
+          Left = 39
+          Top = 18
+          Width = 119
+          Height = 21
+          TabOrder = 0
+        end
+        object btnNumNfe: TBitBtn
+          Left = 200
+          Top = 15
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = btnNumNfeClick
+        end
+      end
+      object GroupBox36: TGroupBox
+        Left = 10
+        Top = 223
+        Width = 369
+        Height = 45
+        Caption = 'N'#250'mero da NFe - Modo SCAN '#224' utilizar'
+        TabOrder = 5
+        object edNumNfeScam: TEdit
+          Left = 39
+          Top = 18
+          Width = 119
+          Height = 21
+          TabOrder = 0
+        end
+        object BitBtn41: TBitBtn
+          Left = 200
+          Top = 14
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn41Click
         end
       end
     end
