@@ -1392,10 +1392,6 @@ type
     cds_Mov_detVALOR_PIS: TFloatField;
     cds_Mov_detCSTCOFINS: TStringField;
     cds_Mov_detVALOR_COFINS: TFloatField;
-    scds_serienfe: TSQLClientDataSet;
-    scds_serienfeNOTASERIE: TIntegerField;
-    scds_serienfeNOTAFISCAL: TIntegerField;
-    scds_serienfeSERIE: TStringField;
     sds_nfBASE_IPI: TFloatField;
     sds_nfBASE_PIS: TFloatField;
     sds_nfBASE_COFINS: TFloatField;
@@ -1416,6 +1412,10 @@ type
     sds_Mov_DetPPIS: TFloatField;
     cds_Mov_detPCOFINS: TFloatField;
     cds_Mov_detPPIS: TFloatField;
+    scds_serienfe: TSQLQuery;
+    scds_serienfeNOTASERIE: TIntegerField;
+    scds_serienfeNOTAFISCAL: TIntegerField;
+    scds_serienfeSERIE: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
