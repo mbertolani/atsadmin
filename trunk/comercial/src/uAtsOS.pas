@@ -71,6 +71,7 @@ type
     procedure dxButton11Click(Sender: TObject);
     procedure UserControlAutoAfterLogin(Sender: TObject);
     procedure JvOutlookBar1Pages0Buttons8Click(Sender: TObject);
+    procedure JvOutlookBar1Pages0Buttons9Click(Sender: TObject);
   private
     Saudacao : string;
     TD: TTransactionDesc;
@@ -99,7 +100,7 @@ uses
   uRel, uRelatorioCaixa, uPrazo, U_AUTOPECAS, uNFeletronica,
   uRelOS,
   uNotaf,
-  UDMNF, uNCM;
+  UDMNF, uNCM, uSeriaNF;
 
 {$R *.dfm}
 
@@ -754,6 +755,16 @@ begin
    fNCM.ShowModal;
  finally
    fNCM.Free;
+ end;
+end;
+
+procedure TfAtsOS.JvOutlookBar1Pages0Buttons9Click(Sender: TObject);
+begin
+ fSeriaNF := TfSeriaNF.Create(Application);
+ try
+  fSeriaNF.ShowModal;
+ finally
+  fSeriaNF.Free;
  end;
 end;
 

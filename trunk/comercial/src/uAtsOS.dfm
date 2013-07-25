@@ -1,5 +1,5 @@
 object fAtsOS: TfAtsOS
-  Left = 406
+  Left = 438
   Top = 0
   Width = 793
   Height = 427
@@ -27913,6 +27913,13 @@ object fAtsOS: TfAtsOS
             Tag = 0
             AutoToggle = False
             OnClick = JvOutlookBar1Pages0Buttons8Click
+          end
+          item
+            Caption = 'Cadastro S'#233'rie'
+            ImageIndex = 0
+            Tag = 0
+            AutoToggle = False
+            OnClick = JvOutlookBar1Pages0Buttons9Click
           end>
         ButtonSize = olbsLarge
         Caption = '&Cadastro'
