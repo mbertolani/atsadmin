@@ -1,7 +1,7 @@
 object DMNF: TDMNF
   OldCreateOrder = False
   Left = 76
-  Top = 26
+  Top = 27
   Height = 669
   Width = 891
   object sCliente: TSQLDataSet
@@ -7148,23 +7148,23 @@ object DMNF: TDMNF
       FieldName = 'NOTAFISCAL'
     end
   end
-  object scds_serienfe: TSQLClientDataSet
-    CommandText = 
-      'select first 1 cast(nf.NOTASERIE as integer) NOTASERIE, nf.NOTAF' +
-      'ISCAL, nf.SERIE from NOTAFISCAL nf '#13#10'where nf.SERIE = :SERIE'#13#10'or' +
-      'der by cast(nf.NOTASERIE as integer) desc'
-    Aggregates = <>
-    Options = [poAllowCommandText]
-    ObjectView = True
+  object scds_serienfe: TSQLQuery
+    MaxBlobSize = -1
     Params = <
       item
         DataType = ftString
         Name = 'SERIE'
         ParamType = ptInput
       end>
-    DBConnection = DM.sqlsisAdimin
-    Left = 752
-    Top = 9
+    SQL.Strings = (
+      
+        'select first 1 cast(nf.NOTASERIE as integer) NOTASERIE, nf.NOTAF' +
+        'ISCAL, nf.SERIE from NOTAFISCAL nf '
+      'where nf.SERIE = :SERIE'
+      'order by cast(nf.NOTASERIE as integer) desc')
+    SQLConnection = DM.sqlsisAdimin
+    Left = 768
+    Top = 368
     object scds_serienfeNOTASERIE: TIntegerField
       FieldName = 'NOTASERIE'
       ReadOnly = True
