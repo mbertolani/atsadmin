@@ -2,7 +2,7 @@ object fNFeletronica: TfNFeletronica
   Left = 263
   Top = 33
   Width = 875
-  Height = 587
+  Height = 580
   AutoSize = True
   Caption = 'Nota Fiscal Eletr'#244'nica'
   Color = clBtnFace
@@ -835,34 +835,43 @@ object fNFeletronica: TfNFeletronica
           end
         end
         object TabSheet3: TTabSheet
-          Caption = 'Sped'
+          Caption = 'Scan'
           ImageIndex = 2
           object GroupBox7: TGroupBox
             Left = 4
             Top = 3
             Width = 350
             Height = 106
-            Caption = 'Sped'
+            Caption = 'Scan'
             TabOrder = 0
             object btnSPED: TBitBtn
               Left = 156
-              Top = 32
+              Top = 48
               Width = 91
               Height = 36
-              Caption = 'NF-e SPED'
+              Caption = 'NF-e Scan'
               Enabled = False
               TabOrder = 0
               OnClick = btnSPEDClick
             end
             object btnPreVisSped: TBitBtn
               Left = 42
-              Top = 32
+              Top = 48
               Width = 91
               Height = 36
               Caption = 'Pr'#233' Visualizar'
               Enabled = False
               TabOrder = 1
               OnClick = btnPreVisSpedClick
+            end
+            object chkScan: TCheckBox
+              Left = 40
+              Top = 24
+              Width = 201
+              Height = 17
+              Caption = 'Mudar a NFe para o Modo Scan'
+              TabOrder = 2
+              OnClick = chkScanClick
             end
           end
         end
@@ -1244,7 +1253,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
@@ -4074,6 +4083,7 @@ object fNFeletronica: TfNFeletronica
     ProdutosPorPagina = 0
     ImprimirDetalhamentoEspecifico = True
     NFeCancelada = False
+    LocalImpCanhoto = 0
     RavFile = 'D:\ACBR\ACBrNFePCN\Demo\Report\NotaFiscalEletronica.rav'
     EspessuraBorda = 1
     TamanhoFonte_RazaoSocial = 12
