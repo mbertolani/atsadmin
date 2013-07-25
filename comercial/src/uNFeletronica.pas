@@ -684,6 +684,7 @@ type
     cdsNFBASE_PIS: TFloatField;
     cdsNFBASE_COFINS: TFloatField;
     cdsNFVLRTOT_TRIB: TFloatField;
+    chkScan: TCheckBox;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -725,11 +726,14 @@ type
     procedure btnImprimirCCeClick(Sender: TObject);
     procedure EnviaEmail;
     procedure tpNFClick(Sender: TObject);
+    procedure chkScanClick(Sender: TObject);
 
   private
     numnf : WideString;
     envemail : string;
     TD: TTransactionDesc;
+    function validaNumNfe():Boolean;
+    function validaNumNfeScan():Boolean;
     procedure getCli_Fornec();
     procedure getEmpresa();
     procedure getItens(contador : integer);
@@ -882,6 +886,23 @@ var
   i, codnf: integer;
   Protocolo, Recibo, str, vAux, valida : String;
 begin
+  if (tp_amb = 1) then
+  begin
+    if (validaNumNfe = false) then
+    begin
+      MessageDlg('Número da Nota Fiscal errado.', mtError, [mbOK], 0);
+      exit;
+    end;
+  end;
+  if (tp_amb = 3) then
+  begin
+    if (validaNumNfeScan = false) then
+    begin
+      MessageDlg('Número da Nota Fiscal errado.', mtError, [mbOK], 0);
+      exit;
+    end;
+  end;
+
    ACBrNFeDANFERave1.RavFile := str_relatorio + 'NotaFiscalEletronica.rav';
 
    if (not cds_ccusto.Active) then
@@ -1926,9 +1947,17 @@ end;
 
 procedure TfNFeletronica.btnSPEDClick(Sender: TObject);
 begin
-    tp_amb := 3;
+  if (tp_amb = 1) then
+  begin
+    MessageDlg('Altere a noda para o Modo Scan.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  if (chkScan.Checked) then
+  begin
+    //tp_amb := 3;
     btnGeraNFeClick(Sender);
-    tp_amb := 1;
+    //tp_amb := 1;
+  end;  
 end;
 
 procedure TfNFeletronica.btnSairVendaClick(Sender: TObject);
@@ -2633,9 +2662,12 @@ end;
 
 procedure TfNFeletronica.btnPreVisSpedClick(Sender: TObject);
 begin
-    tp_amb := 3;
+  if (chkScan.Checked) then
+  begin
+    //tp_amb := 3;
     BtnPreVisClick(Sender);
-    tp_amb := 1;
+    //tp_amb := 1;
+  end;
 end;
 
 procedure TfNFeletronica.btnPreVisDPECClick(Sender: TObject);
@@ -2984,6 +3016,63 @@ end;
 procedure TfNFeletronica.tpNFClick(Sender: TObject);
 begin
   btnListar.Click;
+end;
+
+function TfNFeletronica.validaNumNfe: Boolean;
+begin
+  // Faz a validacao do numero da NFE
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+
+  dmnf.scds_serienfe.Open;
+  result := false;
+  if (cdsNFNOTASERIE.AsString = IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) then
+  begin
+    result := true;
+  end;
+
+end;
+
+function TfNFeletronica.validaNumNfeScan: Boolean;
+begin
+  // Faz a validacao do numero da NFE no SCan
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFESCAN';
+  dm.cds_parametro.Open;
+
+  if (dmnf.scds_serienfe.Active) then
+    dmnf.scds_serienfe.Close;
+  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+
+  dmnf.scds_serienfe.Open;
+  result := false;
+  if (cdsNFNOTASERIE.AsString = IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) then
+  begin
+    result := true;
+  end;
+
+end;
+
+procedure TfNFeletronica.chkScanClick(Sender: TObject);
+begin
+  if (chkScan.Checked) then
+  begin
+    tp_amb := 3;
+    Label5.Caption := 'PRODUÇÃO - SCAN';
+    GroupBox5.Color := clRed;
+  end
+  else begin
+    tp_amb := 1;
+    Label5.Caption := 'PRODUÇÃO';
+    GroupBox5.Color := clBtnFace;
+  end;  
 end;
 
 end.
