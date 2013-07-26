@@ -421,7 +421,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uLotes, uTerminal, uListaClientes, ufListaProd, uRel_vendas,
   uTerminal_Delivery, uTipoVisita, uAgendamento, uRomaneio, ufDlgLogin,
   uFiltroMovimento, uListadeCompra, uRel, uEstoqueCorrige, uTerminalLoja,
-  uLote, sCtrlResize, ufcr, uCrTituloInclui, uFiltro_forn_plano, ufcpproc,
+  sCtrlResize, ufcr, uCrTituloInclui, uFiltro_forn_plano, ufcpproc,
   ufcrtitulo, uCrTituloPagto, uSplash, ucrTitulo, ufContabilLanc, uGeraCob,
   uProcuraCheque, uRelatorio, uRelatorioReceber, uNF, uProdudoBusca,
   uNotaf, ufContasAssistente, ufuncionario, uEstado, uEmpresa,
@@ -447,7 +447,7 @@ uses uVendas, ufprocura_prod, uVendaFinalizar, uMostra_Contas, uCheques_bol,
   uTerminalNTC, uCorreio, uListaVenda, uVendaRelPorNotaFiscalLote, uCadDep,
   uCadSetor, uCadDoc, uImport, uNfeIcms, uperiodoSem, uClientesAniversario,
   uLogs, uUnidadeMedida, uSincronizar, uFluxoEstoque, uClassificacaoFiscalNCM, 
-  uNCM, uFiltroCorreio;
+  uNCM, uFiltroCorreio, uTerminal2;
 
 {$R *.dfm}
 
@@ -645,23 +645,12 @@ end;
 
 procedure TfAtsAdmin.Lotes1Click(Sender: TObject);
 begin
-  if (dm.moduloUsado = 'CITRUS') then
-  begin
-    fLote := TfLote.Create(Application);
-    try
-      fLote.ShowModal;
-    finally
-      fLote.Free;
-    end;
-  end
-  else begin
     fLotes := TfLotes.Create(Application);
     try
       fLotes.ShowModal;
     finally
       fLotes.Free;
     end;
-  end;
 end;
 
 procedure TfAtsAdmin.RelatrioListadeProdutos1Click(Sender: TObject);
@@ -1047,7 +1036,14 @@ begin
   DM.cds_parametro.Open;
   if (DM.cds_parametro.Eof) then
   begin
-    WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
+    //WinExec('prjTerminal.EXE', SW_SHOWNORMAL);
+    fTerminal2 := TfTerminal2.Create(Application);
+    try
+      fTerminal2.ShowModal;
+    finally
+      fTerminal2.Free;
+    end;
+
   end
   else
   begin
