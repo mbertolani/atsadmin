@@ -226,6 +226,7 @@ type
     procedure imprimeRecibo;
     { Private declarations }
   public
+    dtaOsFinaliza : Tdate;
     OSFinalizaStatus: String;
     porc_com :  double;
     { Public declarations }
@@ -631,7 +632,7 @@ begin
   jvAcrescimo.Value := 0;
   jvPago.Value := 0;
   jvTroco.Value := 0;
-  DM_MOV.c_vendaDATAVENDA.AsDateTime := Now;
+  DM_MOV.c_vendaDATAVENDA.AsDateTime := dtaOsFinaliza;
   DM_MOV.c_vendaDATASISTEMA.AsDateTime := Now;
   cbConta.ItemIndex := 1;
   ComboBox1.ItemIndex := 0;
@@ -846,6 +847,7 @@ end;
 procedure TfOsFinaliza.FormCreate(Sender: TObject);
 var i,j : Integer;
 begin
+  dtaOsFinaliza := now;
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'DLLBEMATECH';

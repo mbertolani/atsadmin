@@ -154,17 +154,13 @@ type
     procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
-    procedure AbrirCaixa;    
+    procedure AbrirCaixa;
   public
     { Public declarations }
   end;
 
 var
   fAbrirCaixa: TfAbrirCaixa;
-  varCodColab, CODIGODEORIGEM : integer;
-  varValor : Double;
-  TD: TTransactionDesc;
-  DATAFECHAMENTO : TDate;
 
 implementation
 
@@ -176,6 +172,7 @@ procedure TfAbrirCaixa.FormShow(Sender: TObject);
 var
   codigoCaixa, caixabanco : string;
 begin
+  //varCodColab,
   //------Pego do Parametro o cadigo para listar os Caixas ---
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -229,7 +226,7 @@ begin
   if (cbbCaixa.Text <> '') then
      lbCaixa.Caption := 'Caixa Aberto'
   else
-     lbCaixa.Caption := 'Abrir  Caixa'     
+     lbCaixa.Caption := 'Abrir  Caixa'
 end;
 
 procedure TfAbrirCaixa.btnAbrirClick(Sender: TObject);
@@ -315,9 +312,9 @@ begin
   sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
   sCaixa1.Open;
 
-  CODIGODEORIGEM := sCaixa1IDCAIXACONTROLE.AsInteger;
+  //CODIGODEORIGEM := sCaixa1IDCAIXACONTROLE.AsInteger;
 
-  DATAFECHAMENTO := eddata2.Date;
+  //DATAFECHAMENTO := eddata2.Date;
   AbrirCaixa;
   btnAbrir.Enabled := False;
   if (sCaixa1.Active) then

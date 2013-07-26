@@ -397,8 +397,6 @@ type
     JvPanel6: TJvPanel;
     JvPanel7: TJvPanel;
     JvDBGrid1: TJvDBGrid;
-    JvLabel1: TJvLabel;
-    EdtCodBarra1: TEdit;
     JvPanel8: TJvPanel;
     edMesa: TEdit;
     JvLabel16: TJvLabel;
@@ -457,6 +455,9 @@ type
     Panel4: TPanel;
     edtQtde1: TJvCalcEdit;
     JvLabel14: TJvLabel;
+    Panel5: TPanel;
+    EdtCodBarra1: TEdit;
+    JvLabel1: TJvLabel;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -511,6 +512,9 @@ type
     usaDll : String;
     tipoImpressao: String;
     ModeloImpressora: Integer;
+    caixaTerminal2: Integer;
+    caixaTerminal2DataAbertura : TDate;
+    caixaTerminal2Id : Integer;
     cliente : string;
     TD: TTransactionDesc;
     vTIPO_PEDIDO: STring;
@@ -727,9 +731,15 @@ begin
   s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
   s_parametro.Open;
   if (not s_parametro.IsEmpty) then
-    DM.USACONTROLECAIXA := 'SIM'
-  else
+  begin
+    DM.USACONTROLECAIXA := 'SIM';
+  end  
+  else begin
     DM.USACONTROLECAIXA := 'NAO';
+    caixaTerminal2 := dm.CCustoPadrao;
+    caixaTerminal2DataAbertura := now;
+    caixaTerminal2Id := 0;
+  end;
   s_parametro.Close;
 
   if (sCaixa1.Active) then
@@ -1062,9 +1072,15 @@ begin
   sCaixa1.Params[1].AsString := 'A'; //Caixa Aberto
   sCaixa1.Open;
   if (sCaixa1.IsEmpty) then
-    DM.resultadoOperacao := 'FALSE'
-  else
+  begin
+    DM.resultadoOperacao := 'FALSE';
+  end
+  else begin
     DM.resultadoOperacao := 'TRUE';
+    caixaTerminal2 := sCaixa1CODCAIXA.AsInteger;
+    caixaTerminal2DataAbertura := sCaixa1DATAABERTURA.AsDateTime;
+    caixaTerminal2Id := sCaixa1IDCAIXACONTROLE.AsInteger;
+  end;
   sCaixa1.Close;
 
 end;
@@ -2558,6 +2574,7 @@ begin
   fOsFinaliza := TfOsFinaliza.Create(Application);
   try
     fOsFinaliza.porc_com := JvComissao.Value;
+    fOsFinaliza.dtaOsFinaliza := caixaTerminal2DataAbertura;
     fOsFinaliza.ShowModal;
     if (fOsFinaliza.OSFinalizaStatus = 'FINALIZADO') then
     begin
@@ -2690,6 +2707,7 @@ begin
 
   F_Entrada := TF_Entrada.Create(Application);
   try
+    f_entrada.dtaFEntrada := caixaTerminal2DataAbertura;
     if (F_Entrada.c_forma.Active) then
       F_Entrada.c_forma.Close;
     F_Entrada.c_forma.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
@@ -3276,7 +3294,7 @@ begin
     'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE, TIPO_PEDIDO) VALUES ( ' +
     IntToStr(id_movimento) + ', ' + IntToStr(id_movimento) +
     ', ' + IntToStr(3) +
-    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', now)) +
+    ', ' + QuotedStr(formatdatetime('mm/dd/yyyy', caixaTerminal2DataAbertura)) +
     ', ' + QuotedStr(formatdatetime('mm/dd/yyyy HH:MM', now)) +
     ', ' + IntToStr(20) +
     ', ' + IntToStr(1) +
@@ -4406,12 +4424,17 @@ procedure TfTerminal2.Fechamentodecaixa1Click(Sender: TObject);
 var
   Caixa : TFiscalCls;
 begin
+  testaCaixaAberto;
   fMovCaixa := TfMovCaixa.Create(Application);
   try
+    fMovCaixa.caixaMovCaixa := caixaTerminal2;
+    fMovCaixa.caixaDtaMovCaixa := caixaTerminal2DataAbertura;
+    fMovCaixa.caixaIdMovCaixa := caixaTerminal2Id;
     fMovCaixa.ShowModal;
   finally
     fMovCaixa.Free;
-    try
+  end;
+  {  try
       Caixa := TFiscalCls.Create;
       // Pego o Caixa Aberto
       var_Retorno := Caixa.VerificaCaixaAberto();
@@ -4420,7 +4443,7 @@ begin
     end;
     if var_Retorno = False then
       jvPageControl1.Enabled := False;
-  end;
+  end;}
 end;
 
 procedure TfTerminal2.AbrirCaixa1Click(Sender: TObject);

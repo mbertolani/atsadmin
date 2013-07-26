@@ -92,15 +92,18 @@ type
     { Private declarations }
     procedure imprimicaixa;
   public
+    caixaMovCaixa: Integer;
+    caixaDtaMovCaixa : Tdate;
+    caixaIdMovCaixa: Integer;
     { Public declarations }
   end;
 
 var
   fMovCaixa: TfMovCaixa;
-  varCodColab, CODIGODEORIGEM : integer;
-  varValor : Double;
-  TD: TTransactionDesc;
-  DATAFECHAMENTO : TDate;
+  //varCodColab, CODIGODEORIGEM : integer;
+  //varValor : Double;
+
+  //DATAFECHAMENTO : TDate;
 
 implementation
 
@@ -145,20 +148,9 @@ end;
 
 procedure TfMovCaixa.ConsultaClick(Sender: TObject);
 var
-   FCaixaConsulta : TFiscalCls;
    contaCaixaInterno : string;
    id_contaCX : Integer;
 begin
-  // Pego os dados do Caixa Aberto
-  Try
-     FCaixaConsulta := TFiscalCls.Create;
-     FCaixaConsulta.VerificaCaixaAberto();
-     var_idCaixa   := FCaixaConsulta.v_idcaixa;
-     var_nomecaixa := FCaixaConsulta.v_NomeCaixa;
-     var_codCusto  := FCaixaConsulta.v_Cod_Caixa;
-  Finally
-     FCaixaConsulta.Free;
-  end;
   // Pego o numero da conta do caixa interno
   if (DM_MOV.s_parametro.Active) then
      DM_MOV.s_parametro.Close;
@@ -178,7 +170,7 @@ begin
   cCaixa.Params[0].AsDate := StrToDate(eddata2.Text);
   cCaixa.Params[1].AsDate := StrToDate(eddata3.Text);
   cCaixa.Params[2].AsInteger := id_contaCX; //Codigo do caixa na tabela PLANO;
-  cCaixa.Params[3].AsInteger := var_codCusto; //sdsCaixaIDCAIXACONTROLE.AsInteger;
+  cCaixa.Params[3].AsInteger := caixaMovCaixa; //sdsCaixaIDCAIXACONTROLE.AsInteger;
   cCaixa.Params[4].AsString  := 'T'; // Todas as Formas de Pagamento
   cCaixa.Open;
 end;
@@ -205,7 +197,6 @@ procedure TfMovCaixa.btnFecharClick(Sender: TObject);
 var
   FFecharCaixa : TFiscalCls;
   hist : string;
-  var_dataCaixa : TDate;
   fechamento : Double;
 begin
   hist := 'FECHAMENTO DE CAIXA';
@@ -220,25 +211,28 @@ begin
 
   Try
     FFecharCaixa := TFiscalCls.Create;
-    FFecharCaixa.VerificaCaixaAberto();
-    var_codCaixa  := FFecharCaixa.v_idcaixa;  // Codigo do caixa na tabela CAIXA_CONTROLE
-    var_nomecaixa := FFecharCaixa.v_NomeCaixa;
-    var_dataCaixa := FFecharCaixa.v_DataCaixa;
 
     if (DM_MOV.s_parametro.Active) then
        DM_MOV.s_parametro.Close;
     DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXASANGRIA';
     DM_MOV.s_parametro.Open;
     var_cCredito := DM_MOV.s_parametroD1.AsString;
-    var_codCCustoCC := FFecharCaixa.v_Cod_Caixa;
+    //var_codCCustoCC := FFecharCaixa.v_Cod_Caixa;
 
     DM_MOV.s_parametro.Close;
     DM_MOV.s_parametro.Params[0].AsString := 'CONTACAIXAINTERNA';
     DM_MOV.s_parametro.Open;
     var_cDebito := DM_MOV.s_parametroD1.AsString;
     DM_MOV.s_parametro.Close;
-    var_codCCustoCD := FFecharCaixa.v_Cod_Caixa;
-    FFecharCaixa.SangriadeCaixa(var_codCaixa,usulog,var_codCCustoCD, var_codCCustoCC,var_cDebito,var_cCredito,fechamento,hist);
+
+    FFecharCaixa.v_DataCaixa := caixaDtaMovCaixa;
+
+    if (FFecharCaixa.SangriadeCaixa(0,usulog, caixaMovCaixa, caixaMovCaixa,
+      var_cDebito,var_cCredito,fechamento,hist) = 0) then
+    begin
+      MessageDlg('Erro para executar o fechamento.', mtWarning, [mbOK], 0);
+      exit;
+    end;
   Finally
     //Screen.Cursor := Save_Cursor;
     FFecharCaixa.Free;
@@ -246,9 +240,10 @@ begin
 
   // Fachar o CAIXA na Tabela CAIXA_CONTROLE
 
-  var_sql := 'UPDATE CAIXA_CONTROLE SET DATAFECHAMENTO = ' + QuotedStr(FormatDateTime('mm/dd/yyyy', var_dataCaixa));
+  var_sql := 'UPDATE CAIXA_CONTROLE SET DATAFECHAMENTO = ' +
+    QuotedStr(FormatDateTime('mm/dd/yyyy', eddata3.Date));
   var_sql := var_sql + ' , SITUACAO = ' + QuotedStr('F');
-  var_sql := var_sql + ' where IDCAIXACONTROLE = ' + IntToStr(var_codCaixa);
+  var_sql := var_sql + ' where IDCAIXACONTROLE = ' + IntToStr(caixaIdMovCaixa);
 
   Try
     dm.sqlsisAdimin.StartTransaction(TD);

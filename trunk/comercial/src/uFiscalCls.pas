@@ -299,8 +299,8 @@ begin
 end;
 
 function TFiscalCls.SangriadeCaixa(codcaixa : Integer; codusuario : Integer;
-codcustoCD : Integer; codcustoCC : Integer; cdebito :string; ccredito : string; valorSangria : Double;
-historico : string) : Double;
+codcustoCD : Integer; codcustoCC : Integer; cdebito :string; ccredito : string;
+valorSangria : Double; historico : string) : Double;
   var TD : TTransactionDesc;
     codOrig: integer;
 begin
@@ -330,7 +330,7 @@ begin
     var_sqla := var_sqla + ',' + IntToStr(codcustoCD); //CODCUSTO
     var_sqla := var_sqla + ',' + QuotedStr(cdebito); //  Debito CAIXA INTERNO
     DecimalSeparator := '.';
-    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(valorSangria)); //Valor Debito
+    var_sqla := var_sqla + ',' + FloatToStr(valorSangria); //Valor Debito
     var_sqla := var_sqla + ',' + '0'; //VALOR CREDITO
     DecimalSeparator := ',';
     var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
@@ -368,7 +368,7 @@ begin
     var_sqla := var_sqla + ',' + QuotedStr(ccredito); // CREDITO CAIXA SANGRIA
     DecimalSeparator := '.';
     var_sqla := var_sqla + ',' + '0'; //Valor Debito
-    var_sqla := var_sqla + ',' + QuotedStr(FloatToStr(valorSangria)); //Valor Credito
+    var_sqla := var_sqla + ',' + FloatToStr(valorSangria); //Valor Credito
     DecimalSeparator := ',';
     var_sqla := var_sqla + ',' + '0';  //Valor ORCADO
     var_sqla := var_sqla + ',' + '0'; //QTDECREDITO
@@ -385,9 +385,11 @@ begin
     var_sqla := var_sqla + ''')';
     dm.sqlsisAdimin.ExecuteDirect(var_sqla);
     dm.sqlsisAdimin.Commit(TD);
+    result := 1;
   except
     on E : Exception do
     begin
+      result := 0;
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
     end;

@@ -18,7 +18,7 @@ object F_RelTerminal: TF_RelTerminal
   object MMJPanel7: TMMJPanel
     Left = 0
     Top = 0
-    Width = 492
+    Width = 500
     Height = 107
     Align = alTop
     TabOrder = 0
@@ -31,7 +31,7 @@ object F_RelTerminal: TF_RelTerminal
     object lbl1: TLabel
       Left = 1
       Top = 1
-      Width = 490
+      Width = 498
       Height = 34
       Align = alTop
       Alignment = taCenter
@@ -163,8 +163,8 @@ object F_RelTerminal: TF_RelTerminal
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 107
-    Width = 492
-    Height = 227
+    Width = 500
+    Height = 238
     Align = alClient
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
@@ -1847,6 +1847,9 @@ object F_RelTerminal: TF_RelTerminal
     end
     object sVendaVBASE: TFloatField
       FieldName = 'VBASE'
+    end
+    object sVendaVCOMISSAO: TFloatField
+      FieldName = 'VCOMISSAO'
     end
   end
   object cCaixa: TSQLDataSet
