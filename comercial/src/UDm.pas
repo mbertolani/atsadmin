@@ -2037,6 +2037,12 @@ type
     procedure conexaoXmlRpc;
   public
     { Public declarations }
+
+    //CUPOM
+    varCOD_VENDA, varCOD_MOV : integer;
+    situacaoCaixa : string;
+    //CUPOM
+
     cadastroClienteTipo: String;
     impressora_pc: string;
     videoW, videoH :string;
@@ -2076,6 +2082,10 @@ var
   altura, largura, cod_cli, codmovdet, usulog, usuautorizacao : Integer;
   ScreenHeight: LongInt;
   ScreenWidth: LongInt;
+  //CUPOM
+  codcli : Integer;
+  nomecli, telefonecli, enderecocli : string;
+  //CUPOM
 
 implementation
 
