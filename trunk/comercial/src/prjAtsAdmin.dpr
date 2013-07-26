@@ -235,10 +235,8 @@ uses
   uCompraCls in 'uCompraCls.pas',
   uEndereco in 'uEndereco.pas' {fEndereco},
   uNaturezaOperacao in 'uNaturezaOperacao.pas' {fNaturezaOperacao},
-  U_Terminal in 'U_Terminal.pas' {F_Terminal},
   UDM_MOV in 'UDM_MOV.pas' {DM_MOV: TDataModule},
   U_AlteraPedido in 'U_AlteraPedido.pas' {F_AlteraPedido},
-  U_TerminalFinaliza in 'U_TerminalFinaliza.pas' {F_TerminalFinaliza},
   uOsFiltro in 'uOsFiltro.pas' {fOsFiltro},
   uOsInsere in 'uOsInsere.pas' {fOsInsere},
   uLotes_Produtos in 'uLotes_Produtos.pas' {fLotes_Produtos},
@@ -306,7 +304,8 @@ uses
   uClassificacaoFiscalNCM in 'uClassificacaoFiscalNCM.pas' {fClassificacaoFiscalNCM},
   uNCM in 'uNCM.pas' {fNCM},
   uEstoqueAtualiza in 'uEstoqueAtualiza.pas',
-  uTroca in 'uTroca.pas' {fTroca};
+  uTroca in 'uTroca.pas' {fTroca},
+  uTerminal2 in 'uTerminal2.pas' {fTerminal2};
 
 {$R *.res}
 
