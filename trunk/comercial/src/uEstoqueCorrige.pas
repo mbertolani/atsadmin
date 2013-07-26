@@ -91,7 +91,7 @@ Begin
       ' where exists (select v.CODCCUSTO from venda v where v.CODCCUSTO = m.CODALMOXARIFADO' +
       ' AND v.DATAVENDA BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
       ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ' ) ' +
-      ' AND EXISTS (select c.CODCCUSTO from compra c where c.CODCCUSTO = m.CODALMOXARIFADO ' +
+      ' OR EXISTS (select c.CODCCUSTO from compra c where c.CODCCUSTO = m.CODALMOXARIFADO ' +
       ' AND c.DATACOMPRA BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
       ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ' ) ';
     cdsB.Open;
