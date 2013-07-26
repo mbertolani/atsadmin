@@ -2728,7 +2728,7 @@ object fTerminal2: TfTerminal2
             Left = 367
             Top = 4
             Width = 77
-            Height = 32
+            Height = 33
             Anchors = [akTop, akRight]
             BiDiMode = bdLeftToRight
             Font.Charset = DEFAULT_CHARSET
