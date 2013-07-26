@@ -1720,7 +1720,12 @@ end;
 
 procedure TfAtsAdmin.acCupomExecute(Sender: TObject);
 begin
-   WinExec('CupomFiscal', SW_SHOWNORMAL);
+	fTerminal_Delivery := TfTerminal_Delivery.Create(Application);
+	try
+		fTerminal_Delivery.ShowModal;
+	finally
+		fTerminal_Delivery.Free;
+	end;
 end;
 
 Procedure TfAtsAdmin.OS1Click(Sender: TObject);
