@@ -10,7 +10,7 @@ uses
   JvExComCtrls, JvComCtrls, DB, rpcompobase, rpvclreport, DBLocal,
   DBLocalS, Menus, DBClient, jpeg, JvImage, DBCtrls, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, JvExStdCtrls, JvEdit, JvValidateEdit, JvGIF, DBxPress, Printers, IniFiles,
-  XPMenu;
+  XPMenu, DateUtils;
 
 type
   TfTerminal2 = class(TForm)
@@ -802,7 +802,7 @@ begin
   fFiltroMovimento.ShowModal;
   dm.cds_parametro.Close;
   fFiltroMovimento.Edit3.Text := '3';
-  fFiltroMovimento.Edit4.Text := 'VENDAS';    
+  fFiltroMovimento.Edit4.Text := 'VENDAS';
   if (fFiltroMovimento.cod_mov > 0) then
   begin
     DM_MOV.c_movimento.Close;
@@ -822,6 +822,19 @@ begin
     DM_MOV.c_movdet.Open;
     if (not DM_MOV.c_movdet.IsEmpty) then
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+    if (SQLDataSet1.Active) then
+      SQLDataSet1.Close;
+    SQLDataSet1.CommandText := 'SELECT SUM(R.VALORRECEBIDO) FROM RECEBIMENTO R, VENDA V ' +
+      ' WHERE R.CODVENDA = V.CODVENDA ' +
+      '   AND V.CODMOVIMENTO  = ' + IntToStr(fFiltroMovimento.cod_mov);
+    SQLDataSet1.Open;
+    if (SQLDataSet1.Fields[0].IsNull) then
+    begin
+      JvParcial.Value := 0;
+    end
+    else begin
+      JvParcial.Value := SQLDataSet1.Fields[0].Value;
+    end;
   end
   else
   begin
@@ -860,7 +873,8 @@ begin
        if (TabDelivery.TabVisible = False) then
           TabDelivery.TabVisible := True;
        jvPageControl1.ActivePage := TabDelivery;
-       str_sql := 'select c.CODCLIENTE, m.CODMOVIMENTO,c.NOMECLIENTE, e.LOGRADOURO, e.TELEFONE from MOVIMENTO m ';
+       str_sql := 'select c.CODCLIENTE, m.CODMOVIMENTO,c.NOMECLIENTE, e.LOGRADOURO,' +
+        ' e.TELEFONE from MOVIMENTO m ';
        str_sql := str_sql + 'inner join CLIENTES c on c.CODCLIENTE = m.CODCLIENTE ';
        str_sql := str_sql + 'left outer join ENDERECOCLIENTE e on e.CODCLIENTE = c.CODCLIENTE ';
        str_sql := str_sql + 'WHERE m.CODMOVIMENTO = ' + IntToStr(DM_MOV.ID_DO_MOVIMENTO);
@@ -3846,6 +3860,7 @@ end;
 
 procedure TfTerminal2.FormShow(Sender: TObject);
 var ImpressoraDet: TIniFile;
+  dataHoje : TDate;
 begin
   ImpressoraDet := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'dbxconnections.ini');
   try
@@ -3880,7 +3895,7 @@ begin
       JvBitBtn6.Visible := False;
   end;
   s_parametro.Close;
-  
+
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
      EdtCodBarra1.SetFocus;
@@ -3891,7 +3906,17 @@ begin
   if (DM.USACONTROLECAIXA = 'SIM') then
   begin
      testacaixaaberto;
-     if DM.resultadoOperacao = 'FALSE' then
+     if (DM.resultadoOperacao = 'TRUE') then
+     begin
+       dataHoje := today;
+       if (caixaTerminal2DataAbertura <> dataHoje) then
+       begin
+         MessageDlg('Caixa Aberto com data de ' +
+         formatdatetime('dd/mm/yyyy', caixaTerminal2DataAbertura) + '.' + #13#10 +
+         ' TODO MOVIMENTO SERA CRIADO COM ESTA DATA.' , mtWarning, [mbOK], 0);
+       end;
+     end;
+     if (DM.resultadoOperacao = 'FALSE') then
      begin
        jvPageControl1.Enabled := False;
        ShowMessage('O caixa precisa ser aberto');
