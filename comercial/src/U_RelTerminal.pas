@@ -88,6 +88,7 @@ type
     s_parametroD9: TStringField;
     s_parametroINSTRUCOES: TStringField;
     s_parametroVALOR: TFloatField;
+    sVendaVCOMISSAO: TFloatField;
     procedure btnVendasClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
@@ -349,7 +350,7 @@ begin
           dm.cds_empresa.Open;
         Texto  := '          ' + dm.cds_empresaEMPRESA.AsString;
         Texto1 := '----------------------------------------' ;
-        Texto2 := '          RELATÓRIO DE CAIXA            ' ;
+        Texto2 := 'RELATORIO CAIXA: ' + cbb1.Text ;
         Texto3 := 'Dia : ' + DateTimeToStr(edData.Date);
         Texto4 := '         Caixa                Total R$  ' ;
 
@@ -415,7 +416,7 @@ begin
         buffer  := texto1;
         buffer  := buffer + Chr(13) + Chr(10);
         comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-        texto5  := Format('%25s  ', ['Total R$ ']);
+        texto5  := Format('%25s  ', ['  Total R$ ']);
         buffer  := texto5;
         buffer  := buffer + Format('%10.2n',[Totalgeral]);
         buffer  := buffer + Chr(13) + Chr(10);
@@ -450,7 +451,7 @@ begin
         {----- aqui monto o endereço-----}
         Texto  := '          ' + dm.cds_empresaEMPRESA.AsString;
         Texto1 := '----------------------------------------' ;
-        Texto2 := '          RELATÓRIO DE CAIXA            ' ;
+        Texto2 := 'RELATORIO CAIXA: ' + cbb1.Text ;
         Texto3 := 'Dia : ' + DateTimeToStr(edData.Date);
         Texto4 := '         Caixa                Total R$  ' ;
         {-------------------Imprimi Cabeçalho-----------------------}
@@ -466,7 +467,12 @@ begin
         end
         else
         begin
-          AssignFile(IMPRESSORA,'LPT1:');
+          s_parametro.Close;
+            if (s_parametro.Active) then
+          s_parametro.Close;
+          s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+          s_parametro.Open;
+          AssignFile(IMPRESSORA,s_parametroDADOS.AsString);
         end;
         s_parametro.Close;
         Rewrite(IMPRESSORA);
@@ -481,7 +487,7 @@ begin
           s_ccaixa.Close;
         s_ccaixa.Params[0].AsDate := edData.Date;
         s_ccaixa.Params[1].AsDate := edData1.Date;
-        s_ccaixa.Params[2].AsInteger := 0;//idCCusto;
+        s_ccaixa.Params[2].AsInteger := idCCusto;
         s_ccaixa.Open;
         s_ccaixa.First;
         Totalgeral := 0;
@@ -497,9 +503,9 @@ begin
           s_ccaixa.next;
         end;
         Writeln(Impressora, c10cpi + Format('%-38s',['----------------------------------------']));
-        texto5 := Format('%25s  ', ['Total R$  ']);
+        texto5 := Format('%25s  ', ['  Total R$  ']);
         Write(Impressora, c17cpi, texto5);
-        Writeln(Impressora, c17cpi + Format('  %-10.2n',[Totalgeral]));
+        Writeln(Impressora, c17cpi + Format('%10.2n',[Totalgeral]));
         {-----------------------------------------------------------}
         {-------------------Imprimi final do Pedido-----------------}
         Writeln(IMPRESSORA);
@@ -568,7 +574,7 @@ begin
   sVenda.Open;
   sVenda.First;
   Totalgeral := 0;
-  TotalComissao := 0;
+  TotalComissao := sVendaVCOMISSAO.AsFloat;
   while not sVenda.Eof do
   begin
     texto6 := Copy(sVendaDESCRICAO.AsString, 0, 38);
@@ -578,7 +584,6 @@ begin
     totalprod := sVendaQUTDE.value * sVendaVARLORUNIT.value;
     Writeln(Impressora, c10cpi + Format('%10.2n',[totalprod]));
     Totalgeral := Totalgeral + totalprod;
-    //TotalComissao := TotalComissao + sVendaVCOMISSAO.AsFloat;
     sVenda.next;
   end;
   Writeln(Impressora, c10cpi + Format('%-38s',['----------------------------------------']));

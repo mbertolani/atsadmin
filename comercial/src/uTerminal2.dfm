@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
-  Left = 250
-  Top = 231
+  Left = 235
+  Top = 53
   Width = 913
   Height = 636
   AutoSize = True
@@ -31,6 +31,7 @@ object fTerminal2: TfTerminal2
     HotTrackFont.Style = []
     Align = alTop
     ParentBackground = False
+    PopupMenu = PopupMenu1
     TabOrder = 0
     object JvProcurar: TJvBitBtn
       Left = 2
@@ -1791,7 +1792,7 @@ object fTerminal2: TfTerminal2
       Top = 1
       Width = 471
       Height = 550
-      ActivePage = TabComanda
+      ActivePage = TabVenda
       Align = alClient
       PopupMenu = PopupMenu1
       TabOrder = 0
@@ -2727,7 +2728,7 @@ object fTerminal2: TfTerminal2
             Left = 367
             Top = 4
             Width = 77
-            Height = 33
+            Height = 32
             Anchors = [akTop, akRight]
             BiDiMode = bdLeftToRight
             Font.Charset = DEFAULT_CHARSET
@@ -3056,54 +3057,13 @@ object fTerminal2: TfTerminal2
       Alignment = taRightJustify
       PopupMenu = PopupMenu1
       TabOrder = 0
-      object JvLabel1: TJvLabel
-        Left = 5
-        Top = 10
-        Width = 85
-        Height = 25
-        Caption = 'C'#243'digo :'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Cooper Black'
-        Font.Style = []
-        ParentFont = False
-        ShadowColor = clWindow
-        ShadowSize = 2
-        Transparent = True
-        HintColor = clBlack
-        HotTrackFont.Charset = ANSI_CHARSET
-        HotTrackFont.Color = clWindowText
-        HotTrackFont.Height = -20
-        HotTrackFont.Name = 'Cooper Black'
-        HotTrackFont.Style = []
-      end
-      object EdtCodBarra1: TEdit
-        Left = 85
-        Top = 3
-        Width = 172
-        Height = 37
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clBlack
-        Font.Height = -20
-        Font.Name = 'Times New Roman'
-        Font.Style = [fsBold]
-        ParentFont = False
-        PopupMenu = PopupMenu1
-        TabOrder = 0
-        OnEnter = EdtCodBarra1Enter
-        OnExit = EdtCodBarra1Exit
-        OnKeyPress = EdtCodBarra1KeyPress
-      end
       object Panel4: TPanel
         Left = 264
         Top = 1
         Width = 165
         Height = 54
         Align = alRight
-        TabOrder = 1
+        TabOrder = 0
         object JvLabel14: TJvLabel
           Left = 1
           Top = 8
@@ -3151,6 +3111,59 @@ object fTerminal2: TfTerminal2
           OnKeyPress = edtQtde1KeyPress
         end
       end
+      object Panel5: TPanel
+        Left = 1
+        Top = 1
+        Width = 263
+        Height = 54
+        Align = alClient
+        TabOrder = 1
+        DesignSize = (
+          263
+          54)
+        object JvLabel1: TJvLabel
+          Left = 5
+          Top = 10
+          Width = 85
+          Height = 25
+          Caption = 'C'#243'digo :'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Cooper Black'
+          Font.Style = []
+          ParentFont = False
+          ShadowColor = clWindow
+          ShadowSize = 2
+          Transparent = True
+          HintColor = clBlack
+          HotTrackFont.Charset = ANSI_CHARSET
+          HotTrackFont.Color = clWindowText
+          HotTrackFont.Height = -20
+          HotTrackFont.Name = 'Cooper Black'
+          HotTrackFont.Style = []
+        end
+        object EdtCodBarra1: TEdit
+          Left = 85
+          Top = 8
+          Width = 172
+          Height = 37
+          Anchors = [akTop, akRight]
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -20
+          Font.Name = 'Times New Roman'
+          Font.Style = [fsBold]
+          ParentFont = False
+          PopupMenu = PopupMenu1
+          TabOrder = 0
+          OnEnter = EdtCodBarra1Enter
+          OnExit = EdtCodBarra1Exit
+          OnKeyPress = EdtCodBarra1KeyPress
+        end
+      end
     end
     object JvPanel7: TJvPanel
       Left = 1
@@ -3173,8 +3186,8 @@ object fTerminal2: TfTerminal2
         Align = alClient
         TabOrder = 0
         object LabelComissao: TJvLabel
-          Left = 34
-          Top = 13
+          Left = 58
+          Top = 21
           Width = 20
           Height = 25
           Alignment = taRightJustify
@@ -3197,7 +3210,7 @@ object fTerminal2: TfTerminal2
           HotTrackFont.Style = []
         end
         object JvComissao: TJvValidateEdit
-          Left = 60
+          Left = 84
           Top = 8
           Width = 61
           Height = 47

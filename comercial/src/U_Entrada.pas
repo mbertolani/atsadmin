@@ -234,7 +234,6 @@ type
     str :string;
     fatura_NF :string;
     codClienteNF: integer;
-    dataVenda: TDateTime;
     str_sql : string;
 
 
@@ -247,6 +246,7 @@ type
     { Private declarations }
   public
      var_codVenda : Integer;
+     dtaFEntrada: TDateTime;
     { Public declarations }
   end;
 
@@ -302,6 +302,7 @@ uses UDm, UDM_MOV, UDMNF, uFiscalCls, uTerminal2;
 
 procedure TF_Entrada.FormCreate(Sender: TObject);
 begin
+  dtaFEntrada := now;
   usaDll := 'FALSE';
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -322,7 +323,7 @@ begin
   dm.cds_7_contas.Params[0].AsString := dm.cds_parametroDADOS.AsString;
   dm.cds_7_contas.Open;
   }
-  // Opções para caixa interno
+  // Opcoes para caixa interno
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'INTERNO';
@@ -333,7 +334,7 @@ begin
     cbDinheiro.Text := s_contasNOME.asString;
     s_contas.Next;
   end;
-  // Opções para Cartão de credito
+  // Opcoes para Cartao de credito
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'CREDITO';
@@ -344,7 +345,7 @@ begin
     s_contas.Next;
   end;
 
-  // Opções para Cartão de Debito
+  // Opcoes para Cartao de Debito
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'DEBITO';
@@ -355,7 +356,7 @@ begin
     s_contas.Next;
   end;
 
-  // Opções para Vale
+  // Opcoes para Vale
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'VALE';
@@ -366,7 +367,7 @@ begin
     s_contas.Next;
   end;
 
-  // Opções para Outros
+  // Opcoes para Outros
   if (s_contas.Active) then
     s_contas.Close;
   s_contas.Params[0].AsString := 'OUTROS';
@@ -695,7 +696,7 @@ procedure TF_Entrada.btnIncluirClick(Sender: TObject);
 begin
   if (c_forma.State <> dsInsert) then
      c_forma.Append;
-  jvDinheiro.SetFocus;   
+  jvDinheiro.SetFocus;
 end;
 
 procedure TF_Entrada.JvExcluirClick(Sender: TObject);
@@ -773,8 +774,8 @@ begin
       scds_serie_proc.Close;
       dm.sqlsisAdimin.StartTransaction(TDA);
       fven.CodMov               := DM_MOV.ID_DO_MOVIMENTO;
-      fven.DataVenda            := Now;
-      fven.DataVcto             := Now;
+      fven.DataVenda            := dtaFEntrada;
+      fven.DataVcto             := dtaFEntrada;
       fven.Serie                := serie_padrao;
       fven.NotaFiscal           := nota_fiscal;
       if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
@@ -812,12 +813,12 @@ begin
       FVen.ValorComissao        := JvComissao.Value;
       //fven.inserirVenda(0);
       codigo_venda := fven.inserirVenda(0);
-      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
-        dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
-      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
-        dmnf.baixaEstoque(DM_MOV.c_comandaCODMOVIMENTO.AsInteger, DM_MOV.c_comandaDATAMOVIMENTO.AsDateTime, 'VENDA');
-      if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
-        dmnf.baixaEstoque(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger, DM_MOV.c_DeliveryDATAMOVIMENTO.AsDateTime, 'VENDA');
+      //if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabVenda) then
+      //  dmnf.baixaEstoque(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger, DM_MOV.c_movimentoDATAMOVIMENTO.AsDateTime, 'VENDA');
+      //if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabComanda) then
+      //  dmnf.baixaEstoque(DM_MOV.c_comandaCODMOVIMENTO.AsInteger, DM_MOV.c_comandaDATAMOVIMENTO.AsDateTime, 'VENDA');
+      //if (fTerminal2.jvPageControl1.ActivePage = fTerminal2.TabDelivery) then
+      //  dmnf.baixaEstoque(DM_MOV.c_DeliveryCODMOVIMENTO.AsInteger, DM_MOV.c_DeliveryDATAMOVIMENTO.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TDA);
       //Gravando o numero sequencial
       if scds_serie_proc.Active then
@@ -875,9 +876,9 @@ begin
                                   0, // Juros
                                   0, //vlrDesc, // Desconto
                                   0, // Perda
-                                  Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
-                                  Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
-                                  Now, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
+                                  dtaFEntrada, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
+                                  dtaFEntrada, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento
+                                  dtaFEntrada, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Consolida
                                   c_formaFORMA_PGTO.AsString,  // FormaRecebimento
                                   c_formaN_DOC.AsString, //DM_MOV.c_vendaN_DOCUMENTO.AsString, // N?Documento
                                   c_formaCAIXA.AsInteger, // Caixa
