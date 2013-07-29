@@ -15,6 +15,4 @@ BEGIN
      and md.CODPRODUTO = :codproduto
     into :customedio;   
    suspend; 
-END^
-
-SET TERM ; ^
+END
