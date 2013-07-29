@@ -297,7 +297,7 @@ begin
       sqlTexto := sqlTexto + QuotedStr('S');
   end;
 
-  cdsC.CommandText := cdsC.CommandText + sqlTexto + ' order by NUMCAI' ;
+  cdsC.CommandText := cdsC.CommandText + sqlTexto + ' order by clientes.codcliente ,movdoc.NUMCAI' ;
 
   cdsC.Open;
 
