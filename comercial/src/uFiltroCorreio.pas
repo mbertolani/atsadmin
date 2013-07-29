@@ -154,6 +154,8 @@ type
     meDta2: TJvDateEdit;
     BitBtn2: TBitBtn;
     chkAtivo: TCheckBox;
+    sqlCNOMECLIENTE: TStringField;
+    cdsCNOMECLIENTE: TStringField;
     procedure btnProcurarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -191,7 +193,18 @@ begin
   if(cdsC.Active) then
     cdsC.Close;
   begin
-    cdsC.CommandText:= 'select * from MOVDOC ';
+   // cdsC.CommandText:= 'select * from MOVDOC ';
+    cdsC.CommandText:= 'select movdoc.codoc,  movdoc.codfir,   movdoc.foto, movdoc.rolo, movdoc.numcai,' +
+    'movdoc.coddep, movdoc.codsec, movdoc.codloc,movdoc.ativo, movdoc.coddoc, movdoc.dtinid,'+
+    'movdoc.dtfind, movdoc.docini, movdoc.docfin, movdoc.estante,  movdoc.pratel, movdoc.descarte,'+
+    'movdoc.dtret, movdoc.nomeret, movdoc.ndocret, movdoc.dtprev, movdoc.obsret, movdoc.obs,'+
+    'movdoc.dtinc,movdoc.coluna,movdoc.ncaicli,movdoc.obs2,movdoc.tamanho, movdoc.a,movdoc.numdoc,'+
+    'movdoc.data, movdoc.qtdade, movdoc.codidio,movdoc.descr,movdoc.fase,movdoc.usuario,'+
+    'movdoc.dtusu,movdoc.horausu, movdoc.regcai,movdoc.jadesc, clientes.nomecliente'+
+    ' from movdoc '+
+    ' inner join clientes on (movdoc.codfir = clientes.codcliente)';
+
+
   // CODIGO DA EMPRESA
   if JvDBSearchEdit1.Text <> '' then
   begin
@@ -415,7 +428,7 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   //  VCLReport1.Report.Params.ParamByName('codfir').Value := StrToInt(JvDBSearchEdit1.Text);
   VCLReport1.Report.DataInfo.Items[0].SQL:= cdsC.CommandText;
-
+ {
   nomecli  := TRpLabel(VCLReport1.Report.FindComponent('TRpLabel3'));
 
   // Tipo de data
@@ -423,7 +436,7 @@ begin
   begin
     nomecli.Text := JvDBSearchEdit2.Text;
   end;
-
+ }
   VCLReport1.Execute;
 end;
 
