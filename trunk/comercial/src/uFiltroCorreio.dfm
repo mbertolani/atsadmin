@@ -21,8 +21,8 @@ object FiltroCorreio: TFiltroCorreio
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 141
-    Width = 923
-    Height = 411
+    Width = 915
+    Height = 400
     Align = alClient
     DataSource = dsC
     TabOrder = 0
@@ -62,7 +62,6 @@ object FiltroCorreio: TFiltroCorreio
         Expanded = False
         FieldName = 'CODSEC'
         Title.Caption = 'SE'#199#195'O/SETOR'
-        Width = 64
         Visible = True
       end
       item
@@ -74,7 +73,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'ATIVO'
-        Width = 64
         Visible = True
       end
       item
@@ -127,7 +125,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'NOMERET'
-        Width = 64
         Visible = True
       end
       item
@@ -143,7 +140,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'OBSRET'
-        Width = 64
         Visible = True
       end
       item
@@ -169,7 +165,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'TAMANHO'
-        Width = 64
         Visible = True
       end
       item
@@ -180,7 +175,6 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'DATA'
-        Width = 64
         Visible = True
       end
       item
@@ -196,25 +190,23 @@ object FiltroCorreio: TFiltroCorreio
       item
         Expanded = False
         FieldName = 'HORAUSU'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODDOC'
-        Width = 64
         Visible = True
       end>
   end
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 923
+    Width = 915
     Height = 141
     Align = alTop
     TabOrder = 1
     DesignSize = (
-      923
+      915
       141)
     object Label1: TLabel
       Left = 11
@@ -1048,8 +1040,8 @@ object FiltroCorreio: TFiltroCorreio
   end
   object Panel3: TPanel
     Left = 0
-    Top = 552
-    Width = 923
+    Top = 541
+    Width = 915
     Height = 25
     Align = alBottom
     TabOrder = 2
@@ -1477,6 +1469,11 @@ object FiltroCorreio: TFiltroCorreio
       FieldName = 'JADESC'
       Size = 1
     end
+    object cdsCNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 60
+    end
   end
   object dspC: TDataSetProvider
     DataSet = sqlC
@@ -1484,7 +1481,22 @@ object FiltroCorreio: TFiltroCorreio
     Left = 192
   end
   object sqlC: TSQLDataSet
-    CommandText = 'select * from MOVDOC   '
+    CommandText = 
+      'select '#13#10'    movdoc.codoc,'#13#10'    movdoc.codfir,'#13#10'    movdoc.foto,' +
+      #13#10'    movdoc.rolo,'#13#10'    movdoc.numcai,'#13#10'    movdoc.coddep,'#13#10'    ' +
+      'movdoc.codsec,'#13#10'    movdoc.codloc,'#13#10'    movdoc.ativo,'#13#10'    movdo' +
+      'c.coddoc,'#13#10'    movdoc.dtinid,'#13#10'    movdoc.dtfind,'#13#10'    movdoc.do' +
+      'cini,'#13#10'    movdoc.docfin,'#13#10'    movdoc.estante,'#13#10'    movdoc.prate' +
+      'l,'#13#10'    movdoc.descarte,'#13#10'    movdoc.dtret,'#13#10'    movdoc.nomeret,' +
+      #13#10'    movdoc.ndocret,'#13#10'    movdoc.dtprev,'#13#10'    movdoc.obsret,'#13#10' ' +
+      '   movdoc.obs,'#13#10'    movdoc.dtinc,'#13#10'    movdoc.coluna,'#13#10'    movdo' +
+      'c.ncaicli,'#13#10'    movdoc.obs2,'#13#10'    movdoc.tamanho,'#13#10'    movdoc.a,' +
+      #13#10'    movdoc.numdoc,'#13#10'    movdoc.data,'#13#10'    movdoc.qtdade,'#13#10'    ' +
+      'movdoc.codidio,'#13#10'    movdoc.descr,'#13#10'    movdoc.fase,'#13#10'    movdoc' +
+      '.usuario,'#13#10'    movdoc.dtusu,'#13#10'    movdoc.horausu,'#13#10'    movdoc.re' +
+      'gcai,'#13#10'    movdoc.jadesc,'#13#10'    clientes.nomecliente'#13#10'from movdoc' +
+      #13#10'   inner join clientes on (movdoc.codfir = clientes.codcliente' +
+      ') '
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1626,6 +1638,11 @@ object FiltroCorreio: TFiltroCorreio
     object sqlCJADESC: TStringField
       FieldName = 'JADESC'
       Size = 1
+    end
+    object sqlCNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Required = True
+      Size = 60
     end
   end
   object sCliente: TSQLDataSet
