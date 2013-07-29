@@ -1179,7 +1179,7 @@ begin
     end;
 
   if (cbporcento.Checked = False) then
-    if (DBEdit4.Text <> '') then
+    if (cds_Mov_detTotalPedido.Value > 0) then
     try
       total := cds_Mov_detTotalPedido.Value; //StrToFloat(DBEdit4.Text);
     except
@@ -1188,9 +1188,9 @@ begin
       exit;
     end;
 
-  vApagar := StrToFloat(jvPago.Text);
+  vApagar := StrToFloat(StringReplace(jvPago.Text, '.', '', [rfReplaceAll]));
   DecimalSeparator := '.';
-  ThousandSeparator := ',';
+  //ThousandSeparator := ',';
   strSql := strSql + ',' + FloatToStr(total); //valor
   strSql := strSql + ',' + IntToStr(numTitulo); //notafiscal
   strSql := strSql + ',''' + serie + ''''; //serie
@@ -1231,6 +1231,7 @@ begin
 end;
 
 procedure TfTerminal_Delivery.updatevenda;
+var vApagar : double;
 begin
   // -- Incluir aqui rotina de UPDATE na tabela venda --
   strSql := 'UPDATE VENDA SET DATAVENDA = ';
@@ -1248,9 +1249,9 @@ begin
     end;
 
   if (cbporcento.Checked = False) then
-    if (DBEdit4.Text <> '') then
+    if (cds_Mov_detTotalPedido.Value > 0) then
     try
-      total := StrToFloat(DBEdit4.Text);
+      total := cds_Mov_detTotalPedido.Value;
     except
       // Valor total inválido.
       MessageDlg('O valor total está errado.', mtError, [mbOK], 0);
@@ -1258,9 +1259,10 @@ begin
     end;
   DecimalSeparator := '.';
   ThousandSeparator := ',';
+  vApagar := StrToFloat(jvPago.Text);
   strSql := strSql + FloatToStr(total);
   strSql := strSql + ', APAGAR = ';
-  strSql := strSql + jvPago.Text;
+  strSql := strSql + FloatToStr(vApagar);
   strSql := strSql + ', N_PARCELA = ';
   strSql := strSql + '1';
   strSql := strSql + ', ENTRADA = ';
