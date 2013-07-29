@@ -228,7 +228,12 @@ end;
 
 procedure TfMenuCupom.BitBtn5Click(Sender: TObject);
 begin
-  fAliquota.ShowModal;
+  fAliquota := TfAliquota.Create(Application);
+  try
+    fAliquota.ShowModal;
+  finally
+    fAliquota.Free;
+  end;
 end;
 
 procedure TfMenuCupom.BitBtn6Click(Sender: TObject);
@@ -274,7 +279,12 @@ end;
 
 procedure TfMenuCupom.btnSPEDClick(Sender: TObject);
 begin
-  fGeraSPED.ShowModal;
+  fGeraSPED := TfGeraSPED.Create(Application);
+  try
+    fGeraSPED.ShowModal;
+  finally
+    fGeraSPED.Free;
+  end;
 end;
 
 end.

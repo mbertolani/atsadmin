@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Mask, JvExMask, JvToolEdit, JvBaseEdits;
+  StdCtrls, Mask, JvExMask, JvToolEdit, JvBaseEdits, FMTBcd, SqlExpr,
+  Provider, DB, DBClient;
 
 type
   TFormFechaComAcrecimo = class(TForm)
@@ -25,6 +26,11 @@ type
     Button1: TButton;
     Button2: TButton;
     Edit1: TJvCalcEdit;
+    cdsTrib: TClientDataSet;
+    dspTrib: TDataSetProvider;
+    sdsTrib: TSQLDataSet;
+    sdsTribSUM: TFloatField;
+    cdsTribSUM: TFloatField;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -44,7 +50,8 @@ uses Principal, UnitDeclaracoes, UDm, uTerminal_Delivery;
 {$R *.DFM}
 
 Procedure TFormFechaComAcrecimo.Button1Click(Sender: TObject);
-  Var sAcreDesc, sPercValor, sValorPercentual: String;
+  Var sAcreDesc, sPercValor, sValorPercentual, Tributos: String;
+  porcentagem : Double;
   Begin
 
     // Verificação do Acréscimo ou Desconto
@@ -63,8 +70,15 @@ Procedure TFormFechaComAcrecimo.Button1Click(Sender: TObject);
 
     sValorPercentual := Format('%-6.2n',  [Edit1.Value]);
 
+    if (cdsTrib.Active) then
+      cdsTrib.Close;
+    cdsTrib.Params[0].AsInteger := fTerminal_Delivery.cds_MovimentoCODMOVIMENTO.AsInteger;
+    cdsTrib.Open;
+    porcentagem := (cdsTribSUM.AsFloat / StrToFloat(StringReplace(Edit3.Text, '.', '', [rfReplaceAll]))) *100 ;
+    Tributos := #13+#10+ 'Val Aprox Tributos R$' + FloatToStr(cdsTribSUM.AsFloat) + '(' + Format('%-3.2n', [porcentagem]) + '%) '+ #13+#10 + 'Fonte: IBPT';
+
     iRetorno := Bematech_FI_FechaCupom( Edit2.Text, sAcreDesc, sPercValor,
-                sValorPercentual, Edit3.Text, Edit4.Text );
+                sValorPercentual, Edit3.Text, Edit4.Text + Tributos);
     frmPrincipal.Analisa_iRetorno();
     frmPrincipal.Retorno_Impressora();
     Close;
@@ -73,7 +87,7 @@ Procedure TFormFechaComAcrecimo.Button1Click(Sender: TObject);
 
 Procedure TFormFechaComAcrecimo.Button2Click(Sender: TObject);
   Begin
-  Close;
+    Close;
   End;
 
 procedure TFormFechaComAcrecimo.FormShow(Sender: TObject);
