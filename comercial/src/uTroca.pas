@@ -123,7 +123,7 @@ end;
 
 procedure TfTroca.btnProdutoProcuraClick(Sender: TObject);
 begin
-  var_F := 'venda';
+  var_F := 'troca';
     fProcura_prod.cbTipo.ItemIndex := 4;
     fProcura_prod.btnIncluir.Visible := true;
     if (procprod <> 'PROC_PROD_COMPLETO') then
@@ -140,11 +140,11 @@ begin
       if (fProcura_prod.cds_proc.Active) then
         fProcura_prod.cds_proc.Close;
     end;
-    varonde := 'compra';
-    var_F := 'venda';
+    varonde := 'troca';
+    var_F := 'troca';
     fProcura_prod.ShowModal;
 
-    if (procprod = 'PROC_PROD_COMPLETO') then
+    if (procprod = 'PROC_PROD_SIMPLES') then
     begin
       edProd.Text := fProcura_prod.cds_procCODPRO.AsString;
       codProduto := fProcura_prod.cds_procCODPRODUTO.AsInteger;
@@ -288,18 +288,21 @@ end;
 
 procedure TfTroca.btnNovoClick(Sender: TObject);
 begin
-  if (not cdsMovDet.Active) then
-     abreMovDet;
-  cdsMovDet.Append;
-  cdsMovDetCODPRO.AsString := edProd.Text;
-  cdsMovDetCODPRODUTO.AsInteger := codProduto;
-  cdsMovDetDESCPRODUTO.AsString := edProdNome.Text;
-  cdsMovDetQUANTIDADE.AsFloat := edQtde.Value;
-  cdsMovDetPRECO.AsFloat := edProdPreco.Value;
-  cdsMovDet.Post;
-  edSaldo.Value := edSaldo.Value - (edQtde.Value * edProdPreco.Value);
-  edProd.Text := '';
-  edProdNome.Text := '';
+  if (edProd.Text <> '') then
+  begin
+    if (not cdsMovDet.Active) then
+       abreMovDet;
+    cdsMovDet.Append;
+    cdsMovDetCODPRO.AsString := edProd.Text;
+    cdsMovDetCODPRODUTO.AsInteger := codProduto;
+    cdsMovDetDESCPRODUTO.AsString := edProdNome.Text;
+    cdsMovDetQUANTIDADE.AsFloat := edQtde.Value;
+    cdsMovDetPRECO.AsFloat := edProdPreco.Value;
+    cdsMovDet.Post;
+    edSaldo.Value := edSaldo.Value - (edQtde.Value * edProdPreco.Value);
+    edProd.Text := '';
+    edProdNome.Text := '';
+  end;  
 end;
 
 procedure TfTroca.btnSairClick(Sender: TObject);
@@ -354,6 +357,7 @@ end;
 
 procedure TfTroca.BitBtn8Click(Sender: TObject);
 begin
+  edSaldo.Value := edSaldo.Value + (cdsMovDetPRECO.AsFloat * cdsMovDetQUANTIDADE.AsFloat);
   cdsMovDet.Delete;
 end;
 

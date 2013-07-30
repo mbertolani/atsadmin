@@ -852,9 +852,9 @@ object fTroca: TfTroca
     Caption = 'Saldo da Troca'
     TabOrder = 4
     object edSaldo: TJvCalcEdit
-      Left = 10
+      Left = 16
       Top = 20
-      Width = 89
+      Width = 123
       Height = 21
       DisplayFormat = ',0.00'
       ReadOnly = True
