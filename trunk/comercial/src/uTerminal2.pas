@@ -4495,7 +4495,7 @@ procedure TfTerminal2.FazerTroca1Click(Sender: TObject);
 begin
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
-    if (not DM_MOV.c_movimento.Active) then
+    if (DM_MOV.c_movimento.Active) then
     if (DM_MOV.c_movdetBAIXA.AsString = '1') then
     begin
       fTroca := TfTroca.Create(Application);
