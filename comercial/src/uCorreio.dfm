@@ -9,20 +9,6 @@ inherited fCorreio: TfCorreio
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label43: TLabel [0]
-    Left = 376
-    Top = 57
-    Width = 38
-    Height = 13
-    Caption = 'Label43'
-  end
-  object Label44: TLabel [1]
-    Left = 224
-    Top = 64
-    Width = 38
-    Height = 13
-    Caption = 'Label44'
-  end
   inherited MMJPanel1: TMMJPanel
     Width = 868
     object Label36: TLabel
@@ -75,11 +61,17 @@ inherited fCorreio: TfCorreio
       Left = 272
       Width = 106
     end
+    inherited btnExcluir: TBitBtn
+      Left = 514
+    end
     inherited btnProcurar: TBitBtn
       OnClick = btnProcurarClick
     end
+    inherited btnSair: TBitBtn
+      Left = 637
+    end
   end
-  object Arquivo: TPageControl [4]
+  object Arquivo: TPageControl [2]
     Left = 0
     Top = 51
     Width = 868
