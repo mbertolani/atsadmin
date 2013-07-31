@@ -674,69 +674,76 @@ object fNFeletronica: TfNFeletronica
             Expanded = False
             FieldName = 'SELECIONOU'
             Title.Caption = 'SEL.'
-            Width = 35
+            Width = 33
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'STATUS'
+            Title.Caption = 'Sit.'
+            Width = 31
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'NOTASERIE'
             Title.Caption = 'Nota F.'
-            Width = 49
+            Width = 47
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DTAEMISSAO'
             Title.Caption = 'Emiss'#227'o'
-            Width = 53
+            Width = 51
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CFOP'
-            Width = 38
+            Width = 36
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CODCLIENTE'
             Title.Caption = 'C'#243'digo'
-            Width = 39
+            Width = 37
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'RAZAOSOCIAL'
             Title.Caption = 'Raz'#227'o Social'
-            Width = 177
+            Width = 170
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CNPJ'
             Title.Caption = 'CNPJ / CPF'
-            Width = 114
+            Width = 110
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PROTOCOLOENV'
             Title.Caption = 'Protocolo de Envio'
-            Width = 99
+            Width = 96
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'NUMRECIBO'
             Title.Caption = 'Numero Recebimento'
-            Width = 109
+            Width = 105
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PROTOCOLOCANC'
             Title.Caption = 'Protocolo de Cancelamento'
-            Width = 118
+            Width = 114
             Visible = True
           end>
       end
@@ -745,7 +752,7 @@ object fNFeletronica: TfNFeletronica
         Top = 17
         Width = 366
         Height = 138
-        ActivePage = TabSheet1
+        ActivePage = TabSheet6
         TabOrder = 3
         object TabSheet1: TTabSheet
           Caption = 'Normal'
@@ -1537,14 +1544,15 @@ object fNFeletronica: TfNFeletronica
       'OR_PAGAR, '#13#10'UDF_ROUNDDEC(VALOR_PIS, 2) as VALOR_PIS, '#13#10'UDF_ROUND' +
       'DEC(VALOR_COFINS, 2) as VALOR_COFINS, nf.VALOR_DESCONTO, nf.NOME' +
       'TRANSP TRANSP2'#13#10', nf.CODTRANSP, nf.BASE_IPI, nf.BASE_PIS, nf.BAS' +
-      'E_COFINS, nf.VLRTOT_TRIB'#13#10'from NOTAFISCAL nf '#13#10'inner join CLIENT' +
-      'ES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join enderecoclien' +
-      'te endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'left outer joi' +
-      'n VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTAEMISSAO betw' +
-      'een :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pvendacusto) o' +
-      'r (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'          and (endec' +
-      'li.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.PROTOCOLOENV ' +
-      'IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSAO DESC'
+      'E_COFINS, nf.VLRTOT_TRIB, nf.STATUS '#13#10'from NOTAFISCAL nf '#13#10'inner' +
+      ' join CLIENTES cl on cl.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join e' +
+      'nderecocliente endecli on endecli.CODCLIENTE = cl.CODCLIENTE'#13#10'le' +
+      'ft outer join VENDA v on v.CODVENDA = nf.CODVENDA'#13#10'where (nf.DTA' +
+      'EMISSAO between :dta1 and :dta2)'#13#10'          and ((nf.SERIE = :pv' +
+      'endacusto) or (:pvendacusto = '#39'todasasseriesdenotaf'#39'))'#13#10'        ' +
+      '  and (endecli.TIPOEND = 0) and NF.NATUREZA = :natnf  and ((nf.P' +
+      'ROTOCOLOENV IS NULL) OR (:ENV = '#39'TODAS'#39'))'#13#10'order by nf.DTAEMISSA' +
+      'O DESC'
     MaxBlobSize = -1
     Params = <
       item
@@ -1816,6 +1824,12 @@ object fNFeletronica: TfNFeletronica
     object sdsNFVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
       ReadOnly = True
+    end
+    object sdsNFSTATUS: TStringField
+      FieldName = 'STATUS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object cdsNF: TClientDataSet
@@ -2128,6 +2142,12 @@ object fNFeletronica: TfNFeletronica
     object cdsNFVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
       ReadOnly = True
+    end
+    object cdsNFSTATUS: TStringField
+      FieldName = 'STATUS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dspNF: TDataSetProvider
