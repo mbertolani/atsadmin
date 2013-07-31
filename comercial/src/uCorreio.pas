@@ -302,8 +302,6 @@ type
     DBEdit22: TDBEdit;
     Panel1: TPanel;
     Label42: TLabel;
-    Label43: TLabel;
-    Label44: TLabel;
     Label39: TLabel;
     Label45: TLabel;
     Label46: TLabel;
