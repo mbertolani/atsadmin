@@ -187,7 +187,7 @@ begin
         ' WHERE CODVENDA = ' + IntToStr(codVendaC));
       //dmnf.cancelaEstoque(codMovC, dataV, 'VENDA');
 
-      FEst.EstornaEstoque('VENDA', codMovC, dataV);
+      //FEst.EstornaEstoque('VENDA', codMovC, dataV);
       Result := True
     Except
       Result := False;
