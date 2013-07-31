@@ -747,7 +747,7 @@ begin
       DecimalSeparator := '.';
       if (naoInsereEstaData <> Self.MesAno) then
       begin
-        executaSql(sqlStr);
+        //executaSql(sqlStr);
       end;
       //dm.sqlsisAdimin.Commit();
 
@@ -758,12 +758,12 @@ begin
         DecimalSeparator := '.';
         QSaldoAnterior := totalEstoque;
         PCustoAnterior := Self.PrecoCusto;
-        corrigeCustoEstoquePosterior;
+        //corrigeCustoEstoquePosterior;
       end;
 
       // Atualiza Cadastro de Produtos
       DecimalSeparator := '.';
-      sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ' + FloatToStr(Self.QSaldo);
+      //sqlStr := 'UPDATE PRODUTOS SET ESTOQUEATUAL = ' + FloatToStr(Self.QSaldo);
 
       // Se foi Compra, Atualiza valores
       if (Self.QtdeCompra > 0) then
@@ -778,19 +778,19 @@ begin
       end;
 
       sqlStr := sqlStr + ' WHERE CODPRODUTO = ' + IntToStr(Self.CodProduto);
-      executaSql(sqlStr);
+      //executaSql(sqlStr);
 
       if (Self.Status = '9') then
       begin
         sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = ' + QuotedStr(Self.Status) +
                   ' WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
 
-        executaSql(sqlStr);
+        //executaSql(sqlStr);
       end;
       if (Self.Status = '0') then   // Excluido a Finalizacao
       begin
         sqlStr := 'UPDATE MOVIMENTODETALHE SET STATUS = null, BAIXA = null WHERE CODDETALHE = ' + IntToStr(Self.CodDetalhe);
-        executaSql(sqlStr);
+        //executaSql(sqlStr);
       end;
 
       DecimalSeparator := ',';
