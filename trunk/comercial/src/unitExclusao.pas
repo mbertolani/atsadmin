@@ -142,6 +142,16 @@ begin
         str := str + ' STATUS = ' + QuotedStr('C');
         str := str + ' WHERE NUMNF = ' + InttoStr(dmnf.cds_nfNUMNF.AsInteger);
         dm.sqlsisAdimin.ExecuteDirect(str);
+       if (dmnf.cds_venda.State in [dsBrowse]) then
+          dmnf.cds_venda.Edit;
+       dmnf.cds_vendaSTATUS.AsInteger := 14;
+       dmnf.cds_venda.ApplyUpdates(0);
+       if (dmnf.cds_Movimento.State in [dsBrowse]) then
+         dmnf.cds_Movimento.Edit;
+       dmnf.cds_MovimentoCODNATUREZA.AsInteger := 14;
+       dmnf.cds_MovimentoCONTROLE.Clear;
+       dmnf.cds_Movimento.ApplyUpdates(0);
+
         dm.sqlsisAdimin.Commit(TD);
       except
         on E : Exception do
@@ -151,14 +161,6 @@ begin
         end;
       end;
 
-       if (dmnf.cds_venda.State in [dsBrowse]) then
-          dmnf.cds_venda.Edit;
-       dmnf.cds_vendaSTATUS.AsInteger := 14;
-       dmnf.cds_venda.ApplyUpdates(0);
-       if (dmnf.cds_Movimento.State in [dsBrowse]) then
-         dmnf.cds_Movimento.Edit;
-       dmnf.cds_MovimentoCODNATUREZA.AsInteger := 14;
-       dmnf.cds_Movimento.ApplyUpdates(0);
     end;
   end
   else if (DMNF.FormExiste(fNotaFc) = True) then
