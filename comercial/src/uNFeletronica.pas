@@ -685,6 +685,8 @@ type
     cdsNFBASE_COFINS: TFloatField;
     cdsNFVLRTOT_TRIB: TFloatField;
     chkScan: TCheckBox;
+    sdsNFSTATUS: TStringField;
+    cdsNFSTATUS: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -805,7 +807,7 @@ begin
       'nf.PESOBRUTO, f.RAZAOSOCIAL, f.CNPJ , nf.HORASAIDA,  nf.NOTASERIE, nf.SELECIONOU, nf.REDUZICMS, nf.PROTOCOLOENV, ' +
       'nf.NUMRECIBO, nf.PROTOCOLOCANC, c.ENTRADA, c.VALOR_PAGAR, VALOR_PIS, VALOR_COFINS, ' +
       ' nf.NOMETRANSP TRANSP2, nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, ' +
-      ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB ' +
+      ' UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) as VLRTOT_TRIB, nf.STATUS  ' +
       '  from NOTAFISCAL nf ' +
       ' inner join FORNECEDOR f on f.CODFORNECEDOR = nf.CODCLIENTE ' +
       ' inner join enderecoFORNECEDOR endeforn on endeforn.CODFORNECEDOR = f.CODFORNECEDOR ' +
@@ -814,9 +816,10 @@ begin
       '   and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
       '   and (endeforn.TIPOEND = 0) ' +
       '   and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 21)) ' +
-      '   and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') + ')) '  +
-      '   and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ' +
-      ' order by nf.NOTASERIE DESC';
+      '   and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') + ')) ' ;
+      if (chkTodas.Checked = False) then
+        str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
+      str_nf := str_nf + ' order by nf.NOTASERIE DESC';
       cdsNF.CommandText := str_nf;
    end
    else
@@ -833,7 +836,7 @@ begin
     ' nf.PROTOCOLOENV, nf.NOMETRANSP TRANSP2, nf.NUMRECIBO, nf.PROTOCOLOCANC, ' +
     ' co.ENTRADA, co.VALOR_PAGAR, c.RAZAOSOCIAL, c.CNPJ, VALOR_PIS, VALOR_COFINS '+
     ', nf.BASE_IPI, nf.BASE_PIS, nf.BASE_COFINS, UDF_ROUNDDEC(nf.VLRTOT_TRIB, 2) ' +
-    ' as VLRTOT_TRIB ' +
+    ' as VLRTOT_TRIB, nf.STATUS  ' +
     '  from NOTAFISCAL nf ' +
     ' inner join CLIENTES c on c.CODCLIENTE = nf.CODCLIENTE ' +
     ' inner join ENDERECOCLIENTE ec on ec.CODCLIENTE = c.CODCLIENTE '+
@@ -842,9 +845,10 @@ begin
     '   and ((nf.SERIE = :pvendacusto) or (:pvendacusto = ' + quotedstr('todasasseriesdenotaf') + ')) '+
     '   and (ec.TIPOEND = 0) ' +
     '   and ((NF.NATUREZA = :natnf) or (NF.NATUREZA = 12) or (NF.NATUREZA = 16))' +
-    '   and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') + ')) ' +
-    '   and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ' +
-    ' order by nf.NOTASERIE DESC';
+    '   and ((nf.PROTOCOLOENV IS NULL) OR (:ENV = ' + quotedstr('TODAS') + ')) ';
+      if (chkTodas.Checked = False) then
+        str_nf := str_nf + ' and ((nf.STATUS IS NULL) or (nf.STATUS = ' + QuotedStr('E') + ')) ';
+      str_nf := str_nf + ' order by nf.NOTASERIE DESC';
      cdsNF.CommandText := str_nf;
    end;
    cdsNF.Open;
