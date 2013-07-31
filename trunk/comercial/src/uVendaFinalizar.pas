@@ -982,16 +982,22 @@ begin
     begin
       strTit := IntToStr(cdsNOTAFISCAL.AsInteger);
       begin
-        strSql := 'SELECT NOTAFISCAL FROM VENDA where NOTAFISCAL = ' ;
-        strSql := strSql + QuotedStr(strTit) + ' and SERIE = ' + QuotedStr(cdsSERIE.AsString);
+        strSql := 'SELECT v.NOTAFISCAL FROM VENDA v, MOVIMENTO m ' +
+         ' WHERE v.CODMOVIMENTO = m.CODMOVIMENTO ' +
+         '   AND m.CODNATUREZA = 3 ' +
+         '   AND NOTAFISCAL = ' ;
+        strSql := strSql + QuotedStr(strTit) +
+        '    AND SERIE = ' + QuotedStr(cdsSERIE.AsString);
         if sqs_tit.Active then
           sqs_tit.Close;
         sqs_tit.CommandText := strSql;
         sqs_tit.Open;
         if not sqs_tit.IsEmpty then
         begin
-          strSql := 'SELECT MAX(NOTAFISCAL) FROM VENDA where ' ;
-          strSql := strSql + ' SERIE = ' + QuotedStr(cdsSERIE.AsString);
+          strSql := 'SELECT MAX(v.NOTAFISCAL) FROM VENDA v, MOVIMENTO m ' +
+            ' where v.CODMOVIMENTO = m.CODMOVIMENTO ' +
+            '   AND m.CODNATUREZA = 3';
+          strSql := strSql + ' AND SERIE = ' + QuotedStr(cdsSERIE.AsString);
           if sqs_tit.Active then
             sqs_tit.Close;
           sqs_tit.CommandText := strSql;
@@ -2582,8 +2588,8 @@ begin
          dm.sqlBusca.Open;
          if (not dm.sqlBusca.IsEmpty) then
          begin
-           dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
-           dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
+           //dmnf.cancelaEstoque(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger,  +
+           //dm.sqlBusca.fieldByName('DATAMOVIMENTO').AsDateTime, 'VENDA');
            dm.sqlsisAdimin.ExecuteDirect('Delete From VENDA WHERE CODMOVIMENTO = ' +
              IntToStr(dm.sqlBusca.fieldByName('CODMOVIMENTO').AsInteger));
            dm.sqlsisAdimin.ExecuteDirect('Delete From MOVIMENTO WHERE CODMOVIMENTO = ' +
@@ -2605,7 +2611,7 @@ begin
     Finally
       FVen.Free;
     end;
-  end;  
+  end;
     { if (fVendas.cds_Movimento.State in [dsBrowse]) then
        fVendas.cds_Movimento.Edit;
      fVendas.cds_MovimentoCODNATUREZA.AsInteger := 14;
