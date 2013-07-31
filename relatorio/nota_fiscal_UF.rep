@@ -13,17 +13,17 @@ object TRpReport
       Alias = 'TOTALIZACAO'
       DatabaseAlias = 'SISADMIN'
       SQL = 
-        'select ec.UF, sum((md.VLR_BASE*md.quantidade)- md.VALOR_DESCONTO' +
-        ') TOTALNF, sum(md.VALOR_ICMS) VAL_ICMS, SUM(md.VIPI) VAL_IPI, '#13#10 +
-        'SUM(md.ICMS_SUBST) VAL_ST, sum((md.VLR_BASE*md.quantidade) + md.' +
-        'ICMS_SUBST+md.vipi- md.VALOR_DESCONTO)  TOTAL_NOTA'#13#10', sum(md.VLR' +
-        '_BASEICMS) VLR_BASEICMS'#13#10' from NOTAFISCAL nf, VENDA v , MOVIMENT' +
-        'ODETALHE md, NATUREZAOPERACAO nt'#13#10' inner join CLIENTES cli on cl' +
-        'i.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join ENDERECOCLIENTE ec on e' +
-        'c.CODCLIENTE = cli.CODCLIENTE '#13#10'where v.CODVENDA = nf.CODVENDA'#13#10 +
-        '  and v.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'  and nt.CODNATUREZA = ' +
-        'nf.NATUREZA '#13#10'and ec.TIPOEND = 0'#13#10'  and nf.DTAEMISSAO  BETWEEN  ' +
-        ':DTAINI and :DTAFIM'#13#10'group by  EC.UF'
+        'select ec.UF, sum(md.VALTOTAL) TOTALNF, sum(md.VALOR_ICMS) VAL_I' +
+        'CMS, SUM(md.VIPI) VAL_IPI, '#13#10'SUM(md.ICMS_SUBST) VAL_ST, sum(md.V' +
+        'ALTOTAL + md.VALOR_ICMS + md.VIPI + md.ICMS_SUBST)  TOTAL_NOTA'#13#10 +
+        ', sum(md.VLR_BASEICMS) VLR_BASEICMS'#13#10' from NOTAFISCAL nf, VENDA ' +
+        'v , MOVIMENTODETALHE md, NATUREZAOPERACAO nt'#13#10' inner join CLIENT' +
+        'ES cli on cli.CODCLIENTE = nf.CODCLIENTE'#13#10'inner join ENDERECOCLI' +
+        'ENTE ec on ec.CODCLIENTE = cli.CODCLIENTE '#13#10'where v.CODVENDA = n' +
+        'f.CODVENDA'#13#10'  and v.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'  and nt.CO' +
+        'DNATUREZA = nf.NATUREZA '#13#10'and ec.TIPOEND = 0'#13#10'  and nf.DTAEMISSA' +
+        'O  BETWEEN  :DTAINI and :DTAFIM'#13#10'  and ((nf.STATUS IS NULL) or (' +
+        'nf.STATUS = '#39'E'#39')) '#13#10'group by  EC.UF'
     end>
   DatabaseInfo = <
     item
@@ -63,7 +63,7 @@ object TRpReport
     item
       Name = 'DTAINI'
       AllowNulls = False
-      Value = 40961d
+      Value = 40909d
       ParamType = rpParamDate
       Datasets.Strings = (
         'TOTALIZACAO')
@@ -76,7 +76,7 @@ object TRpReport
     item
       Name = 'DTAFIM'
       AllowNulls = False
-      Value = 40961d
+      Value = 40939d
       ParamType = rpParamDate
       Datasets.Strings = (
         'TOTALIZACAO')
@@ -285,17 +285,14 @@ object TRpReport
   end
   object TRpSection2: TRpSection
     Width = 10205
-    Height = 285
+    Height = 0
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
     SkipPage = False
     AlignBottom = False
     SectionType = rpsecpfooter
-    Components = <
-      item
-        Component = TRpExpression13
-      end>
+    Components = <>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
@@ -814,30 +811,5 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-  end
-  object TRpExpression13: TRpExpression
-    Width = 2700
-    Height = 255
-    PosX = 7470
-    PosY = 0
-    Type1Font = poHelvetica
-    Alignment = 2
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 
-      'Str(DAY(today)) + '#39'/'#39' + monthname(today) + '#39'/'#39' + str(year(today)' +
-      ')'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
   end
 end
