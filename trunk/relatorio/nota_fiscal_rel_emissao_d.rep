@@ -35,10 +35,11 @@ object TRpReport
         'NTODETALHE md, NATUREZAOPERACAO nt'#13#10' left outer join CLIENTES cl' +
         'i on cli.CODCLIENTE = nf.CODCLIENTE '#13#10'where v.CODVENDA = nf.CODV' +
         'ENDA'#13#10'  and v.CODMOVIMENTO = md.CODMOVIMENTO '#13#10'  and nt.CODNATUR' +
-        'EZA = nf.NATUREZA '#13#10'  and nf.DTAEMISSAO  BETWEEN  :DTAINI and :D' +
-        'TAFIM '#13#10'group by nf.DTAEMISSAO, nf.NOTASERIE, md.CFOP, '#39'UNICA'#39', ' +
-        'nt.DESCNATUREZA, nf.CODCLIENTE, cli.RAZAOSOCIAL,'#13#10'   v.PRAZO,  '#39 +
-        'A'#39#13#10'order by nf.DTAEMISSAO, nf.NOTASERIE'
+        'EZA = nf.NATUREZA '#13#10'  and ((nf.STATUS IS NULL) or (nf.STATUS = '#39 +
+        'E'#39')) '#13#10'  and nf.DTAEMISSAO  BETWEEN  :DTAINI and :DTAFIM '#13#10'group' +
+        ' by nf.DTAEMISSAO, nf.NOTASERIE, md.CFOP, '#39'UNICA'#39', nt.DESCNATURE' +
+        'ZA, nf.CODCLIENTE, cli.RAZAOSOCIAL,'#13#10'   v.PRAZO,  '#39'A'#39#13#10'order by ' +
+        'nf.DTAEMISSAO, nf.NOTASERIE'
     end
     item
       Alias = 'CABECALHO'
@@ -50,7 +51,7 @@ object TRpReport
     end
     item
       Alias = 'TOTALIZACAO'
-      DatabaseAlias = 'SGE'
+      DatabaseAlias = 'SISADMIN'
       SQL = 
         'select  md.CFOP, sum(md.VLR_BASE*md.quantidade) TOTALNF, sum(md.' +
         'VALOR_ICMS) VAL_ICMS, SUM(md.VIPI) VAL_IPI, sum((md.VLR_BASE*md.' +
@@ -59,7 +60,8 @@ object TRpReport
         'ft outer join CLIENTES cli on cli.CODCLIENTE = nf.CODCLIENTE '#13#10'w' +
         'here v.CODVENDA = nf.CODVENDA'#13#10'  and v.CODMOVIMENTO = md.CODMOVI' +
         'MENTO '#13#10'  and nt.CODNATUREZA = nf.NATUREZA '#13#10'  and nf.DTAEMISSAO' +
-        '  BETWEEN  :DTAINI and :DTAFIM'#13#10'group by  md.CFOP'#13#10#13#10
+        '  BETWEEN  :DTAINI and :DTAFIM'#13#10'  and ((nf.STATUS IS NULL) or (n' +
+        'f.STATUS = '#39'E'#39')) '#13#10'group by  md.CFOP'#13#10#13#10
     end>
   DatabaseInfo = <
     item
