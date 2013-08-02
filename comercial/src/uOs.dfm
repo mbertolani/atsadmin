@@ -1,6 +1,6 @@
 object fOs: TfOs
   Left = 201
-  Top = 129
+  Top = 130
   Width = 822
   Height = 570
   Caption = 'Ordem Servi'#231'o'
@@ -2366,6 +2366,62 @@ object fOs: TfOs
     SQLConnection = DM.sqlsisAdimin
     Left = 384
     Top = 432
+    object sdsPecasID_OS_DET: TIntegerField
+      FieldName = 'ID_OS_DET'
+      Required = True
+    end
+    object sdsPecasID_OS: TIntegerField
+      FieldName = 'ID_OS'
+      Required = True
+    end
+    object sdsPecasCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object sdsPecasDESCRICAO_SERV: TStringField
+      FieldName = 'DESCRICAO_SERV'
+      Size = 300
+    end
+    object sdsPecasRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Size = 150
+    end
+    object sdsPecasTIPO: TStringField
+      FieldName = 'TIPO'
+      FixedChar = True
+      Size = 1
+    end
+    object sdsPecasQTDE: TFloatField
+      FieldName = 'QTDE'
+    end
+    object sdsPecasPRECO: TFloatField
+      FieldName = 'PRECO'
+    end
+    object sdsPecasDESCONTO: TFloatField
+      FieldName = 'DESCONTO'
+    end
+    object sdsPecasVALORTOTAL: TFloatField
+      FieldName = 'VALORTOTAL'
+    end
+    object sdsPecasCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object sdsPecasSTATUSDESC: TStringField
+      FieldName = 'STATUSDESC'
+      ReadOnly = True
+      FixedChar = True
+      Size = 18
+    end
+    object sdsPecasSTATUS: TStringField
+      FieldName = 'STATUS'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
+    end
+    object sdsPecasID_OSDET_SERV: TIntegerField
+      FieldName = 'ID_OSDET_SERV'
+      ReadOnly = True
+    end
   end
   object dspPecas: TDataSetProvider
     DataSet = sdsPecas
@@ -2440,7 +2496,7 @@ object fOs: TfOs
     end
     object cdsPecasCODPRO: TStringField
       FieldName = 'CODPRO'
-      ProviderFlags = []
+      ProviderFlags = [pfInUpdate]
       Size = 15
     end
     object cdsPecasSTATUSDESC: TStringField
