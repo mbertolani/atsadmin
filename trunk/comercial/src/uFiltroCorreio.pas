@@ -209,9 +209,9 @@ begin
   if JvDBSearchEdit1.Text <> '' then
   begin
     if sqlTexto='' then
-      sqlTexto := sqlTexto + ' where CODFIR = '
+      sqlTexto := sqlTexto + ' where movdoc.CODFIR = '
     else
-      sqlTexto := sqlTexto + ' and CODFIR = ';
+      sqlTexto := sqlTexto + ' and movdoc.CODFIR = ';
       sqlTexto := sqlTexto + '' + JvDBSearchEdit1.Text + '';
   end;
   // DATA FINAL ARQUIVO
@@ -219,7 +219,7 @@ begin
   begin
     if ((medta1.Text <> '  /  /    ') and (medta2.Text <> '  /  /    ')) then
     begin
-       sqlTexto := 'WHERE DTFIND between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta1.Text)));
+       sqlTexto := 'WHERE movdoc.DTFIND between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta1.Text)));
        sqlTexto:= sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta2.Text)));
     end;
   end
@@ -227,7 +227,7 @@ begin
   begin
     if ((medta1.Text <> '  /  /    ') and (medta2.Text <> '  /  /    ')) then
     begin
-      sqlTexto := sqlTexto + ' and DTFIND between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta1.Text)));
+      sqlTexto := sqlTexto + ' and movdoc.DTFIND between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta1.Text)));
       sqlTexto := sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta2.Text)));
     end;
   end;
@@ -237,7 +237,7 @@ begin
   begin
     if ((medta3.Text <> '  /  /    ') and (medta4.Text <> '  /  /    ')) then
     begin
-       sqlTexto := 'WHERE DTINC between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)));
+       sqlTexto := 'WHERE movdoc.DTINC between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)));
        sqlTexto:= sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta4.Text)));
     end;
   end
@@ -245,7 +245,7 @@ begin
   begin
     if ((medta3.Text <> '  /  /    ') and (medta4.Text <> '  /  /    ')) then
     begin
-      sqlTexto := sqlTexto + ' and DTINC between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)));
+      sqlTexto := sqlTexto + ' and movdoc.DTINC between ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(meDta3.Text)));
       sqlTexto := sqlTexto + ' and ' + QuotedStr(FormatDateTime('mm/dd/yyyy', StrToDate(medta4.Text)));
     end;
   end;
@@ -254,36 +254,36 @@ begin
   if (DBComboBox1.Text <> '') then
   begin
     if sqlTexto='' then
-      sqlTexto := sqlTexto + ' where CODDEP = '
+      sqlTexto := sqlTexto + ' where movdoc.CODDEP = '
     else
-      sqlTexto := sqlTexto + ' and CODDEP = ';
+      sqlTexto := sqlTexto + ' and movdoc.CODDEP = ';
       sqlTexto := sqlTexto + QuotedStr(DBComboBox1.Text);
   end;
   // DOCUMENTO
   if (DBComboBox2.Text <> '') then
   begin
     if sqlTexto='' then
-      sqlTexto := sqlTexto + ' where CODDOC = '
+      sqlTexto := sqlTexto + ' where movdoc.CODDOC = '
     else
-      sqlTexto := sqlTexto + ' and CODDOC = ';
+      sqlTexto := sqlTexto + ' and movdoc.CODDOC = ';
       sqlTexto := sqlTexto + QuotedStr(DBComboBox2.Text);
   end;
   //OBS
   if Edit1.Text <> '' then
   begin
     if sqlTexto='' then
-      sqlTexto := sqlTexto + ' where OBS LIKE '
+      sqlTexto := sqlTexto + ' where movdoc.OBS LIKE '
     else
-      sqlTexto := sqlTexto + ' and OBS LIKE';
+      sqlTexto := sqlTexto + ' and movdoc.OBS LIKE';
       sqlTexto := sqlTexto +  QuotedStr('%' + Edit1.Text + '%');
   end;
   // N º DA CAIXA
   if (Edit2.Text <> '') then
   begin
     if sqlTexto='' then
-      sqlTexto := sqlTexto + ' where NUMCAI = '
+      sqlTexto := sqlTexto + ' where movdoc.NUMCAI = '
     else
-      sqlTexto := sqlTexto + ' and NUMCAI = ';
+      sqlTexto := sqlTexto + ' and movdoc.NUMCAI = ';
       sqlTexto := sqlTexto + QuotedStr(Edit2.Text);
   end;
 
@@ -291,9 +291,9 @@ begin
   if (chkAtivo.Checked) then
   begin
     if sqlTexto = '' then
-      sqlTexto := sqlTexto + ' where ATIVO = '
+      sqlTexto := sqlTexto + ' where movdoc.ATIVO = '
     else
-      sqlTexto := sqlTexto + ' and ATIVO = ';
+      sqlTexto := sqlTexto + ' and movdoc.ATIVO = ';
       sqlTexto := sqlTexto + QuotedStr('S');
   end;
 
