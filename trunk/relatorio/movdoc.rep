@@ -12,6 +12,7 @@ object TRpReport
   LeftMargin = 7
   TopMargin = 0
   RightMargin = 7
+  BottomMargin = 0
   PrinterSelect = pRpReportPrinter
   SubReports = <
     item
@@ -39,7 +40,8 @@ object TRpReport
         '.usuario,'#13#10'    movdoc.dtusu,'#13#10'    movdoc.horausu,'#13#10'    movdoc.re' +
         'gcai,'#13#10'    movdoc.jadesc,'#13#10'    clientes.nomecliente'#13#10'from movdoc' +
         #13#10'   inner join clientes on (movdoc.codfir = clientes.codcliente' +
-        ')'
+        ') where movdoc.codfir = 41 '#13#10'  and movdoc.numcai between 800 and' +
+        ' 844'#13#10'order by movdoc.numcai'
     end
     item
       Alias = 'IMPCAB'
@@ -87,7 +89,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 10900
-    Height = 636
+    Height = 705
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -151,7 +153,7 @@ object TRpReport
   end
   object TRpSection1: TRpSection
     Width = 11110
-    Height = 1665
+    Height = 1530
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -191,7 +193,7 @@ object TRpReport
   end
   object TRpSection3: TRpSection
     Width = 10890
-    Height = 255
+    Height = 300
     SubReport = TRpSubReport1
     ChangeBool = False
     PageRepeat = False
@@ -205,6 +207,8 @@ object TRpReport
       item
         Component = TRpExpression12
       end>
+    AutoExpand = True
+    AutoContract = True
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
     ExternalSearchField = 'REPORT_NAME'
@@ -1056,13 +1060,15 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression21: TRpExpression
-    Width = 10310
-    Height = 200
-    PosX = 350
-    PosY = 350
+    Width = 10305
+    Height = 255
+    PosX = 345
+    PosY = 345
     Type1Font = poHelvetica
     FontSize = 8
     Alignment = 1
+    WordWrap = True
+    MultiPage = True
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1093,7 +1099,7 @@ object TRpReport
   end
   object TRpSection2: TRpSection
     Width = 10772
-    Height = 855
+    Height = 810
     SubReport = TRpSubReport0
     GroupName = 'CLIENTE'
     ChangeBool = False
@@ -1159,7 +1165,7 @@ object TRpReport
   end
   object TRpSection5: TRpSection
     Width = 10772
-    Height = 165
+    Height = 135
     SubReport = TRpSubReport0
     GroupName = 'CLIENTE'
     ChangeBool = False
@@ -1191,7 +1197,7 @@ object TRpReport
     Width = 795
     Height = 227
     PosX = 3795
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1204,7 +1210,7 @@ object TRpReport
     Width = 915
     Height = 227
     PosX = 8550
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1230,7 +1236,7 @@ object TRpReport
     Width = 1755
     Height = 240
     PosX = 6045
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1243,7 +1249,7 @@ object TRpReport
     Width = 950
     Height = 250
     PosX = 4900
-    PosY = 500
+    PosY = 450
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1256,7 +1262,7 @@ object TRpReport
     Width = 810
     Height = 227
     PosX = 990
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1269,7 +1275,7 @@ object TRpReport
     Width = 10605
     Height = 405
     PosX = 150
-    PosY = 445
+    PosY = 395
     BrushStyle = 1
     PenWidth = 0
     PrintCondition = ''
@@ -1292,7 +1298,7 @@ object TRpReport
     Width = 795
     Height = 227
     PosX = 9750
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1305,7 +1311,7 @@ object TRpReport
     Width = 650
     Height = 240
     PosX = 200
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1367,7 +1373,7 @@ object TRpReport
     Width = 1140
     Height = 227
     PosX = 2455
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1380,7 +1386,7 @@ object TRpReport
     Width = 540
     Height = 250
     PosX = 1860
-    PosY = 515
+    PosY = 465
     Type1Font = poHelvetica
     PrintCondition = ''
     DoBeforePrint = ''
@@ -1437,8 +1443,8 @@ object TRpReport
   object TRpImage0: TRpImage
     Width = 7050
     Height = 1500
-    PosX = 150
-    PosY = 105
+    PosX = 1995
+    PosY = 5
     DrawStyle = rpDrawStretch
     PrintCondition = ''
     DoBeforePrint = ''
