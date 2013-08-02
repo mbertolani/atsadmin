@@ -23,14 +23,14 @@ object fOsFiltro: TfOsFiltro
     Left = 0
     Top = 0
     Width = 758
-    Height = 225
-    Align = alTop
+    Height = 256
+    Align = alClient
     TabOrder = 0
     object DBGrid1: TJvDBGrid
       Left = 1
       Top = 98
       Width = 756
-      Height = 126
+      Height = 157
       Align = alClient
       DataSource = dsOs
       Font.Charset = ANSI_CHARSET
@@ -1243,213 +1243,221 @@ object fOsFiltro: TfOsFiltro
       end
     end
   end
-  object JvDBGrid1: TJvDBGrid
+  object Panel3: TPanel
     Left = 0
-    Top = 225
+    Top = 256
     Width = 758
-    Height = 156
-    Align = alClient
-    DataSource = dsServico
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit]
-    ParentFont = False
-    TabOrder = 1
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Shell Dlg 2'
-    TitleFont.Style = []
-    OnCellClick = JvDBGrid1CellClick
-    TitleButtons = True
-    AlternateRowColor = clOlive
-    SortedField = 'Filename'
-    TitleArrow = True
-    MinColumnWidth = 100
-    AutoSizeColumns = True
-    SelectColumnsDialogStrings.Caption = 'Select columns'
-    SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
-    SelectColumnsDialogStrings.OK = '&OK'
-    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-    EditControls = <>
-    RowsHeight = 20
-    TitleRowHeight = 17
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'STATUS'
-        Title.Caption = 'Sit.'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ID_OS_DET'
-        Title.Caption = 'C'#243'd.Serv.'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CODPRO'
-        Title.Caption = 'C'#243'digo'
-        Width = 52
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCRICAO_SERV'
-        Title.Caption = 'Descri'#231#227'o'
-        Width = 261
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'NOMEUSUARIO'
-        Title.Caption = 'Colaborador'
-        Width = 98
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'QTDE'
-        Title.Caption = 'Quantidade'
-        Width = 60
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO'
-        Title.Caption = 'Pre'#231'o'
-        Width = 52
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCONTO'
-        Title.Caption = 'Desconto'
-        Width = 52
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'VALORTOTAL'
-        Title.Caption = 'Valor Total'
-        Width = 78
-        Visible = True
-      end>
-  end
-  object JvDBGrid2: TJvDBGrid
-    Left = 0
-    Top = 400
-    Width = 758
-    Height = 160
+    Height = 304
     Align = alBottom
-    DataSource = dsPeca
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
-    ParentFont = False
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'MS Shell Dlg 2'
-    TitleFont.Style = []
-    MultiSelect = True
-    TitleButtons = True
-    AlternateRowColor = clGrayText
-    SortedField = 'Filename'
-    TitleArrow = True
-    MinColumnWidth = 100
-    AutoSizeColumns = True
-    SelectColumnsDialogStrings.Caption = 'Select columns'
-    SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
-    SelectColumnsDialogStrings.OK = '&OK'
-    SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
-    EditControls = <>
-    RowsHeight = 20
-    TitleRowHeight = 17
-    Columns = <
-      item
-        Expanded = False
-        FieldName = 'ID_OS_DET'
-        Title.Caption = 'C'#243'digo'
-        Width = 62
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CODPRO'
-        Title.Caption = 'Pe'#231'a'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCRICAO_SERV'
-        Title.Caption = 'Descri'#231#227'o'
-        Width = 208
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ID_OSDET_SERV'
-        Title.Caption = 'C'#243'd. Servi'#231'o'
-        Width = 104
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'QTDE'
-        Title.Caption = 'Quantidade'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECO'
-        Title.Caption = 'Pre'#231'o'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DESCONTO'
-        Title.Caption = 'Desconto'
-        Width = 70
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'VALORTOTAL'
-        Title.Caption = 'Valor Total'
-        Width = 80
-        Visible = True
-      end>
-  end
-  object StatusBar1: TStatusBar
-    Left = 0
-    Top = 381
-    Width = 758
-    Height = 19
-    Panels = <
-      item
-        Width = 450
-      end
-      item
-        Width = 400
-      end
-      item
-        Alignment = taRightJustify
-        Width = 200
-      end>
-    OnResize = StatusBar1Resize
+    TabOrder = 1
+    object JvDBGrid2: TJvDBGrid
+      Left = 1
+      Top = 81
+      Width = 756
+      Height = 203
+      Align = alClient
+      DataSource = dsPeca
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
+      ParentFont = False
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Shell Dlg 2'
+      TitleFont.Style = []
+      MultiSelect = True
+      TitleButtons = True
+      AlternateRowColor = clGrayText
+      SortedField = 'Filename'
+      TitleArrow = True
+      MinColumnWidth = 100
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 20
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ID_OS_DET'
+          Title.Caption = 'C'#243'digo'
+          Width = 61
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CODPRO'
+          Title.Caption = 'Pe'#231'a'
+          Width = 69
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO_SERV'
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 207
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ID_OSDET_SERV'
+          Title.Caption = 'C'#243'd. Servi'#231'o'
+          Width = 104
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QTDE'
+          Title.Caption = 'Quantidade'
+          Width = 69
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Title.Caption = 'Pre'#231'o'
+          Width = 69
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCONTO'
+          Title.Caption = 'Desconto'
+          Width = 69
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VALORTOTAL'
+          Title.Caption = 'Valor Total'
+          Width = 84
+          Visible = True
+        end>
+    end
+    object StatusBar1: TStatusBar
+      Left = 1
+      Top = 284
+      Width = 756
+      Height = 19
+      Panels = <
+        item
+          Width = 450
+        end
+        item
+          Width = 400
+        end
+        item
+          Alignment = taRightJustify
+          Width = 200
+        end>
+      OnResize = StatusBar1Resize
+    end
+    object JvDBGrid1: TJvDBGrid
+      Left = 1
+      Top = 1
+      Width = 756
+      Height = 80
+      Align = alTop
+      DataSource = dsServico
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit]
+      ParentFont = False
+      TabOrder = 2
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Shell Dlg 2'
+      TitleFont.Style = []
+      OnCellClick = JvDBGrid1CellClick
+      TitleButtons = True
+      AlternateRowColor = clOlive
+      SortedField = 'Filename'
+      TitleArrow = True
+      MinColumnWidth = 100
+      AutoSizeColumns = True
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.RealNamesOption = '[With the real field name]'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 20
+      TitleRowHeight = 17
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'STATUS'
+          Title.Caption = 'Sit.'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ID_OS_DET'
+          Title.Caption = 'C'#243'd.Serv.'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CODPRO'
+          Title.Caption = 'C'#243'digo'
+          Width = 52
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCRICAO_SERV'
+          Title.Caption = 'Descri'#231#227'o'
+          Width = 260
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NOMEUSUARIO'
+          Title.Caption = 'Colaborador'
+          Width = 98
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'QTDE'
+          Title.Caption = 'Quantidade'
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PRECO'
+          Title.Caption = 'Pre'#231'o'
+          Width = 52
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DESCONTO'
+          Title.Caption = 'Desconto'
+          Width = 52
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'VALORTOTAL'
+          Title.Caption = 'Valor Total'
+          Width = 77
+          Visible = True
+        end>
+    end
   end
   object dspOs: TDataSetProvider
     DataSet = sdsOs
