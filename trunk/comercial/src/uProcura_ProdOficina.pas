@@ -306,6 +306,8 @@ begin
   if var_F = 'compra' then
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   cbMarca.Text := '';
+  if (var_F = 'os') then
+    EvDBFind1.SetFocus;
 end;
 
 procedure TfProcura_prodOficina.btnIncluirClick(Sender: TObject);
@@ -556,16 +558,22 @@ procedure TfProcura_prodOficina.BitBtn5Click(Sender: TObject);
 begin
   usouAdiciona := 'nao usou';
 
- if (var_F = 'os') then
-   fOsInserePeca.btnIncluir.Click;
-
- Edit3.Text := '';
- Edit4.Text := '';
- Edit2.Text := ''; 
- BitBtn5.Enabled := false;
- BitBtn4.Enabled := true;
- EvDBFind1.SetFocus;
-
+  if (var_F = 'os') then
+  begin
+    fOs.numOsDet := fOs.numOsDet + 1;
+    fOs.cdsPecas.Append;
+    fOs.cdsPecasID_OS.AsInteger         := fOs.cdsServicoID_OS.AsInteger;
+    fOs.cdsPecasID_OS_DET.AsInteger     := fOs.numOsDet;
+    fOs.cdsPecasID_OSDET_SERV.AsInteger := fOs.cdsServicoID_OS_DET.AsInteger;
+    fOs.cdsPecasTIPO.AsString           := 'P';
+    EvDBFind1.SetFocus;
+  end;
+  Edit3.Text := '';
+  Edit4.Text := '';
+  Edit2.Text := '';
+  BitBtn5.Enabled := false;
+  BitBtn4.Enabled := true;
+  EvDBFind1.SetFocus;
 end;
 
 procedure TfProcura_prodOficina.EvDBFind1Exit(Sender: TObject);
