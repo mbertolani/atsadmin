@@ -2249,11 +2249,9 @@ end;
 procedure TfAtsAdmin.Correio1Click(Sender: TObject);
 begin
    fCorreio := TfCorreio.Create(Application);
-   FiltroCorreio := TFiltroCorreio.Create(Application);
    try
       fCorreio.ShowModal;
    finally
-     FiltroCorreio.Free;
      fCorreio.Free;      
    end;
 end;
