@@ -165,6 +165,20 @@ type
     F3Cancelar1: TMenuItem;
     sqlUsuario: TSQLQuery;
     edCFOP: TEdit;
+    sdsPecasID_OS_DET: TIntegerField;
+    sdsPecasID_OS: TIntegerField;
+    sdsPecasCODPRODUTO: TIntegerField;
+    sdsPecasDESCRICAO_SERV: TStringField;
+    sdsPecasRESPONSAVEL: TStringField;
+    sdsPecasTIPO: TStringField;
+    sdsPecasQTDE: TFloatField;
+    sdsPecasPRECO: TFloatField;
+    sdsPecasDESCONTO: TFloatField;
+    sdsPecasVALORTOTAL: TFloatField;
+    sdsPecasCODPRO: TStringField;
+    sdsPecasSTATUSDESC: TStringField;
+    sdsPecasSTATUS: TStringField;
+    sdsPecasID_OSDET_SERV: TIntegerField;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnClienteProcuraClick(Sender: TObject);
@@ -846,8 +860,11 @@ end;
 procedure TfOs.btnPecaAlteraClick(Sender: TObject);
 begin
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
-    exit;
-    
+  begin
+    modoOs := 'Edit';
+    controlaEventos;
+    cdsOS.Edit;
+  end;    
   modoOsItem := 'EditaPeca';
 
   {if (fOsInserePeca.cdsPecas1.Active) then
