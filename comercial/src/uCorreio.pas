@@ -358,15 +358,7 @@ end;
 
 procedure TfCorreio.btnProcurarClick(Sender: TObject);
 begin
-  inherited;
-
-  FiltroCorreio := TFiltroCorreio.Create(Application);
-    try
-      FiltroCorreio.ShowModal;
-    finally
-      FiltroCorreio.Free;
-    end;
-
+  FiltroCorreio.ShowModal;
 end;
 
 procedure TfCorreio.btnGravarClick(Sender: TObject);
