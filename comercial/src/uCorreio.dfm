@@ -10,23 +10,23 @@ inherited fCorreio: TfCorreio
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Width = 868
+    Width = 860
     object Label36: TLabel
-      Left = 527
+      Left = 687
       Top = 23
-      Width = 12
+      Width = 16
       Height = 20
       Caption = '...'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clRed
       Font.Height = -16
       Font.Name = 'MS Sans Serif'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
       Transparent = True
     end
     object Label37: TLabel
-      Left = 176
+      Left = 24
       Top = 24
       Width = 12
       Height = 20
@@ -40,7 +40,7 @@ inherited fCorreio: TfCorreio
       Transparent = True
     end
     object Label38: TLabel
-      Left = 232
+      Left = 56
       Top = 24
       Width = 12
       Height = 20
@@ -55,8 +55,8 @@ inherited fCorreio: TfCorreio
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 577
-    Width = 868
+    Top = 566
+    Width = 860
     inherited btnGravar: TBitBtn
       Left = 272
       Width = 106
@@ -74,8 +74,8 @@ inherited fCorreio: TfCorreio
   object Arquivo: TPageControl [2]
     Left = 0
     Top = 51
-    Width = 868
-    Height = 526
+    Width = 860
+    Height = 515
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
@@ -540,6 +540,7 @@ inherited fCorreio: TfCorreio
         Height = 106
         DataField = 'OBS'
         DataSource = DtSrc
+        ScrollBars = ssVertical
         TabOrder = 17
       end
       object DBEdit17: TDBEdit
@@ -596,7 +597,7 @@ inherited fCorreio: TfCorreio
         Top = 57
         Width = 547
         Height = 24
-        DataField = 'RAZAOSOCIAL'
+        DataField = 'NOMECLIENTE'
         DataSource = DtSrc
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -656,7 +657,6 @@ inherited fCorreio: TfCorreio
         Width = 115
         Height = 41
         Caption = 'Fazer Retirada '
-        Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -16
@@ -1555,14 +1555,14 @@ inherited fCorreio: TfCorreio
   object dCliente: TDataSource
     DataSet = cCliente
     Left = 141
-    Top = 12
+    Top = 44
   end
   object cCliente: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'pCliente'
     Left = 101
-    Top = 11
+    Top = 51
     object cClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1577,7 +1577,7 @@ inherited fCorreio: TfCorreio
     DataSet = sCliente
     UpdateMode = upWhereKeyOnly
     Left = 60
-    Top = 11
+    Top = 43
   end
   object sCliente: TSQLDataSet
     CommandText = 
@@ -1587,7 +1587,7 @@ inherited fCorreio: TfCorreio
     Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 22
-    Top = 11
+    Top = 43
     object sClienteCODCLIENTE: TIntegerField
       FieldName = 'CODCLIENTE'
       Required = True
@@ -1753,16 +1753,15 @@ inherited fCorreio: TfCorreio
       FieldName = 'JADESC'
       Size = 1
     end
-    object cdsCorreioRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      ProviderFlags = [pfInWhere]
+    object cdsCorreioNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 50
+      Size = 60
     end
   end
   object sdsCorreio: TSQLDataSet
     CommandText = 
-      'select  mov.* , cli.razaosocial from MOVDOC mov  '#13#10'inner join CL' +
+      'select  mov.* , cli.nomecliente from MOVDOC mov  '#13#10'inner join CL' +
       'IENTES cli on cli.CODCLIENTE = mov.CODFIR'#13#10#13#10'where CODOC = :pcod' +
       'oc'
     MaxBlobSize = -1
@@ -1913,11 +1912,10 @@ inherited fCorreio: TfCorreio
       FieldName = 'JADESC'
       Size = 1
     end
-    object sdsCorreioRAZAOSOCIAL: TStringField
-      FieldName = 'RAZAOSOCIAL'
-      ProviderFlags = [pfInWhere]
+    object sdsCorreioNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
       Required = True
-      Size = 50
+      Size = 60
     end
   end
   object cdsT: TClientDataSet
