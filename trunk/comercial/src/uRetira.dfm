@@ -567,6 +567,7 @@ object fRetira: TfRetira
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     TabOrder = 13
   end
   object BitBtn2: TBitBtn
