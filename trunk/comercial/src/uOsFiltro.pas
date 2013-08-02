@@ -17,8 +17,6 @@ type
     dspOs: TDataSetProvider;
     cdsOs: TClientDataSet;
     dsOs: TDataSource;
-    JvDBGrid1: TJvDBGrid;
-    JvDBGrid2: TJvDBGrid;
     cdsOsCODOS: TIntegerField;
     cdsOsCODCLIENTE: TIntegerField;
     cdsOsCODMOVIMENTO: TIntegerField;
@@ -108,7 +106,6 @@ type
     IntegerField4: TIntegerField;
     IntegerField5: TIntegerField;
     dspPeca: TDataSetProvider;
-    StatusBar1: TStatusBar;
     PopupMenu1: TPopupMenu;
     AAndamento1: TMenuItem;
     CCancelado1: TMenuItem;
@@ -163,6 +160,10 @@ type
     dspTotal: TDataSetProvider;
     sqlTotal: TClientDataSet;
     sdsBuscaMovExiste: TSQLDataSet;
+    Panel3: TPanel;
+    JvDBGrid2: TJvDBGrid;
+    StatusBar1: TStatusBar;
+    JvDBGrid1: TJvDBGrid;
     procedure DBGrid1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dsServicoDataChange(Sender: TObject; Field: TField);
