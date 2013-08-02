@@ -426,9 +426,9 @@ begin
     edNumOS.Text := IntToStr(CodigoOs);
 
     if (modoOs = 'Insert') then
-      MessageDlg('OS gerada com sucesso.', mtInformation, [mbOK], 0)
-    else
-      MessageDlg('Alteracao gravada com sucesso.', mtInformation, [mbOK], 0);
+      MessageDlg('OS gerada com sucesso.', mtInformation, [mbOK], 0);
+    //else
+    //  MessageDlg('Alteracao gravada com sucesso.', mtInformation, [mbOK], 0);
     modoOs := 'Browse';
     controlaEventos;
     if (cdsOs.State in [dsEdit, dsInsert]) then
@@ -786,7 +786,7 @@ begin
     exit;
   end;
 
-  if (modoOs = 'Insert') then
+  if ((modoOs = 'Insert') or (modoOs = 'Edit')) then
     btnGravar.Click;
   modoOs := 'Edit';
   controlaEventos;
@@ -803,8 +803,27 @@ begin
   cdsPecasID_OSDET_SERV.AsInteger := ServCodServ;
   cdsPecasTIPO.AsString   := 'P';
 
-  fOsInserePeca.ShowModal;
-
+  //fOsInserePeca.ShowModal;
+  if (procprod <> 'PROC_PROD_COMPLETO') then
+  begin
+    fProcura_prodOficina.Panel1.Visible := false;
+    fProcura_prodOficina.Panel2.Visible := true;
+    fProcura_prodOficina.BitBtn1.Click;
+  end
+  else begin
+    fProcura_prodOficina.Panel2.Visible := false;
+    fProcura_prodOficina.Panel1.Visible := true;
+    if (fProcura_prodOficina.cds_proc.Active) then
+      fProcura_prodOficina.cds_proc.Close;
+  end;
+  varonde := 'os';
+  var_F := 'os';
+  fProcura_prodOficina.ShowModal;
+  if (cdsPecas.State = dsBrowse) then
+    cdsPecas.Edit;
+  cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+  cdsPecasQTDE.AsFloat         := 1;
+  cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
 end;
 
 procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
