@@ -519,7 +519,8 @@ procedure TfProcura_prodOficina.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if (key = #13) then
   begin
-    bitBtn6.Click;   // Fecha a tela
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
   end;
 end;
 
