@@ -135,20 +135,20 @@ var str: string;
 begin
   //TD.TransactionID := 1;
   //TD.IsolationLevel := xilREADCOMMITTED;
-  str := edProdDescr.Text;
+  str := '';//edProdDescr.Text;
   for I := 0 to edServico.Lines.Count -1 do
     str := str + edServico.Lines[I] + #13#10;
 
-
   fOs.cdsPecasDESCRICAO_SERV.AsString := str;
-  fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
-  fOs.cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
-  fOs.cdsPecasSTATUS.AsString         := fOs.statusOs;
-  fOs.cdsPecasTIPO.AsString           := 'P';
+  //fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
+  //fOs.cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
+  //fOs.cdsPecasSTATUS.AsString         := fOs.statusOs;
+  //fOs.cdsPecasTIPO.AsString           := 'P';
   fOs.cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
   fOs.cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
   fOs.cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
   //cdsPecasDESCPERCENT.AsFloat     := edDesc.Value;
+
   fOs.cdsPecas.Post;
   btnGravar.Visible := False;
   btnIncluir.Visible := True;
