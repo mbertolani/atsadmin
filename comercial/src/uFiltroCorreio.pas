@@ -197,7 +197,7 @@ begin
     cdsC.CommandText:= 'select movdoc.codoc,  movdoc.codfir,   movdoc.foto, movdoc.rolo, movdoc.numcai,' +
     'movdoc.coddep, movdoc.codsec, movdoc.codloc,movdoc.ativo, movdoc.coddoc, movdoc.dtinid,'+
     'movdoc.dtfind, movdoc.docini, movdoc.docfin, movdoc.estante,  movdoc.pratel, movdoc.descarte,'+
-    'movdoc.dtret, movdoc.nomeret, movdoc.ndocret, movdoc.dtprev, movdoc.obsret, movdoc.obs,'+
+    'movdoc.dtret, movdoc.nomeret, movdoc.ndocret, movdoc.dtprev, movdoc.obsret, trim(movdoc.obs) as obs,'+
     'movdoc.dtinc,movdoc.coluna,movdoc.ncaicli,movdoc.obs2,movdoc.tamanho, movdoc.a,movdoc.numdoc,'+
     'movdoc.data, movdoc.qtdade, movdoc.codidio,movdoc.descr,movdoc.fase,movdoc.usuario,'+
     'movdoc.dtusu,movdoc.horausu, movdoc.regcai,movdoc.jadesc, clientes.nomecliente'+
@@ -402,6 +402,8 @@ begin
 
   fCorreio.Label37.Caption :=  JvDBSearchEdit1.Text;
   fCorreio.Label38.Caption :=  JvDBSearchEdit2.Text;
+
+  if(fCorreio.DBEdit3.Text <> '')then
   fCorreio.Label36.Caption :=  'CX : ' + fCorreio.DBEdit3.Text;
 
   fCorreio.cdsCorreio.Open;
