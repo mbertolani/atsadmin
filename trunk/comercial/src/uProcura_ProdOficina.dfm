@@ -1,8 +1,8 @@
 object fProcura_ProdOficina: TfProcura_ProdOficina
   Left = 0
   Top = 0
-  Width = 812
-  Height = 642
+  Width = 814
+  Height = 719
   Caption = 'Lista de Produtos'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel2: TPanel
     Left = 0
     Top = 57
-    Width = 796
+    Width = 806
     Height = 89
     Align = alTop
     BevelOuter = bvLowered
@@ -156,7 +156,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object Panel1: TPanel
     Left = 0
     Top = 146
-    Width = 796
+    Width = 806
     Height = 89
     Align = alTop
     BevelInner = bvLowered
@@ -394,8 +394,8 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object DBGrid1: TDBGrid
     Left = 0
     Top = 235
-    Width = 635
-    Height = 369
+    Width = 645
+    Height = 457
     Align = alClient
     Color = clCream
     DataSource = Dtsrc
@@ -487,7 +487,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
   object MMJPanel1: TMMJPanel
     Left = 0
     Top = 0
-    Width = 796
+    Width = 806
     Height = 57
     Align = alTop
     PopupMenu = PopupMenu1
@@ -877,7 +877,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton1: TBitBtn
-      Left = 412
+      Left = 404
       Top = 2
       Width = 80
       Height = 55
@@ -989,7 +989,7 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
       Layout = blGlyphTop
     end
     object SpeedButton4: TBitBtn
-      Left = 316
+      Left = 324
       Top = 2
       Width = 80
       Height = 55
@@ -1320,10 +1320,10 @@ object fProcura_ProdOficina: TfProcura_ProdOficina
     end
   end
   object DBGrid2: TDBGrid
-    Left = 635
+    Left = 645
     Top = 235
     Width = 161
-    Height = 369
+    Height = 457
     Align = alRight
     Color = clCream
     DataSource = DataSource2
