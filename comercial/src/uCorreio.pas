@@ -113,7 +113,6 @@ type
     cdsCorreioHORAUSU: TStringField;
     cdsCorreioREGCAI: TFloatField;
     cdsCorreioJADESC: TStringField;
-    cdsCorreioRAZAOSOCIAL: TStringField;
     sdsCorreio: TSQLDataSet;
     sdsCorreioCODOC: TIntegerField;
     sdsCorreioCODFIR: TSmallintField;
@@ -155,7 +154,6 @@ type
     sdsCorreioHORAUSU: TStringField;
     sdsCorreioREGCAI: TFloatField;
     sdsCorreioJADESC: TStringField;
-    sdsCorreioRAZAOSOCIAL: TStringField;
     cdsT: TClientDataSet;
     cdsTID: TIntegerField;
     cdsTCODDOC: TStringField;
@@ -305,6 +303,8 @@ type
     Label39: TLabel;
     Label45: TLabel;
     Label46: TLabel;
+    sdsCorreioNOMECLIENTE: TStringField;
+    cdsCorreioNOMECLIENTE: TStringField;
     procedure FormShow(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -327,6 +327,7 @@ type
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
   private
     numCaixa: String;
     function NumCaixaInvalido(Caixa: String): Boolean;
@@ -917,6 +918,12 @@ procedure TfCorreio.FormCreate(Sender: TObject);
 begin
   //inherited;
 
+end;
+
+procedure TfCorreio.btnSairClick(Sender: TObject);
+begin
+  inherited;
+ close;
 end;
 
 end.
