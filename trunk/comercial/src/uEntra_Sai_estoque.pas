@@ -367,8 +367,6 @@ type
     cdsPRODUTO: TStringField;
     cdsPRECO_CUSTO: TFloatField;
     cdsESTOQUE: TFloatField;
-    cdsPRECO_COMPRA: TFloatField;
-    cdsPRECO_VENDA: TFloatField;
     cdsUNIDADEMEDIDA: TStringField;
     cdsLOTES2: TStringField;
     Label18: TLabel;
@@ -388,6 +386,8 @@ type
     BitBtn2: TBitBtn;
     RadioButton1: TRadioButton;
     VCLReport1: TVCLReport;
+    cdsPRECO_VENDA: TBCDField;
+    cdsPRECO_COMPRA: TFloatField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -1674,9 +1674,9 @@ begin
           end
           else begin
             if (cdsDetalheUSAPRECO.AsString = 'PRECOVENDA') THEN
-              cds_movDetMatPRECO.AsFloat := cdsPRECO_VENDA.AsFloat
+              cds_movDetMatPRECO.Value := cdsPRECO_VENDA.Value
             else if (cdsDetalheUSAPRECO.AsString = 'PRECOCOMPRA') THEN
-              cds_movDetMatPRECO.AsFloat := cdsPRECO_COMPRA.AsFloat
+              cds_movDetMatPRECO.asFloat := cdsPRECO_COMPRA.AsFloat
             else
               cds_movDetMatPRECO.AsFloat := 0;
           end;
