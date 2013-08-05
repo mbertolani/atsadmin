@@ -1,6 +1,6 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 261
-  Top = 159
+  Left = 425
+  Top = 156
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
@@ -2590,12 +2590,6 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     object cdsESTOQUE: TFloatField
       FieldName = 'ESTOQUE'
     end
-    object cdsPRECO_COMPRA: TFloatField
-      FieldName = 'PRECO_COMPRA'
-    end
-    object cdsPRECO_VENDA: TFloatField
-      FieldName = 'PRECO_VENDA'
-    end
     object cdsUNIDADEMEDIDA: TStringField
       FieldName = 'UNIDADEMEDIDA'
       Size = 10
@@ -2605,6 +2599,14 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
       FixedChar = True
       Size = 1
     end
+    object cdsPRECO_VENDA: TBCDField
+      FieldName = 'PRECO_VENDA'
+      Precision = 9
+      Size = 2
+    end
+    object cdsPRECO_COMPRA: TFloatField
+      FieldName = 'PRECO_COMPRA'
+    end
   end
   object dsp: TDataSetProvider
     DataSet = sds
@@ -2613,11 +2615,15 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     Top = 335
   end
   object sds: TSQLDataSet
-    CommandText = 'select *'#13#10'from VIEW_ESTOQUE'#13#10'where CODPRODUTO = :id'#13#10
+    CommandText = 
+      'select p.CODPRODUTO, p.CODPRO, p.VALORUNITARIOATUAL as  PRECO_CU' +
+      'STO, p.PRODUTO, '#13#10'p.ESTOQUEATUAL as ESTOQUE, p.VALORUNITARIOATUA' +
+      'L as PRECO_COMPRA, p.PRECOMEDIO as PRECO_VENDA,  p.UNIDADEMEDIDA' +
+      ', '#39'0'#39' as LOTES'#13#10'from PRODUTOS P'#13#10'where p.CODPRODUTO = :id'#13#10
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'id'
         ParamType = ptInput
       end>
