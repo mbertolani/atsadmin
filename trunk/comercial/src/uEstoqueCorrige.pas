@@ -88,12 +88,8 @@ Begin
     cdsB.Close;
 
     cdsB.CommandText := 'select distinct m.CODALMOXARIFADO from movimento m ' +
-      ' where exists (select v.CODCCUSTO from venda v where v.CODCCUSTO = m.CODALMOXARIFADO' +
-      ' AND v.DATAVENDA BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
-      ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ' ) ' +
-      ' OR EXISTS (select c.CODCCUSTO from compra c where c.CODCCUSTO = m.CODALMOXARIFADO ' +
-      ' AND c.DATACOMPRA BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
-      ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) + ' ) ';
+      ' where m.DATAMOVIMENTO BETWEEN ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date-10)) +
+      ' AND ' + QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date+10));
     cdsB.Open;
 
     prog2.Max := cdsA.RecordCount;
