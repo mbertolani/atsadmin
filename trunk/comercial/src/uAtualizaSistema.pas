@@ -1825,7 +1825,6 @@ begin
       EXECUTADDL('EMPRESA', 'ECFMOD', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
-      EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
       executaScript('estoque_view_custo119.sql');
       executaScript('listaProdutocli118.sql');      
       executaScript('listaProduto118.sql');      
@@ -1929,12 +1928,30 @@ begin
 
     if (versaoSistema = '1.0.0.120') then
     begin
+      EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
       executaScript('estoque_fechado_compra.sql');
       executaScript('estoque_fechado_venda.sql');
       executaScript('listaProduto120.sql');
       executaScript('listaProdutocli120.sql');
-      //mudaVersao('1.0.0.121');
+      executaScript('estoque_precomedio121.sql');
+      executaScript('rel_vendaCompra121.sql');
+      executaScript('spestoque121.sql');
+      executaScript('estoque_view_custo121.sql');	  
+      mudaVersao('1.0.0.121');
     end;// Fim Atualizacao Versao 1.0.0.121
+
+    if (versaoSistema = '1.0.0.121') then
+    begin
+      executaScript('estoque_atualiza122.sql');
+      executaScript('invent_estoque122.sql');
+      executaScript('view_estoque122.sql');
+      executaScript('estoque_customedio122.sql');
+      executaScript('rel_vendaCompra122.sql');
+      executaScript('spestoque122.sql');
+      executaScript('gera_cupom.sql');
+      //mudaVersao('1.0.0.122');
+    end;// Fim Atualizacao Versao 1.0.0.122
+
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
