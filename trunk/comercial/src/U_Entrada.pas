@@ -1,4 +1,4 @@
-﻿unit U_Entrada;
+unit U_Entrada;
 
 interface
 
