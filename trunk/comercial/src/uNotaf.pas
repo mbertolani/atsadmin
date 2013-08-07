@@ -567,12 +567,17 @@ begin
   dm.cds_parametro.Params[0].asString := 'SERIENFE';
   dm.cds_parametro.Open;
 
-  if (dmnf.scds_serienfe.Active) then
-    dmnf.scds_serienfe.Close;
-  dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
-
-  dmnf.scds_serienfe.Open;
-  numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  begin
+    if (dmnf.scds_serienfe.Active) then
+      dmnf.scds_serienfe.Close;
+    dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+    dmnf.scds_serienfe.Open;
+    numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+  end
+  else begin
+    numNf := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
+  end;
 
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.open;
@@ -675,7 +680,6 @@ end;
 
 procedure TfNotaf.btnSerieClick(Sender: TObject);
 begin
-
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].asString := 'SERIENFE';
