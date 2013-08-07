@@ -333,6 +333,10 @@ type
     GroupBox36: TGroupBox;
     edNumNfeScam: TEdit;
     BitBtn41: TBitBtn;
+    tsCupom: TTabSheet;
+    rgPesqProdCupom: TRadioGroup;
+    GroupBox37: TGroupBox;
+    cbCupom: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -420,6 +424,8 @@ type
     procedure BitBtn38Click(Sender: TObject);
     procedure btnNumNfeClick(Sender: TObject);
     procedure BitBtn41Click(Sender: TObject);
+    procedure rgPesqProdCupomClick(Sender: TObject);
+    procedure cbCupomClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -4906,6 +4912,84 @@ begin
       RadioGroup4.ItemIndex := 1;
   end;
 
+end;
+
+procedure TfParametro.rgPesqProdCupomClick(Sender: TObject);
+begin
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'BUSCACUPOM';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Tipo Pesquisa Cupom') + ', ';
+    strSql := strSql + QuotedStr('BUSCACUPOM') + ', ';
+    if (rgPesqProdCupom.ItemIndex = 0) then
+      strSql := strSql + QuotedStr('0')
+    else
+      strSql := strSql + QuotedStr('1');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    if (rgPesqProdCupom.ItemIndex = 0) then
+      dm.cds_parametroCONFIGURADO.AsString := '0'
+    else
+      dm.cds_parametroCONFIGURADO.AsString := '1';
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
+end;
+
+procedure TfParametro.cbCupomClick(Sender: TObject);
+begin
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'USACUPOM';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Usa Cupom') + ', ';
+    strSql := strSql + QuotedStr('USACUPOM') + ', ';
+    if (cbCupom.Checked) then
+      strSql := strSql + QuotedStr('S')
+    else
+      strSql := strSql + QuotedStr('N');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    if (cbCupom.Checked) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S'
+    else
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
 end;
 
 end.

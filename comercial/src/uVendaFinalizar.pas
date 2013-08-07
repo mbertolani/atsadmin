@@ -506,6 +506,7 @@ type
     cdsRATEIO: TFloatField;
     cdsVALOR_ST: TFloatField;
     ImprimirCupom1: TMenuItem;
+    btnCupom: TBitBtn;
     procedure cdsBeforePost(DataSet: TDataSet);
     procedure cdsCalcFields(DataSet: TDataSet);
     procedure cdsNewRecord(DataSet: TDataSet);
@@ -566,6 +567,7 @@ type
     procedure btnSairClick(Sender: TObject);
     procedure ImprimirCupom1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnCupomClick(Sender: TObject);
   private
     TD: TTransactionDesc;
     usaMateriaPrima: String;
@@ -610,7 +612,7 @@ implementation
 uses UDm, uVendas, uComercial, uImpr_Boleto, uCheques_bol, uNotafiscal,
   uProcurar, ufCrAltera, uTerminal, uITENS_NF, uSelecionaVisitas,
   uDmCitrus, sCtrlResize, uNotaf, UDMNF, uAtsAdmin, UCBase, uEstoque,
-  uMovimento, U_Boletos, uCarne, uReceberCls;
+  uMovimento, U_Boletos, uCarne, uReceberCls, uTerminal_Delivery;
 
 {$R *.dfm}
 
@@ -1962,6 +1964,16 @@ begin
   Excluir := 'S';
   Cancelar := 'S';
   Procurar := 'S';
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'USACUPOM';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+    btnCupom.Visible := True
+  else
+    btnCupom.Visible := False;
+
   if (DM.tipoVenda = 'DEVOLUCAO') then
   begin
     MMJPanel1.Background.EndColor := clNavy;
@@ -3588,6 +3600,64 @@ begin
   scdsCr_proc.Params[0].Clear;
   cds.Params[0].Clear;
   cds.Params[1].Clear;
+end;
+
+procedure TfVendaFinalizar.btnCupomClick(Sender: TObject);
+var str_sql : string;
+begin
+  if (sqlBuscaNota.Active) then
+    sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select codMovimento from MOVIMENTO where (CODNATUREZA = 7) AND CONTROLE = ' +
+      QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+  if (sqlBuscaNota.IsEmpty) then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+      str_sql := 'EXECUTE PROCEDURE GERA_CUPOM(';
+      str_sql := str_sql  + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        Exit;
+      end;
+    end;
+  end;
+
+  //if (sqlBuscaNota.Active) then
+      sqlBuscaNota.Close;
+  sqlBuscaNota.SQL.Clear;
+  sqlBuscaNota.SQL.Add('select codMovimento from MOVIMENTO where (CODNATUREZA = 7) AND CONTROLE = ' +
+    QuotedStr(IntToStr(cdsCODMOVIMENTO.AsInteger)));
+  sqlBuscaNota.Open;
+
+  fTerminal_Delivery := TfTerminal_Delivery.Create(Application);
+  try
+    fTerminal_Delivery.cds_Movimento.Close;
+    fTerminal_Delivery.cds_Movimento.Params[0].AsInteger := sqlBuscaNota.Fields[0].AsInteger;
+    fTerminal_Delivery.cds_Movimento.Open;
+
+    fTerminal_Delivery.cds_Mov_det.Close;
+    fTerminal_Delivery.cds_Mov_det.Params[0].Clear;
+    fTerminal_Delivery.cds_Mov_det.Params[1].AsInteger := sqlBuscaNota.Fields[0].AsInteger;
+    fTerminal_Delivery.cds_Mov_det.Open;
+
+    if (dm.totalpago > 0) then
+      fTerminal_Delivery.jvPago.Value := dm.totalpago
+    else
+      fTerminal_Delivery.jvPago.Text := fTerminal_Delivery.DBEdit4.Text;
+
+    fTerminal_Delivery.ShowModal;
+  finally
+    fTerminal_Delivery.Free;
+  end;
 end;
 
 end.

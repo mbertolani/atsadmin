@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = TabSheet3
+    ActivePage = tsCupom
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3559,9 +3559,43 @@ inherited fParametro: TfParametro
         end
       end
     end
+    object tsCupom: TTabSheet
+      Caption = 'Cupom'
+      ImageIndex = 11
+      object rgPesqProdCupom: TRadioGroup
+        Left = 130
+        Top = 16
+        Width = 293
+        Height = 49
+        Caption = 'Pesquisa Produtos'
+        Columns = 2
+        Items.Strings = (
+          'C'#243'digo Produto'
+          'C'#243'digo de Barras')
+        TabOrder = 0
+        OnClick = rgPesqProdCupomClick
+      end
+      object GroupBox37: TGroupBox
+        Left = 8
+        Top = 16
+        Width = 113
+        Height = 49
+        Caption = 'Usa Cupom Fiscal'
+        TabOrder = 1
+        object cbCupom: TCheckBox
+          Left = 8
+          Top = 24
+          Width = 97
+          Height = 17
+          Caption = 'Sim'
+          TabOrder = 0
+          OnClick = cbCupomClick
+        end
+      end
+    end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 522
+    Top = 515
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
