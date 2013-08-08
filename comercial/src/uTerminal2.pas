@@ -1114,7 +1114,7 @@ begin
 
  if (not DM_MOV.c_movdet.Active) then
     Exit;
-    
+
  F_AlteraPedido:=TF_AlteraPedido.Create(Application);
  try
    DM_MOV.c_movdet.Edit;
@@ -3292,6 +3292,7 @@ end;
 
 procedure TfTerminal2.incluiPedido;
 var id_movimento: integer;
+  ccustoPedido: string;
 begin
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
@@ -3303,6 +3304,22 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'CENTROCUSTO';
   dm.cds_parametro.Open;
+
+  ccustoPedido := '51';
+  if (not dm.cds_parametro.IsEmpty) then
+    ccustoPedido := DM.cds_parametroD1.AsString;
+
+  if (codCliente = 0) then
+  begin
+    codCliente := 1;
+    if Dm.cds_parametro.Active then
+       dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].AsString := 'CONSUMIDOR';
+    dm.cds_parametro.Open;
+    if not dm.cds_parametro.IsEmpty then
+      codCliente := StrToInt(dm.cds_parametroDADOS.AsString);
+    dm.cds_parametro.Close;
+  end;  
 
   str_sql := 'INSERT INTO MOVIMENTO (CODMOVIMENTO, CODPEDIDO, CODNATUREZA, DATAMOVIMENTO, DATA_SISTEMA, STATUS, '+
     'CODUSUARIO, CODVENDEDOR, CODALMOXARIFADO, USUARIOLOGADO, CODCLIENTE, TIPO_PEDIDO) VALUES ( ' +
@@ -3316,7 +3333,7 @@ begin
   if (DM_MOV.ID_CCUSTO > 0) then
     str_sql := str_sql + IntToStr(DM_MOV.ID_CCUSTO)
   else
-    str_sql := str_sql + DM.cds_parametroD1.AsString;
+    str_sql := str_sql + ccustoPedido;
 
   str_sql := str_sql +  ', ' + QuotedStr(nome_user) + ', ' + IntToStr(codcliente) + ', ';
   if (jvPageControl1.ActivePage = TabVenda) then
