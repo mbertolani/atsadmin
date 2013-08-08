@@ -456,7 +456,7 @@ type
      vCFOP, vUF, vNUMERO_NF, vCODMOV, vSERIE : string;
      tipo_busca, clienteConsumidor : string;
     { Private declarations }
-
+     procedure alteraStatusMovimento;
   public
      estoque : double;
      prazoparapgto : Integer;
@@ -655,15 +655,15 @@ procedure TfTerminal_Delivery.buscaProduto;
  var
     s :string;
 begin
-
   tipo_busca := '1'; //CODBARRA
   //------Verifico se a busca sera efetuada pelo CODPRO ou pelo CODBARRA ---------
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'BUSCACUPOM';
+  dm.cds_parametro.Params[0].AsString := 'BUSCAPRODUTO';
   dm.cds_parametro.Open;
   if not dm.cds_parametro.IsEmpty then
-     tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+     if (dm.cds_parametroDADOS.AsString = 'CODPRO') then
+       tipo_busca := '0';
   dm.cds_parametro.Close;
   if (dbeProduto.Text = '') then
     exit;
@@ -1378,24 +1378,24 @@ begin
     else
       vendaavista;
 
-   if (cds_Mov_det.Active) then
-     cds_Mov_det.Close;
-   cds_Mov_det.Params[0].Clear;
-   cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-   cds_Mov_det.Open;
+  if (cds_Mov_det.Active) then
+    cds_Mov_det.Close;
+  cds_Mov_det.Params[0].Clear;
+  cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cds_Mov_det.Open;
 
-   if (ComboBox1.Text = 'À VISTA') then
-     imprimecupom;
+  if (ComboBox1.Text = 'À VISTA') then
+    imprimecupom;
 
- if (Panel2.Visible = True) then //Mesa - Delivery
- begin
-   if (cDelivery.Active) then
-     cDelivery.Close;
-   cDelivery.Open;
-   if (cdsMesa.Active) then
-     cdsMesa.Close;
-   cdsMesa.Open;
- end;
+  if (Panel2.Visible = True) then //Mesa - Delivery
+  begin
+    if (cDelivery.Active) then
+      cDelivery.Close;
+    cDelivery.Open;
+    if (cdsMesa.Active) then
+      cdsMesa.Close;
+    cdsMesa.Open;
+  end;
   BitBtn7.Enabled := False;
 end;
 
@@ -1456,7 +1456,7 @@ begin
    begin
       cbMesas.Text := cdsMesaNOMECLIENTE.AsString;
       Edit4.Text := IntToStr(cdsMesaCODCLIENTE.AsInteger);
-   end;   
+   end;
    RadioGroup1.ItemIndex := 0;
    dbeProduto.SetFocus;
    jvPago.Text := DBEdit4.Text;
@@ -1471,6 +1471,11 @@ var
   I : integer;
 begin
   inherited;
+  if (cds_MovimentoSTATUS.AsInteger = 9) then
+  begin
+    MessageDlg('Cupom já impresso.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
   If MessageDlg('Usar CGC/CPF do Consumidor?', mtConfirmation, [mbYes, mbNo], 0) = mrYes Then
   begin
     with TFormUsaCPFDesForma.Create(self) do
@@ -1486,17 +1491,17 @@ begin
   Else
   Begin
     iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
-    If (iRetorno <> 1) Or (iRetorno = -27) Then
-    begin
+    //If (iRetorno <> 1) Or (iRetorno = -27) Then
+    //begin
        //VerificaRetornoFuncaoImpressoraMFD(iRetorno);
-      MessageDlg('Erro na porta da Impressora, verifique o arquivo BemaFi32.ini no System32.', mtWarning, [mbOK], 0);
-      Exit;
-    end  
-    Else
-    begin
+    //  MessageDlg('Erro na porta da Impressora, verifique o arquivo BemaFi32.ini no System32.', mtWarning, [mbOK], 0);
+    //  Exit;
+    //end
+    //Else
+    //begin
       frmPrincipal.Analisa_iRetorno();
       frmPrincipal.Retorno_Impressora();
-    end;
+    //end;
   End;
 
   DecimalSeparator := '.';
@@ -1534,11 +1539,8 @@ begin
       if (texto3 = '0') then
         texto3 := 'II';
 
-      if (not TPEmpresa.Active) then
-          TPEmpresa.Open;
-      if (TPEmpresaDADOS.AsString = 'SIMPLES') then
+      if (dm.regimeEmpresa = 'SIMPLES') then
         texto3 := 'NN';
-      TPEmpresa.Close;
       buscaTributacao.Close;
     end;
     varAliquota := texto3;
@@ -1559,6 +1561,7 @@ begin
     cds_Mov_det.Next
   end;
   DecimalSeparator := ',';
+  alteraStatusMovimento;
 
   if (cbporcento.Checked = True) then
   begin
@@ -2210,6 +2213,27 @@ procedure TfTerminal_Delivery.FormDestroy(Sender: TObject);
 begin
   frmPrincipal.Free;
   inherited;
+end;
+
+procedure TfTerminal_Delivery.alteraStatusMovimento;
+var sqlAlteraMov: string;
+begin
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    sqlAlteraMov := 'update MOVIMENTO set status = 9 ' + 
+      ' where CODMOVIMENTO = ' + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
+    dm.sqlsisAdimin.ExecuteDirect(sqlAlteraMov);
+    dm.sqlsisAdimin.Commit(TD);
+    cds_Movimento.Close;
+    cds_Mov_det.Close;
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: '+ e.ClassName + chr(13) + 'Mensagem: '+ e.Message);
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
 end;
 
 end.
