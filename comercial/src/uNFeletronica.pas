@@ -3058,7 +3058,7 @@ begin
 
   dmnf.scds_serienfe.Open;
   result := false;
-  if (cdsNFNOTASERIE.AsString = IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) then
+  if (cdsNFNOTASERIE.AsString <= IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) then
   begin
     result := true;
   end;
@@ -3079,7 +3079,7 @@ begin
 
   dmnf.scds_serienfe.Open;
   result := false;
-  if (cdsNFNOTASERIE.AsString = IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) then
+  if (cdsNFNOTASERIE.AsString <= IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger)) then
   begin
     result := true;
   end;
