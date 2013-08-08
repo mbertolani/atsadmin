@@ -338,6 +338,8 @@ type
     GroupBox37: TGroupBox;
     cbCupom: TCheckBox;
     rgMesmoNumero: TRadioGroup;
+    Label60: TLabel;
+    edtConsumidor: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -428,6 +430,7 @@ type
     procedure rgPesqProdCupomClick(Sender: TObject);
     procedure cbCupomClick(Sender: TObject);
     procedure rgMesmoNumeroClick(Sender: TObject);
+    procedure edtConsumidorChange(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -929,6 +932,10 @@ begin
     Edit14.Text := dm.cds_paramDADOS.AsString;
   end;
 
+  if (dm.cds_param.Locate('PARAMETRO','CONSUMIDOR', [loCaseInsensitive])) then
+  begin
+    edtConsumidor.Text := dm.cds_paramDADOS.AsString;
+  end;
 
   if (dm.cds_parametro.Active) then
     dm.cds_parametro.Close;
@@ -5026,5 +5033,54 @@ begin
 
 end;
 
+
+procedure TfParametro.edtConsumidorChange(Sender: TObject);
+begin
+  inherited;
+  if (edtConsumidor.Text <> '') then
+  begin
+     if (s_parametro.Active) then
+       s_parametro.Close;
+     s_parametro.Params[0].AsString := 'CONSUMIDOR';
+     s_parametro.Open;
+     if (not s_parametro.Eof) then
+     begin
+       if (edtConsumidor.Text <> s_parametroDADOS.AsString) then
+       begin
+          strSql := 'UPDATE PARAMETRO SET DADOS = ';
+          strSql := strSql + QuotedStr(edtConsumidor.Text);
+          strSql := strSql + ' where PARAMETRO = ' + QuotedStr('CONSUMIDOR');
+          dm.sqlsisAdimin.StartTransaction(TD);
+          dm.sqlsisAdimin.ExecuteDirect(strSql);
+          Try
+             dm.sqlsisAdimin.Commit(TD);
+          except
+             dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+                 [mbOk], 0);
+          end;
+       end;
+     end
+     else
+     begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Codigo do Cliente Consumidor') + ', ';
+        strSql := strSql + QuotedStr('CONSUMIDOR') + ', ';
+        strSql := strSql + QuotedStr(edtConsumidor.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+     end;
+  end;
+
+end;
 
 end.
