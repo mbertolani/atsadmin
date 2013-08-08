@@ -1630,7 +1630,6 @@ procedure TfOsFinaliza.btnCupomClick(Sender: TObject);
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
 
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
@@ -1640,6 +1639,7 @@ begin
   sqlBuscaNota.Open;
   if (sqlBuscaNota.IsEmpty) then
   begin
+    dm.sqlsisAdimin.StartTransaction(TD);
     try
       str_sql := 'EXECUTE PROCEDURE GERA_CUPOM(';
       str_sql := str_sql  + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger) + ')';
