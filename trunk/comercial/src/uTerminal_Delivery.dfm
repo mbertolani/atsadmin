@@ -8,8 +8,8 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
   Font.Height = -29
   Font.Name = 'Cooper Blk BT'
   OldCreateOrder = True
-  Position = poDefault
   WindowState = wsMaximized
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 33
