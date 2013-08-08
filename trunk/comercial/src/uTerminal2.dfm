@@ -1778,7 +1778,7 @@ object fTerminal2: TfTerminal2
     Left = 0
     Top = 57
     Width = 473
-    Height = 552
+    Height = 545
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
@@ -1791,8 +1791,8 @@ object fTerminal2: TfTerminal2
       Left = 1
       Top = 1
       Width = 471
-      Height = 550
-      ActivePage = TabVenda
+      Height = 543
+      ActivePage = TabDelivery
       Align = alClient
       PopupMenu = PopupMenu1
       TabOrder = 0
@@ -1803,8 +1803,8 @@ object fTerminal2: TfTerminal2
         object JvImage1: TJvImage
           Left = 0
           Top = 0
-          Width = 463
-          Height = 467
+          Width = 765
+          Height = 370
           Align = alClient
           AutoSize = True
           Center = True
@@ -2567,7 +2567,7 @@ object fTerminal2: TfTerminal2
         end
         object JvPanel5: TJvPanel
           Left = 0
-          Top = 467
+          Top = 460
           Width = 463
           Height = 57
           HotTrackFont.Charset = DEFAULT_CHARSET
@@ -2765,7 +2765,7 @@ object fTerminal2: TfTerminal2
           Left = 0
           Top = 49
           Width = 463
-          Height = 475
+          Height = 468
           Align = alClient
           PopupMenu = PopupMenu1
           TabOrder = 1
@@ -2978,7 +2978,7 @@ object fTerminal2: TfTerminal2
           Left = 0
           Top = 73
           Width = 463
-          Height = 451
+          Height = 444
           Align = alClient
           Ctl3D = False
           DataSource = DM_MOV.d_delivery
@@ -3033,7 +3033,7 @@ object fTerminal2: TfTerminal2
     Left = 473
     Top = 57
     Width = 432
-    Height = 552
+    Height = 545
     HotTrackFont.Charset = DEFAULT_CHARSET
     HotTrackFont.Color = clWindowText
     HotTrackFont.Height = -11
@@ -3167,7 +3167,7 @@ object fTerminal2: TfTerminal2
     end
     object JvPanel7: TJvPanel
       Left = 1
-      Top = 423
+      Top = 416
       Width = 430
       Height = 128
       HotTrackFont.Charset = DEFAULT_CHARSET
@@ -3387,7 +3387,7 @@ object fTerminal2: TfTerminal2
       Left = 1
       Top = 57
       Width = 430
-      Height = 366
+      Height = 359
       Align = alClient
       BorderStyle = bsNone
       Color = clInfoBk
