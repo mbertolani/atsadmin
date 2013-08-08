@@ -1185,7 +1185,7 @@ begin
            Frec.Free;
         end;
       end;
-      dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
+      //dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA');
       dm.sqlsisAdimin.Commit(TD);
       if (cdsENTRADA.AsFloat > 0) then
         baixaEntrada;
