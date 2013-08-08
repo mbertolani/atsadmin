@@ -337,6 +337,7 @@ type
     rgPesqProdCupom: TRadioGroup;
     GroupBox37: TGroupBox;
     cbCupom: TCheckBox;
+    rgMesmoNumero: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -426,6 +427,7 @@ type
     procedure BitBtn41Click(Sender: TObject);
     procedure rgPesqProdCupomClick(Sender: TObject);
     procedure cbCupomClick(Sender: TObject);
+    procedure rgMesmoNumeroClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -4991,5 +4993,38 @@ begin
     dm.cds_parametro.ApplyUpdates(0);
   end;
 end;
+procedure TfParametro.rgMesmoNumeroClick(Sender: TObject);
+begin
+  inherited;
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    MessageDlg('Cadastre a Série primeiro.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.cds_parametro.Edit;
+    if (rgMesmoNumero.ItemIndex = 0) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+    if (rgMesmoNumero.ItemIndex = 1) then
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+
+    dm.cds_parametro.ApplyUpdates(0);
+
+    dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+         [mbOk], 0);
+  end;
+
+end;
+
 
 end.
