@@ -1,4 +1,4 @@
-unit uNotaf;             
+unit uNotaf;
 
 interface
 
@@ -464,7 +464,7 @@ type
     procedure btnCrClick(Sender: TObject);
   private
     { Private declarations }
-    procedure carregaDadosAdicionais;    
+    procedure carregaDadosAdicionais;
     procedure incluiSAida;
     procedure incluiMovimento;
     procedure incluiVenda;
@@ -474,8 +474,8 @@ type
     procedure gravamovimento;
     procedure gravavenda;
     procedure alteraVlrVenda;
-    procedure gravamov_detalhe;      
-    procedure gravanotafiscal;    
+    procedure gravamov_detalhe;
+    procedure gravanotafiscal;
   public
     vrr : double;
     codMovFin, codVendaFin, codCliFin : integer;
@@ -484,6 +484,7 @@ type
     procedure somavalores;
     procedure ativaCalc;
     procedure inativaCalc;
+    procedure gravaSerie(numero: Integer);    
   end;
 
 var
@@ -574,6 +575,7 @@ begin
     dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
     dmnf.scds_serienfe.Open;
     numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+    gravaSerie(StrToInt(numNf));
   end
   else begin
     numNf := IntToStr(DMNF.cds_vendaNOTAFISCAL.AsInteger);
@@ -1514,21 +1516,7 @@ begin
 
   dmnf.cds_venda.ApplyUpdates(0);
 
-  if not dmnf.scds_serie_proc.Active then
-  begin
-     dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
-     dmnf.scds_serie_proc.Open;
-  end;
-  if (not dmnf.scds_serie_proc.IsEmpty) then
-  begin
-    if (dmnf.cds_vendaNOTAFISCAL.AsInteger > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
-    begin
-      dmnf.scds_serie_proc.Edit;
-      dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := dmnf.cds_vendaNOTAFISCAL.AsInteger;
-      dmnf.scds_serie_proc.ApplyUpdates(0);
-    end;
-    dmnf.scds_serie_proc.Close;
-  end;
+  gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
 
   if (scdsCr_proc.Active) then
     scdsCr_proc.Close;
@@ -2340,6 +2328,26 @@ begin
     scdsCr_proc.Open;
   finally
     fCrAltera.Free;
+  end;
+
+end;
+
+procedure TfNotaf.gravaSerie(numero: Integer);
+begin
+  if not dmnf.scds_serie_proc.Active then
+  begin
+     dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+     dmnf.scds_serie_proc.Open;
+  end;
+  if (not dmnf.scds_serie_proc.IsEmpty) then
+  begin
+    if (numero > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
+    begin
+      dmnf.scds_serie_proc.Edit;
+      dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := numero;
+      dmnf.scds_serie_proc.ApplyUpdates(0);
+    end;
+    dmnf.scds_serie_proc.Close;
   end;
 
 end;
