@@ -752,7 +752,7 @@ object fNFeletronica: TfNFeletronica
         Top = 17
         Width = 366
         Height = 138
-        ActivePage = TabSheet6
+        ActivePage = TabSheet1
         TabOrder = 3
         object TabSheet1: TTabSheet
           Caption = 'Normal'
