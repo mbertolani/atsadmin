@@ -1,7 +1,7 @@
 object DMNF: TDMNF
   OldCreateOrder = False
   Left = 76
-  Top = 27
+  Top = 28
   Height = 669
   Width = 891
   object sCliente: TSQLDataSet
@@ -7158,10 +7158,9 @@ object DMNF: TDMNF
       end>
     SQL.Strings = (
       
-        'select first 1 cast(nf.NOTASERIE as integer) NOTASERIE, nf.NOTAF' +
-        'ISCAL, nf.SERIE from NOTAFISCAL nf '
-      'where nf.SERIE = :SERIE'
-      'order by cast(nf.NOTASERIE as integer) desc')
+        'select ULTIMO_NUMERO NOTASERIE, ULTIMO_NUMERO NOTAFISCAL, SERIE ' +
+        'from SERIES'
+      'where SERIE = :SERIE')
     SQLConnection = DM.sqlsisAdimin
     Left = 768
     Top = 368
