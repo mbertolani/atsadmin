@@ -11,6 +11,7 @@ object fOsFinaliza: TfOsFinaliza
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  PopupMenu = pm1
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
@@ -21,6 +22,7 @@ object fOsFinaliza: TfOsFinaliza
     Top = 0
     Width = 825
     Height = 65
+    PopupMenu = pm1
     TabOrder = 0
     object lbl1: TLabel
       Left = 599
@@ -41,6 +43,7 @@ object fOsFinaliza: TfOsFinaliza
       Top = 2
       Width = 48
       Height = 45
+      PopupMenu = pm1
       TabOrder = 0
       Visible = False
       OnClick = btnIncluirClick
@@ -182,6 +185,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Gravar'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 1
       OnClick = JvGravarClick
@@ -297,6 +301,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Excluir'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 2
       OnClick = JvExcluirClick
@@ -438,6 +443,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Nota Fiscal'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 3
       OnClick = btnNotaFiscalClick
@@ -521,6 +527,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Cupom/Recibo'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 4
       OnClick = JvBitBtn1Click
@@ -636,6 +643,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Imprimir Carn'#234
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 5
       Glyph.Data = {
@@ -776,6 +784,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Boletos'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 6
       Glyph.Data = {
@@ -912,6 +921,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'F9 - Sair'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 7
       OnClick = JvSairClick
@@ -1048,6 +1058,7 @@ object fOsFinaliza: TfOsFinaliza
       Height = 45
       Hint = 'Cupom Fiscal'
       ParentShowHint = False
+      PopupMenu = pm1
       ShowHint = True
       TabOrder = 9
       OnClick = btnCupomClick
@@ -1194,6 +1205,7 @@ object fOsFinaliza: TfOsFinaliza
     Top = 72
     Width = 641
     Height = 505
+    PopupMenu = pm1
     TabOrder = 1
     object JvGroupHeader3: TJvGroupHeader
       Left = 2
@@ -1636,6 +1648,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 0
     end
     object DBEdit8: TDBEdit
@@ -1673,6 +1686,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 2
     end
     object DBEdit14: TDBEdit
@@ -1709,6 +1723,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 4
       OnExit = dbeSerieExit
     end
@@ -1736,6 +1751,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 6
     end
     object DBEdit3: TDBEdit
@@ -1753,6 +1769,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 7
     end
     object cbPrazo: TJvComboBox
@@ -1768,6 +1785,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 8
       Text = 'PRAZO'
       OnChange = cbPrazoChange
@@ -1791,6 +1809,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       ReadOnly = True
       TabOrder = 9
     end
@@ -1807,6 +1826,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 10
     end
     object DBEdit1: TDBEdit
@@ -1824,6 +1844,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 11
     end
     object cbConta: TComboBox
@@ -1839,6 +1860,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 12
     end
     object ComboBox2: TComboBox
@@ -1854,6 +1876,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 13
     end
     object JvDBGrid1: TJvDBGrid
@@ -2154,6 +2177,7 @@ object fOsFinaliza: TfOsFinaliza
     Top = 72
     Width = 185
     Height = 505
+    PopupMenu = pm1
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
       Left = 1
@@ -2300,6 +2324,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 0
     end
     object jvDesc: TJvValidateEdit
@@ -2318,6 +2343,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 1
       OnExit = jvDescExit
     end
@@ -2338,6 +2364,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 2
       OnExit = jvDescontoExit
     end
@@ -2358,6 +2385,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 3
       OnExit = jvAcrescimoExit
     end
@@ -2379,6 +2407,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       ReadOnly = True
       TabOrder = 4
     end
@@ -2408,6 +2437,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 6
       OnExit = jvPagoExit
     end
@@ -2428,6 +2458,7 @@ object fOsFinaliza: TfOsFinaliza
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
+      PopupMenu = pm1
       TabOrder = 7
     end
   end
@@ -2952,6 +2983,25 @@ object fOsFinaliza: TfOsFinaliza
       FieldName = 'TotalPedido'
       Active = True
       Expression = 'SUM(valtotal)'
+    end
+  end
+  object pm1: TPopupMenu
+    Left = 650
+    Top = 496
+    object F2Incluir1: TMenuItem
+      Caption = 'F2-Incluir'
+      ShortCut = 113
+      OnClick = btnIncluirClick
+    end
+    object F4Gravar1: TMenuItem
+      Caption = 'F4-Gravar'
+      ShortCut = 115
+      OnClick = JvGravarClick
+    end
+    object F9Sair1: TMenuItem
+      Caption = 'F9-Sair'
+      ShortCut = 120
+      OnClick = JvSairClick
     end
   end
 end

@@ -8,7 +8,8 @@ uses
   JvExStdCtrls, JvEdit, JvValidateEdit, JvLabel, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, JvCombobox, Mask, DBCtrls, JvExControls,
   JvGroupHeader, FMTBcd, DB, SqlExpr, DBClient, Provider, DBxPress, uReceberCls, uUtils,
-  DBLocal, DBLocalS, JvSpeedButton, rpcompobase, rpvclreport, Printers;
+  DBLocal, DBLocalS, JvSpeedButton, rpcompobase, rpvclreport, Printers,
+  Menus;
 
 type
   TfOsFinaliza = class(TForm)
@@ -172,6 +173,10 @@ type
     btnAlteraRec: TBitBtn;
     btnCancelaBaixa: TBitBtn;
     btnCupom: TJvBitBtn;
+    pm1: TPopupMenu;
+    F2Incluir1: TMenuItem;
+    F4Gravar1: TMenuItem;
+    F9Sair1: TMenuItem;
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure JvSairClick(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
@@ -531,10 +536,23 @@ begin
   ', STATUS = ' + '0 ' +
   ' where CODMOVIMENTO = ' + IntToStr(DM_MOV.c_vendaCODMOVIMENTO.AsInteger);
 
+  if not scds_serie_proc.Active then
+  begin
+     scds_serie_proc.Params[0].AsString:=dbeSerie.Text;
+     scds_serie_proc.Open;
+  end;
+
   Try
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
     dm.sqlsisAdimin.ExecuteDirect(str_sql);
+    if (StrToInt(DBEdit2.Text) > scds_serie_procULTIMO_NUMERO.AsInteger) then
+    begin
+      scds_serie_proc.Edit;
+      scds_serie_procULTIMO_NUMERO.AsInteger := StrToInt(DBEdit2.Text);
+      scds_serie_proc.ApplyUpdates(0);
+    end;
+
     try
       FRec := TReceberCls.Create;
       FRec.geraTitulo(0, osfinaliza_codvenda);
@@ -551,7 +569,7 @@ begin
   end;
   DecimalSeparator := ',';
   ThousandSeparator := '.';
-
+  scds_serie_proc.Close;
 end;
 
 procedure TfOsFinaliza.btnIncluirClick(Sender: TObject);
@@ -646,7 +664,10 @@ begin
   if DM_MOV.d_venda.State in [dsInsert,dsEdit] then
   begin
     if dbeSerie.Text = '' then
+    begin
+      MessageDlg('Informe a Série.', mtWarning,[mbOk], 0);
       exit;
+    end;
     if scds_serie_proc.Active then
       scds_serie_proc.Close;
     scds_serie_proc.Params[0].AsString := dbeSerie.Text;
