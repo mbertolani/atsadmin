@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = tsCupom
+    ActivePage = TabPDV
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -579,7 +579,7 @@ inherited fParametro: TfParametro
       end
       object rgMesmoNumero: TRadioGroup
         Left = 384
-        Top = 61
+        Top = 60
         Width = 417
         Height = 49
         Caption = 'Utilizar a mesma N'#250'mera'#231#227'o da Finaliza'#231#227'o da Venda'
@@ -3493,6 +3493,13 @@ inherited fParametro: TfParametro
             Height = 13
             Caption = 'Conta Usada para Contole Caixinha'
           end
+          object Label60: TLabel
+            Left = 11
+            Top = 312
+            Width = 160
+            Height = 13
+            Caption = 'C'#243'digo do Cliente CONSUMIDOR'
+          end
           object edt1: TEdit
             Left = 9
             Top = 28
@@ -3569,6 +3576,14 @@ inherited fParametro: TfParametro
             BorderStyle = bsNone
             TabOrder = 7
             OnChange = edtCaixinhaChange
+          end
+          object edtConsumidor: TEdit
+            Left = 9
+            Top = 328
+            Width = 229
+            Height = 21
+            TabOrder = 8
+            OnChange = edtConsumidorChange
           end
         end
       end
