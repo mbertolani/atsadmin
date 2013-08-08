@@ -2083,8 +2083,8 @@ var
   ScreenHeight: LongInt;
   ScreenWidth: LongInt;
   //CUPOM
-  codcli : Integer;
-  nomecli, telefonecli, enderecocli : string;
+  //codcli : Integer;
+  //nomecli, telefonecli, enderecocli : string;
   //CUPOM
 
 implementation
@@ -2099,6 +2099,7 @@ procedure TDM.DataModuleCreate(Sender: TObject);
 var index, I: integer;
   s, sqlT : String;
 begin
+  sistemaLiberado := 'S';
   danfeDec := 2;
   MICRO := NomeComputador;
   dm.dataComputador := StrToDate('20/07/2013');
