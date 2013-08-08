@@ -577,6 +577,20 @@ inherited fParametro: TfParametro
           OnClick = BitBtn41Click
         end
       end
+      object rgMesmoNumero: TRadioGroup
+        Left = 384
+        Top = 61
+        Width = 417
+        Height = 49
+        Caption = 'Utilizar a mesma N'#250'mera'#231#227'o da Finaliza'#231#227'o da Venda'
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'N'#227'o - Somente N'#250'mero da Nota'
+          'Sim - Mesmo N'#250'mero do T'#237'tulo')
+        TabOrder = 6
+        OnClick = rgMesmoNumeroClick
+      end
     end
     object TabSheet2: TTabSheet
       Caption = 'Dados obrigat'#243'rios'
