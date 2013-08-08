@@ -12,8 +12,8 @@ inherited fEmpresa: TfEmpresa
   PixelsPerInch = 96
   TextHeight = 33
   inherited MMJPanel1: TMMJPanel
-    Top = 571
-    Width = 779
+    Top = 575
+    Width = 787
     inherited btnCancelar: TBitBtn [0]
       Font.Charset = ANSI_CHARSET
       Font.Height = -12
@@ -63,7 +63,7 @@ inherited fEmpresa: TfEmpresa
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 779
+    Width = 787
     inherited Label1: TLabel
       Left = 151
       Top = -78
@@ -106,8 +106,8 @@ inherited fEmpresa: TfEmpresa
   object JvPageControl1: TJvPageControl [2]
     Left = 0
     Top = 54
-    Width = 779
-    Height = 517
+    Width = 787
+    Height = 521
     ActivePage = TabSheet1
     Align = alClient
     Font.Charset = ANSI_CHARSET
@@ -128,8 +128,8 @@ inherited fEmpresa: TfEmpresa
       object JvCaptionPanel1: TJvCaptionPanel
         Left = 0
         Top = 0
-        Width = 771
-        Height = 488
+        Width = 779
+        Height = 492
         Align = alClient
         Buttons = []
         CaptionPosition = dpTop
@@ -1263,7 +1263,7 @@ inherited fEmpresa: TfEmpresa
       object Label31: TLabel
         Left = 26
         Top = 94
-        Width = 279
+        Width = 280
         Height = 14
         Caption = 'Codigo indicador da incidencia tribut'#225'ria no per'#237'odo (0110)'
       end
@@ -1279,7 +1279,7 @@ inherited fEmpresa: TfEmpresa
       object Label33: TLabel
         Left = 27
         Top = 145
-        Width = 386
+        Width = 387
         Height = 14
         Caption = 
           'no caso  de incidencia no regime n'#227'o cumulativo(COD_INC_TRIB = 1' +
@@ -1288,7 +1288,7 @@ inherited fEmpresa: TfEmpresa
       object Label34: TLabel
         Left = 26
         Top = 182
-        Width = 325
+        Width = 327
         Height = 14
         Caption = 
           'C'#243'digo indicador do Tipo de Contribui'#231#227'o Apurada no Per'#237'odo(0110' +
@@ -1318,7 +1318,7 @@ inherited fEmpresa: TfEmpresa
       object Label38: TLabel
         Left = 24
         Top = 367
-        Width = 480
+        Width = 482
         Height = 14
         Caption = 
           'C'#243'digo da Base de C'#225'lculo do Cr'#233'dito - {NAT_BC_CRED} - 4.3.7 - T' +
@@ -1678,7 +1678,7 @@ inherited fEmpresa: TfEmpresa
       object Label52: TLabel
         Left = 30
         Top = 211
-        Width = 41
+        Width = 42
         Height = 14
         Caption = 'Telefone'
       end

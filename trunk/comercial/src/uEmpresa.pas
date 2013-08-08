@@ -324,11 +324,10 @@ end;
 
 procedure TfEmpresa.btnGravarClick(Sender: TObject);
 begin
-
-   if (not dm.cds_ccusto.Active) then
-     dm.cds_ccusto.Open;
-   dm.cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
-       DM.cds_empresaCCusto.asInteger := dm.cds_ccustoCODIGO.AsInteger;
+  if (not dm.cds_ccusto.Active) then
+    dm.cds_ccusto.Open;
+  dm.cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+  DM.cds_empresaCCusto.asInteger := dm.cds_ccustoCODIGO.AsInteger;
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
@@ -343,7 +342,11 @@ begin
     abort;
   end;
   inherited;
-
+  case dm.cds_empresaCRT.AsInteger of
+   0 : DM.regimeEmpresa := 'SIMPLES';
+   1 : DM.regimeEmpresa := 'SIMPLES';
+   2 : DM.regimeEmpresa := 'NORMAL';
+  end;
 end;
 
 procedure TfEmpresa.BitBtn3Click(Sender: TObject);
