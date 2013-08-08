@@ -441,17 +441,14 @@ type
     procedure BitBtn9Click(Sender: TObject);
     procedure CadProdutos1Click(Sender: TObject);
     procedure Clientes1Click(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
      codproduto : integer;
-     cod_nat : integer;
-     natureza : string;
      cod_vendedor_padrao : integer;
      nome_vendedor_padrao : string;
      codcliente : integer;
      precovenda : double;
      centro_receita : integer;
-     codalmoxarif: integer;
      tiporel: string;
      servico : string;
      codserv : integer;
@@ -610,8 +607,8 @@ begin
 
   if DtSrc.DataSet.State in [dsInsert] then
   begin
-    cds_MovimentoCODNATUREZA.AsInteger := cod_nat;
-    cds_MovimentoDESCNATUREZA.AsString := natureza;
+    cds_MovimentoCODNATUREZA.AsInteger := 7;
+    cds_MovimentoDESCNATUREZA.AsString := 'CUPOM FISCAL';
     cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
     cds_MovimentoNOMEUSUARIO.AsString := nome_vendedor_padrao;
     cds_MovimentoCODCLIENTE.AsInteger := 0;
@@ -856,7 +853,7 @@ end;
 
 procedure TfTerminal_Delivery.FormCreate(Sender: TObject);
 begin
-
+  frmPrincipal := TfrmPrincipal.Create(Application);
   if (FileExists('logo_cupom.jpg')) then
     Image1.Picture.LoadFromFile('logo_cupom.jpg');
 
@@ -891,10 +888,25 @@ begin
      dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].AsString := 'PDV';
   dm.cds_parametro.Open;
-  cod_nat := strToint(dm.cds_parametroD2.asString);
-  natureza := 'Venda a Vista';
-  codcliente := strToint(dm.cds_parametroDADOS.asString);
-  codalmoxarif := strToint(dm.cds_parametroD1.asString);
+  if ((dm.cds_parametroD2.IsNull) or (dm.cds_parametroD2.AsString = '')) then
+  begin
+    MessageDlg('Informe a Natureza da Operação Cupom, no Campo D2 no parametro PDV.', mtWarning, [mbOK], 0);
+    Exit;
+  end;
+  //cod_nat := strToint(dm.cds_parametroD2.asString);
+  //natureza := 'Venda a Vista';
+  //if ((dm.cds_parametroDADOS.IsNull) or (dm.cds_parametroDADOS.AsString = '')) then
+  //begin
+  //  MessageDlg('Informe a Codigo cliente CONSUMIDOR , no Campo DADOS no parametro PDV.', mtWarning, [mbOK], 0);
+  //  Exit;
+  //end;
+  //codcliente := strToint(dm.cds_parametroDADOS.asString);
+  //if ((dm.cds_parametroD1.IsNull) or (dm.cds_parametroD1.AsString = '')) then
+  //begin
+  //  MessageDlg('Informe a Codigo Centro Custo , no Campo D1 no parametro PDV.', mtWarning, [mbOK], 0);
+  //  Exit;
+  //end;
+  //codalmoxarif := strToint(dm.cds_parametroD1.asString);
   tiporel := dm.cds_parametroD3.asString;
 
   {------Pesquisando na tab Parametro qual form de Procura Produtos ---}
@@ -970,21 +982,25 @@ var str_sql : string;
     utilcrtitulo : Tutils;
     i, j : integer;
 begin
-  inherited;
+  //inherited;
   sCtrlResize.CtrlResize(TForm(fTerminal_Delivery));
-  frmPrincipal := TfrmPrincipal.Create(Application);
+
   if (not Caixa.Active) then
     Caixa.Open;
   if (Caixa.IsEmpty) then
     dm.situacaoCaixa := 'Fechado';
   Caixa.Close;    
   utilcrtitulo := Tutils.Create;
-  // Popula Status
-  j := utilcrtitulo.Forma.Count;
-  for i := 0 to j - 1 do
-  begin
-    ComboBox2.Items.Add(utilcrtitulo.Forma.Strings[i]);
-    ComboBox4.Items.Add(utilcrtitulo.Forma.Strings[i]);
+  try
+    // Popula Status
+    j := utilcrtitulo.Forma.Count;
+    for i := 0 to j - 1 do
+    begin
+      ComboBox2.Items.Add(utilcrtitulo.Forma.Strings[i]);
+      ComboBox4.Items.Add(utilcrtitulo.Forma.Strings[i]);
+    end;
+  finally
+    utilcrtitulo.Free;
   end;
 
   if DM.c_1_planoc.Active then
@@ -1197,8 +1213,12 @@ begin
   strSql := strSql + ',0'; //desconto
   strSql := strSql + ',' + IntToStr(cds_MovimentoCODALMOXARIFADO.AsInteger);//CODCUSTO
   strSql := strSql + ',1,';
-  utilcrtitulo := Tutils.Create;
-  strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox2.Text));
+  try
+    utilcrtitulo := Tutils.Create;
+    strSql := strSql + QuotedStr(utilcrtitulo.pegaForma(ComboBox2.Text));
+  finally
+    utilcrtitulo.Free;
+  end;
   DecimalSeparator := '.';
   ThousandSeparator := ',';
   strSql := strSql + ',' + FloatToStr(total);
@@ -1259,7 +1279,7 @@ begin
     end;
   DecimalSeparator := '.';
   ThousandSeparator := ',';
-  vApagar := StrToFloat(jvPago.Text);
+  vApagar := StrToFloat(jvPago.Value);
   strSql := strSql + FloatToStr(total);
   strSql := strSql + ', APAGAR = ';
   strSql := strSql + FloatToStr(vApagar);
@@ -1338,11 +1358,11 @@ begin
     exit;
   end;
 
-  if (cds_MovimentoCODNATUREZA.AsInteger <> 3) then
+  if (cds_MovimentoCODNATUREZA.AsInteger <> 7) then
   begin
     if (cds_Movimento.State in [dsBrowse]) then
       cds_movimento.Edit;
-    cds_MovimentoCODNATUREZA.AsInteger := 3; //Venda
+    cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
     cds_Movimento.ApplyUpdates(0);
   end;
 
@@ -1361,7 +1381,7 @@ begin
    if (cds_Mov_det.Active) then
      cds_Mov_det.Close;
    cds_Mov_det.Params[0].Clear;
-   cds_Mov_det.Params[1].AsInteger := StrToInt(vCODMOV);
+   cds_Mov_det.Params[1].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
    cds_Mov_det.Open;
 
    if (ComboBox1.Text = 'À VISTA') then
@@ -1390,21 +1410,21 @@ procedure TfTerminal_Delivery.BitBtn2Click(Sender: TObject);
 begin
   inherited;
   try
-    codcli := 0;
-    nomecli := '';
+    dm.codcli := 0;
+    dm.nomecli := '';
     if (cds_Movimento.State in [dsBrowse]) then
     begin
       cds_Movimento.edit;
-      cds_MovimentoCODCLIENTE.AsInteger := codcli;
+      cds_MovimentoCODCLIENTE.AsInteger := dm.codcli;
       cds_Movimento.ApplyUpdates(0);
     end
     else
-      cds_MovimentoCODCLIENTE.AsInteger := codcli;
+      cds_MovimentoCODCLIENTE.AsInteger := dm.codcli;
     Edit3.Text := '';
-    Edit4.Text := IntToStr(codcli);
-    Edit2.Text := nomecli;
-    Edit1.Text := telefonecli;
-    Edit3.Text := enderecocli;
+    Edit4.Text := IntToStr(dm.codcli);
+    Edit2.Text := dm.nomecli;
+    //Edit1.Text := telefonecli;
+    //Edit3.Text := enderecocli;
     dbeProduto.SetFocus;
   finally
 
@@ -1466,8 +1486,17 @@ begin
   Else
   Begin
     iRetorno := Bematech_FI_AbreCupom( Pchar( '' ) );
-    frmPrincipal.Analisa_iRetorno();
-    frmPrincipal.Retorno_Impressora();
+    If (iRetorno <> 1) Or (iRetorno = -27) Then
+    begin
+       //VerificaRetornoFuncaoImpressoraMFD(iRetorno);
+      MessageDlg('Erro na porta da Impressora, verifique o arquivo BemaFi32.ini no System32.', mtWarning, [mbOK], 0);
+      Exit;
+    end  
+    Else
+    begin
+      frmPrincipal.Analisa_iRetorno();
+      frmPrincipal.Retorno_Impressora();
+    end;
   End;
 
   DecimalSeparator := '.';
@@ -1767,11 +1796,11 @@ end;
 
 procedure TfTerminal_Delivery.buscacliente;
 begin
-  fProcurar_nf:= TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
-  fProcurar_nf.BtnProcurar.Click;
-  fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
-  fProcurar_nf.btnIncluir.Visible := True;
+  fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
   try
+    fProcurar_nf.BtnProcurar.Click;
+    fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
+    fProcurar_nf.btnIncluir.Visible := True;
     if (fProcurar_nf.ShowModal = mrOK) then
     begin
       if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
@@ -1810,7 +1839,7 @@ begin
       fFiltroMovimento.ComboBox1.Items.Add(dmnf.cds_ccustoNOME.AsString);
       dmnf.cds_ccusto.Next;
     end;
-
+    DM.tipoVenda := 'CUPOM';
     fFiltroMovimento.ShowModal;
 
     cds_Movimento.Close;
@@ -2007,7 +2036,7 @@ begin
   end;
 
   if (RadioGroup1.ItemIndex = 2) then
-      cds_MovimentoCODNATUREZA.AsInteger := 3; //Venda
+      cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
    cds_Movimento.ApplyUpdates(0);
    Refresh;
    cod_mov := cds_MovimentoCODMOVIMENTO.AsInteger;
@@ -2177,11 +2206,10 @@ begin
   end;
 end;
 
-procedure TfTerminal_Delivery.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfTerminal_Delivery.FormDestroy(Sender: TObject);
 begin
-  inherited;
   frmPrincipal.Free;
+  inherited;
 end;
 
 end.
