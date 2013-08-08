@@ -69,6 +69,7 @@ begin
         MessageDlg('NF CANCELADA no SEFAZ, não pode ser excluida do sistema.', mtWarning, [mbOK], 0);
         exit;
       end;
+      fNotaf.gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
       if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
       begin
         dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = null' +
