@@ -2062,6 +2062,7 @@ type
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto, resultadoOperacao, USACONTROLECAIXA : String;
     corEnd, corStart: TColor;
+    regimeEmpresa: string;
     Function Arredondar(value: double;casas : integer): double;
     Function NomeComputador: string;
     function validaCfop(cfop: String):Boolean;
@@ -2349,6 +2350,11 @@ begin
   cidadePadrao := cds_empresaCIDADE.AsString;
   cepPadrao    := cds_empresaCEP.AsString;
   ibgePadrao   := cds_empresaCD_IBGE.AsString;
+  case dm.cds_empresaCRT.AsInteger of
+   0 : regimeEmpresa := 'SIMPLES';
+   1 : regimeEmpresa := 'SIMPLES';
+   2 : regimeEmpresa := 'NORMAL';
+  end;
 
   S := '';
   for I := 1 To Length(cds_empresaCNPJ_CPF.AsString) Do
