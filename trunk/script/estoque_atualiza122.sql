@@ -12,14 +12,15 @@ RETURNS
 AS 
  declare variable codM integer;
 BEGIN
+  if (codMovimento > 0) then 
+    codM = codMovimento - 3;
+
   if (codMovimento = 0) then 
   begin
     select max(codmovimento) from MOVIMENTO
       into :codMovimento;
     codM = 0;
   end  
-  if (codMovimento > 0) then 
-    codM = codMovimento - 3;
     
   for SELECT DISTINCT MD.CODPRODUTO, M.CODALMOXARIFADO , coalesce(MD.LOTE,'0')
      , coalesce(p.LOTES, 'N'), coalesce(lt.CODLOTE,0) CODLOTE 
