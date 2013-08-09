@@ -1456,7 +1456,7 @@ begin
     fTerminal_Delivery.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
     valorUnitario := cds_procPRECO_VENDA.AsFloat;
     fTerminal_Delivery.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
-    fTerminal_Delivery.estoque := cds_procESTOQUEATUAL.AsFloat;
+    dmnf.estoque := cds_procESTOQUEATUAL.AsFloat;
     fTerminal_Delivery.cds_Mov_det.Post;
 end;
 
