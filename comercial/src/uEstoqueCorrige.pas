@@ -37,6 +37,7 @@ type
     cbGrupo: TComboBox;
     lblUltimo: TLabel;
     Button3: TButton;
+    lblAtualizando: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -511,10 +512,38 @@ begin
 end;
 
 procedure TfEstoqueCorrige.Button3Click(Sender: TObject);
+var str: String;
+  Save_Cursor:TCursor;
 begin
   if  MessageDlg('Confirma a atualização do estoque ? ',
     mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
+  Save_Cursor := Screen.Cursor;
+  Try
+    lblAtualizando.Visible := True;
+    lblAtualizando.Caption := 'Atualizando ....';  
+    Screen.Cursor := crHourGlass;
     dm.EstoqueAtualiza(0);
+    if (cdsB.Active) then
+    cdsB.Close;
+    str := 'SELECT count(CODMOVIMENTO) CODMOV from MOVIMENTO ';
+    cdsB.CommandText := str;
+    cdsB.Open;
+    cdsB.Close;
+    str := 'SELECT CODMOVIMENTO from MOVIMENTO ';
+    cdsB.CommandText := str;
+    cdsB.Open;
+    prog2.Max := cdsB.RecordCount;
+    while not cdsb.Eof do
+    begin
+      sleep(350);
+      prog2.Position := cdsB.RecNo;
+      cdsB.Next;
+    end;
+  finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
+    lblAtualizando.Caption := 'Atualizado.';
+  end;
+  MessageDlg('Estoque atualizado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 end.
