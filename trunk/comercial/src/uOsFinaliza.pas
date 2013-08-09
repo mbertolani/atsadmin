@@ -764,7 +764,8 @@ begin
   end
   else
   begin
-    JvComissao.Value  :=  DM_MOV.c_vendaCOMISSAO.Value;
+    OSFinalizaStatus  := 'FINALIZADO';
+    JvComissao.Value  := DM_MOV.c_vendaCOMISSAO.Value;
     jvApagar.Value    := DM_MOV.c_vendaVALOR.Value;
     jvTotal.Value     := DM_MOV.c_vendaVALOR.Value;
     jvDesconto.Value  := DM_MOV.c_vendaDESCONTO.Value;
@@ -1183,14 +1184,14 @@ begin
     ' - ' + dm.cds_empresaCEP.Value;
   fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
     ' / ' + dm.cds_empresaFONE_2.Value;
-  Texto  := '------------------------------------------------------' ;
+  Texto  := '-------------------------------------------------' ;
   Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
     IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
-  Texto2 := '------------------------------------------------------' ;
-  Texto3 := 'Produto                                               ' ;
-  Texto4 := 'Cod.Barra          UN      Qtde     V.Un.     V.Total ' ;
-  Texto5 := DateTimeToStr(Now) + '            Total.: R$   ';
-  Texto8 := '                           Desconto.: R$   ';
+  Texto2 := '-------------------------------------------------' ;
+  Texto3 := 'Produto                                          ' ;
+  Texto4 := 'Cod.Barra      UN     Qtde     V.Un.     V.Total ' ;
+  Texto5 := DateTimeToStr(Now) + '       Total.: R$   ';
+  Texto8 := '                      Desconto.: R$   ';
   cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
   if (s_parametro.Active) then
     s_parametro.close;
@@ -1221,7 +1222,7 @@ begin
       imprimeDLLBema
     else
       imprimeCupom;
-    exit;  
+    exit;
   end;
 
   if Dm.cds_parametro.Active then
@@ -1649,6 +1650,11 @@ end;
 
 procedure TfOsFinaliza.btnCupomClick(Sender: TObject);
 begin
+  if (OSFinalizaStatus <> 'FINALIZADO') then
+  begin
+    MessageDlg('Finalize primeiro, antes de abrir o Cupom, (F4-Gravar);', mtWarning, [mbOK], 0);
+    exit;
+  end;
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
 
