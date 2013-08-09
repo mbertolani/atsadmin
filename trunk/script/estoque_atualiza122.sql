@@ -14,6 +14,8 @@ AS
 BEGIN
   if (codMovimento > 0) then 
     codM = codMovimento - 3;
+  if (codM < 0) then 
+    codM = 1;  
 
   if (codMovimento = 0) then 
   begin
