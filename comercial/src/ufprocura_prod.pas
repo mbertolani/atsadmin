@@ -799,7 +799,8 @@ begin
     formestoque;
   if (var_F = 'MovEstoque') then
     formMovEstoque;
-
+  if (var_F = 'cupom') then
+    formCupom;
   if (var_F = 'cadfornecedor') then
     formcadfornecedor;
   if (var_F = 'terminalloja') then
@@ -937,21 +938,21 @@ var
 begin
   inherited;
   if   var_F = 'venda' then
-   if fVendas.cds_Mov_detLOTE.AsString <> '' then
-   begin
-       if fVendas.cdslotes.Active then
-          fVendas.cdslotes.Close;
-       fVendas.cdslotes.Params[0].AsString := cds_procLOTES.AsString;
-       fVendas.cdslotes.Open;
-       total := fVendas.cdslotesESTOQUE.Value - Edit4.Value;
-       if (total < 0) then
-       begin
-         MessageDlg('Estoque insuficiente para essa venda', mtWarning, [mbOK], 0);
-         fVendas.cdslotes.Close;
-         exit;
-       end;
-       fVendas.cdslotes.Close;
-   end;
+  if ((fVendas.cds_Mov_detLOTE.AsString <> '') and (fVendas.cds_Mov_detLOTE.AsString <> '0')) then
+  begin
+    if fVendas.cdslotes.Active then
+      fVendas.cdslotes.Close;
+    fVendas.cdslotes.Params[0].AsString := cds_procLOTES.AsString;
+    fVendas.cdslotes.Open;
+    total := fVendas.cdslotesESTOQUE.Value - Edit4.Value;
+    if (total < 0) then
+    begin
+      MessageDlg('Estoque insuficiente para essa venda', mtWarning, [mbOK], 0);
+      fVendas.cdslotes.Close;
+      exit;
+    end;
+    fVendas.cdslotes.Close;
+ end;
 end;
 
 procedure TfProcura_prod.SpeedButton1Click(Sender: TObject);
