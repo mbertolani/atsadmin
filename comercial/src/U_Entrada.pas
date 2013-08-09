@@ -1551,6 +1551,11 @@ end;
 procedure TF_Entrada.btnCupomClick(Sender: TObject);
 var str_sql : string;
 begin
+  if (fTerminal2.var_FINALIZOU <> 'SIM') then
+  begin
+    MessageDlg('Execute a Finalização para ir para o Cupom.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if (fTerminal2.var_FINALIZOU = 'SIM') then
   begin
     if (sqlBuscaNota.Active) then
