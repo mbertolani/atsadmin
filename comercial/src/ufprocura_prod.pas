@@ -229,6 +229,7 @@ type
     procedure formterminal;
     procedure formitens;
     procedure formterminaldelivery;
+    procedure formCupom;
     procedure formestoque;
     procedure formentrasai;
     procedure formcadfornecedor;
@@ -2040,6 +2041,69 @@ begin
     DM_MOV.c_DeliveryTIPO_PEDIDO.AsString := 'D';
     DM_MOV.c_Delivery.ApplyUpdates(0);
   end;
+end;
+
+procedure TfProcura_prod.formCupom;
+var strSql : string;
+   unitario, qtd : double;
+begin
+   if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+   dm.cds_parametro.Params[0].AsString := 'ESTOQUENEGATIVO';
+   dm.cds_parametro.Open;
+
+   if (not dm.cds_parametro.IsEmpty) then
+   begin
+      if (cds_procESTOQUEATUAL.Value <= 0) then
+      begin
+        saldo_negativo := 'TRUE';
+        ShowMessage('Produto com saldo negativo !');
+        dm.cds_parametro.Close;
+        Exit;
+      end;
+   end;
+   dm.cds_parametro.Close;
+
+   TD.TransactionID := 1;
+   TD.IsolationLevel := xilREADCOMMITTED;
+
+   if dm.c_6_genid.Active then
+     dm.c_6_genid.Close;
+   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+   dm.c_6_genid.Open;
+
+   strSql := 'INSERT INTO MOVIMENTODETALHE (CODDETALHE, STATUS, CODALMOXARIFADO, CODMOVIMENTO';
+   strSql := strSql + ',CODPRODUTO ,DESCPRODUTO ,QUANTIDADE ,PRECO, UN, PRECOCUSTO) VALUES (';
+   strSql := strSql + IntToStr(dm.c_6_genid.Fields[0].AsInteger) + ', ';
+   dm.c_6_genid.Close;
+
+   strSql := strSql + '0' + ', '; //0=Ativo, 1=Cancelado, 2=Excluido
+   strSql := strSql + IntToStr(cds_procCODALMOXARIFADO.AsInteger) + ', ';
+
+   strSql := strSql + IntToStr(DM_MOV.ID_DO_MOVIMENTO) + ', ';
+
+   strSql := strSql + IntToStr(cds_procCODPRODUTO.AsInteger) + ', ';
+   strSql := strSql + QuotedStr(cds_procPRODUTO.Value) + ', ';
+   DecimalSeparator := ',';
+   qtd := StrToFloat(Edit3.Text);
+   unitario := StrToFloat(Edit4.Text);
+   DecimalSeparator := '.';
+   strSql := strSql + FloatToStr(qtd) + ', '; // Quantidade
+   strSql := strSql + FloatToStr(unitario) + ', '; // Valor Unitario
+   strSql := strSql + QuotedStr(cds_procUNIDADEMEDIDA.AsString) + ', ';  // UN
+   strSql := strSql + FloatToStr(cds_procPRECOMEDIO.AsFloat) + ')';  // Preço
+   valorUnitario := cds_procPRECO_VENDA.AsFloat;
+   DecimalSeparator := ',';
+
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       MessageDlg('Erro no sistema, o item não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
 end;
 
 end.
