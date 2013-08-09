@@ -2030,11 +2030,11 @@ begin
         msgImpressora;
         exit;
       end;
-      buffer  := Format('%-13s  ',[DM_MOV.c_movdetCODPRO.Value]);
-      buffer  := buffer + Format('  %2s  ',[DM_MOV.c_movdetUN.Value]);
-      buffer  := buffer + Format(' %6.3n',[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
-      buffer  := buffer + Format('   %6.2n',[DM_MOV.c_movdetPRECO.AsFloat]);
-      buffer  := buffer + Format('   %8.2n',[DM_MOV.c_movdetValorTotal.value]);
+      buffer  := Format('%-13s',[DM_MOV.c_movdetCODPRO.Value]);
+      buffer  := buffer + Format(linhaItemUn,[DM_MOV.c_movdetUN.Value]);
+      buffer  := buffer + Format(linhaItemQtde,[DM_MOV.c_movdetQUANTIDADE.AsFloat]);
+      buffer  := buffer + Format(linhaItemVlUnit,[DM_MOV.c_movdetPRECO.AsFloat]);
+      buffer  := buffer + Format(linhaItemVlTotal,[DM_MOV.c_movdetValorTotal.value]);
       buffer  := buffer + Chr(13) + Chr(10);
       comando := FormataTX(buffer, 3, 0, 0, 0, 0);
       if comando = 0 then
@@ -3160,14 +3160,14 @@ procedure TfTerminal2.edtQtde1KeyPress(Sender: TObject; var Key: Char);
 begin
   if (key = #13) then
   begin
-    if (edtQtde1.AsInteger > 1) then
+    if (edtQtde1.Value <> 1) then
     begin
        if (DM_MOV.c_movdet.Active) then
        begin
-          DM_MOV.c_movdet.Edit;
-          DM_MOV.c_movdetQUANTIDADE.AsFloat := edtQtde1.Value ;
-          DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
-          DM_MOV.c_movdet.ApplyUpdates(0);
+         DM_MOV.c_movdet.Edit;
+         DM_MOV.c_movdetQUANTIDADE.AsFloat := edtQtde1.Value ;
+         DM_MOV.c_movdetvalortotal.AsFloat := DM_MOV.c_movdetQUANTIDADE.AsFloat * DM_MOV.c_movdetPRECO.AsFloat;
+         DM_MOV.c_movdet.ApplyUpdates(0);
        end
        else begin
          MessageDlg('Pedido nao iniciado, use a opcao F2.', mtError, [mbOK], 0);
