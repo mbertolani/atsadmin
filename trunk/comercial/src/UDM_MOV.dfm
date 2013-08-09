@@ -1,7 +1,7 @@
 object DM_MOV: TDM_MOV
   OldCreateOrder = False
-  Left = 469
-  Top = 192
+  Left = 90
+  Top = 44
   Height = 530
   Width = 713
   object s_buscaMov: TSQLDataSet
@@ -498,6 +498,8 @@ object DM_MOV: TDM_MOV
     object c_movdetQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.000'
+      EditFormat = ',#0.000'
     end
     object c_movdetPRECO: TFloatField
       FieldName = 'PRECO'
@@ -782,6 +784,8 @@ object DM_MOV: TDM_MOV
     object s_movdetQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.000'
+      EditFormat = ',#0.000'
     end
     object s_movdetPRECO: TFloatField
       FieldName = 'PRECO'
