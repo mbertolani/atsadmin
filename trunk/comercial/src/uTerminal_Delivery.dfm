@@ -1,8 +1,8 @@
 inherited fTerminal_Delivery: TfTerminal_Delivery
   Left = 205
   Top = 42
-  Width = 808
-  Height = 557
+  Width = 875
+  Height = 594
   BorderIcons = [biSystemMenu, biMinimize, biMaximize]
   Color = clMoneyGreen
   Font.Height = -29
@@ -40,14 +40,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 0
     Top = 47
     Width = 345
-    Height = 467
+    Height = 520
     Align = alLeft
     TabOrder = 3
     object Panel2: TPanel
       Left = 1
       Top = 1
       Width = 343
-      Height = 465
+      Height = 518
       Align = alClient
       Color = clMoneyGreen
       TabOrder = 1
@@ -349,7 +349,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Left = 1
       Top = 1
       Width = 343
-      Height = 465
+      Height = 518
       Align = alClient
       TabOrder = 0
       Visible = False
@@ -357,7 +357,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         Left = 1
         Top = 1
         Width = 341
-        Height = 340
+        Height = 393
         Align = alClient
         Color = clMoneyGreen
         Font.Charset = DEFAULT_CHARSET
@@ -372,7 +372,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Left = 1
           Top = 1
           Width = 339
-          Height = 338
+          Height = 391
           Align = alClient
           Center = True
           ParentShowHint = False
@@ -912,7 +912,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       end
       object Panel5: TPanel
         Left = 1
-        Top = 341
+        Top = 394
         Width = 341
         Height = 123
         Align = alBottom
@@ -1156,7 +1156,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 345
     Top = 47
     Width = 174
-    Height = 467
+    Height = 520
     Align = alLeft
     Font.Height = -15
     Font.Name = 'Cooper Blk BT'
@@ -5293,7 +5293,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 864
+    Width = 867
     Height = 47
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -5451,7 +5451,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Left = 519
     Top = 47
     Width = 345
-    Height = 467
+    Height = 520
     Align = alLeft
     ParentColor = True
     PopupMenu = PopupMenu1
@@ -6077,6 +6077,8 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object cds_Mov_detQUANTIDADE: TFloatField
       FieldName = 'QUANTIDADE'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',#0.000'
+      EditFormat = ',#0.000'
     end
     object cds_Mov_detPRODUTO: TStringField
       DisplayWidth = 50
