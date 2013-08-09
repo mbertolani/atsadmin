@@ -572,6 +572,11 @@ begin
   fProcura_prod.cbTipo.ItemIndex := 2;
   fProcura_prod.BitBtn1.Click;
   fProcura_prod.ShowModal;
+  if (cds_Mov_det.Active) then
+    cds_Mov_det.Close;
+  cds_Mov_det.Params[0].Clear;
+  cds_Mov_det.Params[1].AsInteger := cDeliveryCODMOVIMENTO.AsInteger;
+  cds_Mov_det.Open;
   jvPago.Text := DBEdit4.Text;
   dbeProduto.SetFocus;
 end;
