@@ -400,7 +400,6 @@ type
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
-    procedure cds_MovimentoBeforePost(DataSet: TDataSet);
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_Mov_detCalcFields(DataSet: TDataSet);
     procedure cds_Mov_detNewRecord(DataSet: TDataSet);
@@ -443,6 +442,16 @@ type
     procedure Clientes1Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
+    usadelivery, strSql, strTit, serie: String;
+    numTitulo, COD_VENDA, varConta : Integer;
+    total : double;
+
+    varAliquota, Rua, Bairro : string;
+    bRetornoEstendido: boolean;
+    sAliquota: String;
+    sTipoQtde: String;
+    iDecimal: Integer;
+    sTipoDesconto: String;
      codproduto : integer;
      cod_vendedor_padrao : integer;
      nome_vendedor_padrao : string;
@@ -455,10 +464,10 @@ type
      cod_mov : integer;
      vCFOP, vUF, vNUMERO_NF, vCODMOV, vSERIE : string;
      tipo_busca, clienteConsumidor : string;
+     TD: TTransactionDesc;
     { Private declarations }
      procedure alteraStatusMovimento;
   public
-     estoque : double;
      prazoparapgto : Integer;
      function buscaProdLista(codBarra, ProdLista:String): Integer;
      procedure buscaProduto;
@@ -478,27 +487,17 @@ type
 
 var
   fTerminal_Delivery: TfTerminal_Delivery;
-  usadelivery, strSql, strTit, serie: String;
-  numTitulo, caixa, COD_VENDA, varConta : Integer;
-  total : double;
-  TD: TTransactionDesc;
-  //iRetorno: Integer;         // Variável com o retorno da função
-  varAliquota, Rua, Bairro : string;
-  bRetornoEstendido: boolean;
 
-  sAliquota: String;
-  sTipoQtde: String;
-  iDecimal: Integer;
-  sTipoDesconto: String;
 
 implementation
 
 uses UDm, sCtrlResize, uCaixa,
-  uUtils, uProdudoBusca, uMensagens, UDMNF, 
+  uUtils, uProdudoBusca, uMensagens, UDMNF,
   uFiltroMovimento, uTerminalFinalizar, UnitDeclaracoes, UsaCPFDesForma,Principal,
   FechaResumido, FechaComAcrecimo, uAliquita, uMenuCupom,
   FechaCupomContaDividida, FechaConferenciaMesa, uProcurar_nf,
-  ufprocura_prod, uProcura_produtos, uProdutoCadastro, uClienteCadastro;
+  ufprocura_prod, uProcura_produtos, uProdutoCadastro, uClienteCadastro,
+  UDM_MOV;
 
 {$R *.dfm}
 
@@ -562,15 +561,17 @@ begin
   inherited;
   if DtSrc1.DataSet.State in [dsInactive] then
     exit;
-
-  fProcura_produtos.Panel2.Visible := True;
-  fProcura_produtos.Panel1.Visible := False;
-
-  var_F := 'terminalloja';
-  fProcura_produtos.Edit2.ReadOnly := True;
-  fProcura_produtos.Edit2.TabStop := False;
-  fProcura_produtos.BitBtn1.Click;
-  fProcura_produtos.ShowModal;
+  var_F := 'cupom';
+  if (fProcura_prod.Panel2.Visible = False) then
+    fProcura_prod.Panel2.Visible := True;
+  if (fProcura_prod.Panel1.Visible = True) then
+    fProcura_prod.Panel1.Visible := False;
+  fProcura_prod.Edit2.ReadOnly := True;
+  fProcura_prod.Edit2.TabStop := False;
+  // Define busca pelos produtos de venda
+  fProcura_prod.cbTipo.ItemIndex := 2;
+  fProcura_prod.BitBtn1.Click;
+  fProcura_prod.ShowModal;
   jvPago.Text := DBEdit4.Text;
   dbeProduto.SetFocus;
 end;
@@ -607,6 +608,14 @@ begin
 
   if DtSrc.DataSet.State in [dsInsert] then
   begin
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    DM_MOV.ID_DO_MOVIMENTO  := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+
     cds_MovimentoCODNATUREZA.AsInteger := 7;
     cds_MovimentoDESCNATUREZA.AsString := 'CUPOM FISCAL';
     cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
@@ -711,19 +720,6 @@ begin
     servico := '';
   end;
 
-end;
-
-procedure TfTerminal_Delivery.cds_MovimentoBeforePost(DataSet: TDataSet);
-begin
-   if cds_Movimento.State in [dsInsert] then
-   begin
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-   end;
 end;
 
 procedure TfTerminal_Delivery.cds_MovimentoNewRecord(DataSet: TDataSet);
@@ -1063,6 +1059,8 @@ end;
 
 procedure TfTerminal_Delivery.buscaserie;
 begin
+   TD.TransactionID := 1;
+   TD.IsolationLevel := xilREADCOMMITTED;
     if Dm.cds_parametro.Active then
       dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].AsString := 'SERIETERMINAL';
@@ -1142,7 +1140,8 @@ var  utilcrtitulo : Tutils;
      vApagar : double;
      varCaixa : integer;
 begin
-
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   if (sCaixaAberto.Active) then
     sCaixaAberto.Close;
   sCaixaAberto.Params[0].AsString := MICRO;
@@ -1225,7 +1224,7 @@ begin
   strSql := strSql + ',33'; //Caixa
   strSql := strSql + ',0'; //Multa_juros
   strSql := strSql + ',' + FloatToStr(vApagar);
-  strSql := strSql + ',' + IntToStr(varCaixa);    
+  strSql := strSql + ',' + IntToStr(varCaixa);
   strSql := strSql + ')';
   dm.sqlsisAdimin.StartTransaction(TD);
   dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -1253,6 +1252,8 @@ end;
 procedure TfTerminal_Delivery.updatevenda;
 var vApagar : double;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   // -- Incluir aqui rotina de UPDATE na tabela venda --
   strSql := 'UPDATE VENDA SET DATAVENDA = ';
   strSql := strSql + '''' + formatdatetime('mm/dd/yyyy', cds_MovimentoDATAMOVIMENTO.AsDateTime) + '''';
@@ -2058,7 +2059,7 @@ begin
         dm.c_6_genid.Close;
       dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
       dm.c_6_genid.Open;
-      cds_Mov_detCODDETALHE.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+      cds_Mov_detCODDETALHE.AsInteger :=  dm.c_6_genid.Fields[0].AsInteger;
       dm.c_6_genid.Close;
       cds_Mov_det.Post;
       cds_Mov_det.Next;
@@ -2218,6 +2219,8 @@ end;
 procedure TfTerminal_Delivery.alteraStatusMovimento;
 var sqlAlteraMov: string;
 begin
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
   dm.sqlsisAdimin.StartTransaction(TD);
   try
     sqlAlteraMov := 'update MOVIMENTO set status = 9 ' + 
