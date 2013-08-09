@@ -1,6 +1,6 @@
 object fEstoqueCorrige: TfEstoqueCorrige
   Left = 315
-  Top = 134
+  Top = 135
   Width = 407
   Height = 353
   Caption = 'Estoque'
@@ -79,6 +79,14 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+  end
+  object lblAtualizando: TLabel
+    Left = 160
+    Top = 8
+    Width = 12
+    Height = 13
+    Caption = '....'
+    Visible = False
   end
   object Edit1: TEdit
     Left = 16
