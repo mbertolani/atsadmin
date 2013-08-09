@@ -12,16 +12,16 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 33
+  TextHeight = 36
   object RxLabel4: TRxLabel [0]
-    Left = 475
-    Top = 11
-    Width = 38
-    Height = 19
+    Left = 518
+    Top = 12
+    Width = 42
+    Height = 22
     Caption = 'Qtde'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindow
-    Font.Height = -17
+    Font.Height = -19
     Font.Name = 'Times New Roman'
     Font.Style = [fsBold]
     ParentFont = False
@@ -29,51 +29,51 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     Transparent = True
   end
   object Label6: TLabel [1]
-    Left = 579
-    Top = 12
-    Width = 105
-    Height = 33
+    Left = 632
+    Top = 13
+    Width = 131
+    Height = 36
     Caption = 'R$Valor'
     Transparent = True
   end
   object Panel6: TPanel [2]
     Left = 0
-    Top = 43
-    Width = 316
-    Height = 480
+    Top = 47
+    Width = 345
+    Height = 467
     Align = alLeft
     TabOrder = 3
     object Panel2: TPanel
       Left = 1
       Top = 1
-      Width = 314
-      Height = 478
+      Width = 343
+      Height = 465
       Align = alClient
       Color = clMoneyGreen
       TabOrder = 1
       object Label14: TLabel
         Left = 3
-        Top = 423
-        Width = 29
-        Height = 13
+        Top = 461
+        Width = 39
+        Height = 16
         Caption = 'Forma'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         ParentFont = False
       end
       object DBGrid2: TDBGrid
         Left = 2
-        Top = 81
-        Width = 309
-        Height = 339
+        Top = 88
+        Width = 337
+        Height = 370
         Ctl3D = False
         DataSource = DataSource1
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -105,14 +105,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       end
       object DBGrid1: TDBGrid
         Left = 2
-        Top = 81
-        Width = 309
-        Height = 339
+        Top = 88
+        Width = 337
+        Height = 370
         Ctl3D = False
         DataSource = DataSource2
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'MS Sans Serif'
         Font.Style = []
         Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
@@ -143,61 +143,61 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       end
       object GroupBox1: TGroupBox
         Left = 2
-        Top = -12
-        Width = 309
-        Height = 89
+        Top = -13
+        Width = 337
+        Height = 97
         Ctl3D = False
         ParentCtl3D = False
         TabOrder = 2
         object Label9: TLabel
           Left = 3
-          Top = 18
-          Width = 42
+          Top = 20
+          Width = 47
           Height = 15
           Caption = 'Telefone'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'Times New Roman'
           Font.Style = []
           ParentFont = False
         end
         object Label12: TLabel
-          Left = 106
-          Top = 18
-          Width = 29
+          Left = 116
+          Top = 20
+          Width = 31
           Height = 15
           Caption = 'Nome'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'Times New Roman'
           Font.Style = []
           ParentFont = False
         end
         object Label13: TLabel
           Left = 3
-          Top = 52
-          Width = 44
+          Top = 57
+          Width = 50
           Height = 15
           Caption = 'Endere'#231'o'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'Times New Roman'
           Font.Style = []
           ParentFont = False
         end
         object Edit2: TEdit
-          Left = 107
-          Top = 33
-          Width = 196
-          Height = 20
+          Left = 117
+          Top = 36
+          Width = 214
+          Height = 22
           BevelKind = bkFlat
           BorderStyle = bsNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
@@ -206,22 +206,22 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           OnKeyPress = FormKeyPress
         end
         object Edit4: TEdit
-          Left = 169
-          Top = -73
-          Width = 45
-          Height = 39
+          Left = 184
+          Top = -80
+          Width = 49
+          Height = 42
           TabOrder = 4
         end
         object Edit1: TEdit
           Left = 2
-          Top = 33
-          Width = 71
-          Height = 20
+          Top = 36
+          Width = 78
+          Height = 22
           BevelKind = bkFlat
           BorderStyle = bsNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
@@ -231,14 +231,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           OnKeyPress = Edit1KeyPress
         end
         object BitBtn2: TBitBtn
-          Left = 74
-          Top = 29
-          Width = 31
-          Height = 24
+          Left = 81
+          Top = 32
+          Width = 34
+          Height = 26
           Caption = 'Ctrl+C'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
@@ -248,14 +248,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         end
         object Edit3: TEdit
           Left = 2
-          Top = 67
-          Width = 300
-          Height = 20
+          Top = 73
+          Width = 327
+          Height = 22
           BevelKind = bkFlat
           BorderStyle = bsNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
@@ -266,9 +266,9 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       end
       object GroupBox2: TGroupBox
         Left = 2
-        Top = -12
-        Width = 309
-        Height = 89
+        Top = -13
+        Width = 337
+        Height = 97
         Ctl3D = False
         ParentCtl3D = False
         PopupMenu = PopupMenu1
@@ -276,30 +276,30 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         Visible = False
         object Label10: TLabel
           Left = 5
-          Top = 20
-          Width = 215
-          Height = 33
+          Top = 22
+          Width = 247
+          Height = 36
           Caption = 'Mesas / Clientes'
         end
         object Edit6: TEdit
-          Left = 169
-          Top = -77
-          Width = 45
-          Height = 39
+          Left = 184
+          Top = -84
+          Width = 49
+          Height = 42
           TabOrder = 0
         end
         object cbMesas: TComboBox
           Left = 5
-          Top = 52
-          Width = 298
-          Height = 31
+          Top = 57
+          Width = 326
+          Height = 33
           BevelKind = bkFlat
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -20
+          Font.Height = -21
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
-          ItemHeight = 23
+          ItemHeight = 25
           ParentFont = False
           PopupMenu = PopupMenu1
           TabOrder = 1
@@ -308,16 +308,16 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       end
       object ComboBox1: TComboBox
         Left = 3
-        Top = 437
-        Width = 102
-        Height = 21
+        Top = 477
+        Width = 112
+        Height = 24
         BevelKind = bkFlat
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 13
+        ItemHeight = 16
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 3
@@ -327,17 +327,17 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           #192' PRAZO')
       end
       object ComboBox2: TComboBox
-        Left = 104
-        Top = 437
-        Width = 204
-        Height = 21
+        Left = 113
+        Top = 477
+        Width = 223
+        Height = 24
         BevelKind = bkFlat
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
+        Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 13
+        ItemHeight = 16
         ParentFont = False
         PopupMenu = PopupMenu1
         TabOrder = 4
@@ -348,21 +348,21 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 314
-      Height = 478
+      Width = 343
+      Height = 465
       Align = alClient
       TabOrder = 0
       Visible = False
       object Panel4: TPanel
         Left = 1
         Top = 1
-        Width = 312
-        Height = 363
+        Width = 341
+        Height = 340
         Align = alClient
         Color = clMoneyGreen
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
-        Font.Height = -27
+        Font.Height = -29
         Font.Name = 'Cooper Blk BT'
         Font.Style = []
         ParentFont = False
@@ -371,8 +371,8 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         object Image1: TImage
           Left = 1
           Top = 1
-          Width = 310
-          Height = 361
+          Width = 339
+          Height = 338
           Align = alClient
           Center = True
           ParentShowHint = False
@@ -912,9 +912,9 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       end
       object Panel5: TPanel
         Left = 1
-        Top = 364
-        Width = 312
-        Height = 113
+        Top = 341
+        Width = 341
+        Height = 123
         Align = alBottom
         Color = clMoneyGreen
         PopupMenu = PopupMenu1
@@ -922,41 +922,41 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         object Label11: TLabel
           Left = 3
           Top = 5
-          Width = 32
-          Height = 13
+          Width = 41
+          Height = 16
           Caption = 'Cliente'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
         end
         object Label8: TLabel
           Left = 2
-          Top = 45
-          Width = 29
-          Height = 13
+          Top = 49
+          Width = 39
+          Height = 16
           Caption = 'Forma'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
         end
         object DBEdit5: TDBEdit
           Left = 3
-          Top = 19
-          Width = 268
-          Height = 22
+          Top = 21
+          Width = 293
+          Height = 24
           BevelKind = bkFlat
           BorderStyle = bsNone
           DataField = 'NOMECLIENTE'
           DataSource = DtSrc
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
@@ -965,14 +965,14 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           OnKeyPress = FormKeyPress
         end
         object BitBtn7: TBitBtn
-          Left = 273
-          Top = 8
-          Width = 36
-          Height = 37
+          Left = 298
+          Top = 9
+          Width = 39
+          Height = 40
           Enabled = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -20
+          Font.Height = -21
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           ParentFont = False
@@ -1082,16 +1082,16 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         end
         object ComboBox3: TComboBox
           Left = 3
-          Top = 61
-          Width = 126
-          Height = 21
+          Top = 67
+          Width = 138
+          Height = 24
           BevelKind = bkFlat
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 13
+          ItemHeight = 16
           ParentFont = False
           PopupMenu = PopupMenu1
           TabOrder = 2
@@ -1102,17 +1102,17 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
             #192' PRAZO')
         end
         object ComboBox4: TComboBox
-          Left = 132
-          Top = 61
-          Width = 176
-          Height = 21
+          Left = 144
+          Top = 67
+          Width = 192
+          Height = 24
           BevelKind = bkFlat
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 13
+          ItemHeight = 16
           ParentFont = False
           PopupMenu = PopupMenu1
           TabOrder = 3
@@ -1121,13 +1121,13 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           OnKeyPress = FormKeyPress
         end
         object Edit5: TEdit
-          Left = 129
-          Top = 20
-          Width = 59
-          Height = 20
+          Left = 141
+          Top = 22
+          Width = 64
+          Height = 19
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           ParentFont = False
@@ -1135,13 +1135,13 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Visible = False
         end
         object Edit7: TEdit
-          Left = 188
-          Top = 20
-          Width = 22
-          Height = 20
+          Left = 205
+          Top = 22
+          Width = 24
+          Height = 19
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -9
+          Font.Height = -11
           Font.Name = 'Cooper Blk BT'
           Font.Style = []
           ParentFont = False
@@ -1153,21 +1153,21 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
   end
   inherited MMJPanel1: TMMJPanel
-    Left = 316
-    Top = 43
-    Width = 160
-    Height = 480
+    Left = 345
+    Top = 47
+    Width = 174
+    Height = 467
     Align = alLeft
-    Font.Height = -13
+    Font.Height = -15
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
     inherited btnGravar: TBitBtn
       Left = 4
       Top = 4
-      Width = 153
-      Height = 77
+      Width = 167
+      Height = 84
       Font.Color = clBlue
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       ParentFont = False
       Glyph.Data = {
@@ -1663,10 +1663,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     inherited btnIncluir: TBitBtn
       Left = 4
       Top = 4
-      Width = 153
-      Height = 77
+      Width = 167
+      Height = 84
       Font.Color = clBlue
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       ParentFont = False
       Glyph.Data = {
@@ -2161,12 +2161,12 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnCancelar: TBitBtn
       Left = 4
-      Top = 82
-      Width = 153
-      Height = 77
+      Top = 89
+      Width = 167
+      Height = 84
       Caption = 'F3-Canc.'
       Font.Color = clRed
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       ParentFont = False
       Glyph.Data = {
@@ -2661,12 +2661,12 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnExcluir: TBitBtn
       Left = 4
-      Top = 82
-      Width = 153
-      Height = 77
+      Top = 89
+      Width = 167
+      Height = 84
       Enabled = True
       Font.Color = clRed
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       ParentFont = False
       Visible = False
@@ -3162,9 +3162,9 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object btnImprimir: TBitBtn [4]
       Left = 5
-      Top = -292
-      Width = 137
-      Height = 50
+      Top = -319
+      Width = 150
+      Height = 55
       Caption = 'F11-Cupom'
       Enabled = False
       PopupMenu = PopupMenu1
@@ -3273,13 +3273,13 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object BitBtn4: TBitBtn [5]
       Left = 4
-      Top = 160
-      Width = 153
-      Height = 77
+      Top = 175
+      Width = 167
+      Height = 84
       Caption = 'F6-Finalizar'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -3778,11 +3778,11 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnProcurar: TBitBtn
       Left = 4
-      Top = 238
-      Width = 153
-      Height = 77
+      Top = 260
+      Width = 167
+      Height = 84
       Font.Color = clBlack
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       ParentFont = False
       OnClick = btnProcurarClick
@@ -4278,9 +4278,9 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     inherited btnSair: TBitBtn
       Left = 5
-      Top = -413
-      Width = 137
-      Height = 51
+      Top = -451
+      Width = 150
+      Height = 56
       Visible = False
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -4385,9 +4385,9 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object BitBtn1: TBitBtn
       Left = 5
-      Top = -138
-      Width = 137
-      Height = 51
+      Top = -151
+      Width = 150
+      Height = 56
       Caption = 'Caixa'
       TabOrder = 8
       Visible = False
@@ -4493,13 +4493,13 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object Button1: TBitBtn
       Left = 4
-      Top = 316
-      Width = 153
-      Height = 77
+      Top = 345
+      Width = 167
+      Height = 84
       Caption = 'F11-Menu '
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -4998,13 +4998,13 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object BitBtn9: TBitBtn
       Left = 4
-      Top = 394
-      Width = 153
-      Height = 77
+      Top = 430
+      Width = 167
+      Height = 84
       Caption = 'F9-Sair'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -5293,71 +5293,71 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 800
-    Height = 43
+    Width = 864
+    Height = 47
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -29
+    Font.Height = -32
     Font.Name = 'Cooper Blk BT'
     ParentFont = False
     inherited Label1: TLabel
-      Top = -57
+      Top = -62
     end
     inherited Label2: TLabel
-      Left = 224
-      Top = -56
+      Left = 244
+      Top = -61
     end
     object Label3: TLabel
-      Left = 384
+      Left = 419
       Top = 3
-      Width = 40
-      Height = 15
+      Width = 48
+      Height = 16
       Caption = 'Codigo'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
       Transparent = True
     end
     object Label4: TLabel
-      Left = 635
+      Left = 693
       Top = 3
-      Width = 26
-      Height = 15
+      Width = 33
+      Height = 16
       Caption = 'Qtde'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
       Transparent = True
     end
     object Label5: TLabel
-      Left = 686
+      Left = 748
       Top = 3
-      Width = 44
-      Height = 15
+      Width = 58
+      Height = 16
       Caption = 'R$Valor'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
       Transparent = True
     end
     object BitBtn3: TBitBtn
-      Left = 603
-      Top = 17
-      Width = 29
-      Height = 25
+      Left = 658
+      Top = 19
+      Width = 31
+      Height = 27
       Caption = '...'
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -5367,15 +5367,15 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       OnClick = BitBtn3Click
     end
     object dbeProduto: TEdit
-      Left = 382
-      Top = 17
-      Width = 220
-      Height = 25
+      Left = 417
+      Top = 19
+      Width = 240
+      Height = 27
       BevelKind = bkFlat
       BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -5384,17 +5384,17 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       OnKeyPress = dbeProdutoKeyPress
     end
     object DBEdit2: TDBEdit
-      Left = 633
-      Top = 17
-      Width = 52
-      Height = 25
+      Left = 691
+      Top = 19
+      Width = 56
+      Height = 27
       BevelKind = bkFlat
       BorderStyle = bsNone
       DataField = 'QUANTIDADE'
       DataSource = DtSrc1
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -5404,17 +5404,17 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       OnKeyPress = FormKeyPress
     end
     object DBEdit3: TDBEdit
-      Left = 685
-      Top = 17
-      Width = 107
-      Height = 25
+      Left = 747
+      Top = 19
+      Width = 117
+      Height = 27
       BevelKind = bkFlat
       BorderStyle = bsNone
       DataField = 'PRECO'
       DataSource = DtSrc1
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -5426,13 +5426,13 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object RadioGroup1: TRadioGroup
       Left = 2
       Top = 3
-      Width = 315
-      Height = 37
+      Width = 344
+      Height = 41
       Color = clTeal
       Columns = 3
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
-      Font.Height = -13
+      Font.Height = -15
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ItemIndex = 2
@@ -5448,19 +5448,19 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
   end
   object Panel1: TPanel [5]
-    Left = 476
-    Top = 43
-    Width = 316
-    Height = 480
+    Left = 519
+    Top = 47
+    Width = 345
+    Height = 467
     Align = alLeft
     ParentColor = True
     PopupMenu = PopupMenu1
     TabOrder = 2
     object JvLabel1: TJvLabel
-      Left = 65
-      Top = 392
-      Width = 87
-      Height = 35
+      Left = 71
+      Top = 428
+      Width = 100
+      Height = 38
       Caption = 'Pago :'
       ShadowSize = 2
       HintColor = clBlack
@@ -5471,10 +5471,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       HotTrackFont.Style = []
     end
     object JvLabel2: TJvLabel
-      Left = 57
-      Top = 435
-      Width = 96
-      Height = 35
+      Left = 62
+      Top = 475
+      Width = 116
+      Height = 38
       Caption = 'Troco :'
       ShadowSize = 2
       HintColor = clBlack
@@ -5485,10 +5485,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       HotTrackFont.Style = []
     end
     object JvLabel3: TJvLabel
-      Left = 68
-      Top = 351
-      Width = 86
-      Height = 35
+      Left = 74
+      Top = 383
+      Width = 108
+      Height = 38
       Caption = 'Total :'
       ShadowSize = 2
       HintColor = clBlack
@@ -5499,10 +5499,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       HotTrackFont.Style = []
     end
     object cbporcento: TCheckBox
-      Left = 36
-      Top = 119
-      Width = 117
-      Height = 22
+      Left = 39
+      Top = 130
+      Width = 128
+      Height = 24
       Caption = ' 10 % :'
       PopupMenu = PopupMenu1
       TabOrder = 4
@@ -5510,10 +5510,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       OnClick = cbporcentoClick
     end
     object DBEdit9: TDBEdit
-      Left = 156
-      Top = 108
-      Width = 146
-      Height = 41
+      Left = 170
+      Top = 118
+      Width = 159
+      Height = 45
       BevelKind = bkFlat
       BorderStyle = bsNone
       Color = clBtnFace
@@ -5522,7 +5522,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Enabled = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clRed
-      Font.Height = -29
+      Font.Height = -32
       Font.Name = 'Cooper Blk BT'
       Font.Style = [fsBold]
       ParentFont = False
@@ -5533,15 +5533,15 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object DBEdit1: TDBEdit
       Left = 1
       Top = 1
-      Width = 280
-      Height = 22
+      Width = 306
+      Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
       DataField = 'DESCPRODUTO'
       DataSource = DtSrc1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -9
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
@@ -5551,10 +5551,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       OnKeyPress = FormKeyPress
     end
     object DBEdit4: TDBEdit
-      Left = 167
-      Top = 348
-      Width = 146
-      Height = 40
+      Left = 182
+      Top = 380
+      Width = 159
+      Height = 43
       BevelKind = bkFlat
       BorderStyle = bsNone
       Color = clBtnFace
@@ -5562,7 +5562,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       DataSource = DtSrc1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
-      Font.Height = -27
+      Font.Height = -29
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
       ParentFont = False
@@ -5570,10 +5570,10 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 283
+      Left = 309
       Top = 1
-      Width = 24
-      Height = 22
+      Width = 26
+      Height = 24
       Caption = '...'
       PopupMenu = PopupMenu1
       TabOrder = 5
@@ -5581,18 +5581,19 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       OnClick = BitBtn5Click
     end
     object JvTroco: TJvCalcEdit
-      Left = 167
-      Top = 431
-      Width = 146
-      Height = 41
+      Left = 182
+      Top = 470
+      Width = 159
+      Height = 45
       BevelKind = bkFlat
       BorderStyle = bsNone
       DisplayFormat = ',##0.00'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
-      Font.Height = -27
+      Font.Height = -29
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
+      ButtonWidth = 23
       ParentFont = False
       PopupMenu = PopupMenu1
       ShowButton = False
@@ -5603,15 +5604,15 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     object JvDBGrid1: TJvDBGrid
       Left = 1
       Top = 1
-      Width = 314
-      Height = 345
+      Width = 343
+      Height = 376
       BorderStyle = bsNone
       Color = clInfoBk
       Ctl3D = False
       DataSource = DtSrc1
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -9
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
@@ -5638,36 +5639,36 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Expanded = False
           FieldName = 'DESCPRODUTO'
           Title.Caption = 'Produto'
-          Width = 147
+          Width = 162
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'QUANTIDADE'
           Title.Caption = 'Qtde'
-          Width = 46
+          Width = 51
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECO'
           Title.Caption = 'R$ Unit'#225'rio'
-          Width = 68
+          Width = 75
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'ValorTotal'
           Title.Caption = 'R$ Total'
-          Width = 33
+          Width = 35
           Visible = True
         end>
     end
     object jvPago: TJvValidateEdit
-      Left = 167
-      Top = 389
-      Width = 146
-      Height = 41
+      Left = 182
+      Top = 424
+      Width = 159
+      Height = 45
       Flat = False
       ParentFlat = False
       BevelKind = bkFlat
@@ -5678,7 +5679,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       DecimalPlaces = 2
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlue
-      Font.Height = -27
+      Font.Height = -29
       Font.Name = 'Times New Roman'
       Font.Style = [fsBold]
       ParentFont = False
@@ -5923,7 +5924,6 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
         ParamType = ptInput
       end>
     ProviderName = 'dsp_Movimento'
-    BeforePost = cds_MovimentoBeforePost
     OnNewRecord = cds_MovimentoNewRecord
     Left = 127
     Top = 167
