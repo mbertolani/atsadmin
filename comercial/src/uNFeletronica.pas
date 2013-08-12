@@ -912,14 +912,14 @@ var
   i, codnf: integer;
   Protocolo, Recibo, str, vAux, valida : String;
 begin
-  if (tp_amb = 1) then
+  {if (tp_amb = 1) then
   begin
     if (validaNumNfe = false) then
     begin
       MessageDlg('Número da Nota Fiscal errado.', mtError, [mbOK], 0);
       exit;
     end;
-  end;
+  end;}
   if (tp_amb = 3) then
   begin
     if (validaNumNfeScan = false) then
@@ -1134,12 +1134,16 @@ begin
             exporta.xLocEmbarq := 'Aeroporto Internacional de Viracopos - Campinas';}
 
             //VALOR TORAL
-            if (cdsNFBASE_ICMS.IsNull) then
-                MessageDlg('Base de cálculo nula', mtError, [mbOK], 0);
-            Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
-            if (cdsNFVALOR_ICMS.IsNull) then
-                MessageDlg('ICMS nulo', mtError, [mbOK], 0);
-            Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
+
+            if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) then
+            begin
+              if (cdsNFBASE_ICMS.IsNull) then
+                  MessageDlg('Base de cálculo nula', mtError, [mbOK], 0);
+              Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
+              if (cdsNFVALOR_ICMS.IsNull) then
+                  MessageDlg('ICMS nulo', mtError, [mbOK], 0);
+              Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
+            end;
             if (cdsNFBASE_ICMS_SUBST.IsNull) then
                 MessageDlg('Base ICMS ST nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
@@ -1942,8 +1946,11 @@ begin
     end;
     getTransportadora();
     //VALOR TORAL
-    Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
-    Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
+    if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) then
+    begin
+      Total.ICMSTot.vBC   := cdsNFBASE_ICMS.AsVariant;
+      Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
+    end;
     Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
     Total.ICMSTot.vST   := cdsNFVALOR_ICMS_SUBST.AsVariant;
     Total.ICMSTot.vProd := cdsNFVALOR_PRODUTO.AsVariant;
@@ -2281,13 +2288,33 @@ begin
             if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
               CSOSN := csosnVazio
             else if ( cdsItensNFCSOSN.AsString = '101') then
-              CSOSN := csosn101
+            begin
+              CSOSN := csosn101;
+              if (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
+              begin
+                if (cdsItensNFICMS.AsVariant > 0 ) then
+                begin
+                  pCredSN := cdsItensNFICMS.AsVariant; //Aliquota ICMS SIMPLES
+                  vCredICMSSN := cdsItensNFVALOR_ICMS.AsVariant; //ICMS SIMPLES
+                end;
+              end;
+            end
             else if ( cdsItensNFCSOSN.AsString = '102') then
               CSOSN := csosn102
             else if ( cdsItensNFCSOSN.AsString = '103') then
               CSOSN := csosn103
             else if ( cdsItensNFCSOSN.AsString = '201') then
-              CSOSN := csosn201
+            begin
+              CSOSN := csosn201;
+              if (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
+              begin
+                if (cdsItensNFICMS.AsVariant > 0 ) then
+                begin
+                  pCredSN := cdsItensNFICMS.AsVariant; //Aliquota ICMS SIMPLES
+                  vCredICMSSN := cdsItensNFVALOR_ICMS.AsVariant; //ICMS SIMPLES
+                end;
+              end;
+            end
             else if ( cdsItensNFCSOSN.AsString = '202') then
               CSOSN := csosn202
             else if ( cdsItensNFCSOSN.AsString = '203') then
@@ -2351,9 +2378,13 @@ begin
 
           orig :=     sProdutosORIGEM.AsVariant;                       //ORIGEM DO PRODUTO
           modBC :=    BC;                                              //MODO DE BASE DE CALCULO (0) POR %
-          vBC :=      cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
-          pICMS :=    cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
-          vICMS :=    cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+          //Não carregar ICMS para Simples Nacional
+          if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
+          begin
+            vBC :=      cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
+            pICMS :=    cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
+            vICMS :=    cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+          end;
           modBCST :=  BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
           vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
           if (sdsCfopProd.Active) then
