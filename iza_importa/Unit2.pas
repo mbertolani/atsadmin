@@ -20,13 +20,16 @@ type
     sqlDet: TQuery;
     sqlCliente: TQuery;
     sqlProduto: TQuery;
+    sqlParams: TSQLQuery;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     mov : String;
     movDet : String;
     dir     : String;
     diretorio : String;
+    cfopSaida : String;
     procedure item;
     procedure cliente;
     procedure produto;  
@@ -48,16 +51,15 @@ var contaLinha: Integer;
 begin
   if (not sc.Connected) then
     sc.Connected := True;
-    
+
   memo1.Lines.Clear;
   label1.Caption := 'Aguarde, importando .....';
-  cliente;
 
   if (sqlMov.Active) then
     sqlMov.Close;
   sqlMov.SQL.Clear;
   sqlMov.SQL.Add('SELECT * FROM ES WHERE DATENTR > ' +
-    QuotedStr(FormatDateTime('MM/dd/yyyy', (today - 30))));
+    QuotedStr(FormatDateTime('MM/dd/yyyy', (today - 10))));
   sqlMov.Open;
   while not sqlMov.Eof do
   begin
@@ -67,7 +69,7 @@ begin
     sqMov.SQL.Add('SELECT CODMOVIMENTO FROM MOVIMENTO WHERE CODMOVIMENTO = ' +
       IntToStr(sqlMov.FieldByName('NUMERO').AsInteger));
     sqMov.Open;
-    if (sqMov.RecNo = -1) then
+    if (sqMov.FieldByName('CODMOVIMENTO').AsInteger < 1) then
     begin
       if (sqCliente.Active) then
         sqCliente.Close;
@@ -80,22 +82,21 @@ begin
         memo1.Lines.Add(IntToStr(sqlMov.FieldByName('CODCLI').AsInteger) + '-' +
           sqlMov.FieldByName('CLIENTE').AsString +
           ' - não importado');
+        cliente;
       end;
-      if (not sqCliente.IsEmpty) then
-      begin
-        sqlx := 'INSERT INTO MOVIMENTO (' +
-          'CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, CODNATUREZA, STATUS, CODUSUARIO) VALUES ('+
-          IntToStr(sqlMov.FieldByName('NUMERO').AsInteger) + ', ' +
-          QuotedStr(FormatDateTime('MM/dd/yyyy', sqlMov.FieldByName('DATENTR').AsDateTime)) + ', ' +
-          IntToStr(sqlMov.FieldByName('CODCLI').AsInteger) + ', 3, 0, 1' +
-          ')';
-        sc.ExecuteDirect(sqlx);
+      sqlx := 'INSERT INTO MOVIMENTO (' +
+        ' CODMOVIMENTO, DATAMOVIMENTO, CODCLIENTE, CODNATUREZA, STATUS, ' +
+        ' CODUSUARIO, CODVENDEDOR) VALUES ('+
+        IntToStr(sqlMov.FieldByName('NUMERO').AsInteger) + ', ' +
+        QuotedStr(FormatDateTime('MM/dd/yyyy', sqlMov.FieldByName('DATENTR').AsDateTime)) + ', ' +
+        IntToStr(sqlMov.FieldByName('CODCLI').AsInteger) + ', 3, 0, 1, 1' +
+        ')';
+      sc.ExecuteDirect(sqlx);
 
-        // Copia os itens
-        produto;
-        item;
-        contaLinha := contaLinha + 1;
-      end;
+      // Copia os itens
+      produto;
+      item;
+      contaLinha := contaLinha + 1;
     end;
     sqlMov.Next;
   end;
@@ -112,8 +113,8 @@ begin
   if (sqlCliente.Active) then
     sqlCliente.Close;
   sqlCliente.SQL.Clear;
-  sql := 'SELECT * FROM CLIENTE  WHERE CADASTRO > ' +
-    QuotedStr(FormatDateTime('MM/dd/yyyy', (today - 150)));
+  sql := 'SELECT * FROM CLIENTE  WHERE CODIGO = ' +
+    IntToStr(sqlMov.FieldByName('CODCLI').AsInteger);
   sqlCliente.SQL.Add(sql);
   sqlCliente.Open;
   while not sqlCliente.Eof do
@@ -132,17 +133,17 @@ begin
         InttoStr(sqlCliente.fieldByName('CODIGO').asInteger) + ', ' +
         QuotedStr(sqlCliente.fieldByName('NOME').asString) + ', ' +
         QuotedStr(sqlCliente.fieldByName('NOME').asString) + ', ' +
-        ' 1, ' +
+        ' 0, ' +
         QuotedStr(sqlCliente.fieldByName('CGC').asString) + ', ' +
         QuotedStr(sqlCliente.fieldByName('INS').asString) + ', ' +
         ' 0, 0, ' +
         QuotedStr(FormatDateTime('MM/dd/yyyy', sqlCliente.FieldByName('CADASTRO').AsDateTime)) + ', ' +
-        ' 1, 1, ' + QuotedStr('J') + ')';
+        ' 1, 1, ' + QuotedStr('F') + ')';
         sc.ExecuteDirect(sql);
 
       sql := 'INSERT INTO ENDERECOCLIENTE (' +
         'CODENDERECO, CODCLIENTE, LOGRADOURO, BAIRRO, COMPLEMENTO, CIDADE, UF, CEP,'+
-        'TELEFONE, TELEFONE1, E_MAIL, TIPOEND, PAIS, DDD, DDD1, NUMERO) VALUES( '+
+        'TELEFONE, TELEFONE1, E_MAIL, TIPOEND, PAIS, DDD, DDD1, NUMERO, CD_IBGE) VALUES( '+
         InttoStr(sqlCliente.fieldByName('CODIGO').asInteger) + ', ' +
         InttoStr(sqlCliente.fieldByName('CODIGO').asInteger) + ', ' +
         QuotedStr(sqlCliente.fieldByName('END').asString) + ', ' +
@@ -150,7 +151,8 @@ begin
         QuotedStr(sqlCliente.fieldByName('COMP').asString) + ', ' +
         QuotedStr(sqlCliente.fieldByName('CIDADE').asString) + ', ' +
         QuotedStr(sqlCliente.fieldByName('UF').asString) + ', ' +
-        QuotedStr(sqlCliente.fieldByName('CEP').asString) + ', ' +
+        QuotedStr(Copy(sqlCliente.fieldByName('CEP').asString, 1,5) + '-' +
+        Copy(sqlCliente.fieldByName('CEP').asString, 6,8)) + ', ' +
         QuotedStr(Trim(copy(sqlCliente.fieldByName('FONE1').asString,5,14))) + ', ' +
         QuotedStr(Trim(copy(sqlCliente.fieldByName('FONE2').asString,5,14))) + ', ' +
         QuotedStr(sqlCliente.fieldByName('EMAIL').asString) + ', ' +
@@ -158,7 +160,8 @@ begin
         QuotedStr('Brasil') + ', ' +
         QuotedStr(copy(sqlCliente.fieldByName('FONE1').asString,2,2)) + ', ' +
         QuotedStr(copy(sqlCliente.fieldByName('FONE2').asString,2,2)) + ', ' +
-        QuotedStr(sqlCliente.fieldByName('NUMERO').asString) +
+        QuotedStr(sqlCliente.fieldByName('NUMERO').asString) + ', ' +
+        QuotedStr('350380-2') +
         ')';
         sc.ExecuteDirect(sql);
     end;
@@ -171,6 +174,12 @@ procedure TForm2.FormCreate(Sender: TObject);
 var config:TIniFile;
 begin
   try
+    sc.Connected := False;
+    sc.LoadParamsFromIniFile('dbxconnections.ini');
+    sc.LibraryName := 'dbexpUIBfire15.dll';
+    sc.VendorLib := 'FBCLIENT.DLL';
+    sc.Connected := True;
+
     dir              := ExtractFilePath(Application.ExeName);
     config           := TIniFile.Create(dir + 'CONFIG.INI');
     diretorio        := config.ReadString('DIRETORIO', 'pasta', '');
@@ -185,6 +194,10 @@ begin
     sqlMov.DatabaseName := diretorio;
     sqlCliente.DatabaseName := diretorio;
     sqlProduto.DatabaseName := diretorio;
+    sqlParams.SQL.add('SELECT DADOS FROM PARAMETRO WHERE PARAMETRO = ' +
+      QuotedStr('CFOP'));
+    sqlParams.Open;
+    cfopSaida := sqlParams.fieldByName('DADOS').AsString;
   Finally
     FreeAndNil(config);
   end;
@@ -209,18 +222,24 @@ begin
     if (sqDet.IsEmpty) then
     begin
       sc.ExecuteDirect('INSERT INTO MOVIMENTODETALHE (' +
-        ' CODDETALHE, CODMOVIMENTO, CODPRODUTO, QUANTIDADE, PRECO) VALUES(' +
+        ' CODDETALHE, CODMOVIMENTO, CODPRODUTO, DESCPRODUTO, PRECO, QUANTIDADE, ' +
+        ' CFOP, UN) VALUES(' +
       InttoStr(sqlDet.fieldByName('CHAVE').asInteger) + ', ' +
       InttoStr(sqlDet.fieldByName('NUMERO').asInteger) + ', ' +
       InttoStr(sqlDet.fieldByName('CODIGO').asInteger) + ', ' +
+      QuotedStr(sqlDet.fieldByName('PRODUTO').asString) + ', ' +
       FloattoStr(sqlDet.fieldByName('VALOR').asFloat) + ', ' +
-      FloattoStr(sqlDet.fieldByName('QUANT').asFloat) + ')');
+      FloattoStr(sqlDet.fieldByName('QUANT').asFloat) + ', ' +
+      QuotedStr(cfopSaida) + ', ' +
+      QuotedStr('UN') +
+      ')');
     end;
     sqlDet.Next;
   end;
 end;
 
 procedure TForm2.produto;
+var sqla : string;
 begin
   // Produto
   if (sqlProduto.Active) then
@@ -229,7 +248,8 @@ begin
   sqlProduto.SQL.Add('SELECT * FROM ES_ITEM WHERE NUMERO = ' +
     InttoStr(sqlMov.FieldByName('NUMERO').AsInteger));
   sqlProduto.Open;
-  while not sqlDet.Eof do
+  DecimalSeparator := '.';
+  while not sqlProduto.Eof do
   begin
     if (sqProduto.Active) then
       sqProduto.Close;
@@ -239,19 +259,30 @@ begin
     sqProduto.Open;
     if (sqProduto.IsEmpty) then
     begin
-      sc.ExecuteDirect('INSERT INTO PRODUTOS (' +
-        ' CODPRODUTO, COD_BARRA, CODPRO, UNIDADEMEDIDA, CODALMOXARIFADO, ' +
-        ' PRODUTO, VALOR_PRAZO,  VALORUNITARIOATUAL) VALUES(' +
+      sqla := 'INSERT INTO PRODUTOS (' +
+        ' CODPRODUTO, COD_BARRA, CODPRO, UNIDADEMEDIDA, ' +
+        ' PRODUTO, VALOR_PRAZO,  VALORUNITARIOATUAL, ORIGEM) VALUES(' +
       InttoStr(sqlProduto.fieldByName('CODIGO').asInteger) + ', ' +
-      QuotedStr(IntToStr(sqlProduto.fieldByName('CODIGO').asInteger)) + ', ' +
-      QuotedStr(IntToStr(sqlProduto.fieldByName('CODIGO').asInteger)) + ', ' +
+      QuotedStr(sqlProduto.fieldByName('CODIGO').asString) + ', ' +
+      QuotedStr(sqlProduto.fieldByName('CODIGO').asString) + ', ' +
       QuotedSTr('UN') + ', ' +
       QuotedStr(sqlProduto.fieldByName('PRODUTO').asString) + ', ' +
       FloattoStr(sqlProduto.fieldByName('VALOR').asFloat) + ', ' +
-      FloattoStr(sqlProduto.fieldByName('CUSTO').asFloat) + ')');
+      FloattoStr(sqlProduto.fieldByName('CUSTO').asFloat) + ', ' +
+      '0' +
+      ')';
+      sc.ExecuteDirect(sqla);
     end;
     sqlProduto.Next;
   end;
+  DecimalSeparator := ',';
+end;
+
+procedure TForm2.FormShow(Sender: TObject);
+begin
+  BitBtn1.Click;
+  WinExec('prjAtsAdmin.exe', sw_show);
+  Close;
 end;
 
 end.

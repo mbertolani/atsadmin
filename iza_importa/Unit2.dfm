@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 245
-  Top = 197
+  Left = 238
+  Top = 39
   Width = 870
   Height = 611
   Caption = 'Form2'
@@ -12,6 +12,7 @@ object Form2: TForm2
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -42,14 +43,15 @@ object Form2: TForm2
     DriverName = 'UIB FireBird15'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     LibraryName = 'dbexpUIBfire15.dll'
+    LoginPrompt = False
     Params.Strings = (
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_agroverde'
+      'Database=c:\home\sisadmin\bd\sge_iza1.fdb'
       'ErrorResourceFile='
       'LocaleCode=0000'
-      'Password=xl04pq21'
+      'Password=masterkey'
       'RoleName=RoleName'
       'ServerCharSet=win1252'
       'SQLDialect=3'
@@ -104,5 +106,12 @@ object Form2: TForm2
   object sqlProduto: TQuery
     Left = 488
     Top = 48
+  end
+  object sqlParams: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = sc
+    Left = 608
+    Top = 16
   end
 end
