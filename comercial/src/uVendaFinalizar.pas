@@ -1178,8 +1178,8 @@ begin
       // Executo Classe Insere Recebimento ---------------------------------------
       if (scdsCr_proc.IsEmpty) then
       begin
+        FRec := TReceberCls.Create;
         try
-           FRec := TReceberCls.Create;
            codRec := FRec.geraTitulo(0, cdsCODVENDA.AsInteger);
         finally
            Frec.Free;
@@ -1384,8 +1384,9 @@ begin
       end;
 
     end;
+
+    FRec := TReceberCls.Create;
     try
-      FRec := TReceberCls.Create;
       FRec.excluiTitulo(scdscr_proc.Params[0].AsInteger);
     finally
       Frec.Free;
@@ -3031,7 +3032,7 @@ var
   Save_Cursor:TCursor;
   codClienteNF: integer;
   serieNf: String;
-  str_sql : string;
+  str_sql, numNf: String;
 begin
   if (sqlBuscaNota.Active) then
     sqlBuscaNota.Close;
@@ -3059,6 +3060,19 @@ begin
 
       if (not dm.cds_parametro.IsEmpty) then
       begin
+        if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+        begin
+          if (dmnf.scds_serienfe.Active) then
+            dmnf.scds_serienfe.Close;
+          dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
+          dmnf.scds_serienfe.Open;
+          numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
+          //gravaSerie(StrToInt(numNf));
+        end
+        else
+        begin
+          numNf := IntToStr(cdsNOTAFISCAL.AsInteger);
+        end;
         serieNf := dm.cds_parametroD1.AsString;
       end
       else
@@ -3079,7 +3093,7 @@ begin
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(serieNF);
-          str_sql := str_sql + ', ' + QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1));
+          str_sql := str_sql + ', ' + QuotedStr(numNf);
           str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
           dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
@@ -3090,7 +3104,7 @@ begin
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENDA.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cdsDATAVENCIMENTO.AsDateTime));
           str_sql := str_sql + ', ' + QuotedStr(serieNF);
-          str_sql := str_sql + ', ' + QuotedStr(inttostr(dmnf.scds_serienfeNOTASERIE.AsInteger+1));
+          str_sql := str_sql + ', ' + QuotedStr(numNf);
           str_sql := str_sql + ', ' + IntToStr(cdsCODMOVIMENTO.AsInteger) + ')';
           dm.sqlsisAdimin.ExecuteDirect(str_sql);
         end;
