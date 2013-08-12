@@ -8,6 +8,7 @@ uses
 
 begin
   Application.Initialize;
+  Application.Title := 'Importacao_DBF';
   Application.CreateForm(TForm2, Form2);
   Application.Run;
 end.
