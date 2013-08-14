@@ -315,7 +315,6 @@ type
     DBEdit9: TDBEdit;
     DBEdit1: TDBEdit;
     DBEdit4: TDBEdit;
-    BitBtn5: TBitBtn;
     JvTroco: TJvCalcEdit;
     JvDBGrid1: TJvDBGrid;
     Panel6: TPanel;
@@ -426,7 +425,6 @@ type
     procedure btnCancelarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure DtSrc1StateChange(Sender: TObject);
-    procedure BitBtn5Click(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure jvPagoChange(Sender: TObject);
@@ -491,12 +489,11 @@ var
 
 implementation
 
-uses UDm, sCtrlResize, uCaixa,
-  uUtils, uProdudoBusca, uMensagens, UDMNF,
+uses UDm, sCtrlResize, uCaixa, uUtils, uMensagens, UDMNF,
   uFiltroMovimento, uTerminalFinalizar, UnitDeclaracoes, UsaCPFDesForma,Principal,
   FechaResumido, FechaComAcrecimo, uAliquita, uMenuCupom,
   FechaCupomContaDividida, FechaConferenciaMesa, uProcurar_nf,
-  ufprocura_prod, uProcura_produtos, uProdutoCadastro, uClienteCadastro,
+  ufprocura_prod, uProdutoCadastro, uClienteCadastro,
   UDM_MOV;
 
 {$R *.dfm}
@@ -571,12 +568,12 @@ begin
   // Define busca pelos produtos de venda
   fProcura_prod.cbTipo.ItemIndex := 2;
   fProcura_prod.BitBtn1.Click;
+  if not (DtSrc1.State in [dsedit, dsinsert]) then
+  begin
+    cds_Mov_det.Edit;
+    cds_Mov_det.Append;
+  end;
   fProcura_prod.ShowModal;
-  if (cds_Mov_det.Active) then
-    cds_Mov_det.Close;
-  cds_Mov_det.Params[0].Clear;
-  cds_Mov_det.Params[1].AsInteger := cDeliveryCODMOVIMENTO.AsInteger;
-  cds_Mov_det.Open;
   jvPago.Text := DBEdit4.Text;
   dbeProduto.SetFocus;
 end;
@@ -1759,16 +1756,6 @@ begin
     if (DtSrc.DataSet.State in [dsBrowse]) then
         DtSrc.DataSet.edit;
   end;
-end;
-
-procedure TfTerminal_Delivery.BitBtn5Click(Sender: TObject);
-begin
-  inherited;
-  if (cds_Mov_det.State in [dsBrowse]) then
-    cds_Mov_det.Append;
-
-  if (cds_Mov_det.State in [dsInsert, dsEdit]) then
-    fProdudoBusca.ShowModal;
 end;
 
 procedure TfTerminal_Delivery.Edit1Exit(Sender: TObject);
