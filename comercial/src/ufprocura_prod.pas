@@ -855,6 +855,15 @@ begin
   if (var_F = 'MovEstoque') then
     fMovimenta_Estoque.btnNovo.Click;
 
+  if (var_F = 'cupom') then
+  begin
+    if (fTerminal_Delivery.cds_Movimento.State in [dsBrowse]) then
+        fTerminal_Delivery.cds_Movimento.Edit;
+
+    fTerminal_Delivery.cds_Mov_det.Append;
+  end;
+
+
  Edit3.Text := '';
  Edit4.Text := '';
  Edit2.Text := ''; 
@@ -2065,7 +2074,34 @@ begin
    end;
    dm.cds_parametro.Close;
 
-   TD.TransactionID := 1;
+
+
+    {dmnf.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+    valorUnitario := cds_procPRECO_VENDA.AsFloat;
+    dmnf.cds_Mov_detCODALMOXARIFADO.AsInteger :=
+    DMNF.estoque := cds_procESTOQUEATUAL.AsFloat;}
+
+    fTerminal_Delivery.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
+    fTerminal_Delivery.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
+    fTerminal_Delivery.cds_Mov_detCOD_BARRA.AsString := cds_procCOD_BARRA.AsString;
+    fTerminal_Delivery.cds_Mov_detPRODUTO.Value := cds_procPRODUTO.Value;
+    fTerminal_Delivery.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
+    fTerminal_Delivery.cds_Mov_detCOD_COMISSAO.AsInteger := 0;
+    fTerminal_Delivery.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
+    fTerminal_Delivery.cds_Mov_detQUANTIDADE.AsFloat := StrToFloat(Edit3.Text);
+    fTerminal_Delivery.cds_Mov_detQTDE_ALT.AsFloat := 0;
+    fTerminal_Delivery.cds_Mov_detVALTOTAL.AsFloat := StrToFloat(Edit4.Text) * StrToFloat(Edit3.Text);
+    fTerminal_Delivery.cds_Mov_detPRECO.AsFloat := StrToFloat(Edit4.Text);
+    fTerminal_Delivery.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
+    fTerminal_Delivery.cds_Mov_detQTDE_PCT.AsFloat := cds_procQTDE_PCT.AsFloat;
+    fTerminal_Delivery.cds_Mov_detLOCALIZACAO.AsString := cds_procLOCALIZACAO.AsString;
+    fTerminal_Delivery.cds_Mov_detESTOQUEATUAL.AsFloat := cds_procESTOQUEATUAL.AsFloat;
+    fTerminal_Delivery.cds_Mov_det.Post;
+
+    fTerminal_Delivery.dbeProduto.Text := '';
+    fTerminal_Delivery.dbeProduto.SetFocus;
+
+   {TD.TransactionID := 1;
    TD.IsolationLevel := xilREADCOMMITTED;
 
    if dm.c_6_genid.Active then
@@ -2101,10 +2137,10 @@ begin
     Try
        dm.sqlsisAdimin.Commit(TD);
     except
-       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes
        MessageDlg('Erro no sistema, o item não foi gravado.', mtError,
            [mbOk], 0);
-    end;
+    end;}
 end;
 
 end.
