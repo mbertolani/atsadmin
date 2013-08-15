@@ -610,14 +610,6 @@ begin
 
   if DtSrc.DataSet.State in [dsInsert] then
   begin
-    if dm.c_6_genid.Active then
-      dm.c_6_genid.Close;
-    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-    dm.c_6_genid.Open;
-    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-    DM_MOV.ID_DO_MOVIMENTO  := dm.c_6_genid.Fields[0].AsInteger;
-    dm.c_6_genid.Close;
-
     cds_MovimentoCODNATUREZA.AsInteger := 7;
     cds_MovimentoDESCNATUREZA.AsString := 'CUPOM FISCAL';
     cds_MovimentoCODUSUARIO.AsInteger := cod_vendedor_padrao;
@@ -750,7 +742,16 @@ begin
       nomecliente := b_clienteNOMECLIENTE.AsString;
     end;
 
-    cds_MovimentoCODMOVIMENTO.asInteger := 1999999;
+
+    if dm.c_6_genid.Active then
+      dm.c_6_genid.Close;
+    dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+    dm.c_6_genid.Open;
+    cds_MovimentoCODMOVIMENTO.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
+    DM_MOV.ID_DO_MOVIMENTO  := dm.c_6_genid.Fields[0].AsInteger;
+    dm.c_6_genid.Close;
+
+    //cds_MovimentoCODMOVIMENTO.asInteger := 1999999;
     cds_MovimentoDATAMOVIMENTO.Value := Date;
     cds_MovimentoDATA_SISTEMA.AsDateTime := Now;
     cds_MovimentoSTATUS.Value := 0;
@@ -776,10 +777,16 @@ end;
 
 procedure TfTerminal_Delivery.cds_Mov_detNewRecord(DataSet: TDataSet);
 begin
-   if (codmovdet >= 1999999) then
-    codmovdet := codmovdet + 1;
-  cds_mov_detCODDETALHE.AsInteger := codmovdet;
-  cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
+  // if (codmovdet >= 1999999) then
+  //  codmovdet := codmovdet + 1;
+  //cds_mov_detCODDETALHE.AsInteger := codmovdet;
+  if dm.c_6_genid.Active then
+    dm.c_6_genid.Close;
+  dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOVDET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+  dm.c_6_genid.Open;
+  cds_Mov_detCODDETALHE.AsInteger :=  dm.c_6_genid.Fields[0].AsInteger;
+  dm.c_6_genid.Close;
+  cds_Mov_detCODMOVIMENTO.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
 end;
 
 procedure TfTerminal_Delivery.cds_Mov_detReconcileError(
@@ -2030,6 +2037,11 @@ begin
      cds_MovimentoCODCLIENTE.AsInteger :=  procFoneCODCLIENTE.AsInteger;
     cds_MovimentoCODNATUREZA.AsInteger := 14; //Delivery
   end;
+
+   if (cds_MovimentoCODMOVIMENTO.AsInteger = 1999999) then
+   begin
+     cds_MovimentoCODMOVIMENTO.AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+   end;
 
   if (RadioGroup1.ItemIndex = 2) then
       cds_MovimentoCODNATUREZA.AsInteger := 7; //Venda
