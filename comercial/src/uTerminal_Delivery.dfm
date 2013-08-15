@@ -1124,7 +1124,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Left = 141
           Top = 22
           Width = 64
-          Height = 19
+          Height = 22
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -1138,7 +1138,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           Left = 205
           Top = 22
           Width = 24
-          Height = 19
+          Height = 22
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -5578,7 +5578,6 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       PopupMenu = PopupMenu1
       TabOrder = 5
       Visible = False
-      OnClick = BitBtn5Click
     end
     object JvTroco: TJvCalcEdit
       Left = 182
@@ -5593,7 +5592,6 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       Font.Height = -29
       Font.Name = 'Cooper Blk BT'
       Font.Style = []
-      ButtonWidth = 23
       ParentFont = False
       PopupMenu = PopupMenu1
       ShowButton = False
