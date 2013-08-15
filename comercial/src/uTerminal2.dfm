@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
   Left = 235
-  Top = 53
+  Top = 54
   Width = 913
   Height = 636
   AutoSize = True
@@ -2631,6 +2631,7 @@ object fTerminal2: TfTerminal2
             BorderStyle = bsNone
             Color = clScrollBar
             DataField = 'CODPEDIDO'
+            DataSource = DM_MOV.d_movimento
             Enabled = False
             PopupMenu = PopupMenu1
             TabOrder = 0
@@ -2644,6 +2645,7 @@ object fTerminal2: TfTerminal2
             BorderStyle = bsNone
             Color = clScrollBar
             DataField = 'DATAMOVIMENTO'
+            DataSource = DM_MOV.d_movimento
             Enabled = False
             PopupMenu = PopupMenu1
             TabOrder = 1
@@ -2657,6 +2659,7 @@ object fTerminal2: TfTerminal2
             BorderStyle = bsNone
             Color = clScrollBar
             DataField = 'USUARIOLOGADO'
+            DataSource = DM_MOV.d_movimento
             Enabled = False
             PopupMenu = PopupMenu1
             TabOrder = 2
