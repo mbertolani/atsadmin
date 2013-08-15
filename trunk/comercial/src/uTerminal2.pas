@@ -835,6 +835,7 @@ begin
     else begin
       JvParcial.Value := SQLDataSet1.Fields[0].Value;
     end;
+    JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
   end
   else
   begin
@@ -4024,6 +4025,10 @@ begin
      DM_MOV.c_movdet.Close;
    DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
    DM_MOV.c_movdet.Open;
+
+  JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+  JvParcial.Value := 0;
+  JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
 
   if (c_forma.Active) then
     c_forma.Close;
