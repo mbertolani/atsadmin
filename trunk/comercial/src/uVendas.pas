@@ -948,8 +948,8 @@ begin
   dm.cds_parametro.Open;
   if (not dm.cds_parametro.IsEmpty) then
   begin
-      if dm.cds_parametroCONFIGURADO.AsString = 'S' then
-         usaprecolistavenda := 'S';
+    if dm.cds_parametroCONFIGURADO.AsString = 'S' then
+       usaprecolistavenda := 'S';
   end;
 
   //Populo combobox Transportadora
@@ -1681,15 +1681,18 @@ procedure TfVendas.btnGravarClick(Sender: TObject);
 begin
   // Se Venda ja Finalizada não permite alteração sem excluir a Finalizacao
   // Isto é necessario para não atrapalhar o estoque
-  if dm.scds_venda_proc.Active then
-    dm.scds_venda_proc.Close;
-  dm.scds_venda_proc.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-  dm.scds_venda_proc.Open;
-  if (not dm.scds_venda_proc.IsEmpty) then
+  if ((cds_MovimentoCODMOVIMENTO.AsInteger < 1999999) or (cds_MovimentoCODMOVIMENTO.AsInteger > 1999999)) then
   begin
-    MessageDlg('Venda finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
-    exit;
-  end;
+    if dm.scds_venda_proc.Active then
+      dm.scds_venda_proc.Close;
+    dm.scds_venda_proc.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+    dm.scds_venda_proc.Open;
+    if (not dm.scds_venda_proc.IsEmpty) then
+    begin
+      MessageDlg('Venda finalizada, não é possivel executar a alteração.', mtWarning, [mbOk], 0);
+      exit;
+    end;
+  end;  
    valida := 'S';
    //VERIFICA SE VENDEDOR ESTÁ PREENCHIDO
    if(DBEdit15.Text <> '') then
@@ -1724,7 +1727,7 @@ begin
            cds_Movimento.Cancel;
            cds_Mov_det.Cancel;
            exit;
-         end;  
+         end;
        end;
      end;
      if (cds_Mov_det.State in [dsInsert, dsEdit]) then
