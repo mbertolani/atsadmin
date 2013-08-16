@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE REL_VENDACOMPRA (
     PDTA1 date,
     PDTA2 date,

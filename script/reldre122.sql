@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE RELDRE (
     PDTA1 date,
     PDTA2 date,
@@ -561,10 +560,4 @@ BEGIN
   TOTAL = null;
 
 
-end^
-SET TERM ; ^
-
-
-GRANT EXECUTE
- ON PROCEDURE RELDRE TO  SYSDBA;
-
+end
