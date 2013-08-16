@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = TabPDV
+    ActivePage = TabSheet1
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -408,7 +408,6 @@ inherited fParametro: TfParametro
           Height = 25
           Caption = 'Nova S'#233'rie'
           TabOrder = 3
-          OnClick = BitBtn38Click
         end
       end
       object RadioGroup4: TRadioGroup
@@ -526,7 +525,6 @@ inherited fParametro: TfParametro
           Height = 25
           Caption = 'Nova S'#233'rie'
           TabOrder = 3
-          OnClick = BitBtn38Click
         end
       end
       object GroupBox35: TGroupBox
@@ -2669,6 +2667,29 @@ inherited fParametro: TfParametro
         TabOrder = 10
         OnClick = rgNfeClick
       end
+      object RadioGroup5: TJvRadioGroup
+        Left = 3
+        Top = 433
+        Width = 185
+        Height = 41
+        Caption = 'Usa Lista de Pre'#231'o por Cliente'
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'N'#227'o'
+          'Sim')
+        TabOrder = 11
+        CaptionVisible = True
+      end
+      object LISTAPRECOGrava: TBitBtn
+        Left = 189
+        Top = 448
+        Width = 75
+        Height = 25
+        Caption = 'Gravar'
+        TabOrder = 12
+        OnClick = LISTAPRECOGravaClick
+      end
     end
     object TabSheet8: TTabSheet
       Caption = 'Centro de Resultado'
@@ -3624,7 +3645,7 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 515
+    Top = 522
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288

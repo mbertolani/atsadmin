@@ -9,7 +9,7 @@ uses
   ComCtrls,DBXpress, JvExExtCtrls, JvExtComponent, JvDBRadioPanel,
   JvExStdCtrls, JvCheckBox, JvExMask, JvToolEdit, JvBaseEdits,
   JvComponentBase, JvNavigationPane, ImgList, JvExControls, JvOutlookBar,
-  DBLocal, DBLocalS;
+  DBLocal, DBLocalS, JvRadioGroup;
 
 type
   TfParametro = class(TfPai)
@@ -340,6 +340,8 @@ type
     rgMesmoNumero: TRadioGroup;
     Label60: TLabel;
     edtConsumidor: TEdit;
+    RadioGroup5: TJvRadioGroup;
+    LISTAPRECOGrava: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -424,13 +426,13 @@ type
     procedure BitBtn33Click(Sender: TObject);
     procedure BitBtn37Click(Sender: TObject);
     procedure BitBtn36Click(Sender: TObject);
-    procedure BitBtn38Click(Sender: TObject);
     procedure btnNumNfeClick(Sender: TObject);
     procedure BitBtn41Click(Sender: TObject);
     procedure rgPesqProdCupomClick(Sender: TObject);
     procedure cbCupomClick(Sender: TObject);
     procedure rgMesmoNumeroClick(Sender: TObject);
     procedure edtConsumidorChange(Sender: TObject);
+    procedure LISTAPRECOGravaClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -455,11 +457,11 @@ uses UDm, JvJVCLUtils, uAtsAdmin, uCargosFuncoes, uProcurar, uSeriaNF,
 
 procedure TfParametro.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  inherited;
  if dm.cds_param.Active then
    dm.cds_param.Close;
   fAtsAdmin.ComboBox14.ItemIndex := ComboBox14.ItemIndex;
   fAtsAdmin.ComboBox13.ItemIndex := ComboBox13.ItemIndex;
+  inherited;
 end;
 
 procedure TfParametro.DtSrcStateChange(Sender: TObject);
@@ -675,6 +677,13 @@ begin
     ComboBox3.Text := dm.cds_paramDADOS.AsString;
   end;
 
+  if (dm.cds_param.Locate('PARAMETRO','LISTAPRECO', [loCaseInsensitive])) then
+  begin
+    if (dm.cds_paramCONFIGURADO.AsString = 'S') then
+    begin
+      RadioGroup5.ItemIndex := 1;
+    end;
+  end;
   if (dm.cds_param.Locate('PARAMETRO','CADASTROVEICULO', [loCaseInsensitive])) then
   begin
     ComboBox4.Text := dm.cds_paramDADOS.AsString;
@@ -4764,17 +4773,6 @@ begin
   end;
 end;
 
-procedure TfParametro.BitBtn38Click(Sender: TObject);
-begin
-  inherited;
- fSeriaNF := TfSeriaNF.Create(Application);
- try
-  fSeriaNF.ShowModal;
- finally
-  fSeriaNF.Free;
- end;
-end;
-
 procedure TfParametro.btnNumNfeClick(Sender: TObject);
 var numNf: Integer;
 begin
@@ -5079,6 +5077,55 @@ begin
                [mbOk], 0);
         end;
      end;
+  end;
+
+end;
+
+procedure TfParametro.LISTAPRECOGravaClick(Sender: TObject);
+begin
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'LISTAPRECO';
+  s_parametro.Open;
+  if (s_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Utiliza Lista de Preço por cliente') + ', ';
+    strSql := strSql + QuotedStr('LISTAPRECO') + ', ';
+    if (RadioGroup5.ItemIndex = 1) then
+      strSql := strSql + QuotedStr('S');
+    if (RadioGroup5.ItemIndex = 0) then
+      strSql := strSql + QuotedStr('N');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else begin
+    strSql := 'UPDATE PARAMETRO SET CONFIGURADO = ';
+    if (RadioGroup5.ItemIndex = 1) then
+      strSql := strSql + QuotedStr('S');
+    if (RadioGroup5.ItemIndex = 0) then
+      strSql := strSql + QuotedStr('N');
+    strSql := strSql + ' where PARAMETRO = ' + QuotedStr('LISTAPRECO');
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+        [mbOk], 0);
+    end;
   end;
 
 end;
