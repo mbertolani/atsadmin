@@ -1,6 +1,7 @@
-Create or ALTER PROCEDURE GERA_CUPOM ( CODMOV integer )
+CREATE OR ALTER PROCEDURE GERA_CUPOM (
+    CODMOV integer )
 AS
-  declare variable dtEmissao date;
+declare variable dtEmissao date;
   declare variable dtvcto date;
   declare variable codVen integer;
   declare variable rcodVen integer;
