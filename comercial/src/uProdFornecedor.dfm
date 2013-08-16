@@ -1,13 +1,49 @@
 inherited fProdFornecedor: TfProdFornecedor
   Left = 233
   Top = 159
+  Width = 727
+  Height = 647
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Height = 60
+    Width = 719
+    Height = 113
     Align = alTop
+    object Label3: TLabel [0]
+      Left = 27
+      Top = 61
+      Width = 33
+      Height = 13
+      Caption = 'C'#243'digo'
+      Transparent = True
+    end
+    object Label6: TLabel [1]
+      Left = 189
+      Top = 61
+      Width = 37
+      Height = 13
+      Caption = 'Produto'
+      Transparent = True
+    end
+    object Label4: TLabel [2]
+      Left = 507
+      Top = 61
+      Width = 17
+      Height = 13
+      Caption = 'Un.'
+      Transparent = True
+    end
+    object Label5: TLabel [3]
+      Left = 542
+      Top = 61
+      Width = 63
+      Height = 13
+      Caption = 'Valor Unit'#225'rio'
+      Transparent = True
+    end
     inherited btnGravar: TBitBtn
       Left = 5
       Top = 2
@@ -37,7 +73,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Layout = blGlyphTop
     end
     inherited btnProcurar: TBitBtn
-      Left = 545
+      Left = 321
       Top = 2
       Width = 77
       Height = 55
@@ -128,10 +164,80 @@ inherited fProdFornecedor: TfProdFornecedor
         1313131313131313131313131327272727272727272727272727}
       Layout = blGlyphTop
     end
+    object DBEdit1: TDBEdit
+      Left = 26
+      Top = 77
+      Width = 121
+      Height = 21
+      DataField = 'CODIGO'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 7
+      OnExit = DBEdit1Exit
+      OnKeyPress = FormKeyPress
+    end
+    object BitBtn1: TBitBtn
+      Left = 148
+      Top = 74
+      Width = 38
+      Height = 25
+      TabOrder = 8
+      OnClick = BitBtn1Click
+    end
+    object DBEdit4: TDBEdit
+      Left = 188
+      Top = 77
+      Width = 315
+      Height = 21
+      TabStop = False
+      Color = clSilver
+      DataField = 'PRODUTO'
+      DataSource = DtSrc
+      ReadOnly = True
+      TabOrder = 9
+    end
+    object DBEdit2: TDBEdit
+      Left = 506
+      Top = 77
+      Width = 33
+      Height = 21
+      DataField = 'UNIDADE'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 10
+    end
+    object DBEdit3: TDBEdit
+      Left = 541
+      Top = 77
+      Width = 86
+      Height = 21
+      DataField = 'PRECOLISTA'
+      DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 11
+      OnExit = DBEdit3Exit
+      OnKeyPress = FormKeyPress
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 60
-    Height = 354
+    Top = 113
+    Width = 719
+    Height = 447
     Align = alClient
     Font.Color = clWhite
     Font.Style = [fsBold]
@@ -144,179 +250,102 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = -100
       Visible = False
     end
-    object Label3: TLabel
-      Left = 13
-      Top = 9
-      Width = 40
-      Height = 13
-      Caption = 'C'#243'digo'
-      Transparent = True
-    end
-    object Label4: TLabel
-      Left = 493
-      Top = 9
-      Width = 21
-      Height = 13
-      Caption = 'Un.'
-      Transparent = True
-    end
-    object Label5: TLabel
-      Left = 528
-      Top = 9
-      Width = 78
-      Height = 13
-      Caption = 'Valor Unit'#225'rio'
-      Transparent = True
-    end
-    object Label6: TLabel
-      Left = 175
-      Top = 9
-      Width = 45
-      Height = 13
-      Caption = 'Produto'
-      Transparent = True
-    end
-    object FlatGauge1: TFlatGauge
-      Left = 11
-      Top = 324
-      Width = 145
-      Height = 25
-      AdvColorBorder = 0
-      ColorBorder = 8623776
-      Progress = 0
-    end
-    object Label7: TLabel
-      Left = 13
-      Top = 310
-      Width = 48
-      Height = 13
-      Caption = 'Aguarde'
-      Transparent = True
-      Visible = False
-    end
-    object DBGrid1: TDBGrid
-      Left = 12
-      Top = 47
-      Width = 601
-      Height = 260
-      Color = clMenu
+    object JvDBUltimGrid1: TJvDBUltimGrid
+      Left = 1
+      Top = 1
+      Width = 717
+      Height = 445
+      Align = alClient
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
+      Font.Color = clBlue
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clBlack
+      TitleFont.Color = clBlue
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
       TitleFont.Style = [fsBold]
+      SelectColumnsDialogStrings.Caption = 'Select columns'
+      SelectColumnsDialogStrings.OK = '&OK'
+      SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
+      EditControls = <>
+      RowsHeight = 17
+      TitleRowHeight = 17
       Columns = <
         item
           Expanded = False
           FieldName = 'CODIGO'
-          Title.Caption = 'C'#243'digo'
+          Title.Caption = 'C'#243'd.'
+          Width = 90
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRODUTO'
           Title.Caption = 'Produto'
-          Width = 400
+          Width = 450
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'UNIDADE'
-          Title.Caption = 'UN'
+          Title.Caption = 'Unidade'
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRECOLISTA'
-          Title.Caption = 'Valor'
+          Title.Caption = 'Pre'#231'o na Lista'
           Visible = True
         end>
     end
-    object DBEdit1: TDBEdit
-      Left = 12
-      Top = 25
-      Width = 121
-      Height = 21
-      DataField = 'CODIGO'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 0
-      OnExit = DBEdit1Exit
-      OnKeyPress = FormKeyPress
+  end
+  object MMJPanel3: TMMJPanel [2]
+    Left = 0
+    Top = 560
+    Width = 719
+    Height = 60
+    Align = alBottom
+    BevelInner = bvLowered
+    PopupMenu = PopupMenu1
+    TabOrder = 2
+    Silhuette.Shape.ShapeText = 'Shape text'
+    Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
+    Silhuette.PictureShape.DisplayPicture = True
+    Background.StartColor = clSilver
+    Background.EndColor = clActiveCaption
+    Background.FillType = GradUpDown
+    object Label7: TLabel
+      Left = 21
+      Top = 7
+      Width = 40
+      Height = 13
+      Caption = 'Aguarde'
+      Transparent = True
+      Visible = False
     end
-    object BitBtn1: TBitBtn
-      Left = 134
-      Top = 22
-      Width = 38
+    object FlatGauge1: TFlatGauge
+      Left = 19
+      Top = 27
+      Width = 294
       Height = 25
-      TabOrder = 3
-      OnClick = BitBtn1Click
-    end
-    object DBEdit2: TDBEdit
-      Left = 492
-      Top = 25
-      Width = 33
-      Height = 21
-      DataField = 'UNIDADE'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 1
-    end
-    object DBEdit3: TDBEdit
-      Left = 527
-      Top = 25
-      Width = 86
-      Height = 21
-      DataField = 'PRECOLISTA'
-      DataSource = DtSrc
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 2
-      OnExit = DBEdit3Exit
-      OnKeyPress = FormKeyPress
-    end
-    object DBEdit4: TDBEdit
-      Left = 174
-      Top = 25
-      Width = 315
-      Height = 21
-      TabStop = False
-      Color = clSilver
-      DataField = 'PRODUTO'
-      DataSource = DtSrc
-      ReadOnly = True
-      TabOrder = 5
+      AdvColorBorder = 0
+      Transparent = True
+      ColorBorder = 8623776
+      Progress = 0
     end
     object DBNavigator1: TDBNavigator
-      Left = 192
-      Top = 324
+      Left = 404
+      Top = 29
       Width = 224
       Height = 25
       DataSource = DtSrc
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-      TabOrder = 6
+      TabOrder = 0
     end
   end
   inherited DtSrc: TDataSource

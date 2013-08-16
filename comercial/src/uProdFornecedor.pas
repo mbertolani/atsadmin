@@ -6,21 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uPai, DBCtrls, Grids, DBGrids, StdCtrls, Mask, DB, Menus,
   XPMenu, Buttons, ExtCtrls, MMJPanel, FMTBcd, DBClient, Provider, SqlExpr,
-  TFlatGaugeUnit;
+  TFlatGaugeUnit, JvExDBGrids, JvDBGrid, JvDBUltimGrid;
 
 type
   TfProdFornecedor = class(TfPai)
-    DBEdit1: TDBEdit;
-    BitBtn1: TBitBtn;
-    DBEdit2: TDBEdit;
-    DBGrid1: TDBGrid;
-    Label3: TLabel;
-    Label4: TLabel;
-    DBEdit3: TDBEdit;
-    Label5: TLabel;
-    DBEdit4: TDBEdit;
-    Label6: TLabel;
-    DBNavigator1: TDBNavigator;
     sds: TSQLDataSet;
     dsp: TDataSetProvider;
     cds: TClientDataSet;
@@ -136,8 +125,20 @@ type
     sdsPVALORCOMISSAO: TFloatField;
     sdsPGERADESCONTO: TStringField;
     sdsPIMPRIMIR: TStringField;
-    FlatGauge1: TFlatGauge;
+    MMJPanel3: TMMJPanel;
     Label7: TLabel;
+    FlatGauge1: TFlatGauge;
+    DBNavigator1: TDBNavigator;
+    Label3: TLabel;
+    DBEdit1: TDBEdit;
+    BitBtn1: TBitBtn;
+    Label6: TLabel;
+    DBEdit4: TDBEdit;
+    Label4: TLabel;
+    DBEdit2: TDBEdit;
+    Label5: TLabel;
+    DBEdit3: TDBEdit;
+    JvDBUltimGrid1: TJvDBUltimGrid;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -281,6 +282,7 @@ end;
 procedure TfProdFornecedor.BitBtn2Click(Sender: TObject);
 begin
   inherited;
+  FlatGauge1.Progress := 0;
   Label7.Visible := True;
   cdsp.Open;
   cdsp.first;
@@ -310,13 +312,11 @@ begin
     cdsUNIDADE.AsString := cdsPUNIDADEMEDIDA.AsString;
     cdsCODFORNECEDOR.AsInteger := fProdFornecedor.codFornecedor;
     cds.ApplyUpdates(0);
+    FlatGauge1.Progress := cdsp.RecNo;
     cdsP.Next;
   end;
   cdsP.Close;
-  FlatGauge1.Progress := 0;
   Label7.Visible := False;
-  //FlatGauge1.Visible := False;
-
 end;
 
 end.
