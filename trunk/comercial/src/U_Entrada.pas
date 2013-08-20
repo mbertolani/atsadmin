@@ -740,6 +740,17 @@ var
   baixou : Integer;
   resto : Double;
 begin
+  if (DM_MOV.c_venda.Active) then
+      DM_MOV.c_venda.Close;
+  DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+  DM_MOV.c_venda.Open;
+  if (not DM_MOV.c_venda.IsEmpty) then
+  begin
+    MessageDlg('Venda já Finalizada.', mtWarning, [mbOK], 0);
+    fTerminal2.var_FINALIZOU := 'SIM';
+    exit;
+  end;
+
   if (not c_forma.Active) then
   begin
      ShowMessage('Para finalizar a Operacao e necessario antes informar '+#13+#10 +
@@ -1148,6 +1159,7 @@ begin
      Writeln(IMPRESSORA);
      Writeln(IMPRESSORA);
      Writeln(IMPRESSORA);
+     Write(IMPRESSORA, chr(ord(strtoint('29')))+chr(ord(strtoint( '+86')))+chr(ord(strtoint('+01'))));
   finally
     CloseFile(IMPRESSORA);
   end;
