@@ -304,7 +304,7 @@ uses
   uClassificacaoFiscalNCM in 'uClassificacaoFiscalNCM.pas' {fClassificacaoFiscalNCM},
   uNCM in 'uNCM.pas' {fNCM},
   uEstoqueAtualiza in 'uEstoqueAtualiza.pas',
-  uTroca in 'uTroca.pas' {fTroca};
+  uTroca in 'uTroca.pas' {fTroca},
   uTerminal2 in 'uTerminal2.pas' {fTerminal2},
   UnitDeclaracoes in 'UnitDeclaracoes.pas',
   UsaCPFDesForma in 'UsaCPFDesForma.pas' {FormUsaCPFDesForma},
@@ -363,7 +363,8 @@ uses
   TerminaFechamentoCupomMFD in 'TerminaFechamentoCupomMFD.pas' {frmMensagemPromocionalMFD},
   uAliquita in 'uAliquita.pas' {fAliquota},
   uMenuCupom in 'uMenuCupom.pas' {fMenuCupom},
-  uGeraSPED in 'ugeraSPED.pas' {fGeraSPED};
+  uGeraSPED in 'ugeraSPED.pas' {fGeraSPED},
+  unfc in 'unfc.pas' {fnfc};
 
 {$R *.res}
 
