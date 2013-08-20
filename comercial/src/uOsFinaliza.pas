@@ -1,7 +1,7 @@
 unit uOsFinaliza;
 
 interface
-
+                            
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, JvExButtons, JvBitBtn, ExtCtrls,
@@ -376,6 +376,11 @@ procedure TfOsFinaliza.JvGravarClick(Sender: TObject);
 var
   codRecCR: Integer;
 begin
+  if ((scdsCr_proc.Active) and (not scdsCr_proc.IsEmpty)) then
+  begin
+    MessageDlg('Venda já Finalizada.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if (DBEdit5.Text = '1') then
   begin
     if (jvPago.Value > 0) then
@@ -1030,9 +1035,8 @@ begin
       str_sql := 'update OS set status = ' + QuotedStr('A') + ' where CODOS = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger);
       //dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODORIGEM = ' + IntToStr(DM_MOV.c_movimentoCODORIGEM.AsInteger));
       dm.sqlsisAdimin.ExecuteDirect(str_sql);
-      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));      
     end;
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ' + IntToStr(DM_MOV.c_movimentoCODMOVIMENTO.AsInteger));
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' + IntToStr(DM_MOV.c_vendaCODVENDA.AsInteger));
     dm.sqlsisAdimin.Commit(TD);
     ShowMessage('Venda Excluida com Sucesso');
   except
@@ -1046,7 +1050,7 @@ begin
   if (DM_MOV.c_venda.Active) then
     DM_MOV.c_venda.Close;
   DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
-  DM_MOV.c_venda.Open;  
+  DM_MOV.c_venda.Open;
 
   if scdscr_proc.Active then
      scdscr_proc.Close;
