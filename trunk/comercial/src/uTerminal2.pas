@@ -758,6 +758,7 @@ end;
 
 procedure TfTerminal2.JvProcurarClick(Sender: TObject);
 begin
+  codCliente := 0;
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
     if (DM_MOV.c_movimento.Active) then
@@ -1037,6 +1038,7 @@ end;
 
 procedure TfTerminal2.JvBitBtn7Click(Sender: TObject);
 begin
+  codCliente := 0;
   if (DM.USACONTROLECAIXA = 'SIM') then
   begin
      testacaixaaberto;
@@ -3895,7 +3897,6 @@ begin
     ImpressoraDet.Free;
   end;
 
-
   if (s_parametro.Active) then
    s_parametro.Close;
   s_parametro.Params[0].AsString := 'USACONTROLECAIXA';
@@ -3940,7 +3941,7 @@ begin
        ShowMessage('O caixa precisa ser aberto');
      end;
   end;
-
+  codCliente := 0;
 end;
 
 procedure TfTerminal2.FormClose(Sender: TObject; var Action: TCloseAction);
