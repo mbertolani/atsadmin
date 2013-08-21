@@ -3302,6 +3302,7 @@ begin
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENMOV, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
   dm.c_6_genid.Open;
   id_movimento := dm.c_6_genid.Fields[0].AsInteger;
+  dm.totalpago := 0;
 
   if dm.cds_parametro.Active then
     dm.cds_parametro.Close;
