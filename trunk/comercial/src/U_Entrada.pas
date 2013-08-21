@@ -1565,8 +1565,18 @@ var str_sql : string;
 begin
   if (fTerminal2.var_FINALIZOU <> 'SIM') then
   begin
-    MessageDlg('Execute a Finalização para ir para o Cupom.', mtWarning, [mbOK], 0);
-    exit;
+    if (DM_MOV.c_venda.Active) then
+      DM_MOV.c_venda.Close;
+    DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+    DM_MOV.c_venda.Open;
+    if (not DM_MOV.c_venda.IsEmpty) then
+    begin
+      fTerminal2.var_FINALIZOU := 'SIM';
+    end
+    else begin
+      MessageDlg('Execute a Finalização para ir para o Cupom.', mtWarning, [mbOK], 0);
+      exit;
+    end;
   end;
   if (fTerminal2.var_FINALIZOU = 'SIM') then
   begin
