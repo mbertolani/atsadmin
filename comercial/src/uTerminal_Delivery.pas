@@ -1734,12 +1734,12 @@ end;
 
 procedure TfTerminal_Delivery.btnExcluirClick(Sender: TObject);
 begin
- if (dm.situacaoCaixa = 'Fechado') then
+ {if (dm.situacaoCaixa = 'Fechado') then
  begin
    MessageDlg(' Execute Leitura X ', mtWarning, [mbOK], 0);
    exit;
- end;
-  inherited;
+ end;}
+  //inherited;
 
   if (cds_Mov_det.Active) then
      cds_Mov_det.Close;
@@ -1829,11 +1829,11 @@ end;
 
 procedure TfTerminal_Delivery.btnProcurarClick(Sender: TObject);
 begin
- if (dm.situacaoCaixa = 'Fechado') then
+ {if (dm.situacaoCaixa = 'Fechado') then
  begin
    MessageDlg(' Execute Leitura X ', mtWarning, [mbOK], 0);
    exit;
- end;
+ end;}
     if (not dmnf.cds_ccusto.Active) then
         dmnf.cds_ccusto.Open;
     dmnf.cds_ccusto.First;
