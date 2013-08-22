@@ -95,7 +95,8 @@ type
     procedure btn2Click(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure imprimeCupom;
-    procedure imprimeDLLBema;    
+    procedure imprimeDLLBema;
+    function RPad(S: string; Ch: Char; Len: Integer): string;
   private
     IMPRESSORA:TextFile;
     Texto,Texto1,Texto2,Texto3,Texto4,texto5, texto6, texto7, texto8, logradouro,cep,fone : string;
@@ -126,7 +127,7 @@ const
   cFNegrito = #27#72;
   cIItalico = #27#52;
   cFItalico = #27#53;
-    
+
 
 var
   F_RelTerminal: TF_RelTerminal;
@@ -348,8 +349,8 @@ begin
         // imprimeDLLBema
         if (not dm.cds_empresa.Active) then
           dm.cds_empresa.Open;
-        Texto  := '          ' + dm.cds_empresaEMPRESA.AsString;
-        Texto1 := '----------------------------------------' ;
+        Texto  := '    ' + RPad(dm.cds_empresaEMPRESA.AsString,' ', 40) + '    ';
+        Texto1 := '------------------------------------------------' ;
         Texto2 := 'RELATORIO CAIXA: ' + cbb1.Text ;
         Texto3 := 'Dia : ' + DateTimeToStr(edData.Date);
         Texto4 := '         Caixa                Total R$  ' ;
@@ -618,11 +619,11 @@ begin
   if (not dm.cds_empresa.Active) then
     dm.cds_empresa.Open;
 
-  Texto  := '          ' + dm.cds_empresaEMPRESA.AsString;
-  Texto1 := '----------------------------------------' ;
-  Texto2 := '             RELATÓRIO DE VENDAS            ' ;
-  Texto3 := 'Dia : ' + DateTimeToStr(edData.Date);
-  Texto4 := 'Descricao    Qutde   Unt.R$   Total R$  ' ;
+  Texto  := '    ' + rpad(dm.cds_empresaEMPRESA.AsString,' ',40) + '    ';
+  Texto1 := '------------------------------------------------' ;
+  Texto2 := '            RELATÓRIO DE VENDAS          v1.121 ' ;
+  Texto3 := 'Dia :   ' + rpad(DateTimeToStr(edData.Date),' ',40);
+  Texto4 := 'Desc.                     Qtde  Unt.R$  Total R$' ;
 
   if (s_parametro.Active) then
     s_parametro.Close;
@@ -649,20 +650,20 @@ begin
   if (iRetorno <= 0) then
     ShowMessage('Erro Ajustando a Largura do Papel');
 
-  buffer  := texto + Chr(13) + Chr(10);
-  comando := FormataTX(texto, 3, 0, 0, 0, 0);
-  buffer  := texto1 + Chr(13) + Chr(10);
-  comando := FormataTX(texto1, 3, 0, 0, 0, 0);
-  buffer  := texto2 + Chr(13) + Chr(10);
-  comando := FormataTX(texto2, 3, 0, 0, 0, 0);
-  buffer  := texto1 + Chr(13) + Chr(10);
-  comando := FormataTX(texto1, 3, 0, 0, 0, 0);
-  buffer  := texto3 + Chr(13) + Chr(10);
-  comando := FormataTX(texto3, 3, 0, 0, 0, 0);
-  buffer  := texto4 + Chr(13) + Chr(10);
-  comando := FormataTX(texto4, 3, 0, 0, 0, 0);
-  buffer  := texto1 + Chr(13) + Chr(10);
-  comando := FormataTX(texto1, 3, 0, 0, 0, 0);
+  buffer  := texto + #13 + #10;
+  comando := FormataTX(pchar(texto), 3, 0, 0, 0, 0);
+  buffer  := texto1 + #13 + #10;
+  comando := FormataTX(pchar(texto1), 3, 0, 0, 0, 0);
+  buffer  := texto2 + #13 + #10;
+  comando := FormataTX(pchar(texto2), 3, 0, 0, 0, 0);
+  buffer  := texto1 + #13 + #10;
+  comando := FormataTX(pchar(texto1), 3, 0, 0, 0, 0);
+  buffer  := texto3 + #13 + #10;
+  comando := FormataTX(pchar(texto3), 3, 0, 0, 0, 0);
+  buffer  := texto4 + #13 + #10;
+  comando := FormataTX(pchar(texto4), 3, 0, 0, 0, 0);
+  buffer  := texto1 + #13 + #10;
+  comando := FormataTX(pchar(texto1), 3, 0, 0, 0, 0);
 
   if (sVenda.Active) then
     sVenda.Close;
@@ -674,33 +675,34 @@ begin
   Totalgeral := 0;
   while not sVenda.Eof do
   begin
-    texto6 := Copy(sVendaDESCRICAO.AsString, 0, 38);
-    buffer  := texto6 + Chr(13) + Chr(10);
-    comando := FormataTX(texto6, 3, 0, 0, 0, 0);
-    buffer  := buffer + Format('%6.4n',[sVendaQUTDE.value]);
-    buffer  := buffer + Format('%10.2n',[sVendaVARLORUNIT.value]);
+    texto6 := rpad(sVendaDESCRICAO.AsString, ' ', 25);
+    texto6 :=  texto6 + #13 + #10;
+    buffer  := texto6;
+    comando := FormataTX(pchar(texto6), 3, 0, 0, 0, 0);
+    buffer  := Format('%7.3n',[sVendaQUTDE.value]);
+    buffer  := buffer + Format('%8.2n',[sVendaVARLORUNIT.value]);
     totalprod := sVendaQUTDE.value * sVendaVARLORUNIT.value;
-    buffer  := buffer + Format('%10.2n',[totalprod]);
-    buffer  := buffer + Chr(13) + Chr(10);
+    buffer  := buffer + Format('%8.2n',[totalprod]);
+    buffer  := buffer + #13 + #10;
     comando := FormataTX(buffer, 3, 0, 0, 0, 0);
     Totalgeral := Totalgeral + totalprod;
     sVenda.next;
   end;
-  buffer  := texto2 + Chr(13) + Chr(10);
+  buffer  := texto2 + #13 + #10;
   comando := FormataTX(texto2, 3, 0, 0, 0, 0);
-  Texto5 := '               Total : R$   ';
+  Texto5 := rpad('          Total : R$ ', ' ', 28);
   buffer  := texto5;
   buffer  := buffer + Format('%10.2n',[Totalgeral]);
-  buffer  := buffer + Chr(13) + Chr(10);
+  buffer  := buffer  + #13 + #10;
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
-  buffer  := '' + Chr(13) + Chr(10);
+  buffer  := rpad(' ', ' ',48) + #13 + #10;
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-  buffer  := '' + Chr(13) + Chr(10);
+  buffer  := rpad(' ', ' ',48) + #13 + #10;
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-  buffer  := '' + Chr(13) + Chr(10);
+  buffer  := rpad(' ', ' ',48) + #13 + #10;
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
-  buffer  := '' + Chr(13) + Chr(10);
+  buffer  := rpad(' ', ' ',48) + #13 + #10;
   comando := FormataTX(buffer, 3, 0, 0, 0, 0);
 
   // Corto o Papel
@@ -716,6 +718,14 @@ begin
   sVenda.Close;
   dm.cds_empresa.Close;
 
+end;
+
+function TF_RelTerminal.RPad(S: string; Ch: Char; Len: Integer): string;
+var   RestLen: Integer;
+begin   Result  := S;
+  RestLen := Len - Length(s);
+  if RestLen < 1 then Exit;
+  Result := StringOfChar(Ch, RestLen) + S;
 end;
 
 end.
