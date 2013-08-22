@@ -290,7 +290,6 @@ type
     scds_serie_procSERIE: TStringField;
     scds_serie_procULTIMO_NUMERO: TIntegerField;
     scds_serie_procNOTAFISCAL: TSmallintField;
-    rgCadastroCliente: TRadioGroup;
     GroupBox6: TGroupBox;
     Label14: TLabel;
     Label15: TLabel;
@@ -342,6 +341,7 @@ type
     edtConsumidor: TEdit;
     RadioGroup5: TJvRadioGroup;
     LISTAPRECOGrava: TBitBtn;
+    rgCadastroCliente: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
