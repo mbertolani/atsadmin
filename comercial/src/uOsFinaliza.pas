@@ -426,6 +426,7 @@ begin
     scdsCr_proc.Close;
     scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
     scdsCr_proc.Open;
+    dm.totalpago := jvPago.Value;
   end;
   OSFinalizaStatus := 'FINALIZADO';
 end;
@@ -435,6 +436,7 @@ Var vJvValor,  vJvValor1, vJvValor2: Double;
   strSqlMov: String;
   FRec : TReceberCls;
 begin
+  dm.totalpago := 0;
   if dm.c_6_genid.Active then
     dm.c_6_genid.Close;
   dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENVENDA, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
