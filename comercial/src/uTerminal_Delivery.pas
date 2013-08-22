@@ -589,6 +589,7 @@ begin
     Edit4.Text := '';
   end;
 
+  dm.totalpago := 0;
   jvPago.Value := 0;
   JvTroco.Value := 0;
 
