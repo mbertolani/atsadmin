@@ -1826,8 +1826,8 @@ begin
       EXECUTADDL('EMPRESA', 'ECFFAB', 'VARCHAR(20)');
       EXECUTADDL('EMPRESA', 'ECFCX', 'VARCHAR(3)');
       executaScript('estoque_view_custo119.sql');
-      executaScript('listaProdutocli118.sql');      
-      executaScript('listaProduto118.sql');      
+      executaScript('listaProdutocli118.sql');
+      executaScript('listaProduto118.sql');
       executaScript('rel_vendaCompra119.sql');
       executaScript('spestoque119.sql');
       ExecutaSql('ALTER TRIGGER PROIBE_ALT_DEL_NF ACTIVE');
@@ -1847,7 +1847,7 @@ begin
       EXECUTADDL('NOTAFISCAL', 'BASE_COFINS', 'double precision');
       EXECUTADDL('NOTAFISCAL', 'VLRTOT_TRIB', 'double precision');
       EXECUTADDL('CFOP', 'TOTTRIB', 'char(1)');
-      EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');      
+      EXECUTADDL('PRODUTOS', 'PESO_LIQ', 'double precision');
 
       if (NaoExisteTabela('NCM')) then
       begin
@@ -1880,7 +1880,7 @@ begin
          ' CSTCOFINS varchar(2), ' +
          ' PIS double precision, ' +
          ' COFINS double precision, ' +
-         ' ORIGEM integer NOT NULL' +         
+         ' ORIGEM integer NOT NULL' +
          ')');
         executaSql('alter table CLASSIFICACAOFISCALNCM add constraint PK_CLASS_NCM primary key (NCM, CFOP, UF, CODFISCAL, ORIGEM)');
       end;
@@ -1936,7 +1936,7 @@ begin
       executaScript('estoque_precomedio121.sql');
       executaScript('rel_vendaCompra121.sql');
       executaScript('spestoque121.sql');
-      executaScript('estoque_view_custo121.sql');	  
+      executaScript('estoque_view_custo121.sql');
       mudaVersao('1.0.0.121');
     end;// Fim Atualizacao Versao 1.0.0.121
 
@@ -1949,6 +1949,7 @@ begin
       executaScript('rel_vendaCompra122.sql');
       executaScript('spestoque122.sql');
       executaScript('gera_cupom.sql');
+      EXECUTADDL('CLIENTES', 'BLOQUEADO', 'CHAR(1)');
       //mudaVersao('1.0.0.122');
     end;// Fim Atualizacao Versao 1.0.0.122
 
