@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
   Left = 211
-  Top = 126
+  Top = 127
   Width = 834
   Height = 603
   OldCreateOrder = True
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = TabSheet1
+    ActivePage = TabSheet6
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -1739,20 +1739,6 @@ inherited fParametro: TfParametro
           OnClick = BitBtn19Click
         end
       end
-      object rgCadastroCliente: TRadioGroup
-        Left = 8
-        Top = 208
-        Width = 353
-        Height = 41
-        Caption = 'Cadastro de Cliente'
-        Columns = 2
-        ItemIndex = 0
-        Items.Strings = (
-          'Cadastro P. Juridico'
-          'Cadastro P. F'#237'sica')
-        TabOrder = 4
-        OnClick = rgCadastroClienteClick
-      end
       object GroupBox6: TGroupBox
         Left = 9
         Top = 260
@@ -1761,7 +1747,7 @@ inherited fParametro: TfParametro
         Caption = 
           'Usado PDV: Inseri CODCLIENTE, CODALMOXARIFADO, CODNATUREZA (PDV)' +
           ' e CUPOM ou PEDIDO(mesmo Venda Finalizar) para o bot'#227'o imprimir'
-        TabOrder = 5
+        TabOrder = 4
         object Label14: TLabel
           Left = 8
           Top = 24
@@ -1855,7 +1841,7 @@ inherited fParametro: TfParametro
         Caption = 
           'Formata'#231#227'o usadas no sistema (n. casas decimais...) D1 : Qtde, D' +
           '2 : Valor'
-        TabOrder = 6
+        TabOrder = 5
         object Label25: TLabel
           Left = 40
           Top = 14
@@ -2000,7 +1986,7 @@ inherited fParametro: TfParametro
         Left = 3
         Top = 16
         Width = 778
-        Height = 43
+        Height = 89
         Caption = 'Cadastro Cliente'
         TabOrder = 0
         object Label35: TLabel
@@ -2029,6 +2015,120 @@ inherited fParametro: TfParametro
           Items.Strings = (
             'REPRESENTANTE'
             'REFERENCIA')
+        end
+      end
+      object rgCadastroCliente: TRadioGroup
+        Left = 5
+        Top = 110
+        Width = 353
+        Height = 41
+        Caption = 'Cadastro de Cliente'
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'Cadastro P. Juridico'
+          'Cadastro P. F'#237'sica')
+        TabOrder = 1
+        OnClick = rgCadastroClienteClick
+      end
+      object GroupBox38: TGroupBox
+        Left = 8
+        Top = 160
+        Width = 801
+        Height = 49
+        Caption = 
+          'Exibe condi'#231'oes na Lista de Produtos (ex.:  Desconto a Vista 5% ' +
+          '- 95 , Pre'#231'o a Prazo (+10%) - 110)'
+        TabOrder = 2
+        object Label61: TLabel
+          Left = 8
+          Top = 16
+          Width = 54
+          Height = 13
+          Caption = 'Condi'#231'ao 1'
+        end
+        object Label62: TLabel
+          Left = 213
+          Top = 18
+          Width = 54
+          Height = 13
+          Caption = 'Condi'#231'ao 2'
+        end
+        object Label63: TLabel
+          Left = 413
+          Top = 18
+          Width = 54
+          Height = 13
+          Caption = 'Condi'#231'ao 3'
+        end
+        object Label64: TLabel
+          Left = 611
+          Top = 17
+          Width = 52
+          Height = 13
+          Caption = 'Arredondar'
+        end
+        object edListaCondicao1: TEdit
+          Left = 72
+          Top = 16
+          Width = 89
+          Height = 21
+          TabOrder = 0
+        end
+        object edListaCondicaoCalc1: TEdit
+          Left = 166
+          Top = 16
+          Width = 43
+          Height = 21
+          TabOrder = 1
+          Text = '0'
+        end
+        object BitBtn38: TBitBtn
+          Left = 718
+          Top = 11
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 2
+          OnClick = BitBtn38Click
+        end
+        object edListaCondicao2: TEdit
+          Left = 272
+          Top = 16
+          Width = 89
+          Height = 21
+          TabOrder = 3
+        end
+        object edListaCondicaoCalc2: TEdit
+          Left = 366
+          Top = 16
+          Width = 43
+          Height = 21
+          TabOrder = 4
+          Text = '0'
+        end
+        object edListaCondicao3: TEdit
+          Left = 472
+          Top = 16
+          Width = 89
+          Height = 21
+          TabOrder = 5
+        end
+        object edListaCondicaoCalc3: TEdit
+          Left = 566
+          Top = 16
+          Width = 43
+          Height = 21
+          TabOrder = 6
+          Text = '0'
+        end
+        object edCondicaoArredondar: TEdit
+          Left = 672
+          Top = 16
+          Width = 41
+          Height = 21
+          TabOrder = 7
+          Text = '0'
         end
       end
     end

@@ -342,6 +342,19 @@ type
     RadioGroup5: TJvRadioGroup;
     LISTAPRECOGrava: TBitBtn;
     rgCadastroCliente: TRadioGroup;
+    GroupBox38: TGroupBox;
+    Label61: TLabel;
+    edListaCondicao1: TEdit;
+    edListaCondicaoCalc1: TEdit;
+    BitBtn38: TBitBtn;
+    edListaCondicao2: TEdit;
+    Label62: TLabel;
+    edListaCondicaoCalc2: TEdit;
+    Label63: TLabel;
+    edListaCondicao3: TEdit;
+    edListaCondicaoCalc3: TEdit;
+    Label64: TLabel;
+    edCondicaoArredondar: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -433,6 +446,7 @@ type
     procedure rgMesmoNumeroClick(Sender: TObject);
     procedure edtConsumidorChange(Sender: TObject);
     procedure LISTAPRECOGravaClick(Sender: TObject);
+    procedure BitBtn38Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -961,6 +975,21 @@ begin
       rgCadastroCliente.ItemIndex := 1;
     end;
   end;
+
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'LISTAPRODUTOCONDICAO';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    edListaCondicao1.Text     := dm.cds_parametroD1.AsString;
+    edListaCondicaoCalc1.Text := dm.cds_parametroD2.AsString;
+    edListaCondicao2.Text     := dm.cds_parametroD3.AsString;
+    edListaCondicaoCalc2.Text := dm.cds_parametroD4.AsString;
+    edListaCondicao3.Text     := dm.cds_parametroD5.AsString;
+    edListaCondicaoCalc3.Text := dm.cds_parametroD6.AsString;
+    edCondicaoArredondar.Text := dm.cds_parametroD7.AsString;
+  end;  
 end;
 
 
@@ -5116,6 +5145,71 @@ begin
     if (RadioGroup5.ItemIndex = 0) then
       strSql := strSql + QuotedStr('N');
     strSql := strSql + ' where PARAMETRO = ' + QuotedStr('LISTAPRECO');
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+        [mbOk], 0);
+    end;
+  end;
+
+end;
+
+procedure TfParametro.BitBtn38Click(Sender: TObject);
+var testaConversao: Double;
+begin
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].AsString := 'LISTAPRODUTOCONDICAO';
+  s_parametro.Open;
+  try
+    testaConversao := StrToFloat(edListaCondicaoCalc1.Text);
+    testaConversao := StrToFloat(edListaCondicaoCalc2.Text);
+    testaConversao := StrToFloat(edListaCondicaoCalc3.Text);
+    testaConversao := StrToFloat(edCondicaoArredondar.Text);
+  except
+    MessageDlg('Este campo tem que ser número, será usado para fazer cálculo na Lista de Produto.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  if (s_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, D1, D2, D3, D4, D5, D6, D7';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Exibe condiçoes na lista de produto') + ', ';
+    strSql := strSql + QuotedStr('LISTAPRODUTOCONDICAO') + ', ';
+    strSql := strSql + QuotedStr(edListaCondicao1.Text)+ ', ';
+    strSql := strSql + QuotedStr(edListaCondicaoCalc1.Text)+ ', ';
+    strSql := strSql + QuotedStr(edListaCondicao2.Text)+ ', ';
+    strSql := strSql + QuotedStr(edListaCondicaoCalc2.Text)+ ', ';
+    strSql := strSql + QuotedStr(edListaCondicao3.Text)+ ', ';
+    strSql := strSql + QuotedStr(edListaCondicaoCalc3.Text)+ ', ';
+    strSql := strSql + QuotedStr(edCondicaoArredondar.Text);
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+      dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Reinicie o sistema para usar a nova configuração.', mtWarning, [mbOK], 0);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else begin
+    strSql := 'UPDATE PARAMETRO SET ';
+    strSql := strSql + ' D1 = ' + QuotedStr(edListaCondicao1.Text)+ ', ';
+    strSql := strSql + ' D2 = ' + QuotedStr(edListaCondicaoCalc1.Text)+ ', ';
+    strSql := strSql + ' D3 = ' + QuotedStr(edListaCondicao2.Text)+ ', ';
+    strSql := strSql + ' D4 = ' + QuotedStr(edListaCondicaoCalc2.Text)+ ', ';
+    strSql := strSql + ' D5 = ' + QuotedStr(edListaCondicao3.Text)+ ', ';
+    strSql := strSql + ' D6 = ' + QuotedStr(edListaCondicaoCalc3.Text)+ ', ';
+    strSql := strSql + ' D7 = ' + QuotedStr(edCondicaoArredondar.Text);
+    strSql := strSql + ' where PARAMETRO = ' + QuotedStr('LISTAPRODUTOCONDICAO');
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
     Try
