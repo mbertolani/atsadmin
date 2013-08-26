@@ -177,6 +177,9 @@ type
     F2Incluir1: TMenuItem;
     F4Gravar1: TMenuItem;
     F9Sair1: TMenuItem;
+    pm2: TPopupMenu;
+    ImprimirPedido1: TMenuItem;
+    ImprimirOrdemdeServio1: TMenuItem;
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure JvSairClick(Sender: TObject);
     procedure JvGravarClick(Sender: TObject);
@@ -199,6 +202,8 @@ type
     procedure btnCancelaBaixaClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnCupomClick(Sender: TObject);
+    procedure ImprimirPedido1Click(Sender: TObject);
+    procedure ImprimirOrdemdeServio1Click(Sender: TObject);
   private
     str_sql : String;
     usaDll: String;
@@ -260,7 +265,7 @@ var
 implementation
 
 uses UDM_MOV, UDm, uNotaf, UDMNF, uProcurar, uProcurar_nf, U_Entrada,
-  ufCrAltera, uTerminal_Delivery;
+  ufCrAltera, uTerminal_Delivery, uCarne;
 
 {$R *.dfm}
 
@@ -681,7 +686,7 @@ begin
     scds_serie_proc.Open;
     if scds_serie_proc.IsEmpty then
     begin
-      MessageDlg('Código não cadastrado, deseja cadastra-lo?', mtWarning,
+      MessageDlg('Série não cadastrada, deseja cadastra-la?', mtWarning,
       [mbOk], 0);
       btnSerie.Click;
       exit;
@@ -1181,67 +1186,12 @@ begin
 end;
 
 procedure TfOsFinaliza.JvBitBtn1Click(Sender: TObject);
+var
+  XY: TPoint;
 begin
-  if (not dm.cds_empresa.Active) then
-    dm.cds_empresa.Open;
-  {----- aqui monto o endereço-----}
-  logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
-  cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
-    ' - ' + dm.cds_empresaCEP.Value;
-  fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
-    ' / ' + dm.cds_empresaFONE_2.Value;
-  Texto  := '-------------------------------------------------' ;
-  Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
-    IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
-  Texto2 := '-------------------------------------------------' ;
-  Texto3 := 'Produto                                          ' ;
-  Texto4 := 'Cod.Barra      UN     Qtde     V.Un.     V.Total ' ;
-  Texto5 := DateTimeToStr(Now) + '       Total.: R$   ';
-  Texto8 := '                      Desconto.: R$   ';
-  cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
-  if (s_parametro.Active) then
-    s_parametro.close;
-  s_parametro.Params[0].AsString := 'MENSAGEM';
-  s_parametro.Open;
-  if (not s_parametro.isEmpty) then
-    DM.Mensagem := s_parametroDADOS.AsString
-  else
-    DM.Mensagem := '';
-
-  if (s_parametro.Active) then
-    s_parametro.Close;
-  s_parametro.Params[0].Clear;
-  s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
-  s_parametro.Open;
-  porta := s_parametroDADOS.AsString;
-  s_parametro.Close;
-
-
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
-  dm.cds_parametro.Open;
-
-  if (not dm.cds_parametro.IsEmpty) then
-  begin
-    if (usaDll = 'TRUE') then
-      imprimeDLLBema
-    else
-      imprimeCupom;
-    exit;
-  end;
-
-  if Dm.cds_parametro.Active then
-     dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
-  dm.cds_parametro.Open;
-  if (not dm.cds_parametro.IsEmpty) then
-  begin
-    imprimeRecibo;
-    exit;
-  end;
-
-  ShowMessage('Parametro Tipo Impressão não configurado');
+  XY := Point(50, -10);
+  XY := JvBitBtn1.ClientToScreen(XY);
+  pm2.Popup(XY.X, XY.Y + JvBitBtn1.Height - 2);
 end;
 
 procedure TfOsFinaliza.imprimeCupom;
@@ -1715,6 +1665,97 @@ begin
   finally
     fTerminal_Delivery.Free;
   end;
+end;
+
+procedure TfOsFinaliza.ImprimirPedido1Click(Sender: TObject);
+begin
+  if (not dm.cds_empresa.Active) then
+    dm.cds_empresa.Open;
+  {----- aqui monto o endereço-----}
+  logradouro := dm.cds_empresaENDERECO.Value + ', ' + dm.cds_empresaBAIRRO.Value;
+  cep := dm.cds_empresaCIDADE.Value + ' - ' + dm.cds_empresaUF.Value +
+    ' - ' + dm.cds_empresaCEP.Value;
+  fone := '(19)' + dm.cds_empresaFONE.Value + ' / ' + dm.cds_empresaFONE_1.Value +
+    ' / ' + dm.cds_empresaFONE_2.Value;
+  Texto  := '-------------------------------------------------' ;
+  Texto1 := DateTimeToStr(Now) + '            Cod.:  ' +
+    IntToStr(DM_MOV.c_vendaNOTAFISCAL.AsInteger) + ' - ' + DM_MOV.c_vendaSERIE.AsString;
+  Texto2 := '-------------------------------------------------' ;
+  Texto3 := 'Produto                                          ' ;
+  Texto4 := 'Cod.Barra      UN     Qtde     V.Un.     V.Total ' ;
+  Texto5 := DateTimeToStr(Now) + '       Total.: R$   ';
+  Texto8 := '                      Desconto.: R$   ';
+  cliente := 'Cliente : ' + DM_MOV.c_vendaNOMECLIENTE.Value;
+  if (s_parametro.Active) then
+    s_parametro.close;
+  s_parametro.Params[0].AsString := 'MENSAGEM';
+  s_parametro.Open;
+  if (not s_parametro.isEmpty) then
+    DM.Mensagem := s_parametroDADOS.AsString
+  else
+    DM.Mensagem := '';
+
+  if (s_parametro.Active) then
+    s_parametro.Close;
+  s_parametro.Params[0].Clear;
+  s_parametro.Params[0].AsString := 'PORTA IMPRESSORA';
+  s_parametro.Open;
+  porta := s_parametroDADOS.AsString;
+  s_parametro.Close;
+
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'CUPOMPDV';
+  dm.cds_parametro.Open;
+
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if (usaDll = 'TRUE') then
+      imprimeDLLBema
+    else
+      imprimeCupom;
+    exit;
+  end;
+
+  if Dm.cds_parametro.Active then
+     dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'RECIBOPDV';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    imprimeRecibo;
+    exit;
+  end;
+
+  ShowMessage('Parametro Tipo Impressão não configurado');
+
+end;
+
+procedure TfOsFinaliza.ImprimirOrdemdeServio1Click(Sender: TObject);
+begin
+  fCarne := TfCarne.Create(Application);
+  try
+    if (fCarne.scdsCr_proc.Active) then
+        fCarne.scdsCr_proc.Close;
+    fCarne.scdsCr_proc.Params[0].AsInteger := DM_MOV.c_vendaCODVENDA.AsInteger;
+    fCarne.scdsCr_proc.Open;
+
+    if (fCarne.buscaCli.Active) then
+        fCarne.buscaCli.Close;
+    fCarne.buscaCli.Params[0].AsInteger := DM_MOV.c_vendaCODCLIENTE.AsInteger;
+    fCarne.buscaCli.Open;
+
+
+    //fCarne.txtParcela.Caption := scdsCr_procVIA.AsString;
+    //fCarne.txtNomeSacado.Caption := DM_MOV.c_vendaNOMECLIENTE.AsString;
+    //fCarne.BoletoCarne.BeforePrint;
+    fCarne.BoletoCarne.Preview();
+    //fCarne.ShowModal;
+  finally
+    fCarne.Free;
+  end;
+
 end;
 
 end.
