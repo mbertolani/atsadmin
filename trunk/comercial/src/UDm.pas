@@ -2090,7 +2090,7 @@ var
 
 implementation
 
-uses md5, uEstoqueAtualiza;
+uses md5, uEstoqueAtualiza, Math;
 
 //uses uAtualizaSistema;
 
@@ -2683,36 +2683,43 @@ end;
 
 
 function TDM.Arredondar(value: double; casas: integer): double;
-Var fracao, Total:real;
-decimal:string;
+Var fracao, fator:real;
+  decimal:string;
 begin
-try
-  fracao:=Frac(value); //Retorna a parte fracionï¿½ria de um nï¿½mero
-  if (fracao > 0.001) then
-  begin
+  fator := IntPower(10,casas); //Retorna a parte fracionaria de um numero
+  value := StrToFloat(FloatToStr(value*fator));
+  result := Int(value);
+  fracao := Frac(value);
+  if (fracao >= 0.5) then
+    result := result + 1
+  else if (fracao <= -0.5) then
+    result := result - 1;
+  result := result / fator;
+  {begin
+
     decimal:=(RightStr(floattostr(fracao),length(floattostr(fracao))-2)); //decimal recebe a parte decimal
-    //enquanto o tamanho da variavel decimal for maior que o nï¿½mero de casas faï¿½a
+    //enquanto o tamanho da variavel decimal for maior que o numero de casas faixa
     while length(decimal) > casas do
     begin
-      //Verifica se o ï¿½ltimo digito da variï¿½vel decimal ï¿½ maior que 5
+      //Verifica se o ultimo digito da variavel decimal e maior que 5
       if strtoint(RightStr(decimal,1))>5 then
       begin
-        //Descarta o ï¿½ltimo digito da variï¿½vel Decimal
+        //Descarta o ultimo digito da variavvel Decimal
         decimal:=leftstr(decimal,length(decimal)-1);
-        //Soma o valor nï¿½mero da variavel decimal + 1
+        //Soma o valor numero da variavel decimal + 1
         decimal:=floattostr(strtofloat(decimal) + 1);
       end
       else
-        decimal:=leftstr(decimal,length(decimal)-1); //Descarta o ï¿½ltimo digito da variï¿½vel Decimal
+        decimal:=leftstr(decimal,length(decimal)-1); //Descarta o ultimo digito da variavel Decimal
       end;
-    result:=(int(value) + (strtofloat(decimal)/100)); //devolve o resultado para a funï¿½ï¿½o
+    result:=(int(value) + (strtofloat(decimal)/100)); //devolve o resultado para a funcao
   end
   else
     result := value;
   except
       Raise Exception.Create('Erro no arredondamento');
   end;
-
+   }
 end;
 
 
@@ -3285,8 +3292,6 @@ begin
     if (not sqlBusca.IsEmpty) then
       MessageDlg('Tamanho do campo OBSERVAÇÃO NA VENDA ' + #13#10 +
       ' não está correto, contacte a ATS.', mtError, [mbOK], 0);
-
-
   end;
 end;
 
