@@ -179,6 +179,12 @@ type
     CheckBox1: TCheckBox;
     sds_procOBS: TStringField;
     cds_procOBS: TStringField;
+    lblCondicao1: TLabel;
+    edCondicao1: TJvCalcEdit;
+    lblCondicao2: TLabel;
+    edCondicao2: TJvCalcEdit;
+    lblCondicao3: TLabel;
+    edCondicao3: TJvCalcEdit;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -217,7 +223,13 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure cds_procAfterScroll(DataSet: TDataSet);
   private
+    exibirCamposCondicao: String;
+    condicao1: Double;
+    condicao2: Double;
+    condicao3: Double;
+    condicaoArredondar: Integer;  
     vlr: double;
     TD: TTransactionDesc;
     { Private declarations }
@@ -350,8 +362,45 @@ end;
 
 procedure TfProcura_prod.FormCreate(Sender: TObject);
 begin
-//  if (DM.videoW <> '1920') then
-    sCtrlResize.CtrlResize(TForm(fProcura_prod));
+  //if (DM.videoW <> '1920') then
+  sCtrlResize.CtrlResize(TForm(fProcura_prod));
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'LISTAPRODUTOCONDICAO';
+  dm.cds_parametro.Open;
+  condicao1 := 0;
+  condicao2 := 0;
+  condicao3 := 0;
+  condicaoArredondar := 2;
+  exibirCamposCondicao := 'N';
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    exibirCamposCondicao := 'S';
+    condicao1 := StrToFloat(dm.cds_parametroD2.AsString);
+    condicao2 := StrToFloat(dm.cds_parametroD4.AsString);
+    condicao3 := StrToFloat(dm.cds_parametroD6.AsString);
+    if (dm.cds_parametroD7.AsString <> '') then
+      condicaoArredondar := StrToInt(dm.cds_parametroD7.AsString);
+    if ((condicao1 > 0) or (condicao1 < 0)) then
+    begin
+      lblCondicao1.Visible := True;
+      edCondicao1.Visible  := True;
+      lblCondicao1.Caption := dm.cds_parametroD1.AsString;
+    end;
+    if ((condicao2 > 0) or (condicao2 < 0)) then
+    begin
+      lblCondicao2.Visible := True;
+      edCondicao2.Visible := True;
+      lblCondicao2.Caption := dm.cds_parametroD3.AsString;
+    end;
+    if ((condicao3 > 0) or (condicao3 < 0)) then
+    begin
+      lblCondicao3.Visible := True;
+      edCondicao3.Visible := True;
+      lblCondicao3.Caption := dm.cds_parametroD3.AsString;
+    end;
+
+  end;
 end;
 
 procedure TfProcura_prod.FormShow(Sender: TObject);
@@ -935,6 +984,12 @@ begin
  if (Edit4.Text = '') then
    Edit4.Text := '0';
  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
+ if (exibirCamposCondicao = 'S') then
+ begin
+   edCondicao1.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao1), condicaoArredondar);
+   edCondicao2.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao2), condicaoArredondar);
+   edCondicao3.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao3), condicaoArredondar);
+ end;
  if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
    Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   if (Panel2.Visible) then
@@ -2141,6 +2196,16 @@ begin
        MessageDlg('Erro no sistema, o item não foi gravado.', mtError,
            [mbOk], 0);
     end;}
+end;
+
+procedure TfProcura_prod.cds_procAfterScroll(DataSet: TDataSet);
+begin
+ if (exibirCamposCondicao = 'S') then
+ begin
+   edCondicao1.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao1), condicaoArredondar);
+   edCondicao2.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao2), condicaoArredondar);
+   edCondicao3.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao3), condicaoArredondar);
+ end;
 end;
 
 end.
