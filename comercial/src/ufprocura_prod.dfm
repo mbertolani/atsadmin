@@ -317,6 +317,30 @@ object fProcura_prod: TfProcura_prod
       Height = 13
       Caption = 'Valor Total'
     end
+    object lblCondicao1: TLabel
+      Left = 16
+      Top = 64
+      Width = 9
+      Height = 13
+      Caption = '...'
+      Visible = False
+    end
+    object lblCondicao2: TLabel
+      Left = 296
+      Top = 64
+      Width = 9
+      Height = 13
+      Caption = '...'
+      Visible = False
+    end
+    object lblCondicao3: TLabel
+      Left = 556
+      Top = 64
+      Width = 9
+      Height = 13
+      Caption = '...'
+      Visible = False
+    end
     object EvDBFind1: TEvDBFind
       Left = 8
       Top = 33
@@ -408,6 +432,54 @@ object fProcura_prod: TfProcura_prod
       DecimalPlacesAlwaysShown = False
       OnExit = Edit3Exit
       OnKeyPress = FormKeyPress
+    end
+    object edCondicao1: TJvCalcEdit
+      Left = 137
+      Top = 63
+      Width = 121
+      Height = 21
+      Color = clHighlight
+      DisplayFormat = ',0.00'
+      Enabled = False
+      ReadOnly = True
+      ShowButton = False
+      TabOrder = 6
+      Visible = False
+      DisabledTextColor = clDefault
+      DisabledColor = clScrollBar
+      DecimalPlacesAlwaysShown = False
+    end
+    object edCondicao2: TJvCalcEdit
+      Left = 407
+      Top = 63
+      Width = 121
+      Height = 21
+      Color = clHighlight
+      DisplayFormat = ',0.00'
+      Enabled = False
+      ReadOnly = True
+      ShowButton = False
+      TabOrder = 7
+      Visible = False
+      DisabledTextColor = clDefault
+      DisabledColor = clInactiveCaptionText
+      DecimalPlacesAlwaysShown = False
+    end
+    object edCondicao3: TJvCalcEdit
+      Left = 669
+      Top = 62
+      Width = 121
+      Height = 21
+      Color = clHighlight
+      DisplayFormat = ',0.00'
+      Enabled = False
+      ReadOnly = True
+      ShowButton = False
+      TabOrder = 8
+      Visible = False
+      DisabledTextColor = clDefault
+      DisabledColor = clActiveBorder
+      DecimalPlacesAlwaysShown = False
     end
   end
   object DBGrid1: TDBGrid
@@ -1507,6 +1579,7 @@ object fProcura_prod: TfProcura_prod
     Aggregates = <>
     Params = <>
     ProviderName = 'dsp_proc'
+    AfterScroll = cds_procAfterScroll
     Left = 88
     Top = 200
     object cds_procCODPRODUTO: TIntegerField

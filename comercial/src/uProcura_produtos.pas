@@ -9,7 +9,7 @@ uses
   rpcompobase, rpvclreport, JvExStdCtrls, JvCombobox, JvDBSearchComboBox,
   JvEdit, JvValidateEdit, Mask, JvExMask, JvToolEdit, JvBaseEdits,
   JvBaseDlg, JvProgressDialog, JvExDBGrids, JvDBGrid,
-  JvComponent, JvDBGridExport, JvCsvData;
+  JvComponent, JvDBGridExport, JvCsvData, Math;
 
 type
   TfProcura_produtos = class(TForm)
@@ -214,6 +214,12 @@ type
     cbTipo: TComboBox;
     BitBtn10: TBitBtn;
     BitBtn11: TBitBtn;
+    lblCondicao1: TLabel;
+    lblCondicao2: TLabel;
+    lblCondicao3: TLabel;
+    edCondicao2: TJvCalcEdit;
+    edCondicao3: TJvCalcEdit;
+    edCondicao1: TJvCalcEdit;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -266,8 +272,14 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn10Click(Sender: TObject);
     procedure BitBtn11Click(Sender: TObject);
+    procedure cds_procAfterScroll(DataSet: TDataSet);
   private
     resultado: String;
+    exibirCamposCondicao: String;
+    condicao1: Double;
+    condicao2: Double;
+    condicao3: Double;
+    condicaoArredondar: Integer;
     { Private declarations }
     Data: TJvCsvDataSet;
     procedure precolista1;
@@ -401,6 +413,43 @@ begin
     dm.cds_ccusto.Next;
   end;
 
+  if dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'LISTAPRODUTOCONDICAO';
+  dm.cds_parametro.Open;
+  condicao1 := 0;
+  condicao2 := 0;
+  condicao3 := 0;
+  condicaoArredondar := 2;
+  exibirCamposCondicao := 'N';
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    exibirCamposCondicao := 'S';
+    condicao1 := StrToFloat(dm.cds_parametroD2.AsString);
+    condicao2 := StrToFloat(dm.cds_parametroD4.AsString);
+    condicao3 := StrToFloat(dm.cds_parametroD6.AsString);
+    if (dm.cds_parametroD7.AsString <> '') then
+      condicaoArredondar := StrToInt(dm.cds_parametroD7.AsString);
+    if ((condicao1 > 0) or (condicao1 < 0)) then
+    begin
+      lblCondicao1.Visible := True;
+      edCondicao1.Visible  := True;
+      lblCondicao1.Caption := dm.cds_parametroD1.AsString;
+    end;
+    if ((condicao2 > 0) or (condicao2 < 0)) then
+    begin
+      lblCondicao2.Visible := True;
+      edCondicao2.Visible := True;
+      lblCondicao2.Caption := dm.cds_parametroD3.AsString;
+    end;
+    if ((condicao3 > 0) or (condicao3 < 0)) then
+    begin
+      lblCondicao3.Visible := True;
+      edCondicao3.Visible := True;
+      lblCondicao3.Caption := dm.cds_parametroD3.AsString;
+    end;
+
+  end;
 end;
 
 procedure TfProcura_produtos.FormShow(Sender: TObject);
@@ -1619,7 +1668,7 @@ end;
 
 procedure TfProcura_produtos.JvDBGrid1CellClick(Column: TColumn);
 begin
- // C�digos
+ // Codigos
  varSql1 := 'select distinct cod.CODIGO ' +
    'from PRODUTOS pro ' +
    'left outer join CODIGOS cod on cod.COD_PRODUTO = pro.CODPRODUTO ' +
@@ -1650,6 +1699,12 @@ begin
   Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
  if var_F = 'compra' then
   Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+ if (exibirCamposCondicao = 'S') then
+ begin
+   edCondicao1.Value := dm.Arredondar((cds_procVALOR_PRAZO.AsFloat * condicao1), condicaoArredondar);
+   edCondicao2.Value := dm.Arredondar((cds_procVALOR_PRAZO.AsFloat * condicao2), condicaoArredondar);
+   edCondicao3.Value := dm.Arredondar((cds_procVALOR_PRAZO.AsFloat * condicao3), condicaoArredondar);
+ end;
 end;
 
 procedure TfProcura_produtos.JvDBGrid1DblClick(Sender: TObject);
@@ -1766,6 +1821,17 @@ begin
   VCLReport_lista_produtos.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport_lista_produtos.Report.DataInfo.Items[0].SQL:= imp + ' order by ' + cds_proc.IndexFieldNames;
   VCLReport_lista_produtos.Execute;
+end;
+
+procedure TfProcura_produtos.cds_procAfterScroll(DataSet: TDataSet);
+begin
+ if (exibirCamposCondicao = 'S') then
+ begin
+   edCondicao1.Value := dm.Arredondar((cds_procVALOR_PRAZO.AsFloat * condicao1), condicaoArredondar);
+   edCondicao2.Value := dm.Arredondar((cds_procVALOR_PRAZO.AsFloat * condicao2), condicaoArredondar);
+   edCondicao3.Value := dm.Arredondar((cds_procVALOR_PRAZO.AsFloat * condicao3), condicaoArredondar);
+ end;
+
 end;
 
 end.
