@@ -1,6 +1,6 @@
 object fOsFinaliza: TfOsFinaliza
-  Left = 192
-  Top = 107
+  Left = 231
+  Top = 137
   Width = 837
   Height = 611
   Caption = 'Finalizar'
@@ -3002,6 +3002,18 @@ object fOsFinaliza: TfOsFinaliza
       Caption = 'F9-Sair'
       ShortCut = 120
       OnClick = JvSairClick
+    end
+  end
+  object pm2: TPopupMenu
+    Left = 399
+    Top = 213
+    object ImprimirPedido1: TMenuItem
+      Caption = 'Imprimir'
+      OnClick = ImprimirPedido1Click
+    end
+    object ImprimirOrdemdeServio1: TMenuItem
+      Caption = 'Imprimir Carne'
+      OnClick = ImprimirOrdemdeServio1Click
     end
   end
 end
