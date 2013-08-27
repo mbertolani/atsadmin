@@ -323,7 +323,7 @@ object fProcura_produtos: TfProcura_produtos
     Left = 0
     Top = 232
     Width = 802
-    Height = 318
+    Height = 311
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -705,7 +705,7 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 6
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clScrollBar
+      DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao3: TJvCalcEdit
@@ -721,7 +721,7 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 7
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clScrollBar
+      DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao1: TJvCalcEdit
@@ -737,7 +737,7 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 8
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clScrollBar
+      DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
     end
   end
@@ -2181,7 +2181,7 @@ object fProcura_produtos: TfProcura_produtos
   end
   object cds_proc: TClientDataSet
     Aggregates = <>
-    PacketRecords = 50
+    PacketRecords = 150
     Params = <>
     ProviderName = 'dsp_proc'
     AfterScroll = cds_procAfterScroll
