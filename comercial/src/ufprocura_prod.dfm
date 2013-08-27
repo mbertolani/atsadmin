@@ -446,7 +446,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 6
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clScrollBar
+      DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao2: TJvCalcEdit
@@ -462,7 +462,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 7
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clScrollBar
+      DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao3: TJvCalcEdit
@@ -478,7 +478,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 8
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clScrollBar
+      DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
     end
   end
