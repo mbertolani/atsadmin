@@ -318,7 +318,7 @@ object fProcura_prod: TfProcura_prod
       Caption = 'Valor Total'
     end
     object lblCondicao1: TLabel
-      Left = 16
+      Left = 8
       Top = 64
       Width = 9
       Height = 13
@@ -326,7 +326,7 @@ object fProcura_prod: TfProcura_prod
       Visible = False
     end
     object lblCondicao2: TLabel
-      Left = 296
+      Left = 288
       Top = 64
       Width = 9
       Height = 13
@@ -334,7 +334,7 @@ object fProcura_prod: TfProcura_prod
       Visible = False
     end
     object lblCondicao3: TLabel
-      Left = 556
+      Left = 560
       Top = 64
       Width = 9
       Height = 13
@@ -462,7 +462,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 7
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clInactiveCaptionText
+      DisabledColor = clScrollBar
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao3: TJvCalcEdit
@@ -478,7 +478,7 @@ object fProcura_prod: TfProcura_prod
       TabOrder = 8
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clActiveBorder
+      DisabledColor = clScrollBar
       DecimalPlacesAlwaysShown = False
     end
   end

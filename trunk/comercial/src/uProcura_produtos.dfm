@@ -581,7 +581,7 @@ object fProcura_produtos: TfProcura_produtos
       Visible = False
     end
     object lblCondicao2: TLabel
-      Left = 272
+      Left = 288
       Top = 64
       Width = 9
       Height = 13
@@ -589,7 +589,7 @@ object fProcura_produtos: TfProcura_produtos
       Visible = False
     end
     object lblCondicao3: TLabel
-      Left = 540
+      Left = 560
       Top = 64
       Width = 9
       Height = 13
@@ -705,13 +705,13 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 6
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clInactiveCaptionText
+      DisabledColor = clScrollBar
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao3: TJvCalcEdit
-      Left = 677
+      Left = 669
       Top = 62
-      Width = 121
+      Width = 108
       Height = 21
       Color = clHighlight
       DisplayFormat = ',0.00'
@@ -721,7 +721,7 @@ object fProcura_produtos: TfProcura_produtos
       TabOrder = 7
       Visible = False
       DisabledTextColor = clDefault
-      DisabledColor = clActiveBorder
+      DisabledColor = clScrollBar
       DecimalPlacesAlwaysShown = False
     end
     object edCondicao1: TJvCalcEdit
