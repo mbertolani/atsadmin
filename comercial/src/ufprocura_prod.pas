@@ -397,7 +397,7 @@ begin
     begin
       lblCondicao3.Visible := True;
       edCondicao3.Visible := True;
-      lblCondicao3.Caption := dm.cds_parametroD3.AsString;
+      lblCondicao3.Caption := dm.cds_parametroD5.AsString;
     end;
 
   end;
