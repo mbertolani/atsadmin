@@ -250,6 +250,7 @@ type
     procedure formnfCompra;
     procedure formMovEstoque;
     procedure incluimovimento;
+    procedure formof;
   public
     { Public declarations }
     fecodProd, fenomeProduto, usouAdiciona : string;
@@ -273,7 +274,8 @@ uses UDm, uProdutoCadastro, uCompra, uVendas, uNotafiscal, uITENS_NF,
   uMovimenta_Estoque,
   UDM_MOV,
   uLotes_Produtos,
-  uTerminal2;
+  uTerminal2,
+  uOf;
 
 {$R *.dfm}
 
@@ -860,6 +862,8 @@ begin
     formnotaf;
   if (var_F = 'formnfCompra') then
     formnfCompra;
+  if (var_F = 'formof') then
+    formof;
   //vejo se usa preco por Fornecedor
   if (var_F = 'Lista') then
   begin
@@ -870,7 +874,8 @@ begin
   begin
     BitBtn4.Enabled := false;
     BitBtn5.Enabled := true;
-    BitBtn5.SetFocus;
+    if BitBtn5.Visible then
+      BitBtn5.SetFocus;
   end;  
 end;
 
@@ -2206,6 +2211,14 @@ begin
    edCondicao2.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao2), condicaoArredondar);
    edCondicao3.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao3), condicaoArredondar);
  end;
+end;
+
+procedure TfProcura_prod.formof;
+begin
+    fOf.codProd := cds_procCODPRODUTO.AsInteger;
+    fOf.OfProd.Text := cds_procCODPRO.AsString;
+    fOf.OfDesc.Text := cds_procPRODUTO.Value;
+    fOf.OfQtde.Value := StrToFloat(Edit3.Text);
 end;
 
 end.
