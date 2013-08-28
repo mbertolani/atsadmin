@@ -1,8 +1,8 @@
 object fNotafc: TfNotafc
-  Left = 199
-  Top = 81
+  Left = 214
+  Top = 112
   Width = 799
-  Height = 619
+  Height = 604
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -22,8 +22,8 @@ object fNotafc: TfNotafc
   object JvPageControl1: TJvPageControl
     Left = 0
     Top = 59
-    Width = 766
-    Height = 646
+    Width = 791
+    Height = 510
     ActivePage = TabNF
     Align = alTop
     PopupMenu = PopupMenu1
@@ -371,217 +371,6 @@ object fNotafc: TfNotafc
           TabOrder = 0
         end
       end
-      object JvGroupBox18: TJvGroupBox
-        Left = 2
-        Top = 296
-        Width = 105
-        Height = 41
-        Caption = 'BC ICMS'
-        TabOrder = 18
-        object DBEdit10: TDBEdit
-          Left = 6
-          Top = 14
-          Width = 93
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'BASE_ICMS'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox19: TJvGroupBox
-        Left = 111
-        Top = 296
-        Width = 98
-        Height = 41
-        Caption = 'Valor do ICMS'
-        TabOrder = 19
-        object DBEdit11: TDBEdit
-          Left = 6
-          Top = 14
-          Width = 86
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_ICMS'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox20: TJvGroupBox
-        Left = 213
-        Top = 296
-        Width = 110
-        Height = 41
-        Caption = 'B. Calc. ICMS Subst.'
-        TabOrder = 20
-        object DBEdit12: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 97
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'BASE_ICMS_SUBST'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox21: TJvGroupBox
-        Left = 327
-        Top = 296
-        Width = 105
-        Height = 41
-        Caption = 'Valor ICMS Subst.'
-        TabOrder = 21
-        object DBEdit13: TDBEdit
-          Left = 6
-          Top = 14
-          Width = 92
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_ICMS_SUBST'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox22: TJvGroupBox
-        Left = 640
-        Top = 296
-        Width = 120
-        Height = 41
-        Caption = 'Valor Total Produtos'
-        TabOrder = 22
-        object DBEdit14: TDBEdit
-          Left = 7
-          Top = 14
-          Width = 106
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_PRODUTO'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox23: TJvGroupBox
-        Left = 289
-        Top = 339
-        Width = 105
-        Height = 41
-        Caption = 'Valor do Frete'
-        TabOrder = 23
-        object DBEdit15: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 94
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_FRETE'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox24: TJvGroupBox
-        Left = 397
-        Top = 339
-        Width = 105
-        Height = 41
-        Caption = 'Valor do Seguro'
-        TabOrder = 24
-        object DBEdit16: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 93
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_SEGURO'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox25: TJvGroupBox
-        Left = 506
-        Top = 338
-        Width = 125
-        Height = 41
-        Caption = 'Outras Desp. Acessor.'
-        TabOrder = 25
-        object DBEdit17: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 115
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'OUTRAS_DESP'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox26: TJvGroupBox
-        Left = 436
-        Top = 296
-        Width = 100
-        Height = 41
-        Caption = 'Valor Total do IPI'
-        TabOrder = 26
-        object DBEdit18: TDBEdit
-          Left = 6
-          Top = 14
-          Width = 87
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_IPI'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox27: TJvGroupBox
-        Left = 635
-        Top = 338
-        Width = 125
-        Height = 41
-        Caption = 'Valor Total Nota'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Sans Serif'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 27
-        object DBEdit19: TDBEdit
-          Left = 7
-          Top = 14
-          Width = 111
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_TOTAL_NOTA'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
       object JvGroupBox28: TJvGroupBox
         Left = 641
         Top = -1
@@ -620,434 +409,6 @@ object fNotafc: TfNotafc
           DataField = 'SERIE'
           DataSource = DMNF.DtSrc_NF1
           TabOrder = 2
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox29: TJvGroupBox
-        Left = 3
-        Top = 380
-        Width = 324
-        Height = 41
-        Caption = 'Nome da Transportadora / Raz'#227'o Social'
-        TabOrder = 28
-        object cbTransportadora: TDBComboBox
-          Left = 7
-          Top = 14
-          Width = 277
-          Height = 21
-          BevelKind = bkFlat
-          DataField = 'NOMETRANSP'
-          DataSource = DMNF.DtSrc_NF1
-          ItemHeight = 13
-          TabOrder = 0
-          OnChange = cbTransportadoraChange
-          OnKeyPress = FormKeyPress
-        end
-        object BitBtn2: TBitBtn
-          Left = 287
-          Top = 11
-          Width = 32
-          Height = 25
-          Caption = '...'
-          TabOrder = 1
-          OnClick = BitBtn2Click
-        end
-      end
-      object GroupBox1: TGroupBox
-        Left = 327
-        Top = 380
-        Width = 97
-        Height = 41
-        Caption = 'Frete'
-        TabOrder = 29
-        object cboFrete: TComboBox
-          Left = 7
-          Top = 15
-          Width = 81
-          Height = 21
-          ItemHeight = 13
-          TabOrder = 0
-          OnChange = cboFreteChange
-          Items.Strings = (
-            '0 - Emitente'
-            '1 - Dest/Rem'
-            '2 - Terceiros'
-            '9 - Sem Frete')
-        end
-      end
-      object JvGroupBox30: TJvGroupBox
-        Left = 424
-        Top = 380
-        Width = 109
-        Height = 41
-        Caption = 'Placa'
-        TabOrder = 30
-        object DBEdit20: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 100
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'PLACATRANSP'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox31: TJvGroupBox
-        Left = 533
-        Top = 380
-        Width = 40
-        Height = 41
-        Caption = 'UF'
-        TabOrder = 31
-        object DBEdit21: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 29
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'UF_VEICULO_TRANSP'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox32: TJvGroupBox
-        Left = 573
-        Top = 380
-        Width = 185
-        Height = 41
-        Caption = 'C.N.P.J.'
-        TabOrder = 32
-        object DBEdit22: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 175
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'CNPJ_CPF'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox33: TJvGroupBox
-        Left = 3
-        Top = 422
-        Width = 321
-        Height = 41
-        Caption = 'Endere'#231'o'
-        TabOrder = 33
-        object DBEdit23: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 310
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'END_TRANSP'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox34: TJvGroupBox
-        Left = 324
-        Top = 422
-        Width = 209
-        Height = 41
-        Caption = 'Munic'#237'pio'
-        TabOrder = 34
-        object DBEdit24: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 198
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'CIDADE_TRANSP'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox35: TJvGroupBox
-        Left = 533
-        Top = 422
-        Width = 40
-        Height = 41
-        Caption = 'UF'
-        TabOrder = 35
-        object DBEdit25: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 29
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'UF_TRANSP'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox36: TJvGroupBox
-        Left = 573
-        Top = 422
-        Width = 185
-        Height = 41
-        Caption = 'Inscri'#231#227'o Estadual'
-        TabOrder = 36
-        object DBEdit26: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 175
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'INSCRICAOESTADUAL'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox37: TJvGroupBox
-        Left = 3
-        Top = 464
-        Width = 98
-        Height = 41
-        Caption = 'Quantidade'
-        TabOrder = 37
-        object DBEdit27: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 87
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'QUANTIDADE'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox38: TJvGroupBox
-        Left = 101
-        Top = 464
-        Width = 150
-        Height = 41
-        Caption = 'Esp'#233'cie'
-        TabOrder = 38
-        object DBEdit28: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 138
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'ESPECIE'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox39: TJvGroupBox
-        Left = 251
-        Top = 464
-        Width = 150
-        Height = 41
-        Caption = 'Marca'
-        TabOrder = 39
-        object DBEdit29: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 139
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'MARCA'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox40: TJvGroupBox
-        Left = 401
-        Top = 464
-        Width = 93
-        Height = 41
-        Caption = 'N'#250'mero'
-        TabOrder = 40
-        object DBEdit30: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 82
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'NUMERO'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox41: TJvGroupBox
-        Left = 494
-        Top = 464
-        Width = 132
-        Height = 41
-        Caption = 'Peso Bruto'
-        TabOrder = 41
-        object DBEdit31: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 122
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'PESOBRUTO'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox42: TJvGroupBox
-        Left = 626
-        Top = 464
-        Width = 132
-        Height = 41
-        Caption = 'Peso Liquido'
-        TabOrder = 42
-        object DBEdit32: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 122
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'PESOLIQUIDO'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object GroupBox6: TGroupBox
-        Left = 3
-        Top = 508
-        Width = 755
-        Height = 102
-        Caption = 'Dados Adicionais'
-        TabOrder = 43
-        object DBEdit61: TDBEdit
-          Left = 4
-          Top = 18
-          Width = 368
-          Height = 24
-          BevelKind = bkTile
-          BorderStyle = bsNone
-          DataField = 'CORPONF1'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 0
-          OnKeyPress = FormKeyPress
-        end
-        object DBEdit62: TDBEdit
-          Left = 383
-          Top = 18
-          Width = 368
-          Height = 24
-          BevelKind = bkTile
-          BorderStyle = bsNone
-          DataField = 'CORPONF2'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 1
-          OnKeyPress = FormKeyPress
-        end
-        object DBEdit63: TDBEdit
-          Left = 4
-          Top = 44
-          Width = 368
-          Height = 24
-          BevelKind = bkTile
-          BorderStyle = bsNone
-          DataField = 'CORPONF3'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 2
-          OnKeyPress = FormKeyPress
-        end
-        object DBEdit64: TDBEdit
-          Left = 383
-          Top = 44
-          Width = 368
-          Height = 24
-          BevelKind = bkTile
-          BorderStyle = bsNone
-          DataField = 'CORPONF4'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 3
-          OnKeyPress = FormKeyPress
-        end
-        object DBEdit65: TDBEdit
-          Left = 4
-          Top = 70
-          Width = 368
-          Height = 24
-          BevelKind = bkTile
-          BorderStyle = bsNone
-          DataField = 'CORPONF5'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 4
-          OnKeyPress = FormKeyPress
-        end
-        object DBEdit66: TDBEdit
-          Left = 383
-          Top = 70
-          Width = 368
-          Height = 24
-          BevelKind = bkTile
-          BorderStyle = bsNone
-          DataField = 'CORPONF6'
-          DataSource = DMNF.DtSrc_NF1
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 5
           OnKeyPress = FormKeyPress
         end
       end
@@ -1223,80 +584,8 @@ object fNotafc: TfNotafc
         Height = 65
         Lines.Strings = (
           'Recebe descri'#231#227'o classifica'#231#227'o fiscal')
-        TabOrder = 44
+        TabOrder = 18
         Visible = False
-      end
-      object calcman: TCheckBox
-        Left = 4
-        Top = 344
-        Width = 81
-        Height = 24
-        Caption = 'Calc. Manual'
-        TabOrder = 45
-        OnClick = calcmanClick
-      end
-      object JvGroupBox55: TJvGroupBox
-        Left = 188
-        Top = 339
-        Width = 97
-        Height = 41
-        Caption = 'Valor Desconto'
-        TabOrder = 46
-        object DBEdit51: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 86
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'VALOR_DESCONTO'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox17: TJvGroupBox
-        Left = 540
-        Top = 296
-        Width = 95
-        Height = 41
-        Caption = 'BC II'
-        TabOrder = 47
-        object DBEdit9: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 85
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'BCII'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
-      end
-      object JvGroupBox56: TJvGroupBox
-        Left = 90
-        Top = 336
-        Width = 95
-        Height = 41
-        Caption = 'Valor II'
-        TabOrder = 48
-        object DBEdit48: TDBEdit
-          Left = 5
-          Top = 14
-          Width = 85
-          Height = 21
-          BevelKind = bkFlat
-          BorderStyle = bsNone
-          DataField = 'II'
-          DataSource = DMNF.DtSrc_NF1
-          TabOrder = 0
-          OnChange = DBEdit11Change
-          OnKeyPress = FormKeyPress
-        end
       end
     end
     object TabSheet1: TTabSheet
@@ -1687,7 +976,7 @@ object fNotafc: TfNotafc
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 766
+    Width = 791
     Height = 59
     Align = alTop
     BevelInner = bvLowered
@@ -2543,6 +1832,840 @@ object fNotafc: TfNotafc
     Height = 17
     Caption = 'Dados Extras ?'
     TabOrder = 2
+  end
+  object PageControl1: TPageControl
+    Left = 8
+    Top = 381
+    Width = 753
+    Height = 183
+    ActivePage = tsTributos
+    TabOrder = 3
+    object tsTributos: TTabSheet
+      Caption = 'Tributa'#231#227'o'
+      object JvGroupBox18: TJvGroupBox
+        Left = 2
+        Top = 4
+        Width = 124
+        Height = 41
+        Caption = 'Base Calculo ICMS'
+        TabOrder = 0
+        object DBEdit10: TDBEdit
+          Left = 6
+          Top = 14
+          Width = 110
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BASE_ICMS'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox19: TJvGroupBox
+        Left = 132
+        Top = 4
+        Width = 114
+        Height = 41
+        Caption = 'Valor do ICMS'
+        TabOrder = 1
+        object DBEdit11: TDBEdit
+          Left = 6
+          Top = 14
+          Width = 100
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_ICMS'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox20: TJvGroupBox
+        Left = 250
+        Top = 4
+        Width = 124
+        Height = 41
+        Caption = 'B. Calc. ICMS Subst.'
+        TabOrder = 2
+        object DBEdit12: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 110
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BASE_ICMS_SUBST'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox21: TJvGroupBox
+        Left = 380
+        Top = 4
+        Width = 118
+        Height = 41
+        Caption = 'Valor ICMS Subst.'
+        TabOrder = 3
+        object DBEdit13: TDBEdit
+          Left = 6
+          Top = 14
+          Width = 105
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_ICMS_SUBST'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox26: TJvGroupBox
+        Left = 626
+        Top = 4
+        Width = 117
+        Height = 41
+        Caption = 'Valor Total do IPI'
+        TabOrder = 5
+        object DBEdit18: TDBEdit
+          Left = 6
+          Top = 14
+          Width = 105
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_IPI'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox57: TJvGroupBox
+        Left = 503
+        Top = 4
+        Width = 119
+        Height = 41
+        Caption = 'Base Calculo IPI'
+        TabOrder = 4
+        object DBEdit57: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 110
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BASE_IPI'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox58: TJvGroupBox
+        Left = 2
+        Top = 48
+        Width = 115
+        Height = 41
+        Caption = 'Base Calculo Cofins'
+        TabOrder = 6
+        object DBEdit58: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 100
+          Height = 20
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BASE_COFINS'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox59: TJvGroupBox
+        Left = 121
+        Top = 48
+        Width = 115
+        Height = 41
+        Caption = 'Valor do Cofins'
+        TabOrder = 7
+        object DBEdit59: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 100
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_COFINS'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox60: TJvGroupBox
+        Left = 240
+        Top = 48
+        Width = 130
+        Height = 41
+        Caption = 'Base Calculo Pis'
+        TabOrder = 8
+        object DBEdit60: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 118
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BASE_PIS'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox61: TJvGroupBox
+        Left = 375
+        Top = 48
+        Width = 130
+        Height = 41
+        Caption = 'Valor do Pis'
+        TabOrder = 9
+        object DBEdit61: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 118
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_PIS'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox23: TJvGroupBox
+        Left = 626
+        Top = 48
+        Width = 117
+        Height = 41
+        Caption = 'Valor do Frete'
+        TabOrder = 11
+        object DBEdit15: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 107
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_FRETE'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox55: TJvGroupBox
+        Left = 508
+        Top = 48
+        Width = 114
+        Height = 41
+        Caption = 'Valor Desconto'
+        TabOrder = 10
+        object DBEdit51: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 103
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_DESCONTO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox25: TJvGroupBox
+        Left = 132
+        Top = 92
+        Width = 125
+        Height = 41
+        Caption = 'Outras Desp. Acessor.'
+        TabOrder = 13
+        object DBEdit17: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 115
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'OUTRAS_DESP'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox24: TJvGroupBox
+        Left = 2
+        Top = 92
+        Width = 125
+        Height = 41
+        Caption = 'Valor do Seguro'
+        TabOrder = 12
+        object DBEdit16: TDBEdit
+          Left = 4
+          Top = 14
+          Width = 115
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_SEGURO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox17: TJvGroupBox
+        Left = 262
+        Top = 92
+        Width = 110
+        Height = 41
+        Caption = 'Base Calculo II'
+        TabOrder = 14
+        object DBEdit9: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 100
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'BCII'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox56: TJvGroupBox
+        Left = 376
+        Top = 92
+        Width = 110
+        Height = 41
+        Caption = 'Valor I. Importa'#231#227'o'
+        TabOrder = 15
+        object DBEdit48: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 100
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'II'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnChange = DBEdit11Change
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox22: TJvGroupBox
+        Left = 490
+        Top = 92
+        Width = 120
+        Height = 41
+        Caption = 'Valor Total Produtos'
+        TabOrder = 16
+        object DBEdit14: TDBEdit
+          Left = 7
+          Top = 14
+          Width = 106
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_PRODUTO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox27: TJvGroupBox
+        Left = 614
+        Top = 92
+        Width = 129
+        Height = 41
+        Caption = 'Valor Total Nota'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 17
+        object DBEdit19: TDBEdit
+          Left = 7
+          Top = 14
+          Width = 115
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'VALOR_TOTAL_NOTA'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object calcman: TCheckBox
+        Left = 12
+        Top = 134
+        Width = 81
+        Height = 24
+        Caption = 'Calc. Manual'
+        TabOrder = 18
+        OnClick = calcmanClick
+      end
+    end
+    object tsFrete: TTabSheet
+      Caption = 'Transportadora'
+      ImageIndex = 1
+      object JvGroupBox29: TJvGroupBox
+        Left = 8
+        Top = 4
+        Width = 307
+        Height = 41
+        Caption = 'Nome da Transportadora / Raz'#227'o Social'
+        TabOrder = 0
+        object cbTransportadora: TDBComboBox
+          Left = 7
+          Top = 14
+          Width = 258
+          Height = 21
+          BevelKind = bkFlat
+          DataField = 'NOMETRANSP'
+          DataSource = DMNF.DtSrc_NF1
+          ItemHeight = 13
+          TabOrder = 0
+          OnChange = cbTransportadoraChange
+          OnKeyPress = FormKeyPress
+        end
+        object BitBtn2: TBitBtn
+          Left = 268
+          Top = 11
+          Width = 32
+          Height = 25
+          Caption = '...'
+          TabOrder = 1
+          OnClick = BitBtn2Click
+        end
+      end
+      object GroupBox1: TGroupBox
+        Left = 319
+        Top = 4
+        Width = 92
+        Height = 41
+        Caption = 'Frete'
+        TabOrder = 1
+        object cboFrete: TComboBox
+          Left = 7
+          Top = 15
+          Width = 78
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 0
+          OnChange = cboFreteChange
+          Items.Strings = (
+            '0 - Emitente'
+            '1 - Dest/Rem'
+            '2 - Terceiros'
+            '9 - Sem Frete')
+        end
+      end
+      object JvGroupBox30: TJvGroupBox
+        Left = 416
+        Top = 4
+        Width = 104
+        Height = 41
+        Caption = 'Placa'
+        TabOrder = 2
+        object DBEdit20: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 93
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'PLACATRANSP'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox31: TJvGroupBox
+        Left = 522
+        Top = 4
+        Width = 40
+        Height = 41
+        Caption = 'UF'
+        TabOrder = 3
+        object DBEdit21: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 29
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'UF_VEICULO_TRANSP'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox32: TJvGroupBox
+        Left = 565
+        Top = 4
+        Width = 161
+        Height = 41
+        Caption = 'C.N.P.J.'
+        TabOrder = 4
+        object DBEdit22: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 148
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'CNPJ_CPF'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox36: TJvGroupBox
+        Left = 544
+        Top = 45
+        Width = 183
+        Height = 41
+        Caption = 'Inscri'#231#227'o Estadual'
+        TabOrder = 5
+        object DBEdit26: TDBEdit
+          Left = 6
+          Top = 14
+          Width = 168
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'INSCRICAOESTADUAL'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox35: TJvGroupBox
+        Left = 501
+        Top = 44
+        Width = 40
+        Height = 41
+        Caption = 'UF'
+        TabOrder = 6
+        object DBEdit25: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 29
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'UF_TRANSP'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox34: TJvGroupBox
+        Left = 316
+        Top = 44
+        Width = 181
+        Height = 41
+        Caption = 'Munic'#237'pio'
+        TabOrder = 7
+        object DBEdit24: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 164
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'CIDADE_TRANSP'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox33: TJvGroupBox
+        Left = 8
+        Top = 44
+        Width = 307
+        Height = 41
+        Caption = 'Endere'#231'o'
+        TabOrder = 8
+        object DBEdit23: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 295
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'END_TRANSP'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox37: TJvGroupBox
+        Left = 8
+        Top = 86
+        Width = 98
+        Height = 41
+        Caption = 'Quantidade'
+        TabOrder = 9
+        object DBEdit27: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 87
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'QUANTIDADE'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox38: TJvGroupBox
+        Left = 109
+        Top = 85
+        Width = 128
+        Height = 41
+        Caption = 'Esp'#233'cie'
+        TabOrder = 10
+        object DBEdit28: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 116
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'ESPECIE'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox39: TJvGroupBox
+        Left = 241
+        Top = 85
+        Width = 149
+        Height = 41
+        Caption = 'Marca'
+        TabOrder = 11
+        object DBEdit29: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 139
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'MARCA'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox40: TJvGroupBox
+        Left = 393
+        Top = 85
+        Width = 93
+        Height = 41
+        Caption = 'N'#250'mero'
+        TabOrder = 12
+        object DBEdit30: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 82
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'NUMERO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox41: TJvGroupBox
+        Left = 486
+        Top = 85
+        Width = 119
+        Height = 41
+        Caption = 'Peso Bruto'
+        TabOrder = 13
+        object DBEdit31: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 107
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'PESOBRUTO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+      object JvGroupBox42: TJvGroupBox
+        Left = 608
+        Top = 85
+        Width = 120
+        Height = 41
+        Caption = 'Peso Liquido'
+        TabOrder = 14
+        object DBEdit32: TDBEdit
+          Left = 5
+          Top = 14
+          Width = 111
+          Height = 21
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          DataField = 'PESOLIQUIDO'
+          DataSource = DMNF.DtSrc_NF1
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+      end
+    end
+    object tsDadosAdic: TTabSheet
+      Caption = 'Dados Adicionais'
+      ImageIndex = 2
+      object GroupBox2: TGroupBox
+        Left = 6
+        Top = 23
+        Width = 716
+        Height = 114
+        Caption = 'Dados Adicionais'
+        TabOrder = 0
+        object DBEdit49: TDBEdit
+          Left = 10
+          Top = 18
+          Width = 340
+          Height = 24
+          BevelKind = bkTile
+          BorderStyle = bsNone
+          DataField = 'CORPONF1'
+          DataSource = DMNF.DtSrc_NF1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnKeyPress = FormKeyPress
+        end
+        object DBEdit52: TDBEdit
+          Left = 359
+          Top = 18
+          Width = 340
+          Height = 24
+          BevelKind = bkTile
+          BorderStyle = bsNone
+          DataField = 'CORPONF2'
+          DataSource = DMNF.DtSrc_NF1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+          OnKeyPress = FormKeyPress
+        end
+        object DBEdit53: TDBEdit
+          Left = 10
+          Top = 47
+          Width = 340
+          Height = 24
+          BevelKind = bkTile
+          BorderStyle = bsNone
+          DataField = 'CORPONF3'
+          DataSource = DMNF.DtSrc_NF1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 2
+          OnKeyPress = FormKeyPress
+        end
+        object DBEdit54: TDBEdit
+          Left = 359
+          Top = 47
+          Width = 340
+          Height = 24
+          BevelKind = bkTile
+          BorderStyle = bsNone
+          DataField = 'CORPONF4'
+          DataSource = DMNF.DtSrc_NF1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+          OnKeyPress = FormKeyPress
+        end
+        object DBEdit55: TDBEdit
+          Left = 10
+          Top = 76
+          Width = 340
+          Height = 24
+          BevelKind = bkTile
+          BorderStyle = bsNone
+          DataField = 'CORPONF5'
+          DataSource = DMNF.DtSrc_NF1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+          OnKeyPress = FormKeyPress
+        end
+        object DBEdit56: TDBEdit
+          Left = 359
+          Top = 76
+          Width = 340
+          Height = 24
+          BevelKind = bkTile
+          BorderStyle = bsNone
+          DataField = 'CORPONF6'
+          DataSource = DMNF.DtSrc_NF1
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+          OnKeyPress = FormKeyPress
+        end
+      end
+    end
   end
   object DataSource1: TDataSource
     DataSet = DM.cds_empresa
