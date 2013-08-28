@@ -2717,6 +2717,21 @@ object DMNF: TDMNF
       FieldName = 'BCII'
       DisplayFormat = ',##0.00'
     end
+    object cds_nf1VALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object cds_nf1VALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object cds_nf1BASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+    end
+    object cds_nf1BASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+    end
+    object cds_nf1BASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
+    end
   end
   object dsp_nf1: TDataSetProvider
     DataSet = sds_nf1
@@ -3066,6 +3081,21 @@ object DMNF: TDMNF
     end
     object sds_nf1BCII: TFloatField
       FieldName = 'BCII'
+    end
+    object sds_nf1VALOR_PIS: TFloatField
+      FieldName = 'VALOR_PIS'
+    end
+    object sds_nf1VALOR_COFINS: TFloatField
+      FieldName = 'VALOR_COFINS'
+    end
+    object sds_nf1BASE_IPI: TFloatField
+      FieldName = 'BASE_IPI'
+    end
+    object sds_nf1BASE_PIS: TFloatField
+      FieldName = 'BASE_PIS'
+    end
+    object sds_nf1BASE_COFINS: TFloatField
+      FieldName = 'BASE_COFINS'
     end
   end
   object sds_compra: TSQLDataSet

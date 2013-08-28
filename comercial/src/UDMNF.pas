@@ -1416,6 +1416,16 @@ type
     scds_serienfeNOTASERIE: TIntegerField;
     scds_serienfeNOTAFISCAL: TIntegerField;
     scds_serienfeSERIE: TStringField;
+    sds_nf1VALOR_PIS: TFloatField;
+    sds_nf1VALOR_COFINS: TFloatField;
+    sds_nf1BASE_IPI: TFloatField;
+    sds_nf1BASE_PIS: TFloatField;
+    sds_nf1BASE_COFINS: TFloatField;
+    cds_nf1VALOR_PIS: TFloatField;
+    cds_nf1VALOR_COFINS: TFloatField;
+    cds_nf1BASE_IPI: TFloatField;
+    cds_nf1BASE_PIS: TFloatField;
+    cds_nf1BASE_COFINS: TFloatField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
