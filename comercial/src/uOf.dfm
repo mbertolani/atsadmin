@@ -1,5 +1,10 @@
 inherited fOf: TfOf
+  Left = 336
+  Top = 165
+  Width = 788
+  Height = 563
   Caption = 'Ordem Produ'#231#227'o'
+  OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -39,11 +44,12 @@ inherited fOf: TfOf
     Caption = 'Quantidade'
   end
   inherited MMJPanel1: TMMJPanel
+    Width = 780
     TabOrder = 5
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 770
+      Width = 778
       Height = 49
       Align = alClient
       Alignment = taCenter
@@ -67,6 +73,8 @@ inherited fOf: TfOf
     end
   end
   inherited MMJPanel2: TMMJPanel
+    Top = 478
+    Width = 780
     TabOrder = 6
   end
   object OfId: TEdit [7]
@@ -386,5 +394,779 @@ inherited fOf: TfOf
     SQLConnection = DM.sqlsisAdimin
     Left = 128
     Top = 40
+  end
+  object sdsDetalhe: TSQLDataSet
+    CommandText = 
+      'select  mt.CODPRODMP, mt.USAPRECO,'#13#10'sum(mt.qtdeusada * ofp.OFQTD' +
+      'ESOLIC)'#13#10#13#10'from OF_OF ofp'#13#10#13#10'left outer join MATERIA_PRIMA mt on' +
+      ' ofp.CODPRODUTO = mt.CODPRODUTO '#13#10'where ofp.OFID = :pCODOF'#13#10'and ' +
+      ' mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPRODMP, mt.USAPRECO'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCODOF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PUSO'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 375
+    Top = 366
+  end
+  object dspDetalhe: TDataSetProvider
+    DataSet = sdsDetalhe
+    UpdateMode = upWhereKeyOnly
+    Left = 407
+    Top = 366
+  end
+  object cdsDetalhe: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PUSO'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspDetalhe'
+    Left = 440
+    Top = 366
+    object cdsDetalheCODPRODMP: TIntegerField
+      FieldName = 'CODPRODMP'
+      ReadOnly = True
+    end
+    object cdsDetalheSUM: TFloatField
+      FieldName = 'SUM'
+      ReadOnly = True
+    end
+    object cdsDetalheUSAPRECO: TStringField
+      FieldName = 'USAPRECO'
+      ReadOnly = True
+    end
+  end
+  object sds_s: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 480
+    Top = 368
+  end
+  object cds_movMat: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_movMat'
+    OnNewRecord = cds_movMatNewRecord
+    Left = 438
+    Top = 326
+    object cds_movMatCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cds_movMatDATAMOVIMENTO: TDateField
+      FieldName = 'DATAMOVIMENTO'
+      Required = True
+    end
+    object cds_movMatCODCLIENTE: TIntegerField
+      FieldName = 'CODCLIENTE'
+    end
+    object cds_movMatCODNATUREZA: TSmallintField
+      FieldName = 'CODNATUREZA'
+      Required = True
+    end
+    object cds_movMatSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Required = True
+    end
+    object cds_movMatCODUSUARIO: TSmallintField
+      FieldName = 'CODUSUARIO'
+      Required = True
+    end
+    object cds_movMatNOMECLIENTE: TStringField
+      FieldName = 'NOMECLIENTE'
+      Size = 50
+    end
+    object cds_movMatDESCNATUREZA: TStringField
+      FieldName = 'DESCNATUREZA'
+      Size = 30
+    end
+    object cds_movMatALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      Size = 30
+    end
+    object cds_movMatCODVENDEDOR: TSmallintField
+      FieldName = 'CODVENDEDOR'
+    end
+    object cds_movMatCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object cds_movMatNOMEFORNECEDOR: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      Size = 50
+    end
+    object cds_movMatCODFORNECEDOR: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+    end
+    object cds_movMatTIPOTITULO: TSmallintField
+      FieldName = 'TIPOTITULO'
+    end
+    object cds_movMatDATA_SISTEMA: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+    end
+    object cds_movMatNOMEUSUARIO: TStringField
+      FieldName = 'NOMEUSUARIO'
+      Size = 30
+    end
+    object cds_movMatPLACA: TStringField
+      FieldName = 'PLACA'
+      Size = 10
+    end
+    object cds_movMatMARCA_MODELO: TStringField
+      FieldName = 'MARCA_MODELO'
+      Size = 60
+    end
+    object cds_movMatCOD_VEICULO: TIntegerField
+      FieldName = 'COD_VEICULO'
+    end
+    object cds_movMatBAIXAMOVIMENTO: TSmallintField
+      FieldName = 'BAIXAMOVIMENTO'
+    end
+    object cds_movMatCONTROLE: TStringField
+      FieldName = 'CONTROLE'
+      Size = 30
+    end
+    object cds_movMatCODCCUSTO: TSmallintField
+      FieldName = 'CODCCUSTO'
+    end
+    object cds_movMatNOTAFISCAL: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object cds_movMatNOTAFISCAL_1: TIntegerField
+      FieldName = 'NOTAFISCAL_1'
+    end
+    object cds_movMatSERIE: TStringField
+      FieldName = 'SERIE'
+    end
+    object cds_movMatOBS: TStringField
+      FieldName = 'OBS'
+      Size = 100
+    end
+    object cds_movMatOBSERVACAO: TStringField
+      FieldName = 'OBSERVACAO'
+      Size = 200
+    end
+    object cds_movMatCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+  end
+  object dsp_movMat: TDataSetProvider
+    DataSet = sds_movMat
+    UpdateMode = upWhereKeyOnly
+    Left = 403
+    Top = 326
+  end
+  object sds_movMat: TSQLDataSet
+    CommandText = 
+      'select mov.*'#13#10'        , cli.NOMECLIENTE'#13#10'        , cli.OBS as ob' +
+      'servacao'#13#10'        , vei.PLACA'#13#10'        , vei.MARCA_MODELO'#13#10'     ' +
+      '   , usu.NOMEUSUARIO'#13#10'        , forn.NOMEFORNECEDOR'#13#10'        , n' +
+      'at.DESCNATUREZA'#13#10'        , alm.NOME AS ALMOXARIFADO'#13#10'        , n' +
+      'at.TIPOTITULO'#13#10'        , nat.BAIXAMOVIMENTO , ven.CODCCUSTO, ven' +
+      '.NOTAFISCAL, comp.NOTAFISCAL, ven.SERIE '#13#10'from MOVIMENTO mov '#13#10'l' +
+      'eft outer join VENDA ven on ven.codmovimento = mov.codmovimento ' +
+      #13#10'left outer join COMPRA comp on comp.codmovimento = mov.codmovi' +
+      'mento '#13#10'left outer join CLIENTES cli on cli.CODCLIENTE = mov.COD' +
+      'CLIENTE '#13#10'left outer join VEICULO vei on vei.COD_CLIENTE = mov.C' +
+      'ODCLIENTE '#13#10'left outer join USUARIO usu on usu.CODUSUARIO = mov.' +
+      'CODUSUARIO '#13#10'left outer join FORNECEDOR forn on forn.CODFORNECED' +
+      'OR =  mov.CODFORNECEDOR '#13#10'inner join NATUREZAOPERACAO nat on  na' +
+      't.CODNATUREZA = mov.CODNATUREZA '#13#10'left outer join PLANO alm on a' +
+      'lm.CODIGO =  mov.CODALMOXARIFADO where mov.CODMOVIMENTO = :pCODM' +
+      'OV'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 372
+    Top = 326
+    object IntegerField1: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object DateField1: TDateField
+      FieldName = 'DATAMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'CODCLIENTE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SmallintField1: TSmallintField
+      FieldName = 'CODNATUREZA'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object SmallintField2: TSmallintField
+      FieldName = 'STATUS'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object SmallintField3: TSmallintField
+      FieldName = 'CODUSUARIO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object StringField1: TStringField
+      FieldName = 'NOMECLIENTE'
+      ProviderFlags = []
+      Size = 50
+    end
+    object StringField2: TStringField
+      FieldName = 'DESCNATUREZA'
+      ProviderFlags = []
+      Size = 30
+    end
+    object StringField3: TStringField
+      FieldName = 'ALMOXARIFADO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object SmallintField4: TSmallintField
+      FieldName = 'CODVENDEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object IntegerField3: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object StringField4: TStringField
+      FieldName = 'NOMEFORNECEDOR'
+      ProviderFlags = []
+      Size = 50
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'CODFORNECEDOR'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SmallintField5: TSmallintField
+      FieldName = 'TIPOTITULO'
+      ProviderFlags = []
+      ReadOnly = True
+    end
+    object SQLTimeStampField1: TSQLTimeStampField
+      FieldName = 'DATA_SISTEMA'
+      ProviderFlags = [pfInUpdate]
+    end
+    object StringField5: TStringField
+      FieldName = 'NOMEUSUARIO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object StringField6: TStringField
+      FieldName = 'PLACA'
+      ProviderFlags = []
+      Size = 10
+    end
+    object StringField7: TStringField
+      FieldName = 'MARCA_MODELO'
+      ProviderFlags = []
+      Size = 60
+    end
+    object IntegerField5: TIntegerField
+      FieldName = 'COD_VEICULO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object SmallintField6: TSmallintField
+      FieldName = 'BAIXAMOVIMENTO'
+      ProviderFlags = []
+    end
+    object StringField8: TStringField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+      Size = 30
+    end
+    object SmallintField7: TSmallintField
+      FieldName = 'CODCCUSTO'
+    end
+    object IntegerField6: TIntegerField
+      FieldName = 'NOTAFISCAL'
+    end
+    object IntegerField7: TIntegerField
+      FieldName = 'NOTAFISCAL_1'
+    end
+    object StringField9: TStringField
+      FieldName = 'SERIE'
+    end
+    object StringField10: TStringField
+      FieldName = 'OBS'
+      ProviderFlags = [pfInUpdate]
+      Size = 100
+    end
+    object StringField11: TStringField
+      FieldName = 'OBSERVACAO'
+      ProviderFlags = [pfInUpdate]
+      Size = 200
+    end
+    object sds_movMatCODORIGEM: TIntegerField
+      FieldName = 'CODORIGEM'
+    end
+  end
+  object dsd_movDetMat: TSQLDataSet
+    CommandText = 
+      'select movd.CODDETALHE'#13#10', movd.CODMOVIMENTO'#13#10', movd.CODPRODUTO'#13#10 +
+      ', movd.ICMS'#13#10', movd.PRECO'#13#10', movd.QUANTIDADE'#13#10', movd.QTDE_ALT'#13#10',' +
+      ' movd.UN'#13#10', movd.BAIXA'#13#10', movd.CONTROLE'#13#10', movd.COD_COMISSAO'#13#10', ' +
+      'movd.LOTE'#13#10', movd.DTAFAB'#13#10', movd.DTAVCTO'#13#10', prod.CODPRO'#13#10', prod.' +
+      'PRODUTO'#13#10', prod.CODALMOXARIFADO'#13#10', prod.VALORUNITARIOATUAL'#13#10', pr' +
+      'od.QTDE_PCT'#13#10', ccus.ALMOXARIFADO'#13#10', prod.CONTA_DESPESA , prod.LO' +
+      'TES , movd.PRECOCUSTO'#13#10'from MOVIMENTODETALHE movd '#13#10'inner join P' +
+      'RODUTOS prod on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer joi' +
+      'n ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFA' +
+      'DO '#13#10'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCO' +
+      'DMOV'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODDETALHE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 373
+    Top = 297
+    object IntegerField8: TIntegerField
+      FieldName = 'CODDETALHE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object IntegerField9: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object IntegerField10: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object FloatField1: TFloatField
+      FieldName = 'ICMS'
+      ProviderFlags = [pfInUpdate]
+    end
+    object FloatField2: TFloatField
+      FieldName = 'PRECO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object FloatField3: TFloatField
+      FieldName = 'QUANTIDADE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object StringField12: TStringField
+      DisplayWidth = 50
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Required = True
+      Size = 200
+    end
+    object StringField13: TStringField
+      FieldName = 'UN'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 2
+    end
+    object FloatField4: TFloatField
+      FieldName = 'QTDE_ALT'
+      ProviderFlags = [pfInUpdate]
+    end
+    object StringField14: TStringField
+      FieldName = 'BAIXA'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
+    end
+    object SmallintField8: TSmallintField
+      FieldName = 'CONTROLE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object IntegerField11: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+      ProviderFlags = []
+    end
+    object StringField15: TStringField
+      FieldName = 'ALMOXARIFADO'
+      ProviderFlags = []
+      Size = 30
+    end
+    object FloatField5: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+      ProviderFlags = []
+    end
+    object IntegerField12: TIntegerField
+      FieldName = 'COD_COMISSAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object StringField16: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ProviderFlags = []
+      Size = 15
+    end
+    object StringField17: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object FloatField6: TFloatField
+      FieldName = 'QTDE_PCT'
+      ProviderFlags = []
+    end
+    object StringField18: TStringField
+      FieldName = 'LOTE'
+      ProviderFlags = [pfInUpdate]
+      Size = 60
+    end
+    object DateField2: TDateField
+      FieldName = 'DTAFAB'
+      ProviderFlags = [pfInUpdate]
+    end
+    object DateField3: TDateField
+      FieldName = 'DTAVCTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object StringField19: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object FloatField7: TFloatField
+      FieldName = 'PRECOCUSTO'
+      ProviderFlags = [pfInUpdate]
+    end
+  end
+  object dsp_movDetMat: TDataSetProvider
+    DataSet = dsd_movDetMat
+    UpdateMode = upWhereKeyOnly
+    Left = 405
+    Top = 297
+  end
+  object cds_movDetMat: TClientDataSet
+    Aggregates = <>
+    AggregatesActive = True
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODDETALHE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'pCODMOV'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp_movDetMat'
+    OnNewRecord = cds_movDetMatNewRecord
+    Left = 438
+    Top = 297
+    object cds_movDetMatCODDETALHE: TIntegerField
+      FieldName = 'CODDETALHE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cds_movDetMatCODMOVIMENTO: TIntegerField
+      FieldName = 'CODMOVIMENTO'
+      Required = True
+    end
+    object cds_movDetMatCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      Required = True
+    end
+    object cds_movDetMatICMS: TFloatField
+      FieldName = 'ICMS'
+    end
+    object cds_movDetMatPRECO: TFloatField
+      FieldName = 'PRECO'
+    end
+    object cds_movDetMatQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+    end
+    object cds_movDetMatPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Required = True
+      Size = 200
+    end
+    object cds_movDetMatUN: TStringField
+      FieldName = 'UN'
+      FixedChar = True
+      Size = 2
+    end
+    object cds_movDetMatQTDE_ALT: TFloatField
+      FieldName = 'QTDE_ALT'
+    end
+    object cds_movDetMatBAIXA: TStringField
+      FieldName = 'BAIXA'
+      FixedChar = True
+      Size = 1
+    end
+    object cds_movDetMatCONTROLE: TSmallintField
+      FieldName = 'CONTROLE'
+    end
+    object cds_movDetMatCODALMOXARIFADO: TIntegerField
+      FieldName = 'CODALMOXARIFADO'
+    end
+    object cds_movDetMatALMOXARIFADO: TStringField
+      FieldName = 'ALMOXARIFADO'
+      Size = 30
+    end
+    object cds_movDetMatVALORUNITARIOATUAL: TFloatField
+      FieldName = 'VALORUNITARIOATUAL'
+    end
+    object cds_movDetMatCOD_COMISSAO: TIntegerField
+      FieldName = 'COD_COMISSAO'
+    end
+    object cds_movDetMatCONTA_DESPESA: TStringField
+      FieldName = 'CONTA_DESPESA'
+      ProviderFlags = [pfInWhere]
+      Size = 15
+    end
+    object cds_movDetMatCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
+    end
+    object cds_movDetMatQTDE_PCT: TFloatField
+      FieldName = 'QTDE_PCT'
+    end
+    object cds_movDetMatLOTE: TStringField
+      FieldName = 'LOTE'
+      Size = 60
+    end
+    object cds_movDetMatDTAFAB: TDateField
+      FieldName = 'DTAFAB'
+    end
+    object cds_movDetMatDTAVCTO: TDateField
+      FieldName = 'DTAVCTO'
+    end
+    object cds_movDetMatLOTES: TStringField
+      FieldName = 'LOTES'
+      ProviderFlags = [pfInWhere]
+      FixedChar = True
+      Size = 1
+    end
+    object cds_movDetMatPRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+      ProviderFlags = [pfInWhere]
+    end
+  end
+  object sds: TSQLDataSet
+    CommandText = 
+      'select p.CODPRODUTO, p.CODPRO, p.VALORUNITARIOATUAL as  PRECO_CU' +
+      'STO, p.PRODUTO, '#13#10'p.ESTOQUEATUAL as ESTOQUE, p.VALORUNITARIOATUA' +
+      'L as PRECO_COMPRA, p.PRECOMEDIO as PRECO_VENDA,  p.UNIDADEMEDIDA' +
+      ', '#39'0'#39' as LOTES'#13#10'from PRODUTOS P'#13#10'where p.CODPRODUTO = :id'#13#10
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 376
+    Top = 399
+  end
+  object dsp: TDataSetProvider
+    DataSet = sds
+    UpdateMode = upWhereKeyOnly
+    Left = 408
+    Top = 399
+  end
+  object cds: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'id'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsp'
+    Left = 440
+    Top = 399
+    object cdsCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+    end
+    object cdsCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 50
+    end
+    object cdsPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      Size = 300
+    end
+    object cdsPRECO_CUSTO: TFloatField
+      FieldName = 'PRECO_CUSTO'
+    end
+    object cdsESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
+    end
+    object cdsUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      Size = 10
+    end
+    object cdsLOTES2: TStringField
+      FieldName = 'LOTES'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsPRECO_VENDA: TBCDField
+      FieldName = 'PRECO_VENDA'
+      Precision = 9
+      Size = 2
+    end
+    object cdsPRECO_COMPRA: TFloatField
+      FieldName = 'PRECO_COMPRA'
+    end
+  end
+  object sdslote: TSQLDataSet
+    CommandText = 
+      'SELECT lote.*, '#13#10'               prod.PRODUTO, '#13#10'               p' +
+      'rod.CODPRO '#13#10'FROM LOTES lote, PRODUTOS prod '#13#10'WHERE prod.CODPROD' +
+      'UTO = lote.CODPRODUTO '#13#10'AND lote.LOTE = :PLOTE '
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PLOTE'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 376
+    Top = 255
+    object sdsloteCODLOTE: TIntegerField
+      FieldName = 'CODLOTE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object sdsloteLOTE: TStringField
+      FieldName = 'LOTE'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      Size = 200
+    end
+    object sdsloteCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object sdsloteDATAFABRICACAO: TDateField
+      FieldName = 'DATAFABRICACAO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdsloteDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdsloteESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
+      ProviderFlags = [pfInUpdate]
+    end
+    object sdslotePRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Required = True
+      Size = 300
+    end
+    object sdsloteCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object sdslotePRECO: TFloatField
+      FieldName = 'PRECO'
+    end
+  end
+  object dsplotes: TDataSetProvider
+    DataSet = sdslote
+    UpdateMode = upWhereKeyOnly
+    Left = 408
+    Top = 255
+  end
+  object cdslotes: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'PLOTE'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dsplotes'
+    Left = 440
+    Top = 255
+    object cdslotesCODLOTE: TIntegerField
+      FieldName = 'CODLOTE'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdslotesLOTE: TStringField
+      FieldName = 'LOTE'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+      Size = 200
+    end
+    object cdslotesCODPRODUTO: TIntegerField
+      FieldName = 'CODPRODUTO'
+      ProviderFlags = [pfInUpdate]
+      Required = True
+    end
+    object cdslotesDATAFABRICACAO: TDateField
+      FieldName = 'DATAFABRICACAO'
+      ProviderFlags = [pfInUpdate]
+      EditMask = '!99/99/00;1;_'
+    end
+    object cdslotesDATAVENCIMENTO: TDateField
+      FieldName = 'DATAVENCIMENTO'
+      ProviderFlags = [pfInUpdate]
+      EditMask = '!99/99/00;1;_'
+    end
+    object cdslotesESTOQUE: TFloatField
+      FieldName = 'ESTOQUE'
+      ProviderFlags = [pfInUpdate]
+      DisplayFormat = ',##0.0'
+      EditFormat = ',##0.0'
+    end
+    object cdslotesPRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ProviderFlags = []
+      Required = True
+      Size = 300
+    end
+    object cdslotesCODPRO: TStringField
+      FieldName = 'CODPRO'
+      ProviderFlags = []
+      Size = 15
+    end
+    object cdslotesPRECO: TFloatField
+      FieldName = 'PRECO'
+    end
   end
 end
