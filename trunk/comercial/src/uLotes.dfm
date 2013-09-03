@@ -65,8 +65,8 @@ inherited fLotes: TfLotes
     Caption = 'S'#233'rie Final'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 420
-    Width = 792
+    Top = 431
+    Width = 800
     TabOrder = 6
     inherited btnProcurar: TBitBtn
       Enabled = False
@@ -74,7 +74,7 @@ inherited fLotes: TfLotes
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 792
+    Width = 800
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -37
@@ -96,7 +96,7 @@ inherited fLotes: TfLotes
     object JvLabel1: TJvLabel
       Left = 1
       Top = 1
-      Width = 790
+      Width = 798
       Height = 52
       Align = alClient
       Alignment = taCenter
@@ -120,7 +120,7 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'CODPRO'
+    DataField = 'CODPROD'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -139,7 +139,7 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'LOTE'
+    DataField = 'LOTES'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -157,7 +157,6 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'DATAFABRICACAO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -165,6 +164,7 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     TabOrder = 3
     OnKeyPress = FormKeyPress
   end
@@ -175,7 +175,6 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'DATAVENCIMENTO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -183,6 +182,7 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     TabOrder = 4
     OnKeyPress = FormKeyPress
   end
@@ -268,7 +268,7 @@ inherited fLotes: TfLotes
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'ESTOQUE'
+    DataField = 'SALDOFIMACUM'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -284,7 +284,9 @@ inherited fLotes: TfLotes
     Top = 75
     Width = 74
     Height = 24
-    DataField = 'PRECO'
+    BevelKind = bkFlat
+    BorderStyle = bsNone
+    DataField = 'PRECOCUSTO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -301,7 +303,6 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'SERIEINI'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -309,6 +310,7 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     TabOrder = 9
     OnKeyPress = FormKeyPress
   end
@@ -320,7 +322,6 @@ inherited fLotes: TfLotes
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'SERIEFIM'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -328,6 +329,7 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     TabOrder = 10
     OnKeyPress = FormKeyPress
   end
@@ -346,53 +348,37 @@ inherited fLotes: TfLotes
     Columns = <
       item
         Expanded = False
-        FieldName = 'LOTE'
+        FieldName = 'LOTES'
         Title.Caption = 'Lote'
         Width = 68
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'DATAFABRICACAO'
-        Title.Caption = 'Data Fabrica'#231#227'o'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATAVENCIMENTO'
-        Title.Caption = 'Data Vencimento'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'ESTOQUE'
-        Title.Caption = 'Estoque'
-        Width = 55
+        FieldName = 'CODPROD'
+        Title.Caption = 'C'#243'd. Produto'
+        Width = 100
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'PRODUTO'
         Title.Caption = 'Produto'
-        Width = 450
+        Width = 400
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'PRECO'
+        FieldName = 'SALDOFIMACUM'
+        Title.Caption = 'Estoque'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PRECOVENDA'
         Title.Caption = 'Pre'#231'o'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SERIEINI'
-        Title.Caption = 'S'#233'rie Inicial'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'SERIEFIM'
-        Title.Caption = 'S'#233'rie Final'
+        Width = 80
         Visible = True
       end>
   end
@@ -403,67 +389,13 @@ inherited fLotes: TfLotes
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'SELECT *  FROM lote_estoquemes(:codpro)'#13#10#13#10'/*SELECT 1 CODLOTE, l' +
-      'ote.LOTE, lote.CODPRODUTO, lote.MESANO DATAFABRICACAO, lote.MESA' +
-      'NO DATAVENCIMENTO, '#13#10'lote.SALDOESTOQUE ESTOQUE, lote.PRECOCUSTO ' +
-      'PRECO, lote.LOTE NOTAFISCAL, 1 SERIEINI, 2 SERIEFIM , prod.PRODU' +
-      'TO, prod.CODPRO FROM ESTOQUEMES lote '#13#10'inner join PRODUTOS prod ' +
-      'on prod.codproduto = lote.CODPRODUTO WHERE lote.codproduto = :co' +
-      'dpro and lote.SALDOESTOQUE > 0.009*/'
+      'select * from ESTOQUE_VIEW_CUSTO('#13#10'    '#39'03.09.13'#39','#13#10'    1,'#13#10'    ' +
+      '51,'#13#10'    '#39'1650'#39')'
     MaxBlobSize = -1
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'codpro'
-        ParamType = ptInput
-      end>
+    Params = <>
     SQLConnection = DM.sqlsisAdimin
     Left = 72
     Top = 24
-    object sdsloteCODLOTE: TIntegerField
-      FieldName = 'CODLOTE'
-      Required = True
-    end
-    object sdsloteLOTE: TStringField
-      FieldName = 'LOTE'
-      Required = True
-      Size = 200
-    end
-    object sdsloteCODPRODUTO: TIntegerField
-      FieldName = 'CODPRODUTO'
-      Required = True
-    end
-    object sdsloteDATAFABRICACAO: TDateField
-      FieldName = 'DATAFABRICACAO'
-    end
-    object sdsloteDATAVENCIMENTO: TDateField
-      FieldName = 'DATAVENCIMENTO'
-    end
-    object sdsloteESTOQUE: TFloatField
-      FieldName = 'ESTOQUE'
-    end
-    object sdslotePRECO: TFloatField
-      FieldName = 'PRECO'
-    end
-    object sdsloteNOTAFISCAL: TStringField
-      FieldName = 'NOTAFISCAL'
-      Size = 15
-    end
-    object sdsloteSERIEINI: TIntegerField
-      FieldName = 'SERIEINI'
-    end
-    object sdsloteSERIEFIM: TIntegerField
-      FieldName = 'SERIEFIM'
-    end
-    object sdslotePRODUTO: TStringField
-      FieldName = 'PRODUTO'
-      Required = True
-      Size = 300
-    end
-    object sdsloteCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
-    end
   end
   object dsplotes: TDataSetProvider
     DataSet = sdslote
@@ -474,58 +406,71 @@ inherited fLotes: TfLotes
   end
   object cdslotes: TClientDataSet
     Aggregates = <>
-    Params = <
-      item
-        DataType = ftInteger
-        Name = 'codpro'
-        ParamType = ptInput
-      end>
+    Params = <>
     ProviderName = 'dsplotes'
     Left = 136
     Top = 24
-    object cdslotesCODLOTE: TIntegerField
-      FieldName = 'CODLOTE'
-      Required = True
+    object cdslotesCODPROD: TStringField
+      FieldName = 'CODPROD'
     end
-    object cdslotesLOTE: TStringField
-      FieldName = 'LOTE'
-      Required = True
-      Size = 200
+    object cdslotesMESANO: TStringField
+      FieldName = 'MESANO'
+      Size = 10
     end
     object cdslotesCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
-      Required = True
-    end
-    object cdslotesDATAFABRICACAO: TDateField
-      FieldName = 'DATAFABRICACAO'
-    end
-    object cdslotesDATAVENCIMENTO: TDateField
-      FieldName = 'DATAVENCIMENTO'
-    end
-    object cdslotesESTOQUE: TFloatField
-      FieldName = 'ESTOQUE'
-    end
-    object cdslotesPRECO: TFloatField
-      FieldName = 'PRECO'
-    end
-    object cdslotesNOTAFISCAL: TStringField
-      FieldName = 'NOTAFISCAL'
-      Size = 15
-    end
-    object cdslotesSERIEINI: TIntegerField
-      FieldName = 'SERIEINI'
-    end
-    object cdslotesSERIEFIM: TIntegerField
-      FieldName = 'SERIEFIM'
     end
     object cdslotesPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
       Size = 300
     end
-    object cdslotesCODPRO: TStringField
-      FieldName = 'CODPRO'
-      Size = 15
+    object cdslotesGRUPO: TStringField
+      FieldName = 'GRUPO'
+      Size = 30
+    end
+    object cdslotesSUBGRUPOPROD: TStringField
+      FieldName = 'SUBGRUPOPROD'
+      Size = 30
+    end
+    object cdslotesSALDOINIACUM: TFloatField
+      FieldName = 'SALDOINIACUM'
+    end
+    object cdslotesENTRADA: TFloatField
+      FieldName = 'ENTRADA'
+    end
+    object cdslotesSAIDA: TFloatField
+      FieldName = 'SAIDA'
+    end
+    object cdslotesSALDOFIMACUM: TFloatField
+      FieldName = 'SALDOFIMACUM'
+    end
+    object cdslotesESTOQUE_MES: TFloatField
+      FieldName = 'ESTOQUE_MES'
+    end
+    object cdslotesPRECOUNIT: TFloatField
+      FieldName = 'PRECOUNIT'
+    end
+    object cdslotesPRECOCUSTO: TFloatField
+      FieldName = 'PRECOCUSTO'
+    end
+    object cdslotesVALORESTOQUE: TFloatField
+      FieldName = 'VALORESTOQUE'
+    end
+    object cdslotesVALORVENDA: TFloatField
+      FieldName = 'VALORVENDA'
+    end
+    object cdslotesPRECOCOMPRA: TFloatField
+      FieldName = 'PRECOCOMPRA'
+    end
+    object cdslotesPRECOVENDA: TFloatField
+      FieldName = 'PRECOVENDA'
+    end
+    object cdslotesLOTES: TStringField
+      FieldName = 'LOTES'
+      Size = 60
+    end
+    object cdslotesCCUSTOS: TIntegerField
+      FieldName = 'CCUSTOS'
     end
   end
   object scds_produto_proc: TSQLDataSet
