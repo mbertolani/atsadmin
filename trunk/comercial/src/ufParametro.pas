@@ -355,6 +355,7 @@ type
     edListaCondicaoCalc3: TEdit;
     Label64: TLabel;
     edCondicaoArredondar: TEdit;
+    rgDataNF: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -447,6 +448,7 @@ type
     procedure edtConsumidorChange(Sender: TObject);
     procedure LISTAPRECOGravaClick(Sender: TObject);
     procedure BitBtn38Click(Sender: TObject);
+    procedure rgDataNFClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -5222,6 +5224,45 @@ begin
     end;
   end;
 
+end;
+
+procedure TfParametro.rgDataNFClick(Sender: TObject);
+begin
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'DATANF';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Verifica se a data da NF difere da atual') + ', ';
+    strSql := strSql + QuotedStr('DATANF') + ', ';
+    if (rgDataNF.ItemIndex = 0) then
+      strSql := strSql + QuotedStr('N');
+    if (rgDataNF.ItemIndex = 1) then
+      strSql := strSql + QuotedStr('S');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    if (rgDataNF.ItemIndex = 0) then
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+    if (rgDataNF.ItemIndex = 1) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
 end;
 
 end.
