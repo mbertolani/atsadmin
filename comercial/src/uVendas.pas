@@ -704,7 +704,7 @@ type
 var
   fVendas: TfVendas;
   valorUnitario: Double;
-  codmovdet, codserv,codmd,centro_receita, cod_nat, cod_vendedor_padrao, cod_cli, estoq : integer;
+  codmovdet, codserv,codmd,centro_receita, cod_nat, cod_vendedor_padrao, cod_cli : integer;
   natureza, contas_pendentes, nome_vendedor_padrao, ccpadrao, chassi, obrigatorio, valida: string;
 
 implementation
@@ -1567,10 +1567,8 @@ begin
   begin
     fLotes := TfLotes.Create(Application);
     try
-      if fLotes.cdslotes.Active then
-        fLotes.cdslotes.Close;
-      fLotes.cdslotes.Params[0].AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
-      fLotes.cdslotes.Open;
+      fLotes.codProdutoLt := dm.scds_produto_procCODPRODUTO.AsInteger;
+      fLotes.codCCustoLt :=  cds_MovimentoCODALMOXARIFADO.AsInteger;
       var_F := 'venda';
       fLotes.btnProdutoProcura.Enabled := False;
       fLotes.btnIncluir.Enabled := False;
