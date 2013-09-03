@@ -517,6 +517,7 @@ type
     modo :string;
     { Private declarations }
   public
+    est_compra: double;
     { Public declarations }
     campocentrocusto, usarateio, usaprecolista, CODIGOPRODUTO, CompradorPadraoNome, obrigatorio : String; // tipoCompra,
     J, ccustoCompras, CompradorPadrao: integer;
@@ -526,7 +527,6 @@ type
 var
   fCompra: TfCompra;
   valorUnitario, qtde: Double;
-  est_compra : integer;
   modo: string;
 
 implementation
@@ -1484,15 +1484,15 @@ begin
       begin
         fLotes.cdslotes.Append;
         fLotes.cdslotesCODPRODUTO.AsInteger := cds_Mov_detCODPRODUTO.AsInteger;
-        fLotes.cdslotesCODPRO.AsString := cds_Mov_detCODPRO.AsString;
+        fLotes.cdslotesCODPROD.AsString := cds_Mov_detCODPRO.AsString;
         fLotes.cdslotesPRODUTO.Value := cds_Mov_detDESCPRODUTO.Value;
-        fLotes.cdslotesDATAFABRICACAO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        fLotes.cdslotesDATAVENCIMENTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        fLotes.cdslotesLOTE.AsString := cds_MovimentoCONTROLE.AsString;
+        //fLotes.cdslotesDATAFABRICACAO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        //fLotes.cdslotesDATAVENCIMENTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
+        fLotes.cdslotesLOTES.AsString := cds_MovimentoCONTROLE.AsString;
         fLotes.btnGravar.Click;
-        cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
-        cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
-        cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
+        cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTES.AsString;
+        //cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
+        //cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
         //fLotes.cdslotes.ApplyUpdates(0);
       end;
     end;
