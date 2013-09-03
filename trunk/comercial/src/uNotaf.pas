@@ -824,6 +824,15 @@ begin
       dm.cds_empresa.open;
     if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
       btnIncluir.Click;
+
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'DATANF';
+    dm.cds_parametro.Open;
+
+    if (DM.cds_parametroCONFIGURADO.AsString = 'S') then
+      if not ( FormatDateTime('dd/mm/yyyy\',DMNF.cds_nfDTAEMISSAO.AsDateTime) = FormatDateTime('dd/mm/yyyy\',now)) then
+        MessageDlg('Data da Nota Fiscal difere da atual.', mtInformation, [mbOK], 0);
   end;
 end;
 
@@ -1767,7 +1776,7 @@ begin
     dmnf.sds_calculo.ExecSQL();
   except
     DecimalSeparator := ',';
-    MessageDlg('Erro no cálculo!', mtError, [mbOK], 0);
+    //MessageDlg('Erro no cálculo!', mtError, [mbOK], 0);
   end;
   end;
 end;
