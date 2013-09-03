@@ -426,8 +426,8 @@ inherited fParametro: TfParametro
       end
       object GroupBox33: TGroupBox
         Left = 8
-        Top = 275
-        Width = 649
+        Top = 171
+        Width = 730
         Height = 48
         Caption = 'C'#243'd. da Natureza da Nota Fiscal'
         TabOrder = 2
@@ -480,7 +480,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox34: TGroupBox
         Left = 9
-        Top = 171
+        Top = 115
         Width = 369
         Height = 48
         Caption = 'S'#233'rie NFe - Modo SCAN'
@@ -528,9 +528,9 @@ inherited fParametro: TfParametro
         end
       end
       object GroupBox35: TGroupBox
-        Left = 10
-        Top = 112
-        Width = 369
+        Left = 384
+        Top = 64
+        Width = 351
         Height = 45
         Caption = 'N'#250'mero NFe '#224' utilizar'
         TabOrder = 4
@@ -552,9 +552,9 @@ inherited fParametro: TfParametro
         end
       end
       object GroupBox36: TGroupBox
-        Left = 10
-        Top = 223
-        Width = 369
+        Left = 386
+        Top = 119
+        Width = 351
         Height = 45
         Caption = 'N'#250'mero da NFe - Modo SCAN '#224' utilizar'
         TabOrder = 5
@@ -576,9 +576,9 @@ inherited fParametro: TfParametro
         end
       end
       object rgMesmoNumero: TRadioGroup
-        Left = 384
-        Top = 60
-        Width = 417
+        Left = 312
+        Top = 7
+        Width = 423
         Height = 49
         Caption = 'Utilizar a mesma N'#250'mera'#231#227'o da Finaliza'#231#227'o da Venda'
         Columns = 2
@@ -588,6 +588,20 @@ inherited fParametro: TfParametro
           'Sim - Mesmo N'#250'mero do T'#237'tulo')
         TabOrder = 6
         OnClick = rgMesmoNumeroClick
+      end
+      object rgDataNF: TRadioGroup
+        Left = 8
+        Top = 224
+        Width = 241
+        Height = 49
+        Caption = 'Verifica se Data N.F. difere da atual.'
+        Columns = 2
+        ItemIndex = 0
+        Items.Strings = (
+          'N'#227'o'
+          'Sim')
+        TabOrder = 7
+        OnClick = rgDataNFClick
       end
     end
     object TabSheet2: TTabSheet
@@ -3745,7 +3759,7 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 522
+    Top = 515
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
