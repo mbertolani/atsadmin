@@ -1326,9 +1326,9 @@ begin
   if (var_F = 'Lotes') then
   begin
     fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
+    fLotes.cdslotesCODPROD.AsString := cds_procCODPRO.AsString;
     fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
-    fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
+    //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
   end;
 
   if (var_F = 'Lista') then
@@ -1362,9 +1362,9 @@ begin
         begin
           fLotes.cdslotes.Append;
           fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-          fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
+          fLotes.cdslotesCODPROD.AsString := cds_procCODPRO.AsString;
           fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
-          fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
+          //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
         end;
         fLotes.btnProdutoProcura.Enabled := False;
         var_F := 'procura';
@@ -1411,7 +1411,7 @@ begin
     end;
 
     if cds_procLOTES.AsString = 'S' then
-    if estoq < StrToInt(Edit3.Text) then
+    if dm.estoq < StrToFloat(Edit3.Text) then
     begin
       MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
       exit;
@@ -1454,7 +1454,7 @@ begin
       var_F := 'venda';
     end;
     if cds_procLOTES.AsString = 'S' then
-    if estoq < StrToInt(Edit3.Text) then
+    if dm.estoq < StrToFloat(Edit3.Text) then
     begin
       MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
       exit;
@@ -1545,7 +1545,7 @@ begin
         fLotes.Free;
       end;
       var_F := 'estoque';
-      if estoq1 < StrToInt(Edit3.Text) then
+      if fEntra_Sai_estoque.estoq1 < StrToInt(Edit3.Text) then
       begin
         MessageDlg('Estoque insuficiente ..', mtWarning, [mbOK], 0);
         exit;
