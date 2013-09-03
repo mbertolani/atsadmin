@@ -437,6 +437,7 @@ type
   public
     cod_cli, cod_mov, cod_ven :integer;
     dt_mov: TDateTime;
+    estoq1 : double;
     cliente, vendedor, usalote, dataMov, conta_local, nSerie, ccpadrao: string;
 
     procedure baixamatprimas(tipomat: string; codmovt: integer);
@@ -447,7 +448,7 @@ type
 var
   fEntra_Sai_estoque: TfEntra_Sai_estoque;
   valorUnitario: Double;
-  centro_receita, cod_nat, cod_vendedor_padrao, entsai, estoq1: integer;
+  centro_receita, cod_nat, cod_vendedor_padrao, entsai: integer;
   natureza, contas_pendentes, nome_vendedor_padrao,serie : string;
 
 
@@ -1018,7 +1019,7 @@ var deleta, delmov, delmovprim, delvenprim: string;
   FEstoque : TEstoque;
   TD: TTransactionDesc;
 begin
-  if (MessageDlg('Tem certeza que Deseja Excluir?', mtConfirmation, [mbYes, mbNo], 0) = mrNo) then exit;
+  if (MessageDlg('Tem certeza que deseja excluir?', mtConfirmation, [mbYes, mbNo], 0) = mrNo) then exit;
 
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
@@ -1264,8 +1265,8 @@ begin
         fLotes.cdslotes.Open;
         while (not fLotes.cdslotes.Eof) do
         begin
-          ComboBox4.Items.Add(fLotes.cdslotesLOTE.AsString);
-          ComboBox3.Items.Add(fLotes.cdslotesLOTE.AsString);
+          ComboBox4.Items.Add(fLotes.cdslotesLOTES.AsString);
+          ComboBox3.Items.Add(fLotes.cdslotesLOTES.AsString);
           fLotes.cdslotes.Next;
         end;
         fLotes.cdslotes.First;
