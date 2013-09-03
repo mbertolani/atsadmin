@@ -1779,6 +1779,8 @@ begin
 	fOf := TfOf.Create(Application);
 	try
     fOf.OfTipo := 'APONTAMENTO';
+    fOf.JvLabel1.Caption := 'Apontamento de Produção';
+    fOf.Caption := 'Apontamento de Produção';
 		fOf.ShowModal;
 	finally
 		fOf.Free;

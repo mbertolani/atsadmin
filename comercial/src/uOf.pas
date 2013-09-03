@@ -362,13 +362,6 @@ begin
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
-    {if (sqlInd.Active) then
-      sqlInd.Close;
-    sqlInd.Params.ParamByName('OFID').AsInteger := cdsOfOFID.AsInteger;
-    sqlInd.Open;
-    OFID_Ind.Text := IntToStr(sqlInd.Fields[0].AsInteger + 1);
-    sqlInd.Close;
-    OfId.ReadOnly := False;}
     OfId.ReadOnly := False;
     OfId.SetFocus;
     if (not cdsOf.Active) then
@@ -428,25 +421,28 @@ begin
       sds_s.ExecSQL();
     end;
 
-    //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
-    if dm.cdsBusca.Active then
-      dm.cdsBusca.Close;
-    dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-    + QuotedStr('OP' + IntToStr(codof));
-    dm.cdsBusca.Open;
-
-    if not dm.cdsBusca.IsEmpty then
+    if ( (cdsOfOFQTDEPRODUZ.AsFloat < cdsOfOFQTDESOLIC.AsFloat) and (cdsOfOFSTATUS.AsString = 'F') )then
     begin
-      if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 2) then
-        tipo := 'SAIDA';
+      //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+      if dm.cdsBusca.Active then
+        dm.cdsBusca.Close;
+      dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+      + QuotedStr('OP' + IntToStr(codof));
+      dm.cdsBusca.Open;
 
-      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
-      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+      if not dm.cdsBusca.IsEmpty then
+      begin
+        if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 2) then
+          tipo := 'SAIDA';
 
-      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
-      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
+        + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
+        + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+      end;
+      //***************************************************************************
     end;
-    //***************************************************************************
 
     TDA.TransactionID  := 1;
     TDA.IsolationLevel := xilREADCOMMITTED;
@@ -493,10 +489,13 @@ begin
             FMov.MovDetalhe.CodProduto    := cdsCODPRODUTO.AsInteger;
             FMov.MovDetalhe.Un            := cdsUNIDADEMEDIDA.AsString;
             FMov.MovDetalhe.Descricao     := cdsPRODUTO.AsString;
-            if (cdsOfOFQTDESOLIC.AsFloat < cdsOfOFQTDEPRODUZ.AsFloat ) then
+            if ( (cdsOfOFQTDESOLIC.AsFloat < cdsOfOFQTDEPRODUZ.AsFloat ) and (cdsOfOFSTATUS.AsString = 'F'))then
             begin
-              if (cdsOfOFSTATUS.AsString = 'F') then
-                FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * (cdsOfOFQTDEPRODUZ.AsFloat - cdsOfOFQTDESOLIC.AsFloat) );
+              FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * (cdsOfOFQTDEPRODUZ.AsFloat - cdsOfOFQTDESOLIC.AsFloat) );
+            end
+            else if ( (cdsOfOFQTDEPRODUZ.AsFloat < cdsOfOFQTDESOLIC.AsFloat) and (cdsOfOFSTATUS.AsString = 'F')) then
+            begin
+              FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * cdsOfOFQTDEPRODUZ.AsFloat);
             end
             else
               FMov.MovDetalhe.Qtde          := cdsDetalheSUM.AsFloat;
@@ -598,10 +597,12 @@ begin
     end
     else
     begin
+      cdsOf.Params[0].Clear;
       cdsOf.Close;
-      MessageDlg('Apontamento já Efetuado.', mtInformation, [mbOK], 0);      
+      MessageDlg('Apontamento já Efetuado.', mtInformation, [mbOK], 0);
+      OfId.Text := '';
+      btnIncluir.SetFocus;      
     end;
-
   end;
 end;
 
