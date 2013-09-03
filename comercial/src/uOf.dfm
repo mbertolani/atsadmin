@@ -84,6 +84,7 @@ inherited fOf: TfOf
     Height = 21
     ReadOnly = True
     TabOrder = 1
+    OnExit = OfIdExit
     OnKeyPress = FormKeyPress
   end
   object OfProd: TEdit [8]
@@ -383,8 +384,8 @@ inherited fOf: TfOf
     SQL.Strings = (
       'SELECT MAX(OFID_IND) FROM OF_OF WHERE OFID = :OFID')
     SQLConnection = DM.sqlsisAdimin
-    Left = 192
-    Top = 40
+    Left = 240
+    Top = 16
   end
   object sqlId: TSQLQuery
     MaxBlobSize = -1
@@ -398,14 +399,15 @@ inherited fOf: TfOf
   object sdsDetalhe: TSQLDataSet
     CommandText = 
       'select  mt.CODPRODMP, mt.USAPRECO,'#13#10'sum(mt.qtdeusada * ofp.OFQTD' +
-      'ESOLIC)'#13#10#13#10'from OF_OF ofp'#13#10#13#10'left outer join MATERIA_PRIMA mt on' +
-      ' ofp.CODPRODUTO = mt.CODPRODUTO '#13#10'where ofp.OFID = :pCODOF'#13#10'and ' +
-      ' mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPRODMP, mt.USAPRECO'
+      'ESOLIC), mt.qtdeusada'#13#10#13#10'from OF_OF ofp'#13#10#13#10'left outer join MATER' +
+      'IA_PRIMA mt on ofp.CODPRODUTO = mt.CODPRODUTO '#13#10'where ofp.OFID =' +
+      ' :pCODOF'#13#10'and  mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPRODMP, mt.' +
+      'USAPRECO, mt.qtdeusada'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
-        Name = 'pCODOF'
+        Name = 'pCODMOV'
         ParamType = ptInput
       end
       item
@@ -450,6 +452,10 @@ inherited fOf: TfOf
     end
     object cdsDetalheUSAPRECO: TStringField
       FieldName = 'USAPRECO'
+      ReadOnly = True
+    end
+    object cdsDetalheQTDEUSADA: TFloatField
+      FieldName = 'QTDEUSADA'
       ReadOnly = True
     end
   end
