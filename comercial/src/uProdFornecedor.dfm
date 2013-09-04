@@ -168,12 +168,12 @@ inherited fProdFornecedor: TfProdFornecedor
       Left = 26
       Top = 77
       Width = 121
-      Height = 21
+      Height = 24
       DataField = 'CODIGO'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
@@ -182,8 +182,8 @@ inherited fProdFornecedor: TfProdFornecedor
       OnKeyPress = FormKeyPress
     end
     object BitBtn1: TBitBtn
-      Left = 148
-      Top = 74
+      Left = 147
+      Top = 77
       Width = 38
       Height = 25
       TabOrder = 8
@@ -193,11 +193,17 @@ inherited fProdFornecedor: TfProdFornecedor
       Left = 188
       Top = 77
       Width = 315
-      Height = 21
+      Height = 24
       TabStop = False
       Color = clSilver
       DataField = 'PRODUTO'
       DataSource = DtSrc
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
       ReadOnly = True
       TabOrder = 9
     end
@@ -205,12 +211,12 @@ inherited fProdFornecedor: TfProdFornecedor
       Left = 506
       Top = 77
       Width = 33
-      Height = 21
+      Height = 24
       DataField = 'UNIDADE'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
@@ -220,12 +226,12 @@ inherited fProdFornecedor: TfProdFornecedor
       Left = 541
       Top = 77
       Width = 86
-      Height = 21
+      Height = 24
       DataField = 'PRECOLISTA'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -11
+      Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
@@ -652,7 +658,7 @@ inherited fProdFornecedor: TfProdFornecedor
     Top = 252
   end
   object sdsP: TSQLDataSet
-    CommandText = 'select * from PRODUTOS'
+    CommandText = 'select * from PRODUTOS WHERE ((USA IS NULL) OR (USA = '#39'S'#39'))'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
