@@ -146,6 +146,8 @@ type
     cdsCODFISCAL: TStringField;
     cdsCD_IBGE: TStringField;
     cdsCEP: TStringField;
+    ListaClienteDATACADASTRO: TDateField;
+    cdsDATACADASTRO: TDateField;
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -180,12 +182,13 @@ type
     procedure EnviarEmail1Click(Sender: TObject);
   private
     { Private declarations }
-
+    varOrdenacao: String;
     Data: TJvCsvDataSet;
     procedure SaveDoc(AExportClass: TJvCustomDBGridExportClass; const Filename: string);
     procedure DoExportProgress(Sender: TObject; Min, Max, Position: Cardinal; const AText: string;
     var AContinue: Boolean);
     procedure SetupData;
+    procedure ordenarRelatorio;
   public
     { Public declarations }
     //, nome_user, varform
@@ -200,7 +203,7 @@ var
 implementation
 
 uses ShellAPI,ShlObj, CommDlg, UDm, uProcurar, uClienteCadastro, ufDlgLogin, sCtrlResize,
-  uEtiquetas_cli, uClienteFiltro, uCliente1;
+  uEtiquetas_cli, uClienteFiltro, uCliente1, VarUtils;
 
 {$R *.dfm}
 
@@ -228,6 +231,7 @@ procedure TfListaClientes.btnFiltroClick(Sender: TObject);
 Var
  varSql: String;
 begin
+  ordenarRelatorio;
   varCondicao:= '';
    varSql:='select DISTINCT cli.CODCLIENTE, cli.NOMECLIENTE, cli.RAZAOSOCIAL, ' +
    'cli.SEGMENTO, cli.CODUSUARIO, cli.STATUS, cli.CONTATO, cli.DATANASC, cli.CNPJ, cli.INSCESTADUAL, '+
@@ -242,7 +246,7 @@ begin
    'ende.UF, ende.LOGRADOURO || ' + QuotedStr(', ') + '|| ende.BAIRRO as ENDERECO, ende.TELEFONE as FONE, '+
    'cli.CODBANCO, cli.PRAZORECEBIMENTO, cli.OBS, rep.NOME_REPRCLI, ' +
    'usu.NOMEUSUARIO, fun.NOME_FUNCIONARIO, fun.TELEFONE, fun.CELULAR, ende.TELEFONE as tel, ende.E_mail, ' +
-   'cli.CODFISCAL, ende.CD_IBGE,ende.CEP from CLIENTES cli ' +
+   'cli.CODFISCAL, ende.CD_IBGE,ende.CEP, cli.DATACADASTRO from CLIENTES cli ' +
    'left outer join ENDERECOCLIENTE ende on ende.CODCLIENTE=cli.CODCLIENTE ' +
    'left outer join USUARIO usu on usu.CODUSUARIO = cli.CODUSUARIO ' +
    'left outer join REPR_CLIENTE rep on rep.COD_CLIENTE=cli.CODCLIENTE ' +
@@ -386,10 +390,11 @@ begin
 
  varCondicao := varSql + varCondicao;
 
+ ordenarRelatorio;
   if cds.Active then
      cds.Close;
   cds.CommandText := '';
-  cds.CommandText := varCondicao + ' order by cli.NOMECLIENTE '; //ende.CIDADE,;
+  cds.CommandText := varCondicao + varOrdenacao; //' order by cli.NOMECLIENTE '; //ende.CIDADE,;
   cds.Open;
 
   //JvDBGrid1.SetFocus;
@@ -413,7 +418,7 @@ begin
     VCLReport1.Title := VCLReport1.FileName;
     if varCondicao <> '' then
     begin
-      VCLReport1.Report.DataInfo.Items[1].SQL := varCondicao + ' order by ende.CIDADE ';
+      VCLReport1.Report.DataInfo.Items[1].SQL := varCondicao + varOrdenacao ;//' order by ende.CIDADE ';
     end;
   end;
   if RadioButton2.Checked = true then
@@ -423,7 +428,7 @@ begin
     VCLReport1.Title := VCLReport1.FileName;
     if varCondicao <> '' then
     begin
-      VCLReport1.Report.DataInfo.Items[1].SQL := varCondicao + ' order by ende.CIDADE ';
+      VCLReport1.Report.DataInfo.Items[1].SQL := varCondicao + varOrdenacao ;//' order by ende.CIDADE ';
     end;
   end;
   VCLReport1.Execute;
@@ -916,6 +921,85 @@ end;
 procedure TfListaClientes.EnviarEmail1Click(Sender: TObject);
 begin
   enviarEmail;
+end;
+
+procedure TfListaClientes.ordenarRelatorio;
+begin
+  if ((fClienteFiltro.edOrdemCod.Text <> '') or (fClienteFiltro.edOrdemNome.Text <> '')
+     or (fClienteFiltro.edOrdemCidade.Text <> '') or (fClienteFiltro.edOrdemUF.Text <> '')
+     or (fClienteFiltro.edOrdemDataCadastro.Text <> '') or (fClienteFiltro.edOrdemNasc.Text <> '')) then
+  begin
+    varOrdenacao := 'ORDER BY';
+    if (fClienteFiltro.edOrdemCod.Text = '1') then
+      varOrdenacao := varOrdenacao + ' cli.CODCLIENTE';
+    if (fClienteFiltro.edOrdemNome.Text = '1') then
+      varOrdenacao := varOrdenacao + ' cli.NOMECLIENTE';
+    if (fClienteFiltro.edOrdemCidade.Text = '1') then
+      varOrdenacao := varOrdenacao + ' ende.CIDADE';
+    if (fClienteFiltro.edOrdemUF.Text = '1') then
+      varOrdenacao := varOrdenacao + ' ende.UF';
+    if (fClienteFiltro.edOrdemDataCadastro.Text = '1') then
+      varOrdenacao := varOrdenacao + ' cli.DATACADASTRO';
+    if (fClienteFiltro.edOrdemNasc.Text = '1') then
+      varOrdenacao := varOrdenacao + ' cli.DATANASC';
+    if (varOrdenacao = 'ORDER BY') then
+    begin
+      MessageDlg('Coloque algum campo para ordenar com o valor 1.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    if (fClienteFiltro.edOrdemCod.Text = '2') then
+      varOrdenacao := varOrdenacao + ', cli.CODCLIENTE';
+    if (fClienteFiltro.edOrdemNome.Text = '2') then
+      varOrdenacao := varOrdenacao + ', cli.NOMECLIENTE';
+    if (fClienteFiltro.edOrdemCidade.Text = '2') then
+      varOrdenacao := varOrdenacao + ', ende.CIDADE';
+    if (fClienteFiltro.edOrdemUF.Text = '2') then
+      varOrdenacao := varOrdenacao + ', ende.UF';
+    if (fClienteFiltro.edOrdemDataCadastro.Text = '2') then
+      varOrdenacao := varOrdenacao + ', cli.DATACADASTRO';
+    if (fClienteFiltro.edOrdemNasc.Text = '2') then
+      varOrdenacao := varOrdenacao + ', cli.DATANASC';
+
+    if (fClienteFiltro.edOrdemCod.Text = '3') then
+      varOrdenacao := varOrdenacao + ', cli.CODCLIENTE';
+    if (fClienteFiltro.edOrdemNome.Text = '3') then
+      varOrdenacao := varOrdenacao + ', cli.NOMECLIENTE';
+    if (fClienteFiltro.edOrdemCidade.Text = '3') then
+      varOrdenacao := varOrdenacao + ', ende.CIDADE';
+    if (fClienteFiltro.edOrdemUF.Text = '3') then
+      varOrdenacao := varOrdenacao + ', ende.UF';
+    if (fClienteFiltro.edOrdemDataCadastro.Text = '3') then
+      varOrdenacao := varOrdenacao + ', cli.DATACADASTRO';
+    if (fClienteFiltro.edOrdemNasc.Text = '3') then
+      varOrdenacao := varOrdenacao + ', cli.DATANASC';
+
+    if (fClienteFiltro.edOrdemCod.Text = '4') then
+      varOrdenacao := varOrdenacao + ', cli.CODCLIENTE';
+    if (fClienteFiltro.edOrdemNome.Text = '4') then
+      varOrdenacao := varOrdenacao + ', cli.NOMECLIENTE';
+    if (fClienteFiltro.edOrdemCidade.Text = '4') then
+      varOrdenacao := varOrdenacao + ', ende.CIDADE';
+    if (fClienteFiltro.edOrdemUF.Text = '4') then
+      varOrdenacao := varOrdenacao + ', ende.UF';
+    if (fClienteFiltro.edOrdemDataCadastro.Text = '4') then
+      varOrdenacao := varOrdenacao + ', cli.DATACADASTRO';
+    if (fClienteFiltro.edOrdemNasc.Text = '4') then
+      varOrdenacao := varOrdenacao + ', cli.DATANASC';
+
+    if (fClienteFiltro.edOrdemCod.Text = '5') then
+      varOrdenacao := varOrdenacao + ', cli.CODCLIENTE';
+    if (fClienteFiltro.edOrdemNome.Text = '5') then
+      varOrdenacao := varOrdenacao + ', cli.NOMECLIENTE';
+    if (fClienteFiltro.edOrdemCidade.Text = '5') then
+      varOrdenacao := varOrdenacao + ', ende.CIDADE';
+    if (fClienteFiltro.edOrdemUF.Text = '5') then
+      varOrdenacao := varOrdenacao + ', ende.UF';
+    if (fClienteFiltro.edOrdemDataCadastro.Text = '5') then
+      varOrdenacao := varOrdenacao + ', cli.DATACADASTRO';
+    if (fClienteFiltro.edOrdemNasc.Text = '5') then
+      varOrdenacao := varOrdenacao + ', cli.DATANASC';
+
+  end;
 end;
 
 end.
