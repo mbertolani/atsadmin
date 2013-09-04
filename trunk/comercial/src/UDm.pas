@@ -2057,7 +2057,7 @@ type
     varDataCaixa, dataComputador : TDateTime;
     STATUSCAIXA, varNomeCliente, varFormemUso, varColaborador, emppadrao, ufPadrao,
     baixaMateriaPrima, cidadePadrao, cepPadrao, ibgePadrao: string;
-    LOTEQTDE, totalpago : double;
+    LOTEQTDE, totalpago, estoq : double;
     CAIXABAR, RESULTADOCAIXA, CAIXAABERTO, VISTO_FTP, BAIXADO_BOLETO, impressaoResumida : String;
     tipoCompra, tipoVenda : String;
     userAprovaCompra, varLogado, usaCentroCusto, resultadoOperacao, USACONTROLECAIXA : String;
