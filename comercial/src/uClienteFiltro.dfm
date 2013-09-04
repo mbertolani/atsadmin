@@ -1,8 +1,8 @@
 object fClienteFiltro: TfClienteFiltro
   Left = 196
   Top = 93
-  Width = 599
-  Height = 412
+  Width = 604
+  Height = 465
   Caption = 'Filtro Cliente'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox2: TGroupBox
     Left = 0
     Top = 144
-    Width = 591
+    Width = 596
     Height = 55
     Align = alTop
     Caption = 'VENDEDOR'
@@ -76,8 +76,8 @@ object fClienteFiltro: TfClienteFiltro
   end
   object Panel1: TPanel
     Left = 0
-    Top = 321
-    Width = 591
+    Top = 374
+    Width = 596
     Height = 64
     Align = alBottom
     TabOrder = 3
@@ -375,7 +375,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 591
+    Width = 596
     Height = 48
     Align = alTop
     TabOrder = 0
@@ -543,7 +543,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox4: TGroupBox
     Left = 0
     Top = 199
-    Width = 591
+    Width = 596
     Height = 55
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
@@ -649,7 +649,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox3: TGroupBox
     Left = 0
     Top = 48
-    Width = 591
+    Width = 596
     Height = 96
     Align = alTop
     Caption = 'CLIENTE'
@@ -809,6 +809,100 @@ object fClienteFiltro: TfClienteFiltro
         'Outubro'
         'Novembro'
         'Dezembro')
+    end
+  end
+  object GroupBox9: TGroupBox
+    Left = 0
+    Top = 312
+    Width = 593
+    Height = 57
+    Caption = 'Ordenar por '
+    TabOrder = 8
+    object Label9: TLabel
+      Left = 8
+      Top = 16
+      Width = 33
+      Height = 13
+      Caption = 'C'#243'digo'
+    end
+    object Label10: TLabel
+      Left = 96
+      Top = 16
+      Width = 28
+      Height = 13
+      Caption = 'Nome'
+    end
+    object Label12: TLabel
+      Left = 168
+      Top = 16
+      Width = 33
+      Height = 13
+      Caption = 'Cidade'
+    end
+    object Label13: TLabel
+      Left = 248
+      Top = 16
+      Width = 14
+      Height = 13
+      Caption = 'UF'
+    end
+    object lblData: TLabel
+      Left = 312
+      Top = 16
+      Width = 68
+      Height = 13
+      Caption = 'Data Cadastro'
+    end
+    object Label15: TLabel
+      Left = 416
+      Top = 16
+      Width = 82
+      Height = 13
+      Caption = 'Data Nascimento'
+    end
+    object edOrdemCod: TEdit
+      Left = 48
+      Top = 16
+      Width = 27
+      Height = 21
+      TabOrder = 0
+      Text = '1'
+    end
+    object edOrdemNome: TEdit
+      Left = 136
+      Top = 16
+      Width = 25
+      Height = 21
+      TabOrder = 1
+      Text = '2'
+    end
+    object edOrdemCidade: TEdit
+      Left = 208
+      Top = 16
+      Width = 25
+      Height = 21
+      TabOrder = 2
+    end
+    object edOrdemUF: TEdit
+      Left = 272
+      Top = 16
+      Width = 25
+      Height = 21
+      TabOrder = 3
+    end
+    object edOrdemDataCadastro: TEdit
+      Left = 385
+      Top = 16
+      Width = 25
+      Height = 21
+      TabOrder = 4
+    end
+    object edOrdemNasc: TEdit
+      Left = 505
+      Top = 16
+      Width = 25
+      Height = 21
+      TabOrder = 5
     end
   end
   object DtSrcReg: TDataSource
