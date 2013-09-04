@@ -271,8 +271,7 @@ type
 var
   fNotaf1: TfNotaf1;
   valorUnitario: Double;
-  codmovdet, codserv, codmd, centro_receita, cod_nat, cod_vendedor_padrao,
-  cod_cli, estoq : integer;
+  codmovdet, codserv, codmd, centro_receita, cod_nat, cod_vendedor_padrao, cod_cli, estoq : integer;
   natureza, contas_pendentes, nome_vendedor_padrao, valor_fatura, fatura_NF: string;
   // variaveis da venda finalizar
   prazo, valor: double;
