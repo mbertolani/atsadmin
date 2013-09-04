@@ -21,7 +21,7 @@ object fListaClientes: TfListaClientes
   object Panel1: TPanel
     Left = 0
     Top = 60
-    Width = 783
+    Width = 791
     Height = 29
     Align = alTop
     BevelInner = bvLowered
@@ -57,7 +57,7 @@ object fListaClientes: TfListaClientes
   object MMJPanel2: TMMJPanel
     Left = 0
     Top = 0
-    Width = 783
+    Width = 791
     Height = 60
     Align = alTop
     BevelInner = bvRaised
@@ -674,8 +674,8 @@ object fListaClientes: TfListaClientes
   object JvDBGrid1: TJvDBGrid
     Left = 0
     Top = 89
-    Width = 783
-    Height = 446
+    Width = 791
+    Height = 457
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -929,11 +929,12 @@ object fListaClientes: TfListaClientes
       'OMEUSUARIO,'#13#10'          fun.NOME_FUNCIONARIO,   '#13#10'          fun.T' +
       'ELEFONE, '#13#10'          fun.CELULAR,'#13#10'          ende.TELEFONE as te' +
       'l,'#13#10'          cli.CODFISCAL,'#13#10'          ende.CD_IBGE,'#13#10'         ' +
-      ' ende.CEP '#13#10'from CLIENTES cli '#13#10'left outer join ENDERECOCLIENTE ' +
-      'ende '#13#10'on ende.CODCLIENTE=cli.CODCLIENTE'#13#10'left outer join REPR_C' +
-      'LIENTE rep '#13#10'on rep.COD_CLIENTE=cli.CODCLIENTE'#13#10'left outer join ' +
-      'USUARIO usu '#13#10'on usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join' +
-      ' FUNCIONARIO fun  '#13#10'on fun.CODUSUARIO = cli.CODUSUARIO '#13#10' '#13#10
+      ' ende.CEP ,'#13#10'          cli.DATACADASTRO'#13#10#13#10'from CLIENTES cli '#13#10'l' +
+      'eft outer join ENDERECOCLIENTE ende '#13#10'on ende.CODCLIENTE=cli.COD' +
+      'CLIENTE'#13#10'left outer join REPR_CLIENTE rep '#13#10'on rep.COD_CLIENTE=c' +
+      'li.CODCLIENTE'#13#10'left outer join USUARIO usu '#13#10'on usu.CODUSUARIO=c' +
+      'li.CODUSUARIO '#13#10'left outer join FUNCIONARIO fun  '#13#10'on fun.CODUSU' +
+      'ARIO = cli.CODUSUARIO '#13#10' '#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -1074,6 +1075,11 @@ object fListaClientes: TfListaClientes
       FieldName = 'CEP'
       ReadOnly = True
       Size = 10
+    end
+    object ListaClienteDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      ReadOnly = True
+      Required = True
     end
   end
   object dsp: TDataSetProvider
@@ -1223,6 +1229,11 @@ object fListaClientes: TfListaClientes
       FieldName = 'CEP'
       ReadOnly = True
       Size = 10
+    end
+    object cdsDATACADASTRO: TDateField
+      FieldName = 'DATACADASTRO'
+      ReadOnly = True
+      Required = True
     end
   end
   object sds_parametro: TSQLDataSet
