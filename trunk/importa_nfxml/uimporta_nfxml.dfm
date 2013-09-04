@@ -1,8 +1,8 @@
 object fImporta_XML: TfImporta_XML
-  Left = 187
-  Top = 18
-  Width = 914
-  Height = 633
+  Left = 184
+  Top = 114
+  Width = 930
+  Height = 648
   Caption = 'Importar XML - NFe'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -49,6 +49,13 @@ object fImporta_XML: TfImporta_XML
     Width = 23
     Height = 13
     Caption = 'Nota'
+  end
+  object Label4: TLabel
+    Left = 792
+    Top = 304
+    Width = 72
+    Height = 13
+    Caption = 'Margem Venda'
   end
   object JvDBUltimGrid1: TJvDBUltimGrid
     Left = 24
@@ -209,7 +216,7 @@ object fImporta_XML: TfImporta_XML
   end
   object btnCadastrarProduto: TBitBtn
     Left = 787
-    Top = 296
+    Top = 344
     Width = 113
     Height = 38
     Hint = 'Cadastra no sistema os itens da Nota que n'#227'o existe.'
@@ -264,6 +271,22 @@ object fImporta_XML: TfImporta_XML
     TabOrder = 11
     OnClick = Button1Click
   end
+  object chkCodBarra: TCheckBox
+    Left = 792
+    Top = 285
+    Width = 97
+    Height = 17
+    Caption = 'C'#243'd. de Barras'
+    TabOrder = 12
+  end
+  object edMargem: TEdit
+    Left = 792
+    Top = 319
+    Width = 97
+    Height = 21
+    TabOrder = 13
+    Text = '30'
+  end
   object sqlConn: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -274,7 +297,7 @@ object fImporta_XML: TfImporta_XML
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=192.168.1.100:sge_centroautomotivow'
+      'Database=192.168.1.100:sge_luciana'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
@@ -461,10 +484,13 @@ object fImporta_XML: TfImporta_XML
       FieldName = 'IPI'
       Size = 50
     end
-    object cdsNFItemCODPRODUTO: TFMTBCDField
+    object cdsNFItemCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
+      Size = 30
+    end
+    object cdsNFItemCODPRODUTO: TStringField
       FieldName = 'CODPRODUTO'
-      Precision = 15
-      Size = 0
+      Size = 30
     end
   end
   object dsNFItem: TDataSource

@@ -33,12 +33,14 @@ type
     cdsProdutoFornecCP: TIntegerField;
     cdsProdutoFornecCODPRO: TStringField;
     BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure edCodProdutoExit(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnInsereClick(Sender: TObject);
     procedure JvDBUltimGrid1CellClick(Column: TColumn);
     procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -159,6 +161,24 @@ begin
   end;
   cdsProdutoFornec.Close;
   cdsProdutoFornec.Open;
+end;
+
+procedure TfProdutoFornec.BitBtn3Click(Sender: TObject);
+begin
+  if (sqlBusca.Active) then
+      sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('SELECT CODPRODUTO, PRODUTO FROM PRODUTOS WHERE COD_BARRA = ' +
+    QuotedStr(edCodProduto.Text));
+  sqlBusca.Open;
+  if (sqlBusca.IsEmpty) then
+  begin
+    MessageDlg('Produto não encontrado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+  codProduto := IntToStr(sqlBusca.Fields[0].asInteger);
+  edCodProduto.Text := codProduto;
+  edProduto.Text := sqlBusca.Fields[1].AsString;
 end;
 
 end.
