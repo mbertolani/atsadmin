@@ -786,6 +786,7 @@ object fDetalheNF: TfDetalheNF
     Height = 21
     DataField = 'NCM'
     DataSource = DMNF.DtSrc1
+    ReadOnly = True
     TabOrder = 3
     OnChange = abproc
   end
