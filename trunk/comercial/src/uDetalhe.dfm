@@ -719,6 +719,7 @@ object fDetalhe: TfDetalhe
     Height = 21
     DataField = 'NCM'
     DataSource = ds1
+    ReadOnly = True
     TabOrder = 4
   end
   object DBEdit21: TDBEdit
