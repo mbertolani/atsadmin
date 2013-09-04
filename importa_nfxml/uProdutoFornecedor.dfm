@@ -59,9 +59,9 @@ object fProdutoFornec: TfProdutoFornec
     TabOrder = 2
   end
   object edProduto: TEdit
-    Left = 192
+    Left = 288
     Top = 18
-    Width = 489
+    Width = 393
     Height = 21
     ReadOnly = True
     TabOrder = 3
@@ -158,6 +158,15 @@ object fProdutoFornec: TfProdutoFornec
     TabOrder = 9
     OnClick = BitBtn2Click
   end
+  object BitBtn3: TBitBtn
+    Left = 186
+    Top = 16
+    Width = 103
+    Height = 25
+    Caption = 'Procurar Cod.Barra'
+    TabOrder = 10
+    OnClick = BitBtn3Click
+  end
   object sdsProdutoFornec: TSQLDataSet
     CommandText = 
       'SELECT pf.*, p.PRODUTO, p.CODPRODUTO CP, p.CODPRO '#13#10'     FROM PR' +
@@ -167,20 +176,20 @@ object fProdutoFornec: TfProdutoFornec
     Params = <>
     SQLConnection = fImporta_XML.sqlConn
     Left = 200
-    Top = 8
+    Top = 48
   end
   object dspProdutoFornec: TDataSetProvider
     DataSet = sdsProdutoFornec
     Options = [poAllowCommandText]
     Left = 232
-    Top = 8
+    Top = 48
   end
   object cdsProdutoFornec: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspProdutoFornec'
     Left = 264
-    Top = 8
+    Top = 48
     object cdsProdutoFornecCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
       Required = True
