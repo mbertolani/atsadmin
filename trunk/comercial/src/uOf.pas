@@ -207,9 +207,11 @@ type
     procedure cds_movMatNewRecord(DataSet: TDataSet);
     procedure cds_movDetMatNewRecord(DataSet: TDataSet);
     procedure OfIdExit(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
   private
     procedure baixamatprimas(tipomat: string; codof: integer);
     procedure lancaapont(codof: integer);
+    procedure excluilancamentos(codof: integer);
 
   public
     codProd: Integer;
@@ -391,7 +393,6 @@ end;
 procedure TfOf.baixamatprimas(tipomat: string; codof: integer);
   var codMovSaida : integer;
     TD: TTransactionDesc;
-    sql_sp, tipo : string;
     TDA: TTransactionDesc;
     FMov: TMovimento;
     FVen: TVendaCls;
@@ -421,27 +422,9 @@ begin
       sds_s.ExecSQL();
     end;
 
-    if ( (cdsOfOFQTDEPRODUZ.AsFloat < cdsOfOFQTDESOLIC.AsFloat) and (cdsOfOFSTATUS.AsString = 'F') )then
+    if ( cdsOfOFSTATUS.AsString = 'F' )then
     begin
-      //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
-      if dm.cdsBusca.Active then
-        dm.cdsBusca.Close;
-      dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-      + QuotedStr('OP' + IntToStr(codof));
-      dm.cdsBusca.Open;
-
-      if not dm.cdsBusca.IsEmpty then
-      begin
-        if  (dm.cdsBusca.FieldByName('CODNATUREZA').AsInteger = 2) then
-          tipo := 'SAIDA';
-
-        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
-        + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
-
-        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
-        + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
-      end;
-      //***************************************************************************
+      excluilancamentos(codof);
     end;
 
     TDA.TransactionID  := 1;
@@ -489,11 +472,7 @@ begin
             FMov.MovDetalhe.CodProduto    := cdsCODPRODUTO.AsInteger;
             FMov.MovDetalhe.Un            := cdsUNIDADEMEDIDA.AsString;
             FMov.MovDetalhe.Descricao     := cdsPRODUTO.AsString;
-            if ( (cdsOfOFQTDESOLIC.AsFloat < cdsOfOFQTDEPRODUZ.AsFloat ) and (cdsOfOFSTATUS.AsString = 'F'))then
-            begin
-              FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * (cdsOfOFQTDEPRODUZ.AsFloat - cdsOfOFQTDESOLIC.AsFloat) );
-            end
-            else if ( (cdsOfOFQTDEPRODUZ.AsFloat < cdsOfOFQTDESOLIC.AsFloat) and (cdsOfOFSTATUS.AsString = 'F')) then
+            if ( cdsOfOFSTATUS.AsString = 'F') then
             begin
               FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * cdsOfOFQTDEPRODUZ.AsFloat);
             end
@@ -597,11 +576,17 @@ begin
     end
     else
     begin
-      cdsOf.Params[0].Clear;
-      cdsOf.Close;
+      OFID_Ind.Text := IntToStr(cdsOfOFID_IND.AsInteger);
+      if dm.scds_produto_proc.Active then
+        dm.scds_produto_proc.Close;
+      dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
+      dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+      dm.scds_produto_proc.Open;
+      OfData.Date := cdsOfOFDATA.AsDateTime;
+      OfProd.Text := DM.scds_produto_procCODPRO.AsString;
+      OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
+      OfQtde.Text := FloatToStr(cdsOfOFQTDEPRODUZ.AsFloat);
       MessageDlg('Apontamento já Efetuado.', mtInformation, [mbOK], 0);
-      OfId.Text := '';
-      btnIncluir.SetFocus;      
     end;
   end;
 end;
@@ -618,8 +603,6 @@ var
   codMovEntrada: Integer;
   Save_Cursor:TCursor;
 begin
-  codMovEntrada := 0;
-
   TDA.TransactionID  := 1;
   TDA.IsolationLevel := xilREADCOMMITTED;
 
@@ -692,6 +675,50 @@ begin
     FMov.Free;
   end;
 
+end;
+
+procedure TfOf.excluilancamentos(codof: integer);
+begin
+  //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+  if dm.cdsBusca.Active then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+  + QuotedStr('OP' + IntToStr(codof));
+  dm.cdsBusca.Open;
+
+  if not dm.cdsBusca.IsEmpty then
+  begin
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
+    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
+    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+  end;
+  //***************************************************************************
+
+  //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+  if dm.cdsBusca.Active then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+  + QuotedStr('AP' + IntToStr(codof));
+  dm.cdsBusca.Open;
+
+  if not dm.cdsBusca.IsEmpty then
+  begin
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
+    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
+    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+  end;
+  //***************************************************************************
+
+end;
+
+procedure TfOf.btnExcluirClick(Sender: TObject);
+begin
+  inherited;
+  excluilancamentos(cdsOfOFID.AsInteger);
 end;
 
 end.
