@@ -38,6 +38,7 @@ type
     lblUltimo: TLabel;
     Button3: TButton;
     lblAtualizando: TLabel;
+    sqlR: TSQLQuery;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -65,7 +66,7 @@ var
   TD: TTransactionDesc;
   Save_Cursor:TCursor;
   codPro1, codPro2, progresso : integer;
-  sqlStr: String;
+  sqlStr, sqlPreco: String;
 Begin
   if ((dataUltimoFechamento > JvDateEdit1.Date) or (dataUltimoFechamento > JvDateEdit2.Date)) then
   begin
@@ -82,7 +83,7 @@ Begin
     if (cdsA.Active) then
       cdsA.close;
     cdsA.CommandText := 'SELECT CODPRODUTO FROM PRODUTOS WHERE ((TIPO <> ' +
-        QuotedStr('SERV') + ') OR (TIPO IS NULL))'; 
+        QuotedStr('SERV') + ') OR (TIPO IS NULL))';
     cdsA.Open;
 
     if (cdsB.Active) then
@@ -117,6 +118,19 @@ Begin
         sqlQ.SQL.Add(sqlStr);
         sqlQ.Open;
 
+        if (sqlR.Active) then
+          sqlR.Close;
+        sqlR.SQL.Clear;
+
+        sqlR.SQL.Add('select ev.CUSTOMEDIO, ev.CUSTOENTRADAS ' +
+          ' from ESTOQUE_CUSTOMEDIO(' +
+          QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit1.Date)) +
+          ', ' +
+          QuotedStr(Formatdatetime('mm/dd/yyyy', JvDateEdit2.Date)) +
+          ', ' + IntToStr(cdsA.FieldByName('CODPRODUTO').asinteger) + ') ev ');
+
+        sqlR.Open;
+
         DecimalSeparator := '.';
         sqlStr := 'INSERT INTO ESTOQUEMES (CODPRODUTO, LOTE, MESANO, QTDEENTRADA, ' +
           'QTDECOMPRA, QTDEDEVCOMPRA, QTDEDEVVENDA, QTDESAIDA, QTDEVENDA, QTDEPERDA, PRECOCUSTO, ' +
@@ -139,8 +153,8 @@ Begin
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('SAIDA').AsFloat) + ', ';
             sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdeVenda) + ', ';
             sqlStr := sqlStr + '0, '; //FloatToStr(Self.QtdePerda) + ', ';
-            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('PRECOCUSTO').asFloat) + ', ';
-            sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('PRECOCOMPRA').asFloat) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlR.FieldByName('CUSTOMEDIO').asFloat) + ', ';
+            sqlStr := sqlStr + FloatToStr(sqlR.FieldByName('CUSTOENTRADAS').asFloat) + ', ';
             sqlStr := sqlStr + FloatToStr(sqlQ.FieldByName('VALORVENDA').asFloat) + ', ';
             sqlStr := sqlStr + IntToStr(cdsB.FieldByName('CODALMOXARIFADO').asinteger) + ', ';
             if (sqlQ.FieldByName('SALDOINIACUM').asFloat < 0.000001) then
