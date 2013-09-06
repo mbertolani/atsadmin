@@ -412,19 +412,19 @@ begin
               ' ,' + QuotedStr(copy(trim(cdsNFItemUN.AsString),0,2)) +
               ' ,' + QuotedStr(trim(cdsNFItemPRODUTO.AsString)) +
               ' ,' + QuotedStr('PROD');
-              strInsereItem := strInsereItem + QuotedStr(retornaCodBarra) + ' ,1' +
+              strInsereItem := strInsereItem + ', ' + QuotedStr(retornaCodBarra) + ' ,1' +
               ' ,current_date ' +
               ' ,0' +
               ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) +
               ', ' + edMargem.Text +
               ', ' + QuotedStr('U');
-              strInsereItem := strInsereItem + QuotedStr(retornaCodBarra) + ')';
+              strInsereItem := strInsereItem + ', ' + QuotedStr(retornaCodBarra) + ')';
 
             strInsereItemF := 'INSERT INTO PRODUTO_FORNECEDOR (' +
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
               IntToStr(varCodProduto) +
               ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger);
-              strInsereItemF := strInsereItemF + QuotedStr(retornaCodBarra) + ')';
+              strInsereItemF := strInsereItemF + ', ' + QuotedStr(retornaCodBarra) + ')';
 
             sqlConn.StartTransaction(TD);
             try
