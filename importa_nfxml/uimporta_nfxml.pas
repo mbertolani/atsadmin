@@ -100,6 +100,8 @@ type
     procedure procuraCadastroProduto;
     procedure insereMovimento;
     procedure Deletefiles(APath, AFileSpec: string);
+    function completaCodBarra(S: string; Ch: Char; Len: Integer): string;
+    function retornaCodBarra(): String;
     { Private declarations }
   public
     { Public declarations }
@@ -235,13 +237,7 @@ begin
     ' LEFT OUTER JOIN produtos p on p.CODPRODUTO = pf.CODPRODUTO ' +
     ' where pf.codfornecedor = ' + IntToStr(cdsNFCODCLIENTE_ATS.asInteger) +
     '   and pf.codprodfornec = ';
-  if (chkCodBarra.Checked) then
-  begin
-    strFaltaProd := strFaltaProd + QuotedStr(trim(cdsNFItemCOD_BARRA.AsString));
-  end
-  else begin
-    strFaltaProd := strFaltaProd + QuotedStr(cdsNFItemCODPRODUTO.AsString);
-  end;
+  strFaltaProd := strFaltaProd + QuotedStr(retornaCodBarra);
   if (sqlFaltaProd.Active) then
     sqlFaltaProd.Close;
   sqlFaltaProd.SQL.Clear;
@@ -416,32 +412,19 @@ begin
               ' ,' + QuotedStr(copy(trim(cdsNFItemUN.AsString),0,2)) +
               ' ,' + QuotedStr(trim(cdsNFItemPRODUTO.AsString)) +
               ' ,' + QuotedStr('PROD');
-              if (chkCodBarra.Checked) then
-              begin
-                strInsereItem := strInsereItem + ' ,' + QuotedStr(trim(cdsNFItemCOD_BARRA.AsString));
-              end
-              else begin
-                strInsereItem := strInsereItem + ' ,' + QuotedStr(BcdToStr(cdsNFItemCODPRODUTO.AsBCD));
-              end;
-              strInsereItem := strInsereItem + ' ,1' +
+              strInsereItem := strInsereItem + QuotedStr(retornaCodBarra) + ' ,1' +
               ' ,current_date ' +
               ' ,0' +
               ' ,' + Quotedstr(trim(cdsNFItemNCM.AsString)) +
               ', ' + edMargem.Text +
-              ', ' + QuotedStr('U') + ',' + QuotedStr(trim(cdsNFItemCOD_BARRA.AsString)) + ')';
+              ', ' + QuotedStr('U');
+              strInsereItem := strInsereItem + QuotedStr(retornaCodBarra) + ')';
 
             strInsereItemF := 'INSERT INTO PRODUTO_FORNECEDOR (' +
               'CODPRODUTO, CODFORNECEDOR, CODPRODFORNEC) VALUES ( ' +
               IntToStr(varCodProduto) +
               ', ' + IntToStr(cdsNFCODCLIENTE_ATS.AsInteger);
-              if (chkCodBarra.Checked) then
-              begin
-                strInsereItemF := strInsereItemF + ' ,' + QuotedStr(trim(cdsNFItemCOD_BARRA.AsString));
-              end
-              else begin
-                strInsereItemF := strInsereItemF + ' ,' + QuotedStr(cdsNFItemCODPRODUTO.AsString);
-              end;
-              strInsereItemF := strInsereItemF + ')';
+              strInsereItemF := strInsereItemF + QuotedStr(retornaCodBarra) + ')';
 
             sqlConn.StartTransaction(TD);
             try
@@ -485,6 +468,7 @@ begin
       end;
       cdsNF.Next;
     end;
+    btnExisteProdutoFornec.Click;
     MessageDlg('Cadastros criados com sucesso.', mtInformation, [mbOK], 0);
   end;
 end;
@@ -496,7 +480,8 @@ begin
     '  FROM produtos ' ;
   if (chkCodBarra.Checked) then
   begin
-    strBusca := strBusca + ' where COD_BARRA = ' + QuotedStr(trim(cdsNFItemCOD_BARRA.AsString));
+    strBusca := strBusca + ' where COD_BARRA = ';
+    strBusca := strBusca + QuotedStr(retornaCodBarra);
   end
   else begin
     strBusca := strBusca + ' where CODPRO = ' + QuotedStr(cdsNFItemCODPRODUTO.AsString);
@@ -513,6 +498,8 @@ procedure TfImporta_XML.FormShow(Sender: TObject);
 begin
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
+  if (dm.codBarra = 'S') then
+    chkCodBarra.Checked := True;
 end;
 
 procedure TfImporta_XML.insereMovimento;
@@ -702,6 +689,38 @@ begin
     lFind := SysUtils.FindNext(lSearchRec);
   end;
   FindClose(lSearchRec);
+end;
+
+function TfImporta_XML.completaCodBarra(S: string; Ch: Char;
+  Len: Integer): string;
+var
+  RestLen: Integer;
+begin
+  Result  := S;
+  RestLen := Len - Length(s);
+  if RestLen < 1 then Exit;
+  Result := S + StringOfChar(Ch, RestLen);
+end;
+
+function TfImporta_XML.retornaCodBarra: String;
+var retornoCodBarra:String;
+begin
+  retornoCodBarra := '';
+  if (chkCodBarra.Checked) then
+  begin
+    if (trim(cdsNFItemCOD_BARRA.AsString) = '') then
+    begin
+      retornoCodBarra := trim(copy(completaCodBarra(IntToStr(cdsNFCodCliente_ats.asInteger)+
+        cdsNFItemCODPRODUTO.AsString,'0',12),1,20));
+    end
+    else begin
+      retornoCodBarra := trim(cdsNFItemCOD_BARRA.AsString);
+    end;
+  end
+  else begin
+    retornoCodBarra := trim(cdsNFItemCODPRODUTO.AsString);
+  end;
+  Result := retornoCodBarra;
 end;
 
 end.
