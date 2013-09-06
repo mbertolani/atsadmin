@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 505
-    ActivePage = TabSheet6
+    ActivePage = TabSheet2
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -410,27 +410,13 @@ inherited fParametro: TfParametro
           TabOrder = 3
         end
       end
-      object RadioGroup4: TRadioGroup
-        Left = 8
-        Top = 8
-        Width = 293
-        Height = 49
-        Caption = 'N'#250'mero da Nota'
-        Columns = 2
-        ItemIndex = 0
-        Items.Strings = (
-          'Permite altera'#231#227'o'
-          'N'#227'o Permite altera'#231#227'o')
-        TabOrder = 1
-        OnClick = RadioGroup4Click
-      end
       object GroupBox33: TGroupBox
         Left = 8
         Top = 171
         Width = 730
         Height = 48
         Caption = 'C'#243'd. da Natureza da Nota Fiscal'
-        TabOrder = 2
+        TabOrder = 1
         object Label58: TLabel
           Left = 10
           Top = 29
@@ -484,7 +470,7 @@ inherited fParametro: TfParametro
         Width = 369
         Height = 48
         Caption = 'S'#233'rie NFe - Modo SCAN'
-        TabOrder = 3
+        TabOrder = 2
         object Label59: TLabel
           Left = 10
           Top = 29
@@ -533,7 +519,7 @@ inherited fParametro: TfParametro
         Width = 351
         Height = 45
         Caption = 'N'#250'mero NFe '#224' utilizar'
-        TabOrder = 4
+        TabOrder = 3
         object edNumNfe: TEdit
           Left = 39
           Top = 18
@@ -557,7 +543,7 @@ inherited fParametro: TfParametro
         Width = 351
         Height = 45
         Caption = 'N'#250'mero da NFe - Modo SCAN '#224' utilizar'
-        TabOrder = 5
+        TabOrder = 4
         object edNumNfeScam: TEdit
           Left = 39
           Top = 18
@@ -575,19 +561,66 @@ inherited fParametro: TfParametro
           OnClick = BitBtn41Click
         end
       end
-      object rgMesmoNumero: TRadioGroup
-        Left = 312
+      object GroupBox39: TGroupBox
+<<<<<<< .mine        Left = 384
+        Top = 64
+        Width = 417
+=======        Left = 312
         Top = 7
         Width = 423
-        Height = 49
+>>>>>>> .theirs        Height = 89
         Caption = 'Utilizar a mesma N'#250'mera'#231#227'o da Finaliza'#231#227'o da Venda'
-        Columns = 2
-        ItemIndex = 0
-        Items.Strings = (
-          'N'#227'o - Somente N'#250'mero da Nota'
-          'Sim - Mesmo N'#250'mero do T'#237'tulo')
+        TabOrder = 5
+        object BitBtn42: TBitBtn
+          Left = 332
+          Top = 59
+          Width = 76
+          Height = 21
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = BitBtn42Click
+        end
+        object rgMesmoNumero: TRadioGroup
+          Left = 6
+          Top = 11
+          Width = 404
+          Height = 45
+          Columns = 2
+          ItemIndex = 0
+          Items.Strings = (
+            'N'#227'o - Somente N'#250'mero da Nota'
+            'Sim - Mesmo N'#250'mero do T'#237'tulo')
+          TabOrder = 1
+        end
+      end
+      object GroupBox40: TGroupBox
+        Left = 10
+        Top = 0
+        Width = 367
+        Height = 59
+        Caption = 'N'#250'mero da Nota'
         TabOrder = 6
-        OnClick = rgMesmoNumeroClick
+        object RadioGroup4: TRadioGroup
+          Left = 6
+          Top = 15
+          Width = 270
+          Height = 37
+          Columns = 2
+          ItemIndex = 0
+          Items.Strings = (
+            'Permite altera'#231#227'o'
+            'N'#227'o Permite altera'#231#227'o')
+          TabOrder = 0
+        end
+        object BitBtn43: TBitBtn
+          Left = 282
+          Top = 26
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 1
+          OnClick = BitBtn43Click
+        end
       end
       object rgDataNF: TRadioGroup
         Left = 8

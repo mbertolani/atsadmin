@@ -312,7 +312,6 @@ type
     btnNFSerie: TBitBtn;
     edtSerieNF: TEdit;
     BitBtn34: TBitBtn;
-    RadioGroup4: TRadioGroup;
     GroupBox33: TGroupBox;
     Label58: TLabel;
     BitBtn33: TBitBtn;
@@ -336,7 +335,6 @@ type
     rgPesqProdCupom: TRadioGroup;
     GroupBox37: TGroupBox;
     cbCupom: TCheckBox;
-    rgMesmoNumero: TRadioGroup;
     Label60: TLabel;
     edtConsumidor: TEdit;
     RadioGroup5: TJvRadioGroup;
@@ -356,6 +354,12 @@ type
     Label64: TLabel;
     edCondicaoArredondar: TEdit;
     rgDataNF: TRadioGroup;
+    GroupBox39: TGroupBox;
+    BitBtn42: TBitBtn;
+    rgMesmoNumero: TRadioGroup;
+    GroupBox40: TGroupBox;
+    RadioGroup4: TRadioGroup;
+    BitBtn43: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -436,7 +440,6 @@ type
     procedure BitBtn34Click(Sender: TObject);
     procedure BitBtn26Click(Sender: TObject);
     procedure btnNFSerieClick(Sender: TObject);
-    procedure RadioGroup4Click(Sender: TObject);
     procedure BitBtn33Click(Sender: TObject);
     procedure BitBtn37Click(Sender: TObject);
     procedure BitBtn36Click(Sender: TObject);
@@ -444,11 +447,12 @@ type
     procedure BitBtn41Click(Sender: TObject);
     procedure rgPesqProdCupomClick(Sender: TObject);
     procedure cbCupomClick(Sender: TObject);
-    procedure rgMesmoNumeroClick(Sender: TObject);
     procedure edtConsumidorChange(Sender: TObject);
     procedure LISTAPRECOGravaClick(Sender: TObject);
     procedure BitBtn38Click(Sender: TObject);
     procedure rgDataNFClick(Sender: TObject);
+    procedure BitBtn42Click(Sender: TObject);
+    procedure BitBtn43Click(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -949,6 +953,9 @@ begin
 
   if (dm.cds_param.Locate('PARAMETRO','SERIENFE', [loCaseInsensitive])) then
   begin
+    rgMesmoNumero.ItemIndex := 0;
+    if (dm.cds_paramCONFIGURADO.AsString = 'S') then
+      rgMesmoNumero.ItemIndex := 1;
     edtSerieNF.Text := dm.cds_paramD1.AsString;
   end;
 
@@ -4675,48 +4682,6 @@ begin
   end;
 end;
 
-procedure TfParametro.RadioGroup4Click(Sender: TObject);
-begin
-  inherited;
-  strSql := '';
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'NOTAFISCALDESATIVADO';
-  dm.cds_parametro.Open;
-  // Insere ou Altera a tabela PARAMETROS
-  if (dm.cds_parametro.IsEmpty) then
-  begin
-    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
-    strSql := strSql + ') VALUES (';
-    strSql := strSql + QuotedStr('Permite alteração do número da Nota') + ', ';
-    strSql := strSql + QuotedStr('NOTAFISCALDESATIVADO') + ', ';
-    if (RadioGroup4.ItemIndex = 0) then
-      strSql := strSql + QuotedStr('N');
-    if (RadioGroup4.ItemIndex = 1) then
-      strSql := strSql + QuotedStr('S');
-    strSql := strSql + ')';
-    dm.sqlsisAdimin.StartTransaction(TD);
-    Try
-      dm.sqlsisAdimin.ExecuteDirect(strSql);
-      dm.sqlsisAdimin.Commit(TD);
-    except
-      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-          [mbOk], 0);
-    end;
-  end
-  else
-  begin
-    dm.cds_parametro.Edit;
-    if (RadioGroup4.ItemIndex = 0) then
-      dm.cds_parametroCONFIGURADO.AsString := 'N';
-    if (RadioGroup4.ItemIndex = 1) then
-      dm.cds_parametroCONFIGURADO.AsString := 'S';
-    dm.cds_parametro.ApplyUpdates(0);
-  end;
-
-end;
-
 procedure TfParametro.BitBtn33Click(Sender: TObject);
 begin
   inherited;
@@ -5029,40 +4994,6 @@ begin
     dm.cds_parametro.ApplyUpdates(0);
   end;
 end;
-procedure TfParametro.rgMesmoNumeroClick(Sender: TObject);
-begin
-  inherited;
-  if (dm.cds_parametro.Active) then
-    dm.cds_parametro.Close;
-  dm.cds_parametro.Params[0].asString := 'SERIENFE';
-  dm.cds_parametro.Open;
-  // Insere ou Altera a tabela PARAMETROS
-  if (dm.cds_parametro.IsEmpty) then
-  begin
-    MessageDlg('Cadastre a Série primeiro.', mtWarning, [mbOK], 0);
-    exit;
-  end;
-
-  dm.sqlsisAdimin.StartTransaction(TD);
-  Try
-    dm.cds_parametro.Edit;
-    if (rgMesmoNumero.ItemIndex = 0) then
-      dm.cds_parametroCONFIGURADO.AsString := 'S';
-    if (rgMesmoNumero.ItemIndex = 1) then
-      dm.cds_parametroCONFIGURADO.AsString := 'N';
-
-    dm.cds_parametro.ApplyUpdates(0);
-
-    dm.sqlsisAdimin.Commit(TD);
-  except
-     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-     MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
-         [mbOk], 0);
-  end;
-
-end;
-
-
 procedure TfParametro.edtConsumidorChange(Sender: TObject);
 begin
   inherited;
@@ -5263,6 +5194,79 @@ begin
       dm.cds_parametroCONFIGURADO.AsString := 'S';
     dm.cds_parametro.ApplyUpdates(0);
   end;
+end;
+
+procedure TfParametro.BitBtn42Click(Sender: TObject);
+begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIENFE';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    MessageDlg('Cadastre a Série primeiro.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
+  dm.sqlsisAdimin.StartTransaction(TD);
+  Try
+    dm.cds_parametro.Edit;
+    if (rgMesmoNumero.ItemIndex = 0) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+    if (rgMesmoNumero.ItemIndex = 1) then
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+
+    dm.cds_parametro.ApplyUpdates(0);
+
+    dm.sqlsisAdimin.Commit(TD);
+  except
+     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+     MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+         [mbOk], 0);
+  end;
+
+end;
+
+procedure TfParametro.BitBtn43Click(Sender: TObject);
+begin
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'NOTAFISCALDESATIVADO';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Permite alteração do número da Nota') + ', ';
+    strSql := strSql + QuotedStr('NOTAFISCALDESATIVADO') + ', ';
+    if (RadioGroup4.ItemIndex = 0) then
+      strSql := strSql + QuotedStr('N');
+    if (RadioGroup4.ItemIndex = 1) then
+      strSql := strSql + QuotedStr('S');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect(strSql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+          [mbOk], 0);
+    end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    if (RadioGroup4.ItemIndex = 0) then
+      dm.cds_parametroCONFIGURADO.AsString := 'N';
+    if (RadioGroup4.ItemIndex = 1) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
+
 end;
 
 end.
