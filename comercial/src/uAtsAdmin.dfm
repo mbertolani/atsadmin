@@ -2588,6 +2588,10 @@ object fAtsAdmin: TfAtsAdmin
         Caption = 'Unidade Medida'
         OnClick = UnidadeMedida1Click
       end
+      object ListadePreo1: TMenuItem
+        Caption = 'Lista de Pre'#231'o'
+        OnClick = ListadePreo1Click
+      end
     end
     object Lanamentos1: TMenuItem
       Caption = '&Lan'#231'amentos     '

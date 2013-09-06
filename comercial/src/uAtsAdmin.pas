@@ -246,6 +246,7 @@ type
     AniversrioClientes1: TMenuItem;
     UnidadeMedida1: TMenuItem;
     ExportarCupom1: TMenuItem;
+    ListadePreo1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ClientesClick(Sender: TObject);
     procedure FornecedoresClick(Sender: TObject);
@@ -393,6 +394,7 @@ type
     procedure UnidadeMedida1Click(Sender: TObject);
     procedure ExportarCupom1Click(Sender: TObject);
     procedure CFOPNCM1Click(Sender: TObject);
+    procedure ListadePreo1Click(Sender: TObject);
   private
     STime: TDateTime;
     tempo_medio:  double;
@@ -2408,6 +2410,16 @@ begin
     fNCM.ShowModal;
   finally
     fNCM.Free;
+  end;
+end;
+
+procedure TfAtsAdmin.ListadePreo1Click(Sender: TObject);
+begin
+  fListaVenda := TfListaVenda.Create(Application);
+  try
+    fListaVenda.ShowModal;
+  finally
+    fListaVenda.Free;
   end;
 end;
 
