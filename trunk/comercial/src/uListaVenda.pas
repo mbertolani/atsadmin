@@ -12,15 +12,11 @@ uses
 type
   TfListaVenda = class(TfPai)
     gbLista: TGroupBox;
-    lblCodcli: TLabel;
-    lblCliente: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
-    dbCli: TDBEdit;
     dbNomeLista: TDBEdit;
-    btnClienteProcura: TBitBtn;
     cdsLista_det: TClientDataSet;
     dspLista_det: TDataSetProvider;
     sdsLista_det: TSQLDataSet;
@@ -29,7 +25,6 @@ type
     dspListaVenda: TDataSetProvider;
     cdsListaVenda: TClientDataSet;
     sdsListaVendaCODLISTA: TIntegerField;
-    sdsListaVendaCODCLIENTE: TIntegerField;
     sdsListaVendaNOMELISTA: TStringField;
     sdsListaVendaVALIDADE: TDateField;
     sdsListaVendaDATAINICIAL: TDateField;
@@ -38,12 +33,10 @@ type
     dbValidade: TJvDBDatePickerEdit;
     sdsListaVendaDATAFINAL: TDateField;
     cdsListaVendaCODLISTA: TIntegerField;
-    cdsListaVendaCODCLIENTE: TIntegerField;
     cdsListaVendaNOMELISTA: TStringField;
     cdsListaVendaVALIDADE: TDateField;
     cdsListaVendaDATAINICIAL: TDateField;
     cdsListaVendaDATAFINAL: TDateField;
-    edCliente: TEdit;
     btnTodosProd: TButton;
     scds_produto_proc: TSQLDataSet;
     scds_produto_procCODPRODUTO: TIntegerField;
@@ -102,11 +95,9 @@ type
     Label13: TLabel;
     DBEdit8: TDBEdit;
     Label14: TLabel;
-    procedure btnClienteProcuraClick(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
-    procedure dbCliExit(Sender: TObject);
     procedure dbValidadeExit(Sender: TObject);
     procedure btnTodosProdClick(Sender: TObject);
     procedure cdsLista_detNewRecord(DataSet: TDataSet);
@@ -114,6 +105,7 @@ type
     procedure chkDescontoClick(Sender: TObject);
     procedure chkMargemClick(Sender: TObject);
     procedure dtsrcDetDataChange(Sender: TObject; Field: TField);
+    procedure btnProcurarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -125,62 +117,23 @@ var
 
 implementation
 
-uses UDm, uProcurar_nf, UDMNF;
+uses UDm, uProcurar_nf, UDMNF, uListaVendaProc;
 
 {$R *.dfm}
-
-procedure TfListaVenda.btnClienteProcuraClick(Sender: TObject);
-begin
-  if (dtsrc.State in [dsInsert, dsEdit]) then
-  begin
-    inherited;
-    DM.varNomeCliente := '';
-    dm.codcli := 0;
-    fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
-    fProcurar_nf.BtnProcurar.Click;
-    fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
-    fProcurar_nf.btnIncluir.Visible := True;
-    try
-      if (fProcurar_nf.ShowModal = mrOK) then
-        if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
-        begin
-          MessageDlg('Cliente com status "INATIVO" para criar uma lista para '+#13+#10+'esse cliente, antes vc terá que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
-          exit;
-        end;
-        if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
-        begin
-          MessageDlg('Cliente com cadastro "BLOQUEADO",  lista não permitida.', mtError, [mbOK], 0);
-          exit;
-        end;
-    finally
-      dmnf.scds_cli_proc.Close;
-      fProcurar_nf.Free;
-    end;
-
-    if dtSrc.State=dsBrowse then
-      cdsListaVenda.Edit;
-    cdsListaVendaCODCLIENTE.AsInteger := dm.codcli;
-    edCliente.Text := dm.varNomeCliente;
-  end;
-end;
 
 procedure TfListaVenda.DtSrcStateChange(Sender: TObject);
 begin
   inherited;
   if (DtSrc.State in [dsEdit, dsInsert]) then
   begin
-    btnClienteProcura.Enabled := True;
     dbDataInicial.Enabled := True;
     dbDataFinal.Enabled := True;
     dbValidade.Enabled := True;
     if(not cdsLista_det.Active) then
-      cdsLista_det.Open
-    else
-      cdsLista_det.Edit;
+      cdsLista_det.Open;
   end
   else
   begin
-    btnClienteProcura.Enabled := False;
     dbDataInicial.Enabled := False;
     dbDataFinal.Enabled := False;
     dbValidade.Enabled := False;
@@ -189,7 +142,6 @@ end;
 
 procedure TfListaVenda.FormCreate(Sender: TObject);
 begin
-//  inherited;
   cod_det := 1999999;
 end;
 
@@ -231,43 +183,6 @@ begin
   cdsLista_det.ApplyUpdates(0);
 end;
 
-procedure TfListaVenda.dbCliExit(Sender: TObject);
-begin
-  if (dtsrc.State in [dsInsert, dsEdit]) then
-  begin
-    if (dbCli.Text = '') then
-    begin
-      exit;
-    end;
-    if dm.scds_cliente_proc.Active then
-    dm.scds_cliente_proc.Close;
-    dm.scds_cliente_proc.Params[0].Clear;
-    dm.scds_cliente_proc.Params[1].Clear;
-    dm.scds_cliente_proc.Params[2].Clear;
-    dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(dbCli.Text);
-    
-    dm.scds_cliente_proc.Open;
-    if dm.scds_cliente_proc.IsEmpty then begin
-      if ( MessageDlg('Código não cadastrado, deseja pesquisar ?',mtWarning, [mbYes,mbNo],0) = mrYes )then
-        btnClienteProcura.Click
-      else
-        cdsListaVendaCODCLIENTE.Clear;
-        edCliente.Text := '';
-      exit;
-    end;
-    if dm.scds_cliente_procBLOQUEIO.AsString = 'S' then
-    begin
-      MessageDlg('Cliente com cadastro "BLOQUEADO",  venda não permitida.', mtError, [mbOK], 0);
-      cdsListaVendaCODCLIENTE.Clear;
-      edCliente.Text := '';
-      exit;
-    end;
-    cdsListaVendaCODCLIENTE.AsInteger := dm.scds_cliente_procCODCLIENTE.AsInteger;
-    edCliente.Text := dm.scds_cliente_procNOMECLIENTE.AsString;
-    dm.scds_cliente_proc.Close;
-  end;
-end;
-
 procedure TfListaVenda.dbValidadeExit(Sender: TObject);
 begin
   inherited;
@@ -290,6 +205,13 @@ begin
     cdsLista_detPRECOCOMPRA.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
     cdsLista_detPRECOVENDA.AsFloat := scds_produto_procVALORUNITARIOATUAL.AsFloat;
     cdsLista_detPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
+    cdsLista_detALTPRECO.AsString := 'F';
+    cdsLista_detDESCONTO.AsString := 'F';
+    cdsLista_detDESCONTOMAX.AsFloat := 0;
+    cdsLista_detDESCONTOMIN.AsFloat := 0;
+    cdsLista_detMARGEM.AsString := 'F';
+    cdsLista_detMARGEMMAX.AsFloat := 0;
+    cdsLista_detMARGEMMIN.AsFloat := 0;
     scds_produto_proc.Next;
   end;
 
@@ -314,35 +236,37 @@ end;
 procedure TfListaVenda.chkDescontoClick(Sender: TObject);
 begin
   inherited;
-  if(chkDesconto.Checked)then
-  begin
-    DBEdit2.Enabled := True;
-    DBEdit3.Enabled := True;
-  end
-  else
-  begin
-    DBEdit2.Enabled := False;
-    DBEdit3.Enabled := False;
-    cdsLista_detDESCONTOMAX.Clear;
-    cdsLista_detDESCONTOMIN.Clear;
-  end
+  if (dtsrcDet.State in [dsEdit, dsInsert]) then
+    if(chkDesconto.Checked)then
+    begin
+      DBEdit2.Enabled := True;
+      DBEdit3.Enabled := True;
+    end
+    else
+    begin
+      DBEdit2.Enabled := False;
+      DBEdit3.Enabled := False;
+      cdsLista_detDESCONTOMAX.Clear;
+      cdsLista_detDESCONTOMIN.Clear;
+    end
 end;
 
 procedure TfListaVenda.chkMargemClick(Sender: TObject);
 begin
   inherited;
-  if(chkMargem.Checked)then
-  begin
-    DBEdit4.Enabled := True;
-    DBEdit5.Enabled := True;
-  end
-  else
-  begin
-    DBEdit4.Enabled := False;
-    DBEdit5.Enabled := False;
-    cdsLista_detMARGEMMAX.Clear;
-    cdsLista_detMARGEMMIN.Clear;
-  end
+  if (dtsrcDet.State in [dsEdit, dsInsert]) then
+    if(chkMargem.Checked)then
+    begin
+      DBEdit4.Enabled := True;
+      DBEdit5.Enabled := True;
+    end
+    else
+    begin
+      DBEdit4.Enabled := False;
+      DBEdit5.Enabled := False;
+      cdsLista_detMARGEMMAX.Clear;
+      cdsLista_detMARGEMMIN.Clear;
+    end
 end;
 
 procedure TfListaVenda.dtsrcDetDataChange(Sender: TObject; Field: TField);
@@ -362,6 +286,27 @@ begin
     chkPermite.Checked := True
   else
     chkPermite.Checked := False;
+  if (dtsrcDet.State in [dsEdit]) then
+    if (DtSrc.State in [dsBrowse]) then
+      cdsListaVenda.Edit;
+end;
+
+procedure TfListaVenda.btnProcurarClick(Sender: TObject);
+begin
+  fListaVendaProc := TfListaVendaProc.Create(Application);
+  try
+    fListaVendaProc.ShowModal;
+  finally
+    if (cdsListaVenda.Active ) then
+      cdsListaVenda.Close;
+    cdsListaVenda.Params[0].AsInteger := fListaVendaProc.codlista;
+    cdsListaVenda.Open;
+    if (cdsLista_det.Active) then
+      cdsLista_det.Close;
+    cdsLista_det.Params[0].AsInteger := fListaVendaProc.codlista;
+    cdsLista_det.Open;
+    fListaVendaProc.Free;
+  end;
 end;
 
 end.

@@ -2,23 +2,27 @@ inherited fListaVenda: TfListaVenda
   Left = 247
   Top = 175
   Width = 711
-  Height = 582
+  Height = 561
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited MMJPanel1: TMMJPanel
-    Top = 490
-    Width = 695
+    Top = 473
+    Width = 703
+    inherited btnProcurar: TBitBtn
+      OnClick = btnProcurarClick
+    end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 695
+    Width = 703
     inherited Label1: TLabel
       Left = 152
-      Width = 406
+      Width = 411
       Caption = 'Listas de Pre'#231'os de Venda'
     end
     inherited Label2: TLabel
       Left = 156
-      Width = 406
+      Width = 411
       Caption = 'Listas de Pre'#231'os de Venda'
     end
   end
@@ -26,23 +30,9 @@ inherited fListaVenda: TfListaVenda
     Left = 5
     Top = 62
     Width = 680
-    Height = 424
+    Height = 403
     Caption = 'Lista de Venda'
     TabOrder = 2
-    object lblCodcli: TLabel
-      Left = 126
-      Top = 18
-      Width = 43
-      Height = 13
-      Caption = 'C'#243'd. CLi.'
-    end
-    object lblCliente: TLabel
-      Left = 183
-      Top = 18
-      Width = 32
-      Height = 13
-      Caption = 'Cliente'
-    end
     object Label3: TLabel
       Left = 12
       Top = 18
@@ -51,115 +41,37 @@ inherited fListaVenda: TfListaVenda
       Caption = 'Nome Lista'
     end
     object Label4: TLabel
-      Left = 375
+      Left = 215
       Top = 18
       Width = 53
       Height = 13
       Caption = 'Data Inicial'
     end
     object Label5: TLabel
-      Left = 481
+      Left = 321
       Top = 18
       Width = 48
       Height = 13
       Caption = 'Data Final'
     end
     object Label6: TLabel
-      Left = 582
+      Left = 422
       Top = 18
       Width = 41
       Height = 13
       Caption = 'Validade'
     end
-    object dbCli: TDBEdit
-      Left = 122
-      Top = 32
-      Width = 55
-      Height = 21
-      DataField = 'CODCLIENTE'
-      DataSource = DtSrc
-      TabOrder = 1
-      OnExit = dbCliExit
-    end
     object dbNomeLista: TDBEdit
       Left = 8
       Top = 32
-      Width = 113
+      Width = 185
       Height = 21
       DataField = 'NOMELISTA'
       DataSource = DtSrc
       TabOrder = 0
     end
-    object btnClienteProcura: TBitBtn
-      Left = 327
-      Top = 18
-      Width = 35
-      Height = 33
-      Enabled = False
-      PopupMenu = PopupMenu1
-      TabOrder = 2
-      TabStop = False
-      OnClick = btnClienteProcuraClick
-      Glyph.Data = {
-        F6060000424DF606000000000000360000002800000018000000180000000100
-        180000000000C0060000C40E0000C40E00000000000000000000C0C0C0C0C0C0
-        C0C0C0C0C0C0BDBEBEBFBFBFBEBFBFBFBFBFBDBFBFC0BFBEBCBDBEC1C0BDBDBD
-        BEBFC0BEBEBEBEBEBEBEBEBEBEBEBFBFBCBDBDC0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0BEC0C0A59494AD9696BEACACD6CCCCE4E0DEE7E5E5
-        4F4EEA5354ED7171EDEEEEEDEEEBEAEAE6E6E5E0E0E4DCDCB3AEAEBFC0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFC1C5C5A69A9AA28383BAA4A4D3
-        C3C3E9E0DEFCF6EA4D4CEF2221F27271F2FFFFF2F3EFEEEFEAEAECE7E7E0D4D4
-        A9A4A4C1C3C3BFBFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFBFC2C3C3B6B7
-        B7997A7AB8A2A2C9B8B8D9CDCEF6EFDF7E7BE51B1AE79393E8FFFEE7EAE4E5E8
-        E0E0E8DFDFC8B8B8B4B4B4C1C1C1BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0BFBFC0C0C0C1C6C69B8080B7A0A0C5B3B3CFC1C1EADED1A69FDB1517DEC2BE
-        DFF6EEDEE1D8DADFD5D5DFD1D1B2A3A3BCBFBFBFBFBFC0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0BFBFBFC3C5C5AAA0A0A88C8CCABABACCBBBCDACCC5
-        C7BBCB161BCDFFF1CED8CACBD5C8C8D9CCCCC4AEAE9B9999C4C6C6BFBFBFC0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFBFBEC0C09D8383C9
-        B6B6CFC2C3D5C6C3D8CBC63338C8FFFAC9CEC1C6D4C8C7D2C0C0A49292C0C5C5
-        C0C0C0C0BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BEBE
-        BEC2C4C4B0AFAFA68888D4C6C6D8CECDDCCEC8938FCAF1DFCAD5CACDDACDCDA8
-        9393B4B4B4C1C1C1BFC0C0C0BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0BFBFBFC2C6C6B0A7A7B49899DDCFCEF3E9DCA19FD9FFFF
-        DCE3D6D9B09898ADA9A9C1C3C3C0BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFBFC5C6C4ACA7A4BAA199
-        8077B91017C48379B8B49F8EB1B1AFC4C4C3BFC0C0BFBFBFC0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C1C3BFBBAF
-        B2B89EB5CCA5C7ECC2E6FFDCFCFFCBEAFFB4D4F1B6C7DAB3B6BABFBCBABEBFBF
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BEBF
-        BFC5C1BAACABAA95BBEBA8CCF4B7D6F9BCD5F6BFDAF8C4DCF9C7E0FDC6E0FFB8
-        D3EE9FA4A7CFCAC4BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0BFBFC0C4C2BFAEB2BA87B8F7A0C5F1ABCCF4B2D2F8B6D7FAB9D7FABCD8
-        FDBDD9FCBCD9FDC1DEFFBDE4FF92979FC4C1C0BEBEBEC0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0BFC0C0C8C1B783A7D18EBCF09FC4F0A8CBF5AECFF9
-        B2D3F9B5D5FCB7D7FCB7D6FDB6D6FBB5D5FBB7DAFFA5C2E1BCB8B3BFBFC0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFC0C6C4C0ABAFB37DAFEC95BDEE9E
-        C5F3A3C9F7A8CEFAAACFFBADD0FCAFD6FFAFD6FFAED6FFAFD4FFACD1FEA1CBF6
-        A7AEB9C4C2BFBFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFC0C0C6C3BE969F
-        AF84C2FD95C4F99AC3F49FC7F9A1CAFAA5D2FFA3DBFF9DCDF59CC7EF9BC4EC9E
-        CFF9A1D4FFA0DDFF9EB9CFC7C0BDBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0C1C6C67A29297B48568DC6F499CCFF99C3F79CCCFF8FC4F4867990782E
-        3274262C6A202A652B3C65395168608379788ECDCDC9BFBFBFC0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0BFC6C6802E2E86120693322890B6E095D4FF8FD1FF
-        8E48459823108B2B29852A277B2427701D25671721500005310000D3DCDCBFBF
-        BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BEBEC3CFCF8F5855902922AC5548AA
-        56489F8B989E848EB04E39A95A4E9D4F499649458C4242833E438140495E1726
-        52242DD1DBD9BFBFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFBFC6CBCBA8A4
-        A68F291FC3847CC27D72C97A68C87C69C18076BE7E71B3726EAE6E6AA668679B
-        6266A271775A1320928685C8CBCBBFBFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0C0BFBEBEC6D3D597625DBF756BD8ABA4D49F94D39F94CF9A92CB988EC38F
-        8BBF8C89B78684BC9395AD77805C2E33CAD2D0BFBFBFC0C0C0C0C0C0C0C0C0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBEBEC0CDCE9E625DD6A098E8C8C2E5C6BF
-        E3C4BDDFC0BADBBCB9D9BBBAD9BABAC09396662E33C4CFCDC2C4C3BFBFBFC0C0
-        C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0BFBFBFC0C1C1C2D3D6A1
-        7571B0766DCE9B93D5A8A1D6AAA5CEA19EC49391996666805B5CC0C8C7C4C5C5
-        BEBEBEC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
-        C0C0BFBFC0C0C0C0C7C9B4B1B2B09D9AAE918DB29592AB8F8EA79493B1ACACC3
-        C9C8C1C4C4BFBFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
-    end
     object dbDataInicial: TJvDBDatePickerEdit
-      Left = 372
+      Left = 212
       Top = 32
       Width = 95
       Height = 21
@@ -167,10 +79,10 @@ inherited fListaVenda: TfListaVenda
       DataField = 'DATAINICIAL'
       DataSource = DtSrc
       Enabled = False
-      TabOrder = 3
+      TabOrder = 1
     end
     object dbDataFinal: TJvDBDatePickerEdit
-      Left = 477
+      Left = 317
       Top = 32
       Width = 95
       Height = 21
@@ -178,10 +90,10 @@ inherited fListaVenda: TfListaVenda
       DataField = 'DATAFINAL'
       DataSource = DtSrc
       Enabled = False
-      TabOrder = 4
+      TabOrder = 2
     end
     object dbValidade: TJvDBDatePickerEdit
-      Left = 579
+      Left = 419
       Top = 32
       Width = 95
       Height = 21
@@ -189,33 +101,25 @@ inherited fListaVenda: TfListaVenda
       DataField = 'VALIDADE'
       DataSource = DtSrc
       Enabled = False
-      TabOrder = 5
+      TabOrder = 3
       OnExit = dbValidadeExit
     end
-    object edCliente: TEdit
-      Left = 181
-      Top = 32
-      Width = 141
-      Height = 21
-      ReadOnly = True
-      TabOrder = 6
-    end
     object btnTodosProd: TButton
-      Left = 16
-      Top = 64
+      Left = 520
+      Top = 26
       Width = 153
       Height = 25
       Caption = 'Adicionar Todos Produtos'
-      TabOrder = 7
+      TabOrder = 4
       OnClick = btnTodosProdClick
     end
     object GroupBox1: TGroupBox
       Left = 8
-      Top = 90
+      Top = 58
       Width = 665
-      Height = 326
+      Height = 335
       Caption = 'Itens Lista'
-      TabOrder = 8
+      TabOrder = 5
       object Label7: TLabel
         Left = 8
         Top = 232
@@ -225,49 +129,49 @@ inherited fListaVenda: TfListaVenda
       end
       object Label8: TLabel
         Left = 336
-        Top = 280
+        Top = 285
         Width = 72
         Height = 13
         Caption = 'Desconto Max.'
       end
       object Label9: TLabel
         Left = 416
-        Top = 280
+        Top = 285
         Width = 69
         Height = 13
         Caption = 'Desconto Min.'
       end
       object Label10: TLabel
         Left = 508
-        Top = 280
+        Top = 285
         Width = 64
         Height = 13
         Caption = 'Margem Max.'
       end
       object Label11: TLabel
         Left = 584
-        Top = 280
+        Top = 285
         Width = 61
         Height = 13
         Caption = 'Margem Min.'
       end
       object Label12: TLabel
         Left = 200
-        Top = 280
+        Top = 285
         Width = 62
         Height = 13
         Caption = 'Pre'#231'o Venda'
       end
       object Label13: TLabel
         Left = 13
-        Top = 280
+        Top = 285
         Width = 67
         Height = 13
         Caption = 'Pre'#231'o Compra'
       end
       object Label14: TLabel
         Left = 99
-        Top = 280
+        Top = 285
         Width = 83
         Height = 13
         Caption = 'Margem p/Venda'
@@ -364,7 +268,7 @@ inherited fListaVenda: TfListaVenda
       end
       object chkMargem: TDBCheckBox
         Left = 509
-        Top = 264
+        Top = 269
         Width = 97
         Height = 17
         Caption = 'Usa Margem'
@@ -377,7 +281,7 @@ inherited fListaVenda: TfListaVenda
       end
       object chkDesconto: TDBCheckBox
         Left = 349
-        Top = 264
+        Top = 269
         Width = 97
         Height = 17
         Caption = 'Usa Desconto'
@@ -390,7 +294,7 @@ inherited fListaVenda: TfListaVenda
       end
       object chkPermite: TDBCheckBox
         Left = 13
-        Top = 265
+        Top = 269
         Width = 154
         Height = 17
         Caption = 'Permite Altera'#231#227'o na Venda'
@@ -402,7 +306,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit6: TDBEdit
         Left = 196
-        Top = 296
+        Top = 301
         Width = 114
         Height = 21
         DataField = 'PRECOVENDA'
@@ -411,7 +315,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit7: TDBEdit
         Left = 9
-        Top = 296
+        Top = 301
         Width = 80
         Height = 21
         DataField = 'PRECOCOMPRA'
@@ -421,7 +325,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit2: TDBEdit
         Left = 336
-        Top = 297
+        Top = 302
         Width = 75
         Height = 21
         DataField = 'DESCONTOMAX'
@@ -430,7 +334,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit3: TDBEdit
         Left = 416
-        Top = 297
+        Top = 302
         Width = 75
         Height = 21
         DataField = 'DESCONTOMIN'
@@ -439,7 +343,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit4: TDBEdit
         Left = 506
-        Top = 297
+        Top = 302
         Width = 70
         Height = 21
         DataField = 'MARGEMMAX'
@@ -448,7 +352,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit5: TDBEdit
         Left = 582
-        Top = 297
+        Top = 302
         Width = 70
         Height = 21
         DataField = 'MARGEMMIN'
@@ -457,7 +361,7 @@ inherited fListaVenda: TfListaVenda
       end
       object DBEdit8: TDBEdit
         Left = 95
-        Top = 296
+        Top = 301
         Width = 89
         Height = 21
         DataSource = dtsrcDet
@@ -625,9 +529,6 @@ inherited fListaVenda: TfListaVenda
     object sdsListaVendaCODLISTA: TIntegerField
       FieldName = 'CODLISTA'
     end
-    object sdsListaVendaCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
-    end
     object sdsListaVendaNOMELISTA: TStringField
       FieldName = 'NOMELISTA'
       Size = 60
@@ -661,9 +562,6 @@ inherited fListaVenda: TfListaVenda
     Top = 14
     object cdsListaVendaCODLISTA: TIntegerField
       FieldName = 'CODLISTA'
-    end
-    object cdsListaVendaCODCLIENTE: TIntegerField
-      FieldName = 'CODCLIENTE'
     end
     object cdsListaVendaNOMELISTA: TStringField
       FieldName = 'NOMELISTA'
