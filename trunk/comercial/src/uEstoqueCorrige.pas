@@ -39,6 +39,7 @@ type
     Button3: TButton;
     lblAtualizando: TLabel;
     sqlR: TSQLQuery;
+    lblProduto: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Button2Click(Sender: TObject);
@@ -82,7 +83,7 @@ Begin
   try
     if (cdsA.Active) then
       cdsA.close;
-    cdsA.CommandText := 'SELECT CODPRODUTO FROM PRODUTOS WHERE ((TIPO <> ' +
+    cdsA.CommandText := 'SELECT CODPRODUTO, CODPRO FROM PRODUTOS WHERE ((TIPO <> ' +
         QuotedStr('SERV') + ') OR (TIPO IS NULL))';
     cdsA.Open;
 
@@ -106,6 +107,7 @@ Begin
       // Pego o Estoque de Cada Item
       while not cdsA.Eof do
       begin
+        lblProduto.Caption := 'Produto : ' + cdsA.FieldByName('CODPRO').AsString;
         if (sqlQ.Active) then
           sqlQ.Close;
         sqlStr := 'select * from ESTOQUE_VIEW_CUSTO(' +

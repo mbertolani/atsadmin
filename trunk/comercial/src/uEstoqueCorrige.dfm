@@ -88,6 +88,13 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Caption = '....'
     Visible = False
   end
+  object lblProduto: TLabel
+    Left = 16
+    Top = 128
+    Width = 6
+    Height = 13
+    Caption = '..'
+  end
   object Edit1: TEdit
     Left = 16
     Top = 56
