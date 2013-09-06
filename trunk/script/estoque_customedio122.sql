@@ -1,3 +1,4 @@
+set term  ^ ;
 CREATE OR ALTER PROCEDURE estoque_customedio
  (dataini date, datafim date, codproduto integer) 
 RETURNS 
@@ -9,6 +10,7 @@ RETURNS
 AS 
 
 BEGIN
+  -- 122
   --custo inicial 
   select ev.PRECOCUSTO, ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(UDF_INCDAY(:dataini,-1), :codproduto, 51, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
     into :custoinicial, :saldoinicial;
@@ -36,11 +38,19 @@ BEGIN
     select ev.PRECOCUSTO from ESTOQUE_VIEW_CUSTO(:datafim, :codproduto, 51, 'TODOS OS LOTES CADASTRADOS NO SISTEMA') ev 
     into :custoentradas;
   end   
+  
+  if ((qtdeEntradas + saldoinicial) > 0) then 
+    customedio = ((custoentradas*qtdeentradas)+(saldoinicial*custoinicial))/(qtdeentradas+saldoinicial);
+    
+  if (customedio is null) then 
+    customedio = custoinicial;  
+  
   if (customedio is null) then 
   begin 
     select p.PRECOMEDIO from produtos p where p.CODPRODUTO = :codproduto
     into :customedio;
   end 
+  
   if (customedio is null) then 
     customedio = 0;
   if ((saldoinicial + qtdeentradas) > 0) then   
