@@ -875,7 +875,6 @@ begin
   inherited;
   if scdsCr_proc.Active then
      scdsCr_proc.Close;
-  //dm.EstoqueAtualiza;     
 end;
 
 procedure TfCompraFinalizar.DtSrcStateChange(Sender: TObject);
