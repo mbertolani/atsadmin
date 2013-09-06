@@ -262,4 +262,11 @@ object fEstoqueCorrige: TfEstoqueCorrige
     Left = 320
     Top = 224
   end
+  object sqlR: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 8
+    Top = 224
+  end
 end
