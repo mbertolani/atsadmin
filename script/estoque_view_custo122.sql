@@ -1,3 +1,4 @@
+set term ^ ;
 CREATE OR ALTER PROCEDURE ESTOQUE_VIEW_CUSTO (
     DTA1 date,
     PROD1 integer,
@@ -35,6 +36,7 @@ DECLARE VARIABLE SOMA_ENT double precision;
 DECLARE VARIABLE ultimoDiaMes date;
 DECLARE VARIABLE MesEstoque date;
 BEGIN
+  -- versao 122
   PROD = 0;
   INI  = 0;
   SOMA_ENTRADA = 0;
@@ -120,6 +122,8 @@ BEGIN
    if (lotes is null) then 
       lotes = '0';
    
+   --select ev.CUSTOMEDIO, ev.CUSTOENTRADAS from ESTOQUE_CUSTOMEDIO(UDF_INCDAY(:mesEstoque,1), :DTA1, :Prod1) ev  
+   --into :precocusto, :precocompra;  
    Suspend;
    
    SOMA_ENTRADA = 0;
