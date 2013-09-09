@@ -365,7 +365,7 @@ begin
         end
         else begin
           sql := 'INSERT INTO INVENTARIO (CODIVENTARIO, DATAIVENTARIO, CODPRODUTO,' +
-            ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE) VALUES ('  +
+            ' CODPRO, SITUACAO, UN, CODCCUSTO, LOTE, ESTOQUE_ATUAL) VALUES ('  +
             QuotedStr(edLista.text) + ' , ' + QuotedStr(formatdatetime('mm/dd/yyyy', Now)) +
             ', ' + IntToStr(cdsProd.Fields[1].AsInteger) + ', ' +
             QuotedStr(cdsProd.Fields[0].AsString) + ', ' + QuotedStr('A') + ', ' +
@@ -377,7 +377,11 @@ begin
           else begin
             sql := sql + ', null,';
           end;
-          sql := sql + QuotedStr(lote) + ')';
+          sql := sql + QuotedStr(lote);
+          DecimalSeparator := '.';
+          sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
+          DecimalSeparator := ',';
+          sql := sql + ')';
           dm.sqlsisAdimin.ExecuteDirect(sql);
         end;
       end;
