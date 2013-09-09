@@ -62,6 +62,7 @@ declare variable precoVenda double PRECISION;
   declare variable CCustoV INTEGER;
   declare variable usaListaPreco char(1);
   declare variable CodLista INTEGER;  
+  declare variable CodListaCli INTEGER;
 begin
     CCusto = 0;
     
@@ -83,6 +84,20 @@ begin
       INTO :codLista, :usaListaPreco; 
     if (usaListaPreco = 'S') then  
     begin  
+      codListaCli = 0;
+      select NUMERO from CLIENTES where codcliente = :local 
+       into :codListaCli;
+       
+       if (codListaCli is null) then 
+         codListaCli = 0;
+         
+       if (codListaCli = 0) then 
+       begin
+         -- busca a lista padrao    
+         select D4 from parametro where parametro = 'LISTAPRECO' 
+           INTO :codLista; 
+       end     
+    
       for SELECT r.CODPRODUTO, p.CODPRO, p.COD_BARRA, r.PRODUTO, p.QTDE_PCT, p.UNIDADEMEDIDA, 
         p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
         p.LOTES, r.MARGEMMAX, r.PRECOVENDA, 'DESCRICAO USO', 
@@ -98,7 +113,7 @@ begin
          and ((p.CATEGORIA = :subgp) or (:subgp = 'TODOSSUBGRUPOS'))
          and ((p.MARCA = :mc) OR (:mc = 'TODASMARCAS'))
          and ((p.CLASSIFIC_FISCAL = :Aplicacao) OR (:Aplicacao = 'TODASAPLICACOES'))
-         and ((p.CODALMOXARIFADO = :Local) OR (:Local = 0))      
+         --and ((p.CODALMOXARIFADO = :Local) OR (:Local = 0))      
         into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
        :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao,
        :lotes, :margem, :precoVenda, :uso , 
@@ -157,8 +172,6 @@ begin
         end 
     end  -- fim do IF usaListaPreco = S  
 
-    
-
 
     if (usaListaPreco = 'N') then  
     begin  
@@ -171,7 +184,7 @@ begin
     INTO :usaListaTerceiros;
     if (usaListaTerceiros is null) then
       usaListaTerceiros = 'N';
-
+    local = 0; 
   for select p.codProduto, p.CODPRO, p.cod_barra, p.produto, p.qtde_pct, p.unidademedida,
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
     p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, p.USA,
