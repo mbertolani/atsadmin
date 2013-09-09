@@ -30,7 +30,7 @@ inherited fOf: TfOf
     Caption = 'Data'
   end
   object Label4: TLabel [3]
-    Left = 186
+    Left = 181
     Top = 75
     Width = 5
     Height = 13
@@ -80,7 +80,7 @@ inherited fOf: TfOf
   object OfId: TEdit [7]
     Left = 112
     Top = 72
-    Width = 73
+    Width = 67
     Height = 21
     ReadOnly = True
     TabOrder = 1
@@ -257,9 +257,9 @@ inherited fOf: TfOf
       BFBFBFBF0000}
   end
   object OFID_Ind: TEdit [14]
-    Left = 192
+    Left = 188
     Top = 72
-    Width = 25
+    Width = 39
     Height = 21
     ReadOnly = True
     TabOrder = 2
@@ -269,12 +269,17 @@ inherited fOf: TfOf
     DataSet = cdsOf
   end
   object sqlOf: TSQLDataSet
-    CommandText = 'select * from OF_OF where ofid = :ofid '
+    CommandText = 'select * from OF_OF where ofid = :ofid '#13#10'and OFID_IND = :ofind'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
         Name = 'ofid'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ofind'
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
@@ -309,9 +314,8 @@ inherited fOf: TfOf
     object sqlOfCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
     end
-    object sqlOfOFID_IND: TSmallintField
+    object sqlOfOFID_IND: TStringField
       FieldName = 'OFID_IND'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
   end
@@ -326,6 +330,11 @@ inherited fOf: TfOf
       item
         DataType = ftInteger
         Name = 'ofid'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ofind'
         ParamType = ptInput
       end>
     ProviderName = 'dspOf'
@@ -367,9 +376,8 @@ inherited fOf: TfOf
       FieldName = 'CODPRODUTO'
       ProviderFlags = [pfInUpdate]
     end
-    object cdsOfOFID_IND: TSmallintField
+    object cdsOfOFID_IND: TStringField
       FieldName = 'OFID_IND'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
   end
@@ -389,25 +397,43 @@ inherited fOf: TfOf
   end
   object sqlId: TSQLQuery
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pSERIE'
+        ParamType = ptInput
+      end>
     SQL.Strings = (
-      'SELECT MAX(OFID) FROM OF_OF')
+      'select ULTIMO_NUMERO, NOTAFISCAL from SERIES '
+      'where SERIE like :pSERIE')
     SQLConnection = DM.sqlsisAdimin
     Left = 128
     Top = 40
+    object sqlIdULTIMO_NUMERO: TIntegerField
+      FieldName = 'ULTIMO_NUMERO'
+      Required = True
+    end
+    object sqlIdNOTAFISCAL: TSmallintField
+      FieldName = 'NOTAFISCAL'
+    end
   end
   object sdsDetalhe: TSQLDataSet
     CommandText = 
       'select  mt.CODPRODMP, mt.USAPRECO,'#13#10'sum(mt.qtdeusada * ofp.OFQTD' +
       'ESOLIC), mt.qtdeusada'#13#10#13#10'from OF_OF ofp'#13#10#13#10'left outer join MATER' +
       'IA_PRIMA mt on ofp.CODPRODUTO = mt.CODPRODUTO '#13#10'where ofp.OFID =' +
-      ' :pCODOF'#13#10'and  mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPRODMP, mt.' +
-      'USAPRECO, mt.qtdeusada'
+      ' :pCODOF'#13#10'and ofp.OFID_IND = :pCODSERIE'#13#10'and  mt.TIPOUSO = :PUSO' +
+      #13#10#13#10'group by  mt.CODPRODMP, mt.USAPRECO, mt.qtdeusada'
     MaxBlobSize = -1
     Params = <
       item
         DataType = ftInteger
-        Name = 'pCODMOV'
+        Name = 'pCODOF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pCODSERIE'
         ParamType = ptInput
       end
       item
@@ -416,7 +442,7 @@ inherited fOf: TfOf
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 375
+    Left = 376
     Top = 366
   end
   object dspDetalhe: TDataSetProvider
@@ -431,7 +457,12 @@ inherited fOf: TfOf
     Params = <
       item
         DataType = ftInteger
-        Name = 'pCODMOV'
+        Name = 'pCODOF'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'pCODSERIE'
         ParamType = ptInput
       end
       item
@@ -1173,6 +1204,39 @@ inherited fOf: TfOf
     end
     object cdslotesPRECO: TFloatField
       FieldName = 'PRECO'
+    end
+  end
+  object scds_serie_proc: TSQLClientDataSet
+    CommandText = 
+      'select CODSERIE, SERIE, ULTIMO_NUMERO, NOTAFISCAL from SERIES wh' +
+      'ere SERIE like :pSERIE'
+    Aggregates = <>
+    Options = [poAllowCommandText]
+    ObjectView = True
+    Params = <
+      item
+        DataType = ftString
+        Name = 'pSERIE'
+        ParamType = ptInput
+      end>
+    DBConnection = DM.sqlsisAdimin
+    Left = 320
+    Top = 65
+    object scds_serie_procCODSERIE: TStringField
+      FieldName = 'CODSERIE'
+      FixedChar = True
+      Size = 3
+    end
+    object scds_serie_procSERIE: TStringField
+      FieldName = 'SERIE'
+      Required = True
+    end
+    object scds_serie_procULTIMO_NUMERO: TIntegerField
+      FieldName = 'ULTIMO_NUMERO'
+      Required = True
+    end
+    object scds_serie_procNOTAFISCAL: TSmallintField
+      FieldName = 'NOTAFISCAL'
     end
   end
 end
