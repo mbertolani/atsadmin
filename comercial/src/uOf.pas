@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, JvToolEdit, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask, DBXpress,
   JvExMask, JvBaseEdits, FMTBcd, DBClient, Provider, SqlExpr, JvExControls,
-  JvLabel;
+  JvLabel, DBLocal, DBLocalS;
 
 type
   TfOf = class(TfPai_new)
@@ -44,8 +44,6 @@ type
     sqlOfOFQTDEPERDA: TFloatField;
     sqlOfOFMOTIVO: TStringField;
     sqlOfCODPRODUTO: TIntegerField;
-    sqlOfOFID_IND: TSmallintField;
-    cdsOfOFID_IND: TSmallintField;
     sqlInd: TSQLQuery;
     sqlId: TSQLQuery;
     sdsDetalhe: TSQLDataSet;
@@ -197,6 +195,15 @@ type
     cdslotesCODPRO: TStringField;
     cdslotesPRECO: TFloatField;
     cdsDetalheQTDEUSADA: TFloatField;
+    sqlIdULTIMO_NUMERO: TIntegerField;
+    sqlIdNOTAFISCAL: TSmallintField;
+    scds_serie_proc: TSQLClientDataSet;
+    scds_serie_procCODSERIE: TStringField;
+    scds_serie_procSERIE: TStringField;
+    scds_serie_procULTIMO_NUMERO: TIntegerField;
+    scds_serie_procNOTAFISCAL: TSmallintField;
+    sqlOfOFID_IND: TStringField;
+    cdsOfOFID_IND: TStringField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure OfProdExit(Sender: TObject);
@@ -212,6 +219,7 @@ type
     procedure baixamatprimas(tipomat: string; codof: integer);
     procedure lancaapont(codof: integer);
     procedure excluilancamentos(codof: integer);
+    procedure alteranumeroserie;
 
   public
     codProd: Integer;
@@ -279,22 +287,20 @@ begin
   cdsOfOFDATA.AsDateTime    := OfData.Date;
   if (OFTipo = 'OP') then
   begin
-    cdsOfOFID_IND.AsInteger   := 0;
+    cdsOfOFID_IND.AsString   := OFID_Ind.Text;
     cdsOfOFQTDESOLIC.AsFloat  := OfQtde.Value;
     cdsOfOFQTDEPRODUZ.AsFloat := 0;
     cdsOfOFQTDEPERDA.AsFloat  := 0;
     cdsOfCODPRODUTO.AsInteger := codProd;
     cdsOfOFSTATUS.AsString    := 'A'; // OF Aberta
     inherited;
+    alteranumeroserie;
     baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
-    //cdsOfOFID_IND.AsInteger   := StrToInt(OFID_Ind.Text);
-    //cdsOfOFQTDESOLIC.AsFloat  := 0;
     cdsOfOFQTDEPRODUZ.AsFloat := OfQtde.Value;
     cdsOfOFQTDEPERDA.AsFloat  := 0;
-    //cdsOfCODPRODUTO.AsInteger := codProd;
     cdsOfOFSTATUS.AsString    := 'F'; // OF Finalizada
     inherited;
     if (cdsOfOFQTDEPRODUZ.AsFloat <> cdsOfOFQTDESOLIC.AsFloat) then
@@ -349,16 +355,32 @@ begin
   OfQtde.Value := 0;
   if (OFTipo = 'OP') then
   begin
+    //----------------------------------------------------
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'SERIEOP';
+    dm.cds_parametro.Open;
+
+    if (dm.cds_parametro.IsEmpty) then
+    begin
+      MessageBox(0, 'Cadastre o Parâmetro para à Serie de Ordem de Produção.', 'Série não cadastrada', MB_ICONWARNING or MB_OK);
+      Exit;
+    end;
+
     OfData.Date := Now;
     OfProd.Text := '';
     OFDesc.Text := '';
     inherited;
+    OFID_Ind.Text := dm.cds_parametroD1.AsString;
+
     if (sqlId.Active) then
       sqlId.Close;
+    sqlId.Params[0].AsString := dm.cds_parametroD1.AsString;
     sqlId.Open;
     OFID.Text := IntToStr(sqlId.Fields[0].AsInteger + 1);
     sqlInd.Close;
-    OFID_Ind.Text := '0';
+
+    //----------------------------------------------------
     cdsOfOFID_IND.AsInteger := 0; // Toda OF (OP) terão IND = 0
     OfId.ReadOnly := True;
   end;
@@ -398,12 +420,17 @@ procedure TfOf.baixamatprimas(tipomat: string; codof: integer);
     FVen: TVendaCls;
     Save_Cursor:TCursor;
 begin
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIEOP';
+  dm.cds_parametro.Open;
   TD.TransactionID := 1;
   TD.IsolationLevel := xilREADCOMMITTED;
   if (cdsDetalhe.Active) then
     cdsDetalhe.Close;
   cdsDetalhe.Params[0].AsInteger := codof;
-  cdsDetalhe.Params[1].AsString := tipomat;
+  cdsDetalhe.Params[1].AsString := dm.cds_parametroD1.AsString;
+  cdsDetalhe.Params[2].AsString := tipomat;
   cdsDetalhe.Open;
   {** se não estiver vazio procuro pela matéria prima}
   if (not cdsDetalhe.IsEmpty) then
@@ -555,38 +582,53 @@ begin
   if (OfId.Text <> '') then
   begin
     inherited;
+
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'SERIEOP';
+    dm.cds_parametro.Open;
+
     if (cdsOf.Active) then
       cdsOf.Close;
     cdsOf.Params[0].AsInteger := StrToInt(OfId.Text);
+    cdsOf.Params[1].AsString := dm.cds_parametroD1.AsString;
     cdsOf.Open;
-    if (cdsOfOFSTATUS.AsString <> 'F') then
+    if (not cdsOf.IsEmpty) then
     begin
-      OFID_Ind.Text := IntToStr(cdsOfOFID_IND.AsInteger);
-      if dm.scds_produto_proc.Active then
-        dm.scds_produto_proc.Close;
-      dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
-      dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
-      dm.scds_produto_proc.Open;
-      OfData.Date := cdsOfOFDATA.AsDateTime;
-      OfProd.Text := DM.scds_produto_procCODPRO.AsString;
-      OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
-      OfQtde.Text := FloatToStr(cdsOfOFQTDESOLIC.AsFloat);
-      cdsOf.edit;
-      DM.scds_Prod.Close;
+      if (cdsOfOFSTATUS.AsString <> 'F') then
+      begin
+        OFID_Ind.Text := cdsOfOFID_IND.AsString;
+        if dm.scds_produto_proc.Active then
+          dm.scds_produto_proc.Close;
+        dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
+        dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+        dm.scds_produto_proc.Open;
+        OfData.Date := cdsOfOFDATA.AsDateTime;
+        OfProd.Text := DM.scds_produto_procCODPRO.AsString;
+        OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
+        OfQtde.Text := FloatToStr(cdsOfOFQTDESOLIC.AsFloat);
+        cdsOf.edit;
+        DM.scds_Prod.Close;
+      end
+      else
+      begin
+        OFID_Ind.Text := cdsOfOFID_IND.AsString;
+        if dm.scds_produto_proc.Active then
+          dm.scds_produto_proc.Close;
+        dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
+        dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
+        dm.scds_produto_proc.Open;
+        OfData.Date := cdsOfOFDATA.AsDateTime;
+        OfProd.Text := DM.scds_produto_procCODPRO.AsString;
+        OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
+        OfQtde.Text := FloatToStr(cdsOfOFQTDEPRODUZ.AsFloat);
+        MessageDlg('Apontamento já Efetuado.', mtInformation, [mbOK], 0);
+      end;
     end
     else
     begin
-      OFID_Ind.Text := IntToStr(cdsOfOFID_IND.AsInteger);
-      if dm.scds_produto_proc.Active then
-        dm.scds_produto_proc.Close;
-      dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
-      dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
-      dm.scds_produto_proc.Open;
-      OfData.Date := cdsOfOFDATA.AsDateTime;
-      OfProd.Text := DM.scds_produto_procCODPRO.AsString;
-      OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
-      OfQtde.Text := FloatToStr(cdsOfOFQTDEPRODUZ.AsFloat);
-      MessageDlg('Apontamento já Efetuado.', mtInformation, [mbOK], 0);
+      OfId.Text := '';
+      OfId.SetFocus;
     end;
   end;
 end;
@@ -705,7 +747,7 @@ begin
 
   if not dm.cdsBusca.IsEmpty then
   begin
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
+    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA WHERE CODMOVIMENTO = '
     + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
 
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
@@ -716,9 +758,44 @@ begin
 end;
 
 procedure TfOf.btnExcluirClick(Sender: TObject);
+var TD: TTransactionDesc;
 begin
-  inherited;
-  excluilancamentos(cdsOfOFID.AsInteger);
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    excluilancamentos(cdsOfOFID.AsInteger);
+    inherited;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
+  end;
+  OfData.Clear;
+  OfId.Clear;
+  OFID_Ind.Clear;
+  OfProd.Clear;
+  OfDesc.Clear;
+  OfQtde.Clear;
+end;
+
+procedure TfOf.alteranumeroserie;
+begin
+  if not scds_serie_proc.Active then
+  begin
+     scds_serie_proc.Params[0].AsString := OFID_Ind.Text;
+     scds_serie_proc.Open;
+  end;
+  if (cdsOfOFID.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
+  begin
+    scds_serie_proc.Edit;
+    scds_serie_procULTIMO_NUMERO.AsInteger := cdsOfOFID.AsInteger;
+    scds_serie_proc.ApplyUpdates(0);
+  end;
+  scds_serie_proc.Close;
 end;
 
 end.
