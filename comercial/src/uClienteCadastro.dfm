@@ -3,8 +3,8 @@ inherited fClienteCadastro: TfClienteCadastro
   Top = 127
   VertScrollBar.Range = 0
   BorderStyle = bsSingle
-  ClientHeight = 542
-  ClientWidth = 764
+  ClientHeight = 615
+  ClientWidth = 763
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -87,8 +87,8 @@ inherited fClienteCadastro: TfClienteCadastro
     OnClick = SpeedButton7Click
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 488
-    Width = 764
+    Top = 561
+    Width = 763
     object BitBtn3: TBitBtn [0]
       Left = 8
       Top = -58
@@ -520,7 +520,7 @@ inherited fClienteCadastro: TfClienteCadastro
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 764
+    Width = 763
     Height = 46
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
@@ -550,7 +550,7 @@ inherited fClienteCadastro: TfClienteCadastro
       Top = -6
       Width = 157
       Height = 51
-      Color = clTeal
+      Color = clActiveCaption
       Columns = 2
       Ctl3D = True
       DataField = 'STATUS'
@@ -575,8 +575,8 @@ inherited fClienteCadastro: TfClienteCadastro
   object PageControl1: TPageControl [6]
     Left = 0
     Top = 46
-    Width = 764
-    Height = 442
+    Width = 763
+    Height = 515
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
@@ -741,7 +741,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object Label69: TLabel
         Left = 41
-        Top = 394
+        Top = 399
         Width = 78
         Height = 13
         Caption = 'Transportadora :'
@@ -801,7 +801,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object DBNavigator1: TDBNavigator
         Left = 511
-        Top = 390
+        Top = 395
         Width = 148
         Height = 27
         DataSource = DtSrcE
@@ -1748,7 +1748,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object SpeedButton4: TBitBtn
         Left = 659
-        Top = 390
+        Top = 395
         Width = 33
         Height = 27
         TabOrder = 32
@@ -1783,7 +1783,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object SpeedButton5: TBitBtn
         Left = 692
-        Top = 390
+        Top = 395
         Width = 33
         Height = 27
         TabOrder = 33
@@ -2104,7 +2104,7 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object DBLookupComboBox2: TDBLookupComboBox
         Left = 121
-        Top = 391
+        Top = 396
         Width = 387
         Height = 24
         Ctl3D = True
@@ -2249,6 +2249,111 @@ inherited fClienteCadastro: TfClienteCadastro
         TabOrder = 41
         OnKeyPress = FormKeyPress
       end
+      object GroupBox1: TGroupBox
+        Left = 38
+        Top = 423
+        Width = 394
+        Height = 55
+        Caption = 'Lista de Pre'#231'o de Venda'
+        TabOrder = 42
+        object Label82: TLabel
+          Left = 10
+          Top = 15
+          Width = 22
+          Height = 13
+          Caption = 'Cod.'
+        end
+        object DBEdit63: TDBEdit
+          Left = 7
+          Top = 29
+          Width = 53
+          Height = 21
+          DataField = 'NUMERO'
+          DataSource = DtSrc
+          TabOrder = 0
+          OnExit = DBEdit63Exit
+        end
+        object edtListaPreco: TEdit
+          Left = 66
+          Top = 29
+          Width = 265
+          Height = 21
+          TabOrder = 1
+        end
+        object btnProcListaPreco: TBitBtn
+          Left = 339
+          Top = 21
+          Width = 35
+          Height = 30
+          PopupMenu = PopupMenu1
+          TabOrder = 2
+          OnClick = btnProcListaPrecoClick
+          Glyph.Data = {
+            C2070000424DC20700000000000036000000280000001E000000150000000100
+            1800000000008C070000120B0000120B00000000000000000000BFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0070A01F70A01F80AF0070
+            A0BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBF108FBF2F8FB00F0F0F0000001F4F600F7FB0
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBF0070A020AFDF3FCFFF50909FF0C090806F500000002F607FBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0F70AF
+            108FC03FCFFF3FCFFF50909FFFCF9FFFCF9F4F4030101F1F2F80B0BFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF00609F1F9FCF3FCFFF1F9FCF3F
+            CFFF4FCFFF50A0BFF0C090FFCF9FAF8F6F0000005F90B0BFBFBFBFBFBF005080
+            2F80B000609FBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBF0F7FB02FBFEF3FCFFF3FCFFF2090C070DFFF90E0
+            FFAFE0FFAF9F80FFCF9FCFA080000000508FAF00609F409FC0609FB01F1F1F1F
+            30400F70A0BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBF108FC03FCFFF40CFFF5FD0FF7FDFFF409FC0AFE0FFD0F0FFE0F0FF
+            EFEFF0A09080806F50304F5F308FBF80D0F07FDFFF5F8F9F9F8060000000102F
+            3F00609FBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBF0070A01080
+            BF4FD0FF6FD0FF8FDFFFA0E0FFC0EFFFBFE0F05F9FC0F0FFFFF0FFFFDFF0FFBF
+            E0FF5FAFCF0F90C050C0EF50D0FF3FCFFF50909FFFCF9F6F5F400000000F5F80
+            BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF0F7FAF30AFDF4FAFDF90E0FF
+            AFEFFFCFEFFFDFF0FFEFFFFFF0FFFF2F9FC02F9FC060BFDF409FC00F8FB00070
+            A000AFD030BFEF3FCFFF3FCFFF309FBFF0C090CFA0800000001F709FBFBFBFBF
+            BFBFBFBFBFBFBFBF0000BFBFBFBFBFBF00609F90DFFF3F8FBFD0F0FFE0F0FFF0
+            FFFFF0FFFFE0F0FFCFF0FF90D0EF1F9FCF00A0CF0090C000AFD00080B000AFD0
+            20BFEF3FCFFF3FCFFF3FCFFF809080CFA0800000001F6F90BFBFBFBFBFBFBFBF
+            BFBFBFBF0000BFBFBFBFBFBF00609FD0F0FF80BFD07FB0CFF0FFFFDFF0FFC0EF
+            FFAFE0FF8FDFFF70DFFF50D0FF1FA0D00070AF0090C0007FAF00A0CF0F9FCF3F
+            CFFF3FCFFF3FCFFF3FC0F050808000304F0070A0BFBFBFBFBFBFBFBFBFBFBFBF
+            0000BFBFBFBFBFBF00609F8FBFD0D0E0F02F80AF207FAF60B0DF60BFDF60D0FF
+            4FCFFF3FCFFF3FCFFF3FCFFF30C0FF1F9FD00090BF00A0CF00A0CF10A0D030C0
+            FF1FAFDF1090C00070AF005080BFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBF
+            BFBFBFBFBFBFBF00609F00609FBFBFBFBFBFBF0F70A020A0D020A0DF20A0DF30
+            C0FF3FCFFF3FCFFF3FCFFF3FCFFF30C0FF20A0DF006F9F0070A0005080BFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0F7FAF20AFDF108FC01F9F
+            CF109FD01090C0007FB0006F9F005080BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0070A0007FAF00609FBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBF0000BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBFBF
+            BFBFBFBF0000}
+        end
+      end
     end
     object TabInternet: TTabSheet
       Caption = 'DADOS ADICIONAIS'
@@ -2360,7 +2465,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 6
         OnChange = ComboBox1Change
@@ -2660,7 +2765,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 4
         OnExit = JvDBComboBox1Exit
@@ -2770,7 +2875,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 14
       end
@@ -3160,7 +3265,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 19
       end
@@ -3279,8 +3384,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel3: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 434
+        Width = 755
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4036,8 +4141,8 @@ inherited fClienteCadastro: TfClienteCadastro
       ImageIndex = 1
       object MMJPanel4: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 434
+        Width = 755
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4481,8 +4586,8 @@ inherited fClienteCadastro: TfClienteCadastro
       TabVisible = False
       object MMJPanel6: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 434
+        Width = 755
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -4970,8 +5075,8 @@ inherited fClienteCadastro: TfClienteCadastro
       end
       object MMJPanel7: TMMJPanel
         Left = 0
-        Top = 361
-        Width = 756
+        Top = 434
+        Width = 755
         Height = 53
         Align = alBottom
         BevelInner = bvLowered
@@ -5592,7 +5697,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = cbPlanoChange
@@ -6229,7 +6334,7 @@ inherited fClienteCadastro: TfClienteCadastro
         Font.Height = -13
         Font.Name = 'MS Sans Serif'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 16
         ParentFont = False
         TabOrder = 5
         OnChange = ComboBox1Change
@@ -6589,6 +6694,9 @@ inherited fClienteCadastro: TfClienteCadastro
       FieldName = 'SUFRAMA'
       Size = 9
     end
+    object sds_cliNUMERO: TIntegerField
+      FieldName = 'NUMERO'
+    end
   end
   object dsp_cli: TDataSetProvider
     DataSet = sds_cli
@@ -6929,6 +7037,9 @@ inherited fClienteCadastro: TfClienteCadastro
     object cds_cliSUFRAMA: TStringField
       FieldName = 'SUFRAMA'
       Size = 9
+    end
+    object cds_cliNUMERO: TIntegerField
+      FieldName = 'NUMERO'
     end
   end
   object scds_usuario_proc: TSQLClientDataSet
@@ -8306,5 +8417,67 @@ inherited fClienteCadastro: TfClienteCadastro
     DataSet = cdsTFiscal
     Left = 583
     Top = 70
+  end
+  object sdsListaVenda: TSQLDataSet
+    CommandText = 'SELECT *'#13#10'FROM LISTAPRECO_VENDA l'#13#10'where l.CODLISTA = :CODLISTA'
+    MaxBlobSize = -1
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODLISTA'
+        ParamType = ptInput
+      end>
+    SQLConnection = DM.sqlsisAdimin
+    Left = 253
+    Top = 510
+    object sdsListaVendaCODLISTA: TIntegerField
+      FieldName = 'CODLISTA'
+    end
+    object sdsListaVendaNOMELISTA: TStringField
+      FieldName = 'NOMELISTA'
+      Size = 60
+    end
+    object sdsListaVendaVALIDADE: TDateField
+      FieldName = 'VALIDADE'
+    end
+    object sdsListaVendaDATAINICIAL: TDateField
+      FieldName = 'DATAINICIAL'
+    end
+    object sdsListaVendaDATAFINAL: TDateField
+      FieldName = 'DATAFINAL'
+    end
+  end
+  object dspListaVenda: TDataSetProvider
+    DataSet = sdsListaVenda
+    Left = 285
+    Top = 510
+  end
+  object cdsListaVenda: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODLISTA'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspListaVenda'
+    Left = 317
+    Top = 510
+    object cdsListaVendaCODLISTA: TIntegerField
+      FieldName = 'CODLISTA'
+    end
+    object cdsListaVendaNOMELISTA: TStringField
+      FieldName = 'NOMELISTA'
+      Size = 60
+    end
+    object cdsListaVendaVALIDADE: TDateField
+      FieldName = 'VALIDADE'
+    end
+    object cdsListaVendaDATAINICIAL: TDateField
+      FieldName = 'DATAINICIAL'
+    end
+    object cdsListaVendaDATAFINAL: TDateField
+      FieldName = 'DATAFINAL'
+    end
   end
 end
