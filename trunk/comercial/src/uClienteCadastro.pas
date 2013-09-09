@@ -642,6 +642,26 @@ type
     Label81: TLabel;
     sds_cliSUFRAMA: TStringField;
     cds_cliSUFRAMA: TStringField;
+    GroupBox1: TGroupBox;
+    DBEdit63: TDBEdit;
+    Label82: TLabel;
+    edtListaPreco: TEdit;
+    btnProcListaPreco: TBitBtn;
+    sdsListaVenda: TSQLDataSet;
+    sdsListaVendaCODLISTA: TIntegerField;
+    sdsListaVendaNOMELISTA: TStringField;
+    sdsListaVendaVALIDADE: TDateField;
+    sdsListaVendaDATAINICIAL: TDateField;
+    sdsListaVendaDATAFINAL: TDateField;
+    dspListaVenda: TDataSetProvider;
+    cdsListaVenda: TClientDataSet;
+    cdsListaVendaCODLISTA: TIntegerField;
+    cdsListaVendaNOMELISTA: TStringField;
+    cdsListaVendaVALIDADE: TDateField;
+    cdsListaVendaDATAINICIAL: TDateField;
+    cdsListaVendaDATAFINAL: TDateField;
+    sds_cliNUMERO: TIntegerField;
+    cds_cliNUMERO: TIntegerField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -708,6 +728,8 @@ type
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure cbPlanoChange(Sender: TObject);
     procedure cbPaisChange(Sender: TObject);
+    procedure btnProcListaPrecoClick(Sender: TObject);
+    procedure DBEdit63Exit(Sender: TObject);
    // procedure btnSairClick(Sender: TObject);
   private
     { Private declarations }
@@ -733,7 +755,8 @@ implementation
 uses UDm, uProcurar, uclienteendereco, uClienteRepresentante,
   uClienteVeiculo, uListaClientes, uListaClientesSaude, uVendas, uEstado, uVisitas,
   uListaCliEscola, uRegiaoCadastro, uUtils, sCtrlResize, uNotaf,
-  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery, ubanco, UDMNF;
+  uCrTituloInclui, uNF, uProdFornecedor, uTerminal_Delivery, ubanco, UDMNF,
+  uListaVendaProc;
 
 {$R *.dfm}
 
@@ -1848,7 +1871,7 @@ begin
     cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
     cdsEnderecoCli.Open;
   end;
-
+  DBEdit63Exit(Sender);
 end;
 
 procedure TfClienteCadastro.SpeedButton2Click(Sender: TObject);
@@ -2744,6 +2767,38 @@ begin
 
    if aDigito[iCont] <> iDigito then
      Result := False;
+end;
+
+procedure TfClienteCadastro.btnProcListaPrecoClick(Sender: TObject);
+begin
+  if not (DtSrc.State in [dsInactive]) then
+  begin
+    if (DtSrc.State in [dsBrowse]) then
+      cds_cli.Edit;
+    fListaVendaProc := TfListaVendaProc.Create(Application);
+    try
+      fListaVendaProc.ShowModal;
+    finally
+      if (cdsListaVenda.Active ) then
+        cdsListaVenda.Close;
+      cdsListaVenda.Params[0].AsInteger := fListaVendaProc.codlista;
+      cdsListaVenda.Open;
+    end;
+
+    cds_cliNUMERO.AsInteger := cdsListaVendaCODLISTA.AsInteger;
+    edtListaPreco.Text := cdsListaVendaNOMELISTA.AsString;
+
+  end;
+end;
+
+procedure TfClienteCadastro.DBEdit63Exit(Sender: TObject);
+begin
+  if (cdsListaVenda.Active ) then
+    cdsListaVenda.Close;
+  cdsListaVenda.Params[0].AsInteger := cds_cliNUMERO.AsInteger;
+  cdsListaVenda.Open;
+
+  edtListaPreco.Text := cdsListaVendaNOMELISTA.AsString;
 end;
 
 end.
