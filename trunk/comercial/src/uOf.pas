@@ -296,6 +296,7 @@ begin
     inherited;
     alteranumeroserie;
     baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
+    lancaapont(cdsOfOFID.AsInteger);
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
@@ -304,8 +305,10 @@ begin
     cdsOfOFSTATUS.AsString    := 'F'; // OF Finalizada
     inherited;
     if (cdsOfOFQTDEPRODUZ.AsFloat <> cdsOfOFQTDESOLIC.AsFloat) then
+    begin
       baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
-    lancaapont(cdsOfOFID.AsInteger);
+      lancaapont(cdsOfOFID.AsInteger);
+    end;
   end;
   if (OFTipo = 'PERDA') then
   begin
@@ -518,8 +521,8 @@ begin
         fven.CodMov               := codMovSaida;
         fven.DataVenda            := Now;
         fven.DataVcto             := Now;
-        fven.Serie                := 'O';
-        fven.NotaFiscal           := codMovSaida;
+        fven.Serie                := cdsOfOFID_IND.AsString;
+        fven.NotaFiscal           := cdsOfOFID.AsInteger;
         fven.CodCliente           := 0;
         fven.CodVendedor          := 1;
         fven.CodUsuario           := 1;
@@ -679,7 +682,10 @@ begin
       FMov.MovDetalhe.CodProduto    := cdsOfCODPRODUTO.AsInteger;
       //FMov.MovDetalhe.Un            := cdsUNIDADEMEDIDA.AsString;
       FMov.MovDetalhe.Descricao     := OfDesc.Text;
-      FMov.MovDetalhe.Qtde          := cdsOFOFQTDEPRODUZ.AsFloat;
+      if (cdsOFOFQTDEPRODUZ.AsFloat > 0) then
+        FMov.MovDetalhe.Qtde          := cdsOFOFQTDEPRODUZ.AsFloat
+      else
+        FMov.MovDetalhe.Qtde          := cdsOfOFQTDESOLIC.AsFloat;
       FMov.MovDetalhe.Lote          := '';
       FMov.MovDetalhe.DtaVcto       := Now;
       FMov.MovDetalhe.DtaFab        := Now;
@@ -689,8 +695,8 @@ begin
       fCom.CodMov               := codMovEntrada;
       fCom.DataCompra           := Now;
       fCom.DataVcto             := Now;
-      fCom.Serie                := 'I';
-      fCom.NotaFiscal           := codMovEntrada;
+      fCom.Serie                := cdsOfOFID_IND.AsString;
+      fCom.NotaFiscal           := cdsOfOFID.AsInteger;
       fCom.CodFornecedor        := 0;
       fCom.CodComprador         := 1;
       fCom.CodUsuario           := 1;
