@@ -3520,21 +3520,24 @@ begin
       exit
     else
     }
+    pCusto := 0;
       if (sqlCusto.Active) then
         sqlCusto.Close;
       sqlCusto.SQL.Clear;
       sqlCusto.SQL.Add('SELECT FIRST 1 COALESCE(P.PRECOMEDIO, 0) PRECOMEDIO, ' +
-        ' COALESCE(M.VLR_BASE, 0) VLR_BASE, COALESCE(P.VALORMINIMO, 0) VALORMINIMO' +
+        ' COALESCE(P.VALORUNITARIOATUAL, 0) PRECOCOMPRA, ' +
+        ' COALESCE(P.VALORMINIMO, 0) VALORMINIMO' +
         ' FROM PRODUTOS P ' +
         ' left outer join MOVIMENTODETALHE M on m.CODPRODUTO = p.CODPRODUTO ' +
         ' WHERE m.CODPRODUTO   = ' + InttoStr(cds_Mov_detCODPRODUTO.AsInteger) +
         //'   AND m.baixa      = 0 ' +
         ' order by m.CODDETALHE desc');
       sqlCusto.Open;
-      if (sqlCusto.FieldByName('VLR_BASE').AsFloat > 0) then
-        pCusto := sqlCusto.FieldByName('VLR_BASE').AsFloat;
-      if (pCusto = 0) then
-        pCusto := sqlCusto.FieldByName('PRECOMEDIO').AsFloat;
+      //if (sqlCusto.FieldByName('VLR_BASE').AsFloat > 0) then
+      //  pCusto := sqlCusto.FieldByName('VLR_BASE').AsFloat;
+      pCusto := sqlCusto.FieldByName('PRECOMEDIO').AsFloat;
+      if (pcusto = 0) then
+        pCusto := sqlCusto.FieldByName('PRECOCOMPRA').AsFloat;
       if (pCusto > 0) then
       begin
         margem := cds_Mov_detPRECO.AsFloat / pCusto;
