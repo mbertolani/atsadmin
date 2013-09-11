@@ -1,6 +1,6 @@
 inherited fParametro: TfParametro
   Left = 211
-  Top = 127
+  Top = 128
   Width = 834
   Height = 603
   OldCreateOrder = True
@@ -27,8 +27,8 @@ inherited fParametro: TfParametro
     Left = 0
     Top = 8
     Width = 817
-    Height = 505
-    ActivePage = TabSheet2
+    Height = 513
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -425,8 +425,8 @@ inherited fParametro: TfParametro
           Caption = 'C'#243'd.:'
         end
         object BitBtn33: TBitBtn
-          Left = 560
-          Top = 20
+          Left = 578
+          Top = 16
           Width = 76
           Height = 25
           Caption = 'Gravar'
@@ -562,20 +562,17 @@ inherited fParametro: TfParametro
         end
       end
       object GroupBox39: TGroupBox
-<<<<<<< .mine        Left = 384
-        Top = 64
-        Width = 417
-=======        Left = 312
-        Top = 7
-        Width = 423
->>>>>>> .theirs        Height = 89
+        Left = 8
+        Top = 279
+        Width = 729
+        Height = 52
         Caption = 'Utilizar a mesma N'#250'mera'#231#227'o da Finaliza'#231#227'o da Venda'
         TabOrder = 5
         object BitBtn42: TBitBtn
-          Left = 332
-          Top = 59
-          Width = 76
-          Height = 21
+          Left = 581
+          Top = 17
+          Width = 77
+          Height = 25
           Caption = 'Gravar'
           TabOrder = 0
           OnClick = BitBtn42Click
@@ -583,8 +580,8 @@ inherited fParametro: TfParametro
         object rgMesmoNumero: TRadioGroup
           Left = 6
           Top = 11
-          Width = 404
-          Height = 45
+          Width = 417
+          Height = 38
           Columns = 2
           ItemIndex = 0
           Items.Strings = (
@@ -2814,28 +2811,57 @@ inherited fParametro: TfParametro
         TabOrder = 10
         OnClick = rgNfeClick
       end
-      object RadioGroup5: TJvRadioGroup
-        Left = 3
-        Top = 433
-        Width = 185
-        Height = 41
-        Caption = 'Usa Lista de Pre'#231'o por Cliente'
-        Columns = 2
-        ItemIndex = 0
-        Items.Strings = (
-          'N'#227'o'
-          'Sim')
+      object GroupBox41: TGroupBox
+        Left = 0
+        Top = 431
+        Width = 769
+        Height = 51
+        Caption = 'Lista de Pre'#231'o'
         TabOrder = 11
-        CaptionVisible = True
-      end
-      object LISTAPRECOGrava: TBitBtn
-        Left = 189
-        Top = 448
-        Width = 75
-        Height = 25
-        Caption = 'Gravar'
-        TabOrder = 12
-        OnClick = LISTAPRECOGravaClick
+        object Label65: TLabel
+          Left = 251
+          Top = 15
+          Width = 105
+          Height = 13
+          Caption = 'Lista de Pre'#231'o Padrao'
+        end
+        object Label66: TLabel
+          Left = 251
+          Top = 27
+          Width = 114
+          Height = 13
+          Caption = 'informe o c'#243'digo da lista'
+        end
+        object LISTAPRECOGrava: TBitBtn
+          Left = 690
+          Top = 22
+          Width = 75
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = LISTAPRECOGravaClick
+        end
+        object RadioGroup5: TJvRadioGroup
+          Left = 4
+          Top = 14
+          Width = 189
+          Height = 33
+          Caption = 'Usa Lista de Pre'#231'o por Cliente'
+          Columns = 2
+          ItemIndex = 0
+          Items.Strings = (
+            'N'#227'o'
+            'Sim')
+          TabOrder = 1
+          CaptionVisible = True
+        end
+        object edCodigoListaPadrao: TEdit
+          Left = 372
+          Top = 19
+          Width = 69
+          Height = 21
+          TabOrder = 2
+        end
       end
     end
     object TabSheet8: TTabSheet
@@ -2916,7 +2942,7 @@ inherited fParametro: TfParametro
         Left = 0
         Top = 0
         Width = 169
-        Height = 477
+        Height = 485
         Align = alLeft
         Pages = <
           item
@@ -3106,7 +3132,7 @@ inherited fParametro: TfParametro
         Left = 0
         Top = 0
         Width = 809
-        Height = 477
+        Height = 485
         ActivePage = ts1
         Align = alClient
         TabOrder = 0
@@ -3792,7 +3818,7 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 515
+    Top = 522
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
@@ -3839,7 +3865,7 @@ inherited fParametro: TfParametro
   object ImageList1: TImageList
     Height = 17
     Width = 22
-    Left = 400
+    Left = 280
     Top = 32
     Bitmap = {
       494C010111001300040016001100FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
