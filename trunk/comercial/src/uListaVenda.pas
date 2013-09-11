@@ -12,11 +12,6 @@ uses
 type
   TfListaVenda = class(TfPai)
     gbLista: TGroupBox;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    dbNomeLista: TDBEdit;
     cdsLista_det: TClientDataSet;
     dspLista_det: TDataSetProvider;
     sdsLista_det: TSQLDataSet;
@@ -28,16 +23,12 @@ type
     sdsListaVendaNOMELISTA: TStringField;
     sdsListaVendaVALIDADE: TDateField;
     sdsListaVendaDATAINICIAL: TDateField;
-    dbDataInicial: TJvDBDatePickerEdit;
-    dbDataFinal: TJvDBDatePickerEdit;
-    dbValidade: TJvDBDatePickerEdit;
     sdsListaVendaDATAFINAL: TDateField;
     cdsListaVendaCODLISTA: TIntegerField;
     cdsListaVendaNOMELISTA: TStringField;
     cdsListaVendaVALIDADE: TDateField;
     cdsListaVendaDATAINICIAL: TDateField;
     cdsListaVendaDATAFINAL: TDateField;
-    btnTodosProd: TButton;
     scds_produto_proc: TSQLDataSet;
     scds_produto_procCODPRODUTO: TIntegerField;
     scds_produto_procCODPRO: TStringField;
@@ -76,25 +67,41 @@ type
     cdsLista_detPRODUTO: TStringField;
     GroupBox1: TGroupBox;
     dbgDetalhe: TDBGrid;
-    DBEdit1: TDBEdit;
     Label7: TLabel;
+    DBEdit1: TDBEdit;
+    chkPermite: TDBCheckBox;
+    Label13: TLabel;
+    DBEdit7: TDBEdit;
+    Label14: TLabel;
+    Label12: TLabel;
     Label8: TLabel;
     Label9: TLabel;
     Label10: TLabel;
     Label11: TLabel;
-    chkMargem: TDBCheckBox;
-    chkDesconto: TDBCheckBox;
-    chkPermite: TDBCheckBox;
+    DBEdit8: TDBEdit;
     DBEdit6: TDBEdit;
-    Label12: TLabel;
-    DBEdit7: TDBEdit;
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
     DBEdit5: TDBEdit;
-    Label13: TLabel;
-    DBEdit8: TDBEdit;
-    Label14: TLabel;
+    chkDesconto: TDBCheckBox;
+    chkMargem: TDBCheckBox;
+    Panel1: TPanel;
+    Label15: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    DBEdit9: TDBEdit;
+    dbNomeLista: TDBEdit;
+    dbDataInicial: TJvDBDatePickerEdit;
+    dbDataFinal: TJvDBDatePickerEdit;
+    dbValidade: TJvDBDatePickerEdit;
+    btnTodosProd: TButton;
+    sdsLista_detCODPRO: TStringField;
+    cdsLista_detCODPRO: TStringField;
+    edMargem: TEdit;
+    Label16: TLabel;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -106,6 +113,8 @@ type
     procedure chkMargemClick(Sender: TObject);
     procedure dtsrcDetDataChange(Sender: TObject; Field: TField);
     procedure btnProcurarClick(Sender: TObject);
+    procedure dbgDetalheKeyPress(Sender: TObject; var Key: Char);
+    procedure btnIncluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -124,20 +133,18 @@ uses UDm, uProcurar_nf, UDMNF, uListaVendaProc;
 procedure TfListaVenda.DtSrcStateChange(Sender: TObject);
 begin
   inherited;
-  if (DtSrc.State in [dsEdit, dsInsert]) then
+  {if (dtsrcDet.State in [dsEdit, dsInsert]) then
   begin
     dbDataInicial.Enabled := True;
     dbDataFinal.Enabled := True;
     dbValidade.Enabled := True;
-    if(not cdsLista_det.Active) then
-      cdsLista_det.Open;
   end
   else
   begin
     dbDataInicial.Enabled := False;
     dbDataFinal.Enabled := False;
     dbValidade.Enabled := False;
-  end;
+  end;}
 end;
 
 procedure TfListaVenda.FormCreate(Sender: TObject);
@@ -146,6 +153,7 @@ begin
 end;
 
 procedure TfListaVenda.btnGravarClick(Sender: TObject);
+var linhacds: integer;
 begin
   if (cdsListaVendaCODLISTA.AsInteger = 1999999) then
   begin
@@ -156,31 +164,57 @@ begin
     cdsListaVendaCODLISTA.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
     dm.c_6_genid.Close;
   end;
-  inherited;
 
-  cdsLista_det.First;
-  while not cdsLista_det.Eof do
+  if (DtSrc.State in [dsInsert]) then
   begin
-    if (cdsLista_detCODLISTA.AsInteger = 1999999) then
+    cdsListaVenda.ApplyUpdates(0);
+    cdsLista_det.First;
+    cdsLista_det.DisableControls;
+    linhacds := cdsLista_det.RecNo;
+    while not cdsLista_det.Eof do
     begin
-      if not (cdsLista_det.State in [dsEdit, dsInsert]) then
-        cdsLista_det.Edit;
-      cdsLista_detCODLISTA.AsInteger := cdsListaVendaCODLISTA.AsInteger;
-    end;
-    if (cdsLista_detCODLISTADET.AsInteger >= 1999999) then
-    begin
-      if not (cdsLista_det.State in [dsEdit, dsInsert]) then
-        cdsLista_det.Edit;    
-      if dm.c_6_genid.Active then
+      if (cdsLista_detCODLISTA.AsInteger = 1999999) then
+      begin
+        if (cdsLista_det.State in [dsBrowse, dsInactive]) then
+          cdsLista_det.Edit;
+        cdsLista_detCODLISTA.AsInteger := cdsListaVendaCODLISTA.AsInteger;
+      end;
+      if (cdsLista_detCODLISTADET.AsInteger >= 1999999) then
+      begin
+        if (cdsLista_det.State in [dsBrowse, dsInactive]) then
+          cdsLista_det.Edit;
+        if dm.c_6_genid.Active then
+          dm.c_6_genid.Close;
+        dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENLISTVEN_DET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
+        dm.c_6_genid.Open;
+        cdsLista_detCODLISTADET.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
         dm.c_6_genid.Close;
-      dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GENLISTVEN_DET, 1) AS INTEGER) AS CODIGO FROM RDB$DATABASE';
-      dm.c_6_genid.Open;
-      cdsLista_detCODLISTADET.AsInteger := dm.c_6_genid.Fields[0].AsInteger;
-      dm.c_6_genid.Close;
+        DecimalSeparator := '.';
+        dm.sqlsisAdimin.ExecuteDirect('INSERT INTO LISTAPRECO_VENDADET (CODLISTADET, ' +
+          ' CODLISTA, CODPRODUTO, PRODUTO, PRECOVENDA)  VALUES ( ' +
+        IntToStr(cdsLista_detCODLISTADET.AsInteger) + ', ' +
+        IntToStr(cdsListaVendaCODLISTA.AsInteger) + ', ' +
+        IntToStr(cdsLista_detCODPRODUTO.AsInteger) + ', ' +
+        QuotedStr(cdsLista_detPRODUTO.AsString) + ', ' +
+        FloatToStr(cdsLista_detPRECOVENDA.AsFloat) + ')');
+        DecimalSeparator := ',';
+      end;
+      //cdsLista_det.ApplyUpdates(0);
+      cdsLista_det.Next;
     end;
-    cdsLista_det.Next;
+    cdsLista_det.RecNo := linhacds;
+    cdsLista_det.EnableControls;
   end;
-  cdsLista_det.ApplyUpdates(0);
+  inherited;
+  if (cdsLista_det.State in [dsEdit, dsInsert]) then
+  begin
+    DecimalSeparator := '.';
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET PRECOVENDA = ' +
+    floatToStr(cdsLista_detPRECOVENDA.AsFloat) + ' WHERE CODLISTADET = ' +
+      IntToStr(cdsLista_detCODLISTADET.AsInteger));
+    DecimalSeparator := ',';
+    cdsLista_det.Post;
+  end;
 end;
 
 procedure TfListaVenda.dbValidadeExit(Sender: TObject);
@@ -191,6 +225,7 @@ begin
 end;
 
 procedure TfListaVenda.btnTodosProdClick(Sender: TObject);
+//var margem: double;
 begin
   if(not scds_produto_proc.Active) then
     scds_produto_proc.Open;
@@ -203,6 +238,8 @@ begin
     cdsLista_detCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
     cdsLista_detESTOQUE.AsFloat := scds_produto_procESTOQUEATUAL.AsFloat;
     cdsLista_detPRECOCOMPRA.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
+    //if (edMargem.Text <> '') then
+    //  margem := 0;
     cdsLista_detPRECOVENDA.AsFloat := scds_produto_procVALORUNITARIOATUAL.AsFloat;
     cdsLista_detPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
     cdsLista_detALTPRECO.AsString := 'F';
@@ -212,6 +249,7 @@ begin
     cdsLista_detMARGEM.AsString := 'F';
     cdsLista_detMARGEMMAX.AsFloat := 0;
     cdsLista_detMARGEMMIN.AsFloat := 0;
+    cdsLista_det.Post;
     scds_produto_proc.Next;
   end;
 
@@ -307,6 +345,27 @@ begin
     cdsLista_det.Open;
     fListaVendaProc.Free;
   end;
+end;
+
+procedure TfListaVenda.dbgDetalheKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if (key = #13) then
+  begin
+    DecimalSeparator := '.';
+    dm.sqlsisAdimin.ExecuteDirect('UPDATE LISTAPRECO_VENDADET SET PRECOVENDA = ' +
+      floatToStr(cdsLista_detPRECOVENDA.AsFloat) + ' WHERE CODLISTADET = ' +
+      IntToStr(cdsLista_detCODLISTADET.AsInteger));
+    DecimalSeparator := ',';
+    cdsLista_det.Next;
+ end;
+
+end;
+
+procedure TfListaVenda.btnIncluirClick(Sender: TObject);
+begin
+  inherited;
+  dbNomeLista.SetFocus;
 end;
 
 end.
