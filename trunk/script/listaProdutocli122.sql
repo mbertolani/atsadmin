@@ -82,6 +82,9 @@ begin
        
        if (codListaCli is null) then 
          codListaCli = 0;
+
+       if (codListaCli > 0) then   
+         codLista = codListaCli;        
          
        if (codListaCli = 0) then 
        begin
