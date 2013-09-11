@@ -337,8 +337,6 @@ type
     cbCupom: TCheckBox;
     Label60: TLabel;
     edtConsumidor: TEdit;
-    RadioGroup5: TJvRadioGroup;
-    LISTAPRECOGrava: TBitBtn;
     rgCadastroCliente: TRadioGroup;
     GroupBox38: TGroupBox;
     Label61: TLabel;
@@ -360,6 +358,12 @@ type
     GroupBox40: TGroupBox;
     RadioGroup4: TRadioGroup;
     BitBtn43: TBitBtn;
+    GroupBox41: TGroupBox;
+    LISTAPRECOGrava: TBitBtn;
+    RadioGroup5: TJvRadioGroup;
+    Label65: TLabel;
+    edCodigoListaPadrao: TEdit;
+    Label66: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -703,6 +707,8 @@ begin
     begin
       RadioGroup5.ItemIndex := 1;
     end;
+    if (dm.cds_paramD4.AsString <> '') then
+      edCodigoListaPadrao.Text := dm.cds_paramD4.AsString;
   end;
   if (dm.cds_param.Locate('PARAMETRO','CADASTROVEICULO', [loCaseInsensitive])) then
   begin
@@ -2072,11 +2078,23 @@ begin
   begin
     strsql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, DADOS, D1, D2)' +
       ' VALUES (' + QuotedStr('Margem de venda Minima permitida por Pedido') + ', ' +
-      QuotedStr('MARGEMVENDA') + ', ' + QuotedStr('S') + ', NULL,' + QuotedStr(MaskEdit4.Text) +
+      QuotedStr('MARGEMVENDA') + ', ';
+    if (ComboBox1.ItemIndex = 0) then
+      strsql := strsql + QuotedStr('S')
+    else
+      strsql := strsql + QuotedStr('N');
+    strsql := strsql + ', NULL,' + QuotedStr(MaskEdit4.Text) +
       ', NULL)';
   end
   else
-    strsql := 'UPDATE PARAMETRO SET D1 = ' + QuotedStr(MaskEdit4.Text) + ' WHERE PARAMETRO = ' + QuotedStr('MARGEMVENDA');
+    strsql := 'UPDATE PARAMETRO SET CONFIGURADO = ';
+    if (ComboBox1.ItemIndex = 0) then
+      strsql := strsql + QuotedStr('S')
+    else
+      strsql := strsql + QuotedStr('N');
+
+    strsql := strsql + ', D1 = ' + QuotedStr(MaskEdit4.Text) +
+     ' WHERE PARAMETRO = ' + QuotedStr('MARGEMVENDA');
 
   dm.sqlsisAdimin.ExecuteDirect(strsql);
   Try
@@ -5051,7 +5069,7 @@ begin
   s_parametro.Open;
   if (s_parametro.IsEmpty) then
   begin
-    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D4';
     strSql := strSql + ') VALUES (';
     strSql := strSql + QuotedStr('Utiliza Lista de Preço por cliente') + ', ';
     strSql := strSql + QuotedStr('LISTAPRECO') + ', ';
@@ -5059,6 +5077,10 @@ begin
       strSql := strSql + QuotedStr('S');
     if (RadioGroup5.ItemIndex = 0) then
       strSql := strSql + QuotedStr('N');
+    if (edCodigoListaPadrao.Text <> '') then
+      strSql := strSql + ', ' + edCodigoListaPadrao.Text
+    else
+      strSql := strSql + ', null';
     strSql := strSql + ')';
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -5077,6 +5099,8 @@ begin
       strSql := strSql + QuotedStr('S');
     if (RadioGroup5.ItemIndex = 0) then
       strSql := strSql + QuotedStr('N');
+    if (edCodigoListaPadrao.Text <> '') then
+      strSql := strSql + ', D4 = ' + edCodigoListaPadrao.Text;
     strSql := strSql + ' where PARAMETRO = ' + QuotedStr('LISTAPRECO');
     dm.sqlsisAdimin.StartTransaction(TD);
     dm.sqlsisAdimin.ExecuteDirect(strSql);
@@ -5213,9 +5237,9 @@ begin
   Try
     dm.cds_parametro.Edit;
     if (rgMesmoNumero.ItemIndex = 0) then
-      dm.cds_parametroCONFIGURADO.AsString := 'S';
-    if (rgMesmoNumero.ItemIndex = 1) then
       dm.cds_parametroCONFIGURADO.AsString := 'N';
+    if (rgMesmoNumero.ItemIndex = 1) then
+      dm.cds_parametroCONFIGURADO.AsString := 'S';
 
     dm.cds_parametro.ApplyUpdates(0);
 
