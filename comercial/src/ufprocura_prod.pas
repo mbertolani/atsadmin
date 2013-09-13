@@ -1304,26 +1304,7 @@ begin
       end
       else
       begin
-        fLotes := TfLotes.Create(Application);
-        try
-          if fLotes.cdslotes.Active then
-            fLotes.cdslotes.Close;
-          fLotes.cdslotes.Params[0].AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-          fLotes.cdslotes.Open;
-          if fLotes.cdslotes.IsEmpty then
-          begin
-            fLotes.cdslotes.Append;
-            fLotes.cdslotesCODPRODUTO.AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-            fLotes.cdslotesCODPROD.AsString := fProcura_prod.cds_procCODPRO.AsString;
-            fLotes.cdslotesPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
-            //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
-          end;
-          fLotes.btnProdutoProcura.Enabled := False;
-          var_F := 'procura';
-          fLotes.ShowModal;
-        finally
-          fLotes.Free;
-        end;
+        fCompra.cds_Mov_detLOTE.AsString := fCompra.cds_MovimentoCONTROLE.AsString;
       end;
       var_F := 'compra';
     end;
