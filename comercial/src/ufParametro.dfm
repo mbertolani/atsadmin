@@ -2,7 +2,7 @@ inherited fParametro: TfParametro
   Left = 211
   Top = 128
   Width = 834
-  Height = 603
+  Height = 611
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -205,7 +205,7 @@ inherited fParametro: TfParametro
       end
       object GroupBox9: TGroupBox
         Left = 2
-        Top = 331
+        Top = 291
         Width = 769
         Height = 45
         Caption = 
@@ -285,8 +285,8 @@ inherited fParametro: TfParametro
         end
       end
       object GroupBox13: TGroupBox
-        Left = 4
-        Top = 380
+        Left = 2
+        Top = 340
         Width = 769
         Height = 45
         Caption = 
@@ -356,6 +356,60 @@ inherited fParametro: TfParametro
           Height = 21
           TabOrder = 2
         end
+      end
+      object gbOP: TGroupBox
+        Left = 2
+        Top = 390
+        Width = 287
+        Height = 48
+        Caption = 'Serie Ordem de Produ'#231#227'o/Apontamento'
+        TabOrder = 5
+        object lblSerie: TLabel
+          Left = 10
+          Top = 29
+          Width = 24
+          Height = 13
+          Caption = 'S'#233'rie'
+        end
+        object btnGravarOP: TBitBtn
+          Left = 200
+          Top = 20
+          Width = 76
+          Height = 25
+          Caption = 'Gravar'
+          TabOrder = 0
+          OnClick = btnGravarOPClick
+        end
+        object edtOP: TEdit
+          Left = 40
+          Top = 23
+          Width = 121
+          Height = 21
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object btnOp: TBitBtn
+          Left = 166
+          Top = 20
+          Width = 26
+          Height = 25
+          Caption = '...'
+          TabOrder = 2
+          OnClick = btnOpClick
+        end
+      end
+      object rgEntSaiObg: TRadioGroup
+        Left = 296
+        Top = 390
+        Width = 287
+        Height = 48
+        Caption = 'Entrada e Saida Obriga'#243'rios nas Movimenta'#231#245'es'
+        Columns = 2
+        Items.Strings = (
+          'N'#227'o'
+          'Sim')
+        TabOrder = 6
+        OnClick = rgEntSaiObgClick
       end
     end
     object TabSheet3: TTabSheet
@@ -622,7 +676,7 @@ inherited fParametro: TfParametro
       object rgDataNF: TRadioGroup
         Left = 8
         Top = 224
-        Width = 241
+        Width = 225
         Height = 49
         Caption = 'Verifica se Data N.F. difere da atual.'
         Columns = 2
@@ -632,6 +686,19 @@ inherited fParametro: TfParametro
           'Sim')
         TabOrder = 7
         OnClick = rgDataNFClick
+      end
+      object rgNfe: TRadioGroup
+        Left = 240
+        Top = 224
+        Width = 225
+        Height = 49
+        Caption = 'Envia Email NFe Autom'#225'ticamente'
+        Columns = 2
+        Items.Strings = (
+          'N'#227'o'
+          'Sim')
+        TabOrder = 8
+        OnClick = rgNfeClick
       end
     end
     object TabSheet2: TTabSheet
@@ -2798,26 +2865,13 @@ inherited fParametro: TfParametro
         TabOrder = 9
         OnClick = rgBloqueioClick
       end
-      object rgNfe: TRadioGroup
-        Left = 544
-        Top = 383
-        Width = 225
-        Height = 48
-        Caption = 'Envia Email NFe Autom'#225'ticamente'
-        Columns = 2
-        Items.Strings = (
-          'Sim'
-          'N'#227'o')
-        TabOrder = 10
-        OnClick = rgNfeClick
-      end
       object GroupBox41: TGroupBox
         Left = 0
         Top = 431
         Width = 769
         Height = 51
         Caption = 'Lista de Pre'#231'o'
-        TabOrder = 11
+        TabOrder = 10
         object Label65: TLabel
           Left = 251
           Top = 15
@@ -2838,7 +2892,7 @@ inherited fParametro: TfParametro
           Width = 75
           Height = 25
           Caption = 'Gravar'
-          TabOrder = 0
+          TabOrder = 2
           OnClick = LISTAPRECOGravaClick
         end
         object RadioGroup5: TJvRadioGroup
@@ -2860,7 +2914,7 @@ inherited fParametro: TfParametro
           Top = 19
           Width = 69
           Height = 21
-          TabOrder = 2
+          TabOrder = 0
         end
       end
     end
@@ -3818,7 +3872,7 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 522
+    Top = 523
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
