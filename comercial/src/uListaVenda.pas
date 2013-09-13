@@ -115,6 +115,7 @@ type
     procedure btnProcurarClick(Sender: TObject);
     procedure dbgDetalheKeyPress(Sender: TObject; var Key: Char);
     procedure btnIncluirClick(Sender: TObject);
+    procedure cdsLista_detBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -165,7 +166,7 @@ begin
     dm.c_6_genid.Close;
   end;
 
-  if (DtSrc.State in [dsInsert]) then
+  if (DtSrc.State in [dsInsert, dsEdit]) then
   begin
     cdsListaVenda.ApplyUpdates(0);
     cdsLista_det.First;
@@ -227,7 +228,9 @@ end;
 procedure TfListaVenda.btnTodosProdClick(Sender: TObject);
 //var margem: double;
 begin
-  if(not scds_produto_proc.Active) then
+  if(scds_produto_proc.Active) then
+    scds_produto_proc.Close;
+  scds_produto_proc.Params[0].AsInteger :=cdsListaVendaCODLISTA.AsInteger;
     scds_produto_proc.Open;
   if(not cdsLista_det.Active) then
     cdsLista_det.Open;
@@ -366,6 +369,13 @@ procedure TfListaVenda.btnIncluirClick(Sender: TObject);
 begin
   inherited;
   dbNomeLista.SetFocus;
+end;
+
+procedure TfListaVenda.cdsLista_detBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  if  (DtSrc.State in [dsBrowse]) then
+    cdsListaVenda.Edit;
 end;
 
 end.

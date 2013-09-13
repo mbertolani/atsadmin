@@ -394,6 +394,7 @@ inherited fListaVenda: TfListaVenda
         ParamType = ptInput
       end>
     ProviderName = 'dspLista_det'
+    BeforePost = cdsLista_detBeforePost
     OnNewRecord = cdsLista_detNewRecord
     Left = 109
     Top = 278
@@ -601,11 +602,18 @@ inherited fListaVenda: TfListaVenda
   end
   object scds_produto_proc: TSQLDataSet
     CommandText = 
-      'select CODPRODUTO, CODPRO, PRODUTO, VALORUNITARIOATUAL, VALOR_PR' +
-      'AZO, VALORMINIMO, ESTOQUEATUAL '#13#10'FROM PRODUTOS '#13#10'where ((usa is ' +
-      'null) or (usa = '#39'S'#39'))'
+      'select p.CODPRODUTO, p.CODPRO, p.PRODUTO, p.VALORUNITARIOATUAL, ' +
+      'p.VALOR_PRAZO, p.VALORMINIMO, p.ESTOQUEATUAL '#13#10'FROM PRODUTOS p'#13#10 +
+      'where ((usa is null) or (usa = '#39'S'#39'))'#13#10'and not exists( select lp.' +
+      'codproduto from LISTAPRECO_VENDADET lp where lp.codproduto = p.c' +
+      'odproduto and lp.CODLISTA = :COD )'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'COD'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 206
     Top = 130
