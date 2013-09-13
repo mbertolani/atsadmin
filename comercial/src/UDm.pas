@@ -1972,6 +1972,8 @@ type
     cds_produtoPESO_LIQ: TFloatField;
     sds_cfopTOTTRIB: TStringField;
     cds_cfopTOTTRIB: TStringField;
+    scds_produto_procORIGEM: TStringField;
+    scds_produto_procNCM: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2067,6 +2069,8 @@ type
     Function NomeComputador: string;
     function validaCfop(cfop: String):Boolean;
     Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
+    function pesquisaCfopAUsar(codProduto: Integer; UF: String; codFiscal: String;
+      origem: Integer; NCM: String):String;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
     pc: String; valorAnt: String; valorPos: String; campoChave: String; acao: String);
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
@@ -3374,6 +3378,37 @@ begin
   ThreadEstoque := TEstoqueAtualiza.Create(True);
   ThreadEstoque.FreeOnTerminate := True;
   ThreadEstoque.Resume;
+end;
+
+function TDM.pesquisaCfopAUsar(codProduto: Integer; UF, codFiscal: String;
+  origem: Integer; NCM: String): String;
+begin
+  result := '';
+  // ve se tem CFOP por Produto
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('SELECT CFOP FROM CLASSIFICACAOFISCALPRODUTO ' +
+    ' WHERE COD_PROD = ' + IntToStr(codProduto) +
+    '   AND UF = '  + QuotedStr(UF));
+  sqlBusca.Open;
+  if (not sqlBusca.IsEmpty) then
+    result := sqlBusca.fieldByName('CFOP').AsString
+  else begin
+    // nao achou por produto busca por NCM
+    if (sqlBusca.Active) then
+      sqlBusca.Close;
+    sqlBusca.SQL.Clear;
+    sqlBusca.SQL.Add('SELECT CFOP FROM CLASSIFICACAOFISCALNCM ' +
+      ' WHERE NCM = ' + QuotedStr(NCM) +
+      '   AND UF = '  + QuotedStr(UF) +
+      '   AND CODFISCAL = ' + QuotedStr(codFiscal) +
+      '   AND ORIGEM = '  + IntToStr(origem));
+    sqlBusca.Open;
+    if (not sqlBusca.IsEmpty) then
+      result := sqlBusca.fieldByName('CFOP').AsString;
+  end;
+
 end;
 
 end.

@@ -1,10 +1,10 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 2
-  Top = 2
-  Height = 739
-  Width = 1206
+  Left = 4
+  Top = 31
+  Height = 738
+  Width = 1201
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_warongsp'
+      'Database=quad:sge_stal'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
@@ -780,10 +780,10 @@ object DM: TDM
       'select CODPRODUTO'#13#10', CODPRO'#13#10', PRODUTO'#13#10', UNIDADEMEDIDA'#13#10', QTDE_' +
       'PCT'#13#10', ICMS'#13#10', CODALMOXARIFADO'#13#10', PRECO_COMPRAULTIMO as  VALORUN' +
       'ITARIOATUAL'#13#10', PRECO_VENDA AS VALOR_PRAZO'#13#10', TIPO  '#13#10', ESTOQUEAT' +
-      'UAL '#13#10', LOCALIZACAO'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
-      ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS'#13#10'from' +
-      ' LISTAPRODUTO(:CODPRODUTO, :CODPRO, '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUP' +
-      'OS'#39','#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39',0)'#13#10
+      'UAL '#13#10', LOCALIZACAO, NCM'#13#10', LOTES  , PRECO_COMPRAMEDIO AS PRECOM' +
+      'EDIO, PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS,' +
+      ' ORIGEM '#13#10'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, '#39'TODOSGRUPOS'#39',' +
+      ' '#39'TODOSSUBGRUPOS'#39','#39'TODASMARCAS'#39', '#39'TODASAPLICACOES'#39',0)'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -872,6 +872,14 @@ object DM: TDM
     object scds_produto_procOBS: TStringField
       FieldName = 'OBS'
       Size = 300
+    end
+    object scds_produto_procORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      Size = 15
+    end
+    object scds_produto_procNCM: TStringField
+      FieldName = 'NCM'
+      Size = 8
     end
   end
   object proc_empresa: TSQLDataSet
