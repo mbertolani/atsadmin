@@ -1,6 +1,6 @@
 inherited fVendaFinalizar: TfVendaFinalizar
-  Left = 304
-  Top = 184
+  Left = 306
+  Top = 191
   Width = 801
   Height = 571
   Caption = 'Gera Contas a Receber - Finaliza Vendas'
@@ -1748,28 +1748,28 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object Label22: TLabel
       Left = 101
-      Top = 99
+      Top = 100
       Width = 44
       Height = 16
       Caption = 'Seguro'
     end
     object Label23: TLabel
       Left = 292
-      Top = 98
+      Top = 100
       Width = 32
       Height = 16
       Caption = 'ICMS'
     end
     object Label25: TLabel
       Left = 484
-      Top = 97
+      Top = 100
       Width = 15
       Height = 16
       Caption = 'IPI'
     end
     object Label26: TLabel
       Left = 196
-      Top = 99
+      Top = 100
       Width = 39
       Height = 16
       Caption = 'Outros'
@@ -1783,7 +1783,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object Label40: TLabel
       Left = 389
-      Top = 98
+      Top = 100
       Width = 53
       Height = 16
       Caption = 'ICMS ST'
@@ -2013,7 +2013,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object DBEdit19: TDBEdit
       Left = 482
-      Top = 115
+      Top = 116
       Width = 90
       Height = 24
       Color = clScrollBar
@@ -2072,7 +2072,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
     end
     object DBEdit21: TDBEdit
       Left = 386
-      Top = 115
+      Top = 116
       Width = 90
       Height = 24
       Color = clScrollBar
@@ -2250,7 +2250,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
   end
   object MMJPanel3: TMMJPanel [6]
     Left = 0
-    Top = 500
+    Top = 507
     Width = 793
     Height = 37
     Align = alBottom

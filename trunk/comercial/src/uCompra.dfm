@@ -37,7 +37,7 @@ inherited fCompra: TfCompra
     Caption = 'Obs.:'
   end
   object Label11: TLabel [3]
-    Left = 108
+    Left = 110
     Top = 470
     Width = 74
     Height = 16
@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 795
+    Width = 812
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1015,8 +1015,8 @@ inherited fCompra: TfCompra
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 556
-    Width = 795
+    Top = 561
+    Width = 812
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -1044,7 +1044,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox1: TGroupBox [10]
     Left = 0
-    Top = 63
+    Top = 62
     Width = 425
     Height = 50
     Cursor = crHandPoint
@@ -1176,7 +1176,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox2: TGroupBox [11]
     Left = 489
-    Top = 63
+    Top = 62
     Width = 184
     Height = 48
     Caption = 'CENTRO RESULTADO'
@@ -1202,7 +1202,7 @@ inherited fCompra: TfCompra
   end
   object GroupBox3: TGroupBox [12]
     Left = 674
-    Top = 63
+    Top = 62
     Width = 109
     Height = 48
     Caption = 'DATA COMPRA'
@@ -1827,9 +1827,9 @@ inherited fCompra: TfCompra
     end
   end
   object DBEdit13: TDBEdit [19]
-    Left = 54
+    Left = 56
     Top = 497
-    Width = 574
+    Width = 573
     Height = 25
     TabStop = False
     BevelKind = bkFlat
@@ -1847,7 +1847,7 @@ inherited fCompra: TfCompra
     OnKeyPress = FormKeyPress
   end
   object DBEdit15: TDBEdit [20]
-    Left = 53
+    Left = 56
     Top = 468
     Width = 52
     Height = 24
@@ -1866,7 +1866,7 @@ inherited fCompra: TfCompra
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [21]
-    Left = 182
+    Left = 186
     Top = 468
     Width = 178
     Height = 24
@@ -1886,8 +1886,8 @@ inherited fCompra: TfCompra
     OnKeyPress = FormKeyPress
   end
   object SpeedButton1: TBitBtn [22]
-    Left = 367
-    Top = 464
+    Left = 368
+    Top = 466
     Width = 27
     Height = 27
     PopupMenu = PopupMenu1
@@ -2017,7 +2017,7 @@ inherited fCompra: TfCompra
     end
   end
   object edRespAprovacao: TDBEdit [26]
-    Left = 489
+    Left = 490
     Top = 468
     Width = 139
     Height = 24
@@ -2067,8 +2067,8 @@ inherited fCompra: TfCompra
     end
   end
   object btnTransp: TBitBtn [28]
-    Left = 416
-    Top = 526
+    Left = 411
+    Top = 528
     Width = 32
     Height = 25
     Caption = '...'
@@ -2101,9 +2101,9 @@ inherited fCompra: TfCompra
       '9 - Sem Frete')
   end
   object Edit1: TEdit [31]
-    Left = 511
+    Left = 514
     Top = 528
-    Width = 113
+    Width = 114
     Height = 24
     Color = clInfoBk
     ReadOnly = True
@@ -2111,9 +2111,9 @@ inherited fCompra: TfCompra
   end
   object GroupBox11: TGroupBox [32]
     Left = 424
-    Top = 64
+    Top = 62
     Width = 65
-    Height = 49
+    Height = 48
     Cursor = crHandPoint
     Caption = 'CFOP'
     TabOrder = 3
