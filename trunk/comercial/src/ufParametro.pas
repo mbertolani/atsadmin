@@ -281,7 +281,6 @@ type
     Label54: TLabel;
     Label55: TLabel;
     Label56: TLabel;
-    rgNfe: TRadioGroup;
     Pc2: TEdit;
     Pc1: TEdit;
     Pc3: TEdit;
@@ -358,12 +357,18 @@ type
     GroupBox40: TGroupBox;
     RadioGroup4: TRadioGroup;
     BitBtn43: TBitBtn;
-    GroupBox41: TGroupBox;
+    rgNfe: TRadioGroup;
+    gbOP: TGroupBox;
     LISTAPRECOGrava: TBitBtn;
     RadioGroup5: TJvRadioGroup;
-    Label65: TLabel;
+    lblSerie: TLabel;
+    btnGravarOP: TBitBtn;
+    edtOP: TEdit;
     edCodigoListaPadrao: TEdit;
     Label66: TLabel;
+    btnOp: TBitBtn;
+    GroupBox41: TGroupBox;
+    rgEntSaiObg: TRadioGroup;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure DtSrcStateChange(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -457,6 +462,9 @@ type
     procedure rgDataNFClick(Sender: TObject);
     procedure BitBtn42Click(Sender: TObject);
     procedure BitBtn43Click(Sender: TObject);
+    procedure btnOpClick(Sender: TObject);
+    procedure btnGravarOPClick(Sender: TObject);
+    procedure rgEntSaiObgClick(Sender: TObject);
   private
     procedure carregaParametroNotaFiscal;
     { Private declarations }
@@ -1004,7 +1012,13 @@ begin
     edListaCondicao3.Text     := dm.cds_parametroD5.AsString;
     edListaCondicaoCalc3.Text := dm.cds_parametroD6.AsString;
     edCondicaoArredondar.Text := dm.cds_parametroD7.AsString;
-  end;  
+  end;
+
+  if (dm.cds_param.Locate('PARAMETRO','SERIEOP', [loCaseInsensitive])) then
+  begin
+    edtOP.Text := dm.cds_paramD1.AsString;
+  end;
+
 end;
 
 
@@ -4527,7 +4541,7 @@ procedure TfParametro.rgNfeClick(Sender: TObject);
 begin
   inherited;
   strSql := '';
-  if (rgBloqueio.ItemIndex = 0) then  // Mensagem Personalizada de Bloqueio
+  if (rgBloqueio.ItemIndex = 1) then  // Mensagem Personalizada de Bloqueio
   begin
      if (s_parametro.Active) then
        s_parametro.Close;
@@ -5289,6 +5303,104 @@ begin
     if (RadioGroup4.ItemIndex = 1) then
       dm.cds_parametroCONFIGURADO.AsString := 'S';
     dm.cds_parametro.ApplyUpdates(0);
+  end;
+
+end;
+
+procedure TfParametro.btnOpClick(Sender: TObject);
+begin
+  inherited;
+  fProcurar:= TfProcurar.Create(self,scds_serie_proc);
+  fProcurar.BtnProcurar.Click;
+  try
+   fProcurar.EvDBFind1.DataField := 'SERIE';
+   if fProcurar.ShowModal=mrOk then
+     edtOP.Text := scds_serie_procSERIE.AsString;
+   finally
+    scds_serie_proc.Close;
+    fProcurar.Free;
+   end;
+    edtOP.SetFocus;
+end;
+
+procedure TfParametro.btnGravarOPClick(Sender: TObject);
+begin
+  inherited;
+  strSql := '';
+  if (dm.cds_parametro.Active) then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].asString := 'SERIEOP';
+  dm.cds_parametro.Open;
+  // Insere ou Altera a tabela PARAMETROS
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+        strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO, D1';
+        strSql := strSql + ') VALUES (';
+        strSql := strSql + QuotedStr('Serie para ordem de produção/apontamento') + ', ';
+        strSql := strSql + QuotedStr('SERIEOP') + ', ';
+        strSql := strSql + QuotedStr('S') + ', ';
+        strSql := strSql + QuotedStr(edtOP.Text);
+        strSql := strSql + ')';
+        dm.sqlsisAdimin.StartTransaction(TD);
+        dm.sqlsisAdimin.ExecuteDirect(strSql);
+        Try
+           dm.sqlsisAdimin.Commit(TD);
+        except
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+               [mbOk], 0);
+        end;
+  end
+  else
+  begin
+    dm.cds_parametro.Edit;
+    dm.cds_parametroD1.AsString := edtOP.Text;
+    dm.cds_parametro.ApplyUpdates(0);
+  end;
+end;
+
+procedure TfParametro.rgEntSaiObgClick(Sender: TObject);
+begin
+  if(dm.cds_parametro.Active) then
+   dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
+  dm.cds_parametro.Open;
+  if (dm.cds_parametro.IsEmpty) then
+  begin
+    strSql := 'INSERT INTO PARAMETRO (DESCRICAO, PARAMETRO, CONFIGURADO';
+    strSql := strSql + ') VALUES (';
+    strSql := strSql + QuotedStr('Mensagem Personalizada de Bloqueio') + ', ';
+    strSql := strSql + QuotedStr('ENTSAICAMPOBRIG') + ', ';
+    if (rgEntSaiObg.ItemIndex = 1) then
+      strSql := strSql + QuotedStr('S')
+    else
+      strSql := strSql + QuotedStr('N');
+    strSql := strSql + ')';
+    dm.sqlsisAdimin.StartTransaction(TD);
+    dm.sqlsisAdimin.ExecuteDirect(strSql);
+    Try
+       dm.sqlsisAdimin.Commit(TD);
+    except
+       dm.sqlsisAdimin.Rollback(TD);
+       MessageDlg('Erro no sistema, parametro não foi gravado.', mtError,
+           [mbOk], 0);
+    end;
+  end
+  else
+  begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        dm.cds_parametro.Edit;
+        if (rgEntSaiObg.ItemIndex = 1) then
+          dm.cds_parametroCONFIGURADO.AsString := 'S'
+        else
+          dm.cds_parametroCONFIGURADO.AsString := 'N';
+        dm.cds_parametro.ApplyUpdates(0);
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+        MessageDlg('Erro no sistema, parametro não foi gravado.', mtError, [mbOk], 0);
+      end;
   end;
 
 end;
