@@ -687,10 +687,13 @@ type
     { Private declarations }
     procurouProd : String;
     modo :string;
+    origemProdVenda: Integer;
     procedure Margem_Confere;
     procedure insereMatPrima;
     procedure PesquisaProdutos;
   public
+    codFiscalClienteVenda: String;
+    ufClienteVenda: String;  
     conta_local, usalote, matPrima, inseridoMatPrima, vendaexiste, usaprecolistavenda, CODIGOPRODUTO, margemVenda, estoque_negativo : string; //, tipoVenda
     estoque, qtde, mVendaPermi , desconto , prazoCliente , imex : Double;         // mVendaPermi = Margem de venda minima permitida
     procedure buscaServico();
@@ -851,12 +854,12 @@ begin
   if dm.cds_parametroDADOS.AsString = 'S' then
   begin
      DBEdit7.Visible := False;
-     label4.Caption := 'CM';
-     if cds_cm.Active then
+     //label4.Caption := 'CM';
+     {if cds_cm.Active then
         cds_cm.Close;
      cds_cm.Params[0].Clear;
      cds_cm.Params[1].AsInteger := 9999999;
-     cds_cm.Open;
+     cds_cm.Open;}
   end;
 
   {------Pesquisando na tab Parametro Código e Nome da Natureza da Venda---------}
@@ -913,7 +916,7 @@ begin
   if (dm.moduloUsado = 'AUTOMOTIVA') then
   begin
     Itens.Caption := 'Peças/Serviços';
-    bitbtn4.Enabled := False;
+    //bitbtn4.Enabled := False;
     Label4.Caption := 'Com.';
     Label20.Caption := 'Kilometragem';
     Label11.Caption := 'Colab./Técnico';
@@ -1136,7 +1139,7 @@ begin
     dm.scds_cliente_proc.Params[1].Clear;
     dm.scds_cliente_proc.Params[2].Clear;
     dm.scds_cliente_proc.Params[2].AsInteger:=StrToInt(dbeCliente.Text);
-    
+
     dm.scds_cliente_proc.Open;
     if dm.scds_cliente_proc.IsEmpty then begin
       MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
@@ -1537,6 +1540,7 @@ begin
 end;
 
 procedure TfVendas.cds_Mov_detNewRecord(DataSet: TDataSet);
+var cfopProd: String;
 begin
   inherited;
   if (codmd >= 1999999) then
@@ -2674,7 +2678,7 @@ begin
           {================================================================= }
           if (cdsUSALOTE.AsString = 'S') then
           begin
-            if (cdslotes.Active) then           /// foi alterado o cdslotes para cliente Guiomar 
+            if (cdslotes.Active) then           /// foi alterado o cdslotes para cliente Guiomar
               cdslotes.Close;
             cdslotes.Params[0].AsInteger := cdsCODPRODUTO.AsInteger;
             cdslotes.Open;
@@ -2933,6 +2937,9 @@ begin
       begin
         procurouProd := 'S';
         PesquisaProdutos;
+        //BitBtn4.TabStop := False;
+        //if (usalote = 'S') then
+        //  BitBtn4.TabStop := True;
       end;
     end;
   end;
@@ -3624,14 +3631,17 @@ begin
   if (sqlBCfop.Active) then
     sqlBCfop.Close;
 
-  sqlBCfop.SQL.clear;  
-  strCfop := 'select c.cfop, ec.uf from clientes c , enderecocliente ec ' +
+  sqlBCfop.SQL.clear;
+  strCfop := 'select c.CFOP, ec.UF, c.CODFISCAL from clientes c , enderecocliente ec ' +
     'where c.codcliente = ec.codcliente ' +
     '  and ec.tipoend   = 0 ' +
     '  and c.codcliente = ' + IntTostr(codCli);
 
   sqlBCfop.SQL.Add(strCfop);
   sqlBCfop.Open;
+
+  ufClienteVenda := sqlBCfop.FieldByName('UF').AsString;
+  codFiscalClienteVenda := sqlBCfop.FieldByName('CODFISCAL').AsString;
 
   if (dm.ufPadrao = sqlBCfop.Fields[1].AsString) then
   begin
@@ -3695,7 +3705,7 @@ end;
 procedure TfVendas.btnEstoqueVendaClick(Sender: TObject);
 begin
   inherited;
-  pnRelatorio.Visible := False;  
+  pnRelatorio.Visible := False;
   VCLReport1.FileName := str_relatorio + 'pedidoestoque.rep';
   VCLReport1.Title    := VCLReport1.FileName;
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
@@ -3746,7 +3756,7 @@ begin
         ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO' +
         ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
         ', TIPO, ESTOQUEATUAL, LOCALIZACAO, LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
-        ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS ' +
+        ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM ' +
         ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' +
         QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
         QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', ' +
@@ -3771,6 +3781,11 @@ begin
              dm.scds_produto_proc.Close;
            Exit;
         end;
+      origemProdVenda := StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString);
+      cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(dm.scds_produto_procCODPRODUTO.AsInteger,
+        ufClienteVenda, codFiscalClienteVenda, origemProdVenda, dm.scds_produto_procNCM.AsString);
+      if (cds_mov_detCFOP.asString = '') then
+        cds_mov_detCFOP.asString := edCfop.text;
       lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
       cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
       cds_Mov_detDESCPRODUTO.Value := dm.scds_produto_procPRODUTO.Value;
@@ -3827,7 +3842,7 @@ begin
              ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
              ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
              ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
-             ', RATEIO, conta_despesa , IPI, OBS '  +
+             ', RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM '  +
              ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
              ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
              ', ' + QuotedStr('TODASAPLICACOES') + ', ' +
@@ -3860,6 +3875,11 @@ begin
             exit;
           end;
         end;
+        origemProdVenda := dm.scds_produto_proc.fieldByName('ORIGEM').asInteger;
+        cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_Mov_detCODPRODUTO.AsInteger,
+          ufClienteVenda, codFiscalClienteVenda, origemProdVenda, cds_Mov_detNCM.AsString);
+        if (cds_mov_detCFOP.asString = '') then
+          cds_mov_detCFOP.asString := edCfop.text;
 
         if (estoque_negativo = 'TRUE') then // não permito venda com saldo negativo
           if (dm.scds_produto_procESTOQUEATUAL.Value <= 0) then
@@ -3915,7 +3935,7 @@ begin
     finally
       fTroca.Free;
     end;
-  end;  
+  end;
 end;
 
 end.
