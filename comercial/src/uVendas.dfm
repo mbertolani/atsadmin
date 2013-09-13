@@ -1,6 +1,6 @@
 inherited fVendas: TfVendas
   Left = 215
-  Top = 103
+  Top = 106
   Width = 806
   Height = 600
   BorderIcons = [biSystemMenu, biMaximize]
@@ -1443,7 +1443,7 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [16]
     Left = 0
-    Top = 538
+    Top = 545
     Width = 798
     Height = 28
     Align = alBottom
@@ -2039,7 +2039,7 @@ inherited fVendas: TfVendas
       end
       object BitBtn4: TBitBtn
         Left = 0
-        Top = 48
+        Top = 47
         Width = 37
         Height = 26
         Caption = 'Lotes'
@@ -2354,7 +2354,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2408,7 +2408,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2599,8 +2599,8 @@ inherited fVendas: TfVendas
     end
   end
   object pnRelatorio: TPanel [28]
-    Left = 488
-    Top = 56
+    Left = 485
+    Top = 58
     Width = 169
     Height = 97
     TabOrder = 20

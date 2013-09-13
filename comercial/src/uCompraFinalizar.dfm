@@ -1,6 +1,5 @@
 inherited fCompraFinalizar: TfCompraFinalizar
   Left = 172
-  Top = 90
   Width = 809
   Height = 556
   Caption = 'Compras Finalizar'
@@ -1602,7 +1601,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 499
+    Top = 506
     Width = 801
     Height = 23
     Align = alBottom
@@ -1943,7 +1942,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
       ParentFont = False
     end
     object Label24: TLabel
-      Left = 199
+      Left = 212
       Top = 54
       Width = 89
       Height = 13
@@ -2093,7 +2092,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object cbConta: TComboBox
       Left = 4
       Top = 68
-      Width = 189
+      Width = 202
       Height = 24
       ItemHeight = 16
       TabOrder = 7
@@ -2180,8 +2179,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnKeyPress = FormKeyPress
     end
     object BtnCheque: TBitBtn
-      Left = 532
-      Top = 57
+      Left = 539
+      Top = 58
       Width = 70
       Height = 34
       Caption = '&Cheques'
@@ -2195,9 +2194,9 @@ inherited fCompraFinalizar: TfCompraFinalizar
       OnClick = BtnChequeClick
     end
     object ComboBox1: TComboBox
-      Left = 199
+      Left = 208
       Top = 67
-      Width = 202
+      Width = 194
       Height = 24
       ItemHeight = 16
       TabOrder = 8
@@ -2206,7 +2205,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     object DBEdit12: TDBEdit
       Left = 405
       Top = 67
-      Width = 115
+      Width = 131
       Height = 24
       DataField = 'N_DOCUMENTO'
       DataSource = DtSrc
@@ -2252,7 +2251,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
     object CheckBox2: TCheckBox
       Left = 388
-      Top = 13
+      Top = 11
       Width = 25
       Height = 17
       TabOrder = 18
