@@ -1477,11 +1477,23 @@ object fProcura_prod: TfProcura_prod
       'pro.TIPO,  '#13#10'          pro.LOCALIZACAO ,'#13#10'          pro.LOTES ,'#13 +
       #10'          cod.CODIGO, '#13#10'          uso.DESCRICAO as USO , pro.PR' +
       'ECO_COMPRAMEDIO as PRECOMEDIO, pro.PESO_QTDE, pro.IPI ,pro.PEDID' +
-      'O, pro.OBS '#13#10'from LISTAPRODUTOCLI pro '#13#10'left outer join CODIGOS ' +
-      'cod on cod.COD_PRODUTO = pro.CODPRODUTO '#13#10'left outer join USO_PR' +
-      'ODUTO uso on uso.COD_PRODUTO = pro.CODPRODUTO'
+      'O, pro.OBS , pro.ORIGEM, pro.NCM'#13#10'from LISTAPRODUTOCLI(:CODPRODU' +
+      'TO, :CODPRO, '#39'TODOSGRUPOS'#39', '#39'TODOSSUBGRUPOS'#39','#39'TODASMARCAS'#39', 0, '#39 +
+      'TODASAPLICACOES'#39',0) pro '#13#10'left outer join CODIGOS cod on cod.COD' +
+      '_PRODUTO = pro.CODPRODUTO '#13#10'left outer join USO_PRODUTO uso on u' +
+      'so.COD_PRODUTO = pro.CODPRODUTO'
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'CODPRODUTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'CODPRO'
+        ParamType = ptInput
+      end>
     SQLConnection = DM.sqlsisAdimin
     Left = 24
     Top = 200
@@ -1566,6 +1578,16 @@ object fProcura_prod: TfProcura_prod
       FieldName = 'OBS'
       ReadOnly = True
       Size = 300
+    end
+    object sds_procORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      ReadOnly = True
+      Size = 15
+    end
+    object sds_procNCM: TStringField
+      FieldName = 'NCM'
+      ReadOnly = True
+      Size = 8
     end
   end
   object dsp_proc: TDataSetProvider
@@ -1677,6 +1699,16 @@ object fProcura_prod: TfProcura_prod
       FieldName = 'OBS'
       ReadOnly = True
       Size = 300
+    end
+    object cds_procORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      ReadOnly = True
+      Size = 15
+    end
+    object cds_procNCM: TStringField
+      FieldName = 'NCM'
+      ReadOnly = True
+      Size = 8
     end
   end
   object Dtsrc: TDataSource
