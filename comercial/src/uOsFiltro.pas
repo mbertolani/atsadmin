@@ -586,6 +586,14 @@ begin
   sqlMov.Open;
   codMov := sqlMov.Fields[0].AsInteger;
 
+  if (not sqlMov.IsEmpty) then
+  begin
+    if (cdsOsSTATUS.AsString = 'F') then
+    begin
+      TrocaStatus('F', OsServico);
+    end;
+  end;
+
   if (sqlMov.IsEmpty) then
   begin
     // Gera o Movimento e Movimento Detalhe
