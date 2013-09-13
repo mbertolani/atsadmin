@@ -489,27 +489,35 @@ begin
   if (Combobox2.Visible) then
     ComboBox2.Text := ccpadrao;
 
-  if (Edit1.Visible) then
-  begin
-    if (Edit1.Text = '') then
-    begin
-      if scds_serie_proc.Active then
-        scds_serie_proc.Close;
-      scds_serie_proc.Params[0].AsString:='O';
-      scds_serie_proc.Open;
-      Edit1.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
-    end;
-  end;
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
+  dm.cds_parametro.Open;
 
-  if (Edit2.Visible) then
+  if not (dm.cds_parametroCONFIGURADO.AsString = 'S') then
   begin
-    if (Edit2.Text = '') then
+    if (Edit1.Visible) then
     begin
-      if scds_serie_proc.Active then
-        scds_serie_proc.Close;
-      scds_serie_proc.Params[0].AsString:='I';
-      scds_serie_proc.Open;
-      Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+      if (Edit1.Text = '') then
+      begin
+        if scds_serie_proc.Active then
+          scds_serie_proc.Close;
+        scds_serie_proc.Params[0].AsString:='O';
+        scds_serie_proc.Open;
+        Edit1.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+      end;
+    end;
+
+    if (Edit2.Visible) then
+    begin
+      if (Edit2.Text = '') then
+      begin
+        if scds_serie_proc.Active then
+          scds_serie_proc.Close;
+        scds_serie_proc.Params[0].AsString:='I';
+        scds_serie_proc.Open;
+        Edit2.Text := IntToStr(scds_serie_procULTIMO_NUMERO.AsInteger+1);
+      end;
     end;
   end;
 end;
@@ -628,6 +636,36 @@ begin
     dataMov := MaskEdit1.Date;
   if (dbEdit1.Checked) then
     dataMov := dbEdit1.Date;
+
+  if Dm.cds_parametro.Active then
+    dm.cds_parametro.Close;
+  dm.cds_parametro.Params[0].AsString := 'ENTSAICAMPOBRIG';
+  dm.cds_parametro.Open;
+  if (not dm.cds_parametro.IsEmpty) then
+  begin
+    if ( (Edit1.Text = '') and (Edit1.Visible = true) ) then
+    begin
+      if (cds_Mov_detLOTE.AsString = '')then
+        MessageBox(0, 'Lote e Código de Saida obrigatórios.', '', MB_ICONWARNING or MB_OK)
+      else
+        MessageBox(0, 'Código de Saida obrigatório.', '', MB_ICONWARNING or MB_OK);
+      Exit;
+    end
+    else if ( (Edit2.Text = '') and (Edit2.Visible = true))then
+    begin
+      if (cds_Mov_detLOTE.AsString = '')then
+        MessageBox(0, 'Lote e Código de Entrada obrigatórios.', '', MB_ICONWARNING or MB_OK)
+      else
+        MessageBox(0, 'Código de Entrada obrigatório.', '', MB_ICONWARNING or MB_OK);
+      Exit;
+    end
+    else if (cds_Mov_detLOTE.AsString = '')then
+    begin
+      MessageBox(0, 'Lote obrigatório.', '', MB_ICONWARNING or MB_OK);
+      Exit;
+    end;
+  end;
+
 
   if (ComboBox1.Text <> '') then
   begin
@@ -1141,54 +1179,13 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.BitBtn8Click(Sender: TObject);
-// Var str_del: String;
-var FEst: TEstoque;
- TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-
-  if (cds_Movimento.State in [dsInsert, dsEdit]) then
-    (DtSrc1.DataSet as TClientDataSet).ApplyUpdates(0);
+  if (DtSrc.State in [dsBrowse]) then
+    DtSrc.DataSet.Edit;
 
   if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?',
     mtConfirmation, [mbYes, mbNo],0) = mrYes then
-  begin
-    try
-      dm.sqlsisAdimin.StartTransaction(TD);    
-      if (cds_Mov_detSTATUS.AsString = '9') then
-      begin
-        // Item ja Lancado no Estoque baixa-lo;
-        Try
-          FEst := TEstoque.Create;
-
-          if (cds_MovimentoCODNATUREZA.AsInteger = 1) then
-            FEst.EstornaEstoque('ENTRADA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
-
-          if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
-            FEst.EstornaEstoque('SAIDA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
-
-        Finally
-          FEst.Free;
-        end;
-
-      end;
-      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ' + InttoStr(cds_Mov_detCODDETALHE.AsInteger));
-      dm.sqlsisAdimin.Commit(TD);
-      cds_Mov_det.Close;
-      cds_Mov_det.Open;
-    Except
-      on E : Exception do
-      begin
-        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-        dm.sqlsisAdimin.Rollback(TD);
-      end;
-    end;
-  end;
-
-  if cds_Movimento.State in [dsBrowse] then
-     cds_Movimento.Edit;
-
+    DtSrc1.DataSet.Delete;
 end;
 
 procedure TfEntra_Sai_estoque.DtSrcStateChange(Sender: TObject);
@@ -1689,52 +1686,51 @@ begin
       cdsDetalhe.Next;
     end;
     try
-    if (cds_movDetMat.State in [dsedit, dsinsert, dsbrowse]) then
-      cds_movDetMat.ApplyUpdates(0);
+      if (cds_movDetMat.State in [dsedit, dsinsert, dsbrowse]) then
+        cds_movDetMat.ApplyUpdates(0);
 
-    sql_sp := 'EXECUTE PROCEDURE LANCA_ENT_SAIDA(';
-    dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
-    if cds_MovMat.State in [dsBrowse] then
-      cds_MovMat.Edit;
-    cds_MovMatCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
-    cds_MovMat.ApplyUpdates(0);
-     // Executa insercao na tab Venda
-    sql_sp := sql_sp + '1,'; //Tipo (0=Entrada, 1=Saida)
-    sql_sp := sql_sp + IntToStr(cds_MovMatCODMOVIMENTO.asInteger);
-    sql_sp := sql_sp + ',';
-    sql_sp := sql_sp + IntToStr(cds_MovMatCODCLIENTE.asInteger);
-    sql_sp := sql_sp + ',';
-    sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-    sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
-    sql_sp := sql_sp + IntToStr(cds_MovMatCODUSUARIO.asInteger);
-    sql_sp := sql_sp + ',' + IntToStr(cds_MovMatCODALMOXARIFADO.AsInteger);//IntToStr(DBLookupComboBox1.KeyValue); //CodCentroCusto
-    sql_sp := sql_sp + ',''' + serie + ''',';
-    if (Edit2.Text = '') then
-      sql_sp := sql_sp + ' null, null)'
-    else
-      sql_sp := sql_sp + edit2.Text + ', null)';
-    dm.sqlsisAdimin.StartTransaction(TD);
-    Try
-       dm.sqlsisAdimin.ExecuteDirect(sql_sp);
-       DMNF.baixaEstoque(cds_movMatCODMOVIMENTO.AsInteger, cds_movMatDATAMOVIMENTO.AsDateTime, 'SAIDA');
-       dm.sqlsisAdimin.Commit(TD);
+      sql_sp := 'EXECUTE PROCEDURE LANCA_ENT_SAIDA(';
+      dm.cds_ccusto.Locate('NOME', ComboBox1.Text, [loCaseInsensitive]);
+      if cds_MovMat.State in [dsBrowse] then
+        cds_MovMat.Edit;
+      cds_MovMatCODALMOXARIFADO.AsInteger := dm.cds_ccustoCODIGO.AsInteger;
+      cds_MovMat.ApplyUpdates(0);
+       // Executa insercao na tab Venda
+      sql_sp := sql_sp + '1,'; //Tipo (0=Entrada, 1=Saida)
+      sql_sp := sql_sp + IntToStr(cds_MovMatCODMOVIMENTO.asInteger);
+      sql_sp := sql_sp + ',';
+      sql_sp := sql_sp + IntToStr(cds_MovMatCODCLIENTE.asInteger);
+      sql_sp := sql_sp + ',';
+      sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
+      sql_sp := sql_sp + '''' + formatdatetime('mm/dd/yyyy',cds_MovimentoDATAMOVIMENTO.AsDateTime) + ''',';
+      sql_sp := sql_sp + IntToStr(cds_MovMatCODUSUARIO.asInteger);
+      sql_sp := sql_sp + ',' + IntToStr(cds_MovMatCODALMOXARIFADO.AsInteger);//IntToStr(DBLookupComboBox1.KeyValue); //CodCentroCusto
+      sql_sp := sql_sp + ',''' + serie + ''',';
+      if (Edit2.Text = '') then
+        sql_sp := sql_sp + ' null, null)'
+      else
+        sql_sp := sql_sp + edit2.Text + ', null)';
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+         dm.sqlsisAdimin.ExecuteDirect(sql_sp);
+         DMNF.baixaEstoque(cds_movMatCODMOVIMENTO.AsInteger, cds_movMatDATAMOVIMENTO.AsDateTime, 'SAIDA');
+         dm.sqlsisAdimin.Commit(TD);
+      except
+         dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+         MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
+             [mbOk], 0);
+      end;
+      if (cdsLotes.Active) then
+        cdslotes.Close;
+      if (cds_Movimento.State in [dsInsert, dsEdit]) then
+        btnGravar.Click;
+      MessageDlg('Inclusão realizada com sucesso.', mtInformation, [mbOK], 0);
     except
-       dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-       MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
-           [mbOk], 0);
-    end;
-    if (cdsLotes.Active) then
-      cdslotes.Close;
-    if (cds_Movimento.State in [dsInsert, dsEdit]) then
-      btnGravar.Click;
-    MessageDlg('Inclusão realizada com sucesso.', mtInformation, [mbOK], 0);
-
-   except
-     dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
-     MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
+      dm.sqlsisAdimin.Rollback(TD); {on failure, undo the changes};
+      MessageDlg('Erro no sistema, inclusão não foi finalizada!', mtError,
          [mbOk], 0);
-   end;
-   end;
+    end;
+  end;
 end;
 
 procedure TfEntra_Sai_estoque.DBEdit1Exit(Sender: TObject);
