@@ -185,6 +185,10 @@ type
     edCondicao2: TJvCalcEdit;
     lblCondicao3: TLabel;
     edCondicao3: TJvCalcEdit;
+    sds_procORIGEM: TStringField;
+    sds_procNCM: TStringField;
+    cds_procORIGEM: TStringField;
+    cds_procNCM: TStringField;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -580,7 +584,7 @@ begin
    'GRUPO, SUBGRUPO, MARCA, ' +
    'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES,    ' +
    'SUBGRUPO as CATEGORIA, PRECO_VENDA as VALOR_PRAZO, PESO_QTDE, ' +
-   'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO, OBS ' +
+   'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO, OBS, ORIGEM, NCM ' +
    'from LISTAPRODUTOCLI(0, ';
    // 'TODOSPRODUTOS', 'TODOSPRODUTOS', 'TODOSGRUPOS', 'TODOSSUBGRUPOS','TODASMARCAS', 'CODIGOBARRA', 'CODIGOCLIENTE')
   // Codigos
@@ -1399,9 +1403,15 @@ begin
       else
         saldo_negativo := 'FALSE';
 
-    if (fVendas.edCfop.Text = '') then
-        fVendas.buscaCfop(fVendas.cds_MovimentoCODCLIENTE.AsInteger);
-    fVendas.cds_Mov_detCFOP.AsString        := fVendas.edCfop.Text;
+    fVendas.cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_procCODPRODUTO.AsInteger,
+      fVendas.ufClienteVenda, fVendas.codFiscalClienteVenda,
+      StrToInt(cds_proc.fieldByName('ORIGEM').asString),
+      cds_procNCM.AsString);
+    if (fVendas.cds_mov_detCFOP.asString = '') then
+    begin
+      fVendas.buscaCfop(fVendas.cds_MovimentoCODCLIENTE.AsInteger);
+      fVendas.cds_mov_detCFOP.asString := fVendas.edCfop.text;
+    end;  
     fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fVendas.cds_Mov_detCODPRO.AsString      := cds_procCODPRO.AsString;
     fVendas.cds_Mov_detDESCPRODUTO.Value    := cds_procPRODUTO.Value;
