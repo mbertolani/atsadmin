@@ -195,7 +195,6 @@ type
     DBEdit14: TDBEdit;
     BitBtn1: TBitBtn;
     CheckBox1: TCheckBox;
-    DBRadioGroup2: TDBRadioGroup;
     DBEdit10: TDBEdit;
     DBEdit11: TDBEdit;
     DBEdit12: TDBEdit;
@@ -662,6 +661,7 @@ type
     cdsListaVendaDATAFINAL: TDateField;
     sds_cliNUMERO: TIntegerField;
     cds_cliNUMERO: TIntegerField;
+    rgTipoEndereco: TRadioGroup;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -1102,6 +1102,7 @@ begin
     cdsEnderecoCli.Params[0].Clear;
     cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
     cdsEnderecoCli.Open;
+    rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
     // abre o cadastro de representante
     if dm.cds_repcli.Active then
      dm.cds_repcli.Close;
@@ -1161,8 +1162,7 @@ begin
     sqlPais.Open;
   if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
      cbPais.ItemIndex := sqlPais.RecNo-1;
-
-
+  rgTipoEndereco.Enabled := True;
 end;
 
 procedure TfClienteCadastro.DtSrcStateChange(Sender: TObject);
@@ -1209,6 +1209,7 @@ end;
 procedure TfClienteCadastro.btnGravarClick(Sender: TObject);
 var faixacod : integer;
    desconto, parente: double;
+   tipoEnd: String;
 begin
  parente := 0;
  if ((PageControl1.ActivePage = TabSheet1) or (PageControl1.ActivePage = TabInternet)) then
@@ -1344,15 +1345,37 @@ begin
       dm.c_6_genid.Close;
     end;
     inherited;
+    if (cdsEnderecoCli.State in [dsInsert]) then
+    begin
+      rgTipoEndereco.Enabled := True;
+      if (dm.sqlBusca.Active) then
+        dm.sqlBusca.Close;
+      dm.sqlBusca.SQL.Clear;
+      dm.sqlBusca.SQL.Add('SELECT TIPOEND FROM ENDERECOCLIENTE WHERE CODCLIENTE = ' +
+        IntToStr(cds_cliCODCLIENTE.AsInteger) +
+        'AND TIPOEND = ' + IntToStr(rgTipoEndereco.ItemIndex));
+      dm.sqlBusca.Open;
+      if (not dm.sqlBusca.IsEmpty) then
+      begin
+        case rgTipoEndereco.ItemIndex of
+          0: tipoEnd := 'Endereço Principal';
+          1: tipoEnd := 'Endereço Cobrança';
+          2: tipoEnd := 'Endereço Entrega';
+        end;
+        MessageDlg('Já existe endereço cadastrado para o tipo ' + tipoEnd, mtWarning, [mbOK], 0);
+        cds_cli.Edit;
+        exit;
+      end;
+      cdsEnderecoCliTIPOEND.AsInteger := rgTipoEndereco.ItemIndex;
+    end;
      if (cdsEnderecoCli.State in [dsInsert, dsEdit]) then
      begin
         if (DBComboBox1.Text ='') then
         begin
-         MessageDlg('Campo Estado está vazio , Favor Preencher ', mtWarning, [mbOK], 0);
-           cds_cli.Edit;
-        exit;
+          MessageDlg('Campo Estado está vazio , Favor Preencher ', mtWarning, [mbOK], 0);
+          cds_cli.Edit;
+          exit;
         end;
-
         if (sds_estado.Active) then
           sds_estado.Close;
         sds_estado.CommandText := 'SELECT UF FROM ESTADO_ICMS WHERE UF = ''' + DBComboBox1.Text + '''';
@@ -1374,6 +1397,7 @@ begin
         dm.c_6_genid.CommandText := 'SELECT CAST(GEN_ID(GEN_END_CLI, 1) as INTEGER) AS CODIGO FROM RDB$DATABASE';
         dm.c_6_genid.Open;
         cdsEnderecoCliCODENDERECO.AsInteger := dm.c_6_genidCODIGO.AsInteger;
+       // cdsEnderecoCliPAIS.AsString := cbPais.Text;
         dm.c_6_genid.Close;
         if (cdsEnderecoCliCODCLIENTE.AsInteger = 0) then
           cdsEnderecoCliCODCLIENTE.AsInteger := cds_cliCODCLIENTE.AsInteger;
@@ -1431,8 +1455,8 @@ begin
     cdsEnderecoCli.Append;
     cdsEnderecoCliUF.AsString := 'SP';
     cdsEnderecoCliTIPOEND.AsInteger := 0;
-    dbRadioGroup2.ItemIndex := 0;
-
+    rgTipoEndereco.ItemIndex := 0;
+    rgTipoEndereco.Enabled := False;
     if (dm.moduloUsado = 'ACADEMIA') then
     begin
       if (not cdsModalidade.Active) then
@@ -1687,9 +1711,7 @@ procedure TfClienteCadastro.cdsEnderecoCliNewRecord(DataSet: TDataSet);
 begin
   inherited;
   cdsEnderecoCliCODCLIENTE.AsInteger:= fClienteCadastro.cds_cliCODCLIENTE.AsInteger;
-  if (dbRadioGroup2.ItemIndex = 0) then
-    dbRadioGroup2.ItemIndex := 1;
-  cdsEnderecoCliTIPOEND.AsInteger := DBRadioGroup2.ItemIndex;
+  cdsEnderecoCliTIPOEND.AsInteger := rgTipoEndereco.ItemIndex;
 end;
 
 procedure TfClienteCadastro.DBNavigator1Click(Sender: TObject;
@@ -1698,10 +1720,10 @@ var
   BtnName: string;
   begin
   case Button of
-    nbFirst  : DBRadioGroup2.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
-    nbPrior  : DBRadioGroup2.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
-    nbNext   : DBRadioGroup2.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
-    nbLast   : DBRadioGroup2.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
+    nbFirst  : rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
+    nbPrior  : rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
+    nbNext   : rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
+    nbLast   : rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
   end;
 end;
 
@@ -1715,6 +1737,11 @@ begin
   cdsEnderecoCli.Params[0].Clear;
   cdsEnderecoCli.Params[1].Clear;
   cdsEnderecoCli.Open;
+
+  if (cdsEnderecoCliPAIS.AsString <> '') then
+  begin
+    cbPais.Text := cdsEnderecoCliPAIS.AsString;
+  end;
 
   PageControl1.ActivePage := TabSheet1;
   if ((varform <> 'consultaescola') and (varform <> 'consultapedagogico')) then
@@ -2120,8 +2147,8 @@ end;
 
 procedure TfClienteCadastro.DBRadioGroup2Click(Sender: TObject);
 begin
-  inherited;
-  if (cdsEnderecoCli.State in [dsInsert]) then
+  //inherited;
+  {if (cdsEnderecoCli.State in [dsInsert]) then
     exit;
   if (not cdsEnderecoCli.Active) then
   begin
@@ -2130,7 +2157,7 @@ begin
   end;
 
   if (not cdsEnderecoCli.Locate('TIPOEND', DBRadioGroup2.ItemIndex, [loPartialKey])) then
-    cdsEnderecoCli.Append;
+    cdsEnderecoCli.Append;}
 end;
 
 procedure TfClienteCadastro.TabInternetShow(Sender: TObject);
