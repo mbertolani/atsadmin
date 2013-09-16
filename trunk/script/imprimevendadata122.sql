@@ -1,4 +1,4 @@
-ALTER PROCEDURE  IMPRIMEVENDADATA( PDATA                            DATE
+CREATE OR ALTER PROCEDURE  IMPRIMEVENDADATA( PDATA                            DATE
                                  , PDATA1                           DATE )
 RETURNS ( CODPRODUTO                       INTEGER
         , DESCRICAO                        VARCHAR( 300 )
