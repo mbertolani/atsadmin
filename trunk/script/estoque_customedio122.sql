@@ -1,4 +1,3 @@
-set term  ^ ;
 CREATE OR ALTER PROCEDURE estoque_customedio
  (dataini date, datafim date, codproduto integer) 
 RETURNS 
