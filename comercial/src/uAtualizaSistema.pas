@@ -1949,10 +1949,10 @@ begin
       executaScript('rel_vendaCompra122.sql');
       executaScript('spestoque122.sql');
       executaScript('gera_cupom.sql');
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER CFOP_PRODUTOS INACTIVE');
       EXECUTADDL('CLIENTES', 'BLOQUEADO', 'CHAR(1)');
       //mudaVersao('1.0.0.122');
     end;// Fim Atualizacao Versao 1.0.0.122
-
 
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
