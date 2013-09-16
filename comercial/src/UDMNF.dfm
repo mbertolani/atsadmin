@@ -331,13 +331,13 @@ object DMNF: TDMNF
       'R_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.STATUS, movd.II, mov' +
       'd.BCII, movd.OBS, movd.CSTIPI, movd.CSTPIS, movd.VALOR_PIS, movd' +
       '.CSTCOFINS, movd.VALOR_COFINS, movd.VLRBC_IPI,'#13#10'movd.VLRBC_PIS, ' +
-      'movd.VLRBC_COFINS, movd.VLRTOT_TRIB'#13#10', movd.PCOFINS, movd.PPIS'#13#10 +
-      'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS prod on prod.CO' +
-      'DPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARIFADO ccus on ' +
-      'ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left outer join CO' +
-      'MISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10'where movd.CO' +
-      'DDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV order by movd' +
-      '.coddetalhe'
+      'movd.VLRBC_COFINS, movd.VLRTOT_TRIB'#13#10', movd.PCOFINS, movd.PPIS, ' +
+      'movd.PAGOU '#13#10'from MOVIMENTODETALHE movd '#13#10'inner join PRODUTOS pr' +
+      'od on prod.CODPRODUTO=movd.CODPRODUTO '#13#10'left outer join ALMOXARI' +
+      'FADO ccus on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO '#13#10'left ' +
+      'outer join COMISSAO cm on cm.COD_COMISSAO = movd.COD_COMISSAO '#13#10 +
+      'where movd.CODDETALHE=:CODDETALHE or movd.CODMOVIMENTO=:pCODMOV ' +
+      'order by movd.coddetalhe'
     MaxBlobSize = -1
     Params = <
       item
@@ -584,27 +584,27 @@ object DMNF: TDMNF
     end
     object sds_Mov_DetVLRBC_IPI: TFloatField
       FieldName = 'VLRBC_IPI'
-      ReadOnly = True
     end
     object sds_Mov_DetVLRBC_PIS: TFloatField
       FieldName = 'VLRBC_PIS'
-      ReadOnly = True
     end
     object sds_Mov_DetVLRBC_COFINS: TFloatField
       FieldName = 'VLRBC_COFINS'
-      ReadOnly = True
     end
     object sds_Mov_DetVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
-      ReadOnly = True
     end
     object sds_Mov_DetPCOFINS: TFloatField
       FieldName = 'PCOFINS'
-      ReadOnly = True
     end
     object sds_Mov_DetPPIS: TFloatField
       FieldName = 'PPIS'
+    end
+    object sds_Mov_DetPAGOU: TStringField
+      FieldName = 'PAGOU'
       ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -889,33 +889,33 @@ object DMNF: TDMNF
     end
     object cds_Mov_detVLRBC_IPI: TFloatField
       FieldName = 'VLRBC_IPI'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVLRBC_PIS: TFloatField
       FieldName = 'VLRBC_PIS'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVLRBC_COFINS: TFloatField
       FieldName = 'VLRBC_COFINS'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detPCOFINS: TFloatField
       FieldName = 'PCOFINS'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
     end
     object cds_Mov_detPPIS: TFloatField
       FieldName = 'PPIS'
-      ReadOnly = True
       DisplayFormat = ',##0.00'
+    end
+    object cds_Mov_detPAGOU: TStringField
+      FieldName = 'PAGOU'
+      ReadOnly = True
+      FixedChar = True
+      Size = 1
     end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
