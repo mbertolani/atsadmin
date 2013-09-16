@@ -331,7 +331,7 @@ end;
 
 procedure TfDetalheNF.abproc(Sender: TObject);
 begin
-    if ( (DMNF.DtSrc1.DataSet.State in [dsInsert, dsEdit]) or (DMNF.DtSrc_NF.DataSet.State in [dsInsert, dsEdit])
+  if ( (DMNF.DtSrc1.DataSet.State in [dsInsert, dsEdit]) or (DMNF.DtSrc_NF.DataSet.State in [dsInsert, dsEdit])
      or (DMNF.DtSrc_NF1.DataSet.State in [dsInsert, dsEdit])) then
     btnProdutoProcura.Enabled := true
   else
