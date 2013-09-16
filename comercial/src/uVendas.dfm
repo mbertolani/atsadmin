@@ -1,8 +1,8 @@
 inherited fVendas: TfVendas
   Left = 215
-  Top = 106
-  Width = 806
-  Height = 600
+  Top = 107
+  Width = 804
+  Height = 599
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Venda'
   Font.Height = -13
@@ -11,7 +11,7 @@ inherited fVendas: TfVendas
   PixelsPerInch = 96
   TextHeight = 16
   object Label11: TLabel [0]
-    Left = 136
+    Left = 140
     Top = 488
     Width = 60
     Height = 16
@@ -77,7 +77,7 @@ inherited fVendas: TfVendas
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 798
+    Width = 796
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1100,7 +1100,7 @@ inherited fVendas: TfVendas
     Width = 489
     Height = 48
     Cursor = crHandPoint
-    Caption = 'CLIENTE'
+    Caption = 'Cliente'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -1131,9 +1131,9 @@ inherited fVendas: TfVendas
       OnKeyPress = dbeClienteKeyPress
     end
     object btnClienteProcura: TBitBtn
-      Left = 415
+      Left = 416
       Top = 10
-      Width = 35
+      Width = 34
       Height = 33
       Enabled = False
       PopupMenu = PopupMenu1
@@ -1294,7 +1294,7 @@ inherited fVendas: TfVendas
     Top = 63
     Width = 184
     Height = 48
-    Caption = 'LOCAL'
+    Caption = 'Centro Resultado'
     PopupMenu = PopupMenu1
     TabOrder = 3
     object ComboBox1: TComboBox
@@ -1321,7 +1321,7 @@ inherited fVendas: TfVendas
     Top = 63
     Width = 109
     Height = 48
-    Caption = 'DATA PEDIDO'
+    Caption = 'Data Pedido'
     PopupMenu = PopupMenu1
     TabOrder = 4
     object DBEdit2: TDBEdit
@@ -1349,7 +1349,7 @@ inherited fVendas: TfVendas
     Top = 253
     Width = 150
     Height = 69
-    Caption = 'TOTAL R$.'
+    Caption = 'Total R$.'
     PopupMenu = PopupMenu1
     TabOrder = 8
     object DBEdit4: TDBEdit
@@ -1379,7 +1379,7 @@ inherited fVendas: TfVendas
     Top = 404
     Width = 150
     Height = 101
-    Caption = 'PLACA DO VE'#205'CULO'
+    Caption = 'Placa Veiculo'
     PopupMenu = PopupMenu1
     TabOrder = 9
     Visible = False
@@ -1443,8 +1443,8 @@ inherited fVendas: TfVendas
   end
   object MMJPanel3: TMMJPanel [16]
     Left = 0
-    Top = 545
-    Width = 798
+    Top = 544
+    Width = 796
     Height = 28
     Align = alBottom
     BevelInner = bvLowered
@@ -1492,9 +1492,9 @@ inherited fVendas: TfVendas
     OnKeyPress = FormKeyPress
   end
   object DBEdit16: TDBEdit [18]
-    Left = 224
+    Left = 206
     Top = 487
-    Width = 369
+    Width = 387
     Height = 24
     TabStop = False
     BevelKind = bkFlat
@@ -1577,9 +1577,9 @@ inherited fVendas: TfVendas
       object Label4: TLabel
         Left = 100
         Top = 1
-        Width = 22
+        Width = 36
         Height = 16
-        Caption = 'Pct.'
+        Caption = 'CFOP'
       end
       object Label5: TLabel
         Left = 149
@@ -1633,9 +1633,9 @@ inherited fVendas: TfVendas
       object Label28: TLabel
         Left = 5
         Top = 75
-        Width = 31
+        Width = 28
         Height = 16
-        Caption = 'OBS.'
+        Caption = 'Obs.'
       end
       object Label30: TLabel
         Left = 2
@@ -1691,7 +1691,7 @@ inherited fVendas: TfVendas
         Height = 24
         TabStop = False
         Color = clInfoBk
-        DataField = 'COD_COMISSAO'
+        DataField = 'CFOP'
         DataSource = DtSrc1
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -1700,6 +1700,7 @@ inherited fVendas: TfVendas
         Font.Style = []
         ParentFont = False
         TabOrder = 3
+        OnKeyPress = FormKeyPress
       end
       object dbeProduto: TDBEdit
         Left = 0
@@ -2044,7 +2045,7 @@ inherited fVendas: TfVendas
         Height = 26
         Caption = 'Lotes'
         PopupMenu = PopupMenu1
-        TabOrder = 2
+        TabOrder = 1
         TabStop = False
         OnClick = BitBtn4Click
       end
@@ -2249,7 +2250,7 @@ inherited fVendas: TfVendas
         Font.Style = []
         ParentFont = False
         PopupMenu = PopupMenu1
-        TabOrder = 1
+        TabOrder = 2
         OnKeyPress = FormKeyPress
       end
       object dbedtVALOR_DESCONTO: TDBEdit
@@ -2354,7 +2355,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2408,7 +2409,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 16
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
@@ -2576,7 +2577,7 @@ inherited fVendas: TfVendas
     Top = 210
     Width = 150
     Height = 42
-    Caption = 'DESCONTO %.'
+    Caption = 'Desconto %.'
     PopupMenu = PopupMenu1
     TabOrder = 6
     object DBEdit20: TDBEdit
@@ -2589,7 +2590,7 @@ inherited fVendas: TfVendas
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -15
+      Font.Height = -13
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
