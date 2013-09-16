@@ -1,6 +1,6 @@
 object fNotaf: TfNotaf
   Left = 330
-  Top = 43
+  Top = 45
   Width = 801
   Height = 629
   BorderIcons = [biSystemMenu, biMaximize]
@@ -110,7 +110,7 @@ object fNotaf: TfNotaf
         object DBText1: TDBText
           Left = 11
           Top = 18
-          Width = 126
+          Width = 118
           Height = 17
           DataField = 'CNPJ_CPF'
           DataSource = DataSource1
@@ -888,7 +888,7 @@ object fNotaf: TfNotaf
         Left = 0
         Top = 291
         Width = 761
-        Height = 206
+        Height = 213
         ActivePage = tsTrib
         TabOrder = 19
         object tsTrib: TTabSheet
@@ -944,7 +944,7 @@ object fNotaf: TfNotaf
             object DBEdit50: TDBEdit
               Left = 5
               Top = 14
-              Width = 100
+              Width = 103
               Height = 20
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -965,7 +965,7 @@ object fNotaf: TfNotaf
             object DBEdit15: TDBEdit
               Left = 5
               Top = 14
-              Width = 100
+              Width = 103
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -1038,8 +1038,8 @@ object fNotaf: TfNotaf
             end
           end
           object JvGroupBox22: TJvGroupBox
-            Left = 398
-            Top = 107
+            Left = 605
+            Top = 102
             Width = 145
             Height = 41
             Caption = 'Valor Total dos Produtos'
@@ -1058,8 +1058,8 @@ object fNotaf: TfNotaf
             end
           end
           object JvGroupBox27: TJvGroupBox
-            Left = 549
-            Top = 107
+            Left = 604
+            Top = 142
             Width = 145
             Height = 41
             Caption = 'Valor Total da Nota'
@@ -1156,7 +1156,7 @@ object fNotaf: TfNotaf
             object DBEdit51: TDBEdit
               Left = 5
               Top = 14
-              Width = 100
+              Width = 103
               Height = 20
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -1177,7 +1177,7 @@ object fNotaf: TfNotaf
             object DBEdit52: TDBEdit
               Left = 5
               Top = 14
-              Width = 100
+              Width = 103
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -1212,14 +1212,14 @@ object fNotaf: TfNotaf
           object JvGroupBox58: TJvGroupBox
             Left = 127
             Top = 108
-            Width = 130
+            Width = 113
             Height = 41
-            Caption = 'Outras Desp. Acess'#243'rios'
+            Caption = 'Outras Desp. Acess.'
             TabOrder = 13
             object DBEdit54: TDBEdit
               Left = 5
               Top = 14
-              Width = 118
+              Width = 103
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -1231,7 +1231,7 @@ object fNotaf: TfNotaf
             end
           end
           object JvGroupBox59: TJvGroupBox
-            Left = 263
+            Left = 244
             Top = 107
             Width = 130
             Height = 41
@@ -1264,7 +1264,6 @@ object fNotaf: TfNotaf
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 17
-            OnClick = calcmanClick
           end
         end
         object tsTransp: TTabSheet
