@@ -1949,9 +1949,17 @@ begin
       executaScript('rel_vendaCompra122.sql');
       executaScript('spestoque122.sql');
       executaScript('gera_cupom.sql');
+      executaScript('trg_calcula_icms_st_122.sql');
+      executaScript('listaProduto122.sql');
+      executaScript('listaProdutocli122.sql');
+      executaScript('spEstoqueFiltro122.sql');
+      executaScript('estoque_view_custo122.sql');
+      executaScript('imprimevendadata122.sql');
+      //executaScript('reldre122.sql');
+      executaScript('proibe_alt_del_nf122.sql');
       dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER CFOP_PRODUTOS INACTIVE');
       EXECUTADDL('CLIENTES', 'BLOQUEADO', 'CHAR(1)');
-      //mudaVersao('1.0.0.122');
+      mudaVersao('1.0.0.122');
     end;// Fim Atualizacao Versao 1.0.0.122
 
     try
