@@ -67,22 +67,28 @@ inherited fListaVenda: TfListaVenda
       Caption = 'Margem Min.'
     end
     inherited btnGravar: TBitBtn
+      Left = 379
       Top = 104
     end
     inherited btnIncluir: TBitBtn
+      Left = 378
       Top = 104
     end
     inherited btnCancelar: TBitBtn
+      Left = 492
       Top = 104
     end
     inherited btnExcluir: TBitBtn
+      Left = 492
       Top = 104
     end
     inherited btnProcurar: TBitBtn
+      Left = 266
       Top = 104
       OnClick = btnProcurarClick
     end
     inherited btnSair: TBitBtn
+      Left = 605
       Top = 104
     end
     object DBEdit1: TDBEdit
@@ -196,6 +202,40 @@ inherited fListaVenda: TfListaVenda
       ValueUnchecked = 'False'
       OnClick = chkMargemClick
     end
+    object btnImprimir: TBitBtn
+      Left = 153
+      Top = 104
+      Width = 103
+      Height = 40
+      BiDiMode = bdLeftToRight
+      Caption = '&Imprimir'
+      ParentBiDiMode = False
+      PopupMenu = PopupMenu1
+      TabOrder = 17
+      OnClick = btnImprimirClick
+      Glyph.Data = {
+        76020000424D7602000000000000760000002800000020000000200000000100
+        0400000000000002000000000000000000001000000000000000000000000000
+        8000008000000080800080000000800080008080000080808000C0C0C0000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00888888888888
+        8888888888888888888888888888888888888888888888888888800000000000
+        0000000000000000008880777777777777777777777777777088070000000000
+        000000000000000000080F7777777777777777777777777777080F7777777777
+        777777777777777777080F77F7F7F7F7F7F7F7F7F7F7F77777080F77FFFFFFFF
+        FFFFFFFFFFFFF77777080F7777777777777777777777F77777080F7700000000
+        000000000000F72277080F777777777777777777777777AA77080F7777777777
+        777777777777777777080F7F7F7F7F7F7F7F7F7F7F7F7F7F7F080FFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFF080F77777777777777777777777777770880F700000000
+        0000000000000777708880F87088888888888888880077777088880F808F8F8F
+        8F8F8F8F8F0777770888880880FFFFFFFFFFFFFFFF0777770888888000FFFFFF
+        FFFFFFFFFF0000008888888880FFFFFFFFFFFFFFFF0888888888888880FFFFFF
+        FFFFFFFFFF0888888888888880FFFFFFFFFFFF88880888888888888880FFFFFF
+        FFFFF700070888888888888880FFFFFFFFFFF7FFF08888888888888880FFFFFF
+        FFFFF7FF088888888888888880FFFFFFFFFFF7F0888888888888888880FFFFFF
+        FFFFF70888888888888888888000000000000088888888888888888888888888
+        8888888888888888888888888888888888888888888888888888}
+      Margin = 0
+    end
   end
   inherited MMJPanel2: TMMJPanel
     Width = 793
@@ -301,7 +341,7 @@ inherited fListaVenda: TfListaVenda
     object Label6: TLabel
       Left = 434
       Top = 4
-      Width = 44
+      Width = 41
       Height = 13
       Caption = 'Validade'
     end
@@ -464,11 +504,12 @@ inherited fListaVenda: TfListaVenda
   object sdsLista_det: TSQLDataSet
     CommandText = 
       'SELECT  l.*, p.CODPRO'#13#10'FROM LISTAPRECO_VENDADET  l, PRODUTOS P'#13#10 +
-      'where  l.codproduto = p.codproduto '#13#10' and l.CODLISTA = :CODLISTA'
+      'where  l.codproduto = p.codproduto '#13#10' and l.CODLISTA = :CODLISTA' +
+      ' '#13#10'order by p.CODPRO'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftInteger
+        DataType = ftUnknown
         Name = 'CODLISTA'
         ParamType = ptInput
       end>
@@ -642,5 +683,11 @@ inherited fListaVenda: TfListaVenda
     object scds_produto_procESTOQUEATUAL: TFloatField
       FieldName = 'ESTOQUEATUAL'
     end
+  end
+  object VCLReport1: TVCLReport
+    AsyncExecution = False
+    Title = 'Untitled'
+    Left = 176
+    Top = 233
   end
 end
