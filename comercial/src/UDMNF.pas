@@ -1426,6 +1426,8 @@ type
     cds_nf1BASE_IPI: TFloatField;
     cds_nf1BASE_PIS: TFloatField;
     cds_nf1BASE_COFINS: TFloatField;
+    sds_Mov_DetPAGOU: TStringField;
+    cds_Mov_detPAGOU: TStringField;
     procedure cds_MovimentoNewRecord(DataSet: TDataSet);
     procedure cds_MovimentoReconcileError(DataSet: TCustomClientDataSet;
       E: EReconcileError; UpdateKind: TUpdateKind;
