@@ -23,14 +23,14 @@ inherited fCompra: TfCompra
     ParentFont = False
   end
   object Label18: TLabel [1]
-    Left = 4
+    Left = 8
     Top = 470
     Width = 44
     Height = 16
     Caption = 'C'#243'digo'
   end
   object Label12: TLabel [2]
-    Left = 7
+    Left = 24
     Top = 501
     Width = 31
     Height = 16
@@ -51,7 +51,7 @@ inherited fCompra: TfCompra
     Caption = 'Resp. Aprova.'
   end
   object Label17: TLabel [5]
-    Left = 0
+    Left = 8
     Top = 524
     Width = 49
     Height = 32
@@ -1046,9 +1046,9 @@ inherited fCompra: TfCompra
     Left = 0
     Top = 62
     Width = 425
-    Height = 50
+    Height = 48
     Cursor = crHandPoint
-    Caption = 'FORNECEDOR'
+    Caption = 'Fornecedor'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -1078,9 +1078,9 @@ inherited fCompra: TfCompra
     end
     object btnClienteProcura: TBitBtn
       Left = 384
-      Top = 8
+      Top = 9
       Width = 35
-      Height = 38
+      Height = 36
       Enabled = False
       TabOrder = 1
       TabStop = False
@@ -1179,7 +1179,7 @@ inherited fCompra: TfCompra
     Top = 62
     Width = 184
     Height = 48
-    Caption = 'CENTRO RESULTADO'
+    Caption = 'Centro Resultado'
     PopupMenu = PopupMenu1
     TabOrder = 4
     object ComboBox1: TComboBox
@@ -1205,7 +1205,7 @@ inherited fCompra: TfCompra
     Top = 62
     Width = 109
     Height = 48
-    Caption = 'DATA COMPRA'
+    Caption = 'Data Compra'
     PopupMenu = PopupMenu1
     TabOrder = 5
     object DBEdit2: TDBEdit
@@ -1231,7 +1231,7 @@ inherited fCompra: TfCompra
     Top = 249
     Width = 149
     Height = 48
-    Caption = 'CONTROLE'
+    Caption = 'Controle/Lote'
     PopupMenu = PopupMenu1
     TabOrder = 9
     object DBEdit1: TDBEdit
@@ -1283,7 +1283,7 @@ inherited fCompra: TfCompra
     Top = 302
     Width = 150
     Height = 55
-    Caption = 'TOTAL R$.'
+    Caption = 'Total R$.'
     PopupMenu = PopupMenu1
     TabOrder = 14
     object DBEdit4: TDBEdit
@@ -1313,7 +1313,7 @@ inherited fCompra: TfCompra
     Top = 111
     Width = 633
     Height = 350
-    Caption = 'MERCADORIAS'
+    Caption = 'Materiais'
     TabOrder = 6
     object Label3: TLabel
       Left = 9
@@ -1787,7 +1787,7 @@ inherited fCompra: TfCompra
     Top = 461
     Width = 150
     Height = 89
-    Caption = 'PLACA DO VE'#205'CULO'
+    Caption = 'Placa Veiculo'
     PopupMenu = PopupMenu1
     TabOrder = 16
     Visible = False
