@@ -1,4 +1,3 @@
-set term  ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTOCLI(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -40,7 +39,9 @@ RETURNS(
   RATEIO CHAR(1) CHARACTER SET WIN1252,
   CONTA_DESPESA VARCHAR(15) CHARACTER SET WIN1252,
   APLICACAO_PRODUTO VARCHAR(30)  CHARACTER SET WIN1252,
-  OBS VARCHAR(300)  CHARACTER SET WIN1252
+  OBS VARCHAR(300)  CHARACTER SET WIN1252,
+  ORIGEM VARCHAR(15) CHARACTER SET WIN1252,
+  NCM VARCHAR(8) CHARACTER SET WIN1252
   )
 AS
 declare variable precoVenda double PRECISION;
@@ -97,7 +98,7 @@ begin
         p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
         p.LOTES, r.MARGEMMAX, r.PRECOVENDA VALOR_PRAZO, 'DESCRICAO USO' as DESCRICAO, 
         '1' as CODIGO, p.USA, p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL,
-        p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO
+        p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO, p.ORIGEM, p.NCM 
         FROM LISTAPRECO_VENDADET r, PRODUTOS p 
        WHERE r.CODPRODUTO = p.CODPRODUTO
          AND r.CODLISTA = :codLista  
@@ -111,7 +112,7 @@ begin
         into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
        :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
        :precoVenda, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, 
-       :ipi, :precoc, :aplicacao_produto, :obs, :estoqueAtual, :preco_compraMedio
+       :ipi, :precoc, :aplicacao_produto, :obs, :estoqueAtual, :preco_compraMedio, :origem, :ncm
        do begin
          tipoPreco = 'F'; 
          if (codAlmoxarifado is null) then 
@@ -178,7 +179,7 @@ begin
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
     p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, uso.DESCRICAO, cod.CODIGO, p.USA,
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL,
-     p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO
+     p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO, p.ORIGEM, p.NCM
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -195,7 +196,7 @@ begin
   into :codProduto, :codPro, :cod_barra, :produto, :qtde_pct, :unidadeMedida,
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
     :precoVenda, :tipoPreco, :uso , :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, 
-    :ipi, :precoc, :aplicacao_produto, :obs, :estoqueAtual, :preco_compraMedio
+    :ipi, :precoc, :aplicacao_produto, :obs, :estoqueAtual, :preco_compraMedio, :origem, :ncm 
   do begin
     if (codAlmoxarifado is null) then 
       codAlmoxarifado = 0;
@@ -321,4 +322,4 @@ begin
     estoqueAtual = 0;
   end
   end -- fim do if  usaListaPreco = N
-end;
+end

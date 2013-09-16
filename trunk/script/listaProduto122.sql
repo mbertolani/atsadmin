@@ -1,4 +1,3 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE LISTAPRODUTO(
   CODP INTEGER,
   CODPROD VARCHAR(15) CHARACTER SET WIN1252,
@@ -103,7 +102,7 @@ begin
         p.LOTES, r.MARGEMMAX, r.PRECOVENDA, 'DESCRICAO USO', 
         '1' as CODIGO, p.USA, p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, 
         p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL,
-        p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO
+        p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO, p.ORIGEM
         FROM LISTAPRECO_VENDADET r, PRODUTOS p 
        WHERE r.CODPRODUTO = p.CODPRODUTO
          AND r.CODLISTA = :codLista  
@@ -119,7 +118,7 @@ begin
        :lotes, :margem, :precoVenda, :uso , 
        :codigo, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, 
        :ipi, :precoc, :aplicacao_produto, 
-       :obs, :estoqueAtual, :preco_compraMedio
+       :obs, :estoqueAtual, :preco_compraMedio, :origem
        do begin
          tipoPreco = 'F'; 
          tipoprecovenda = 'F';
@@ -321,4 +320,4 @@ begin
   end
   
   end -- fim do if  usaListaPreco = N  
-end;
+end
