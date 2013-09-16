@@ -457,7 +457,6 @@ type
     procedure btnNotaFiscalClick(Sender: TObject);
     procedure btnRemessaClick(Sender: TObject);
     procedure DBEdit7Change(Sender: TObject);
-    procedure calcmanClick(Sender: TObject);
     procedure ChkCompClick(Sender: TObject);
     procedure JvDBGrid1DblClick(Sender: TObject);
     procedure cboFreteChange(Sender: TObject);
@@ -790,6 +789,9 @@ begin
     dmnf.cds_Mov_det.Params[1].AsInteger := codMovFin;
     dmnf.cds_Mov_det.Open;
 
+     if (dmnf.cds_Mov_detPAGOU.AsString = 'M') then
+       calcman.Checked := True;
+           
     //mostra venda
     if (dmnf.cds_venda.Active) then
       dmnf.cds_venda.Close;
@@ -1316,6 +1318,30 @@ var nfe : string;
     TD: TTransactionDesc;
     numnf, codm, codv : Integer;
 begin
+  if DMNF.DtSrc_NF.State in [dsBrowse] then
+    DMNF.DtSrc_NF.DataSet.Edit;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    if (calcman.Checked) then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = ' +
+        QuotedStr('M') + ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end
+    else
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = NULL ' +
+        ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
   if (sqlValida.Active) then
     sqlValida.Close;
 
@@ -1625,6 +1651,9 @@ begin
     dmnf.cds_Mov_det.Params[0].Clear;
     dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
     dmnf.cds_Mov_det.Open;
+
+     if (dmnf.cds_Mov_detPAGOU.AsString = 'M') then
+       calcman.Checked := True;
 
     //mostra venda
     if (dmnf.cds_venda.Active) then
@@ -2211,34 +2240,6 @@ End;
 procedure TfNotaf.DBEdit7Change(Sender: TObject);
 begin
   carregaDadosAdicionais;
-end;
-
-procedure TfNotaf.calcmanClick(Sender: TObject);
-var TD: TTransactionDesc;
-begin
-  if DMNF.DtSrc_NF.State in [dsBrowse] then
-    DMNF.DtSrc_NF.DataSet.Edit;
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
-    if (calcman.Checked) then
-    begin
-      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = ' +
-        QuotedStr('M') + ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
-    end
-    else
-    begin
-      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = NULL ' +
-        ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
-    end;
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    on E : Exception do
-    begin
-      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-    end;
-  end;
 end;
 
 procedure TfNotaf.ChkCompClick(Sender: TObject);

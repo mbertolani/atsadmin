@@ -613,6 +613,9 @@ begin
     dmnf.cds_Mov_det.Params[1].AsInteger := codMovFin;
     dmnf.cds_Mov_det.Open;
 
+    if (dmnf.cds_Mov_detPAGOU.AsString = 'M') then
+      calcman.Checked := True;
+
     //mostra compra
     if (dmnf.cds_compra.Active) then
       dmnf.cds_compra.Close;
@@ -1130,6 +1133,30 @@ procedure TfNotaFc.btnGravarClick(Sender: TObject);
 var cm : string;
 var TD: TTransactionDesc;
 begin
+  if DMNF.DtSrc_NF.State in [dsBrowse] then
+    DMNF.DtSrc_NF.DataSet.Edit;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    if (calcman.Checked) then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = ' +
+        QuotedStr('M') + ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end
+    else
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTODETALHE SET PAGOU = NULL ' +
+        ' WHERE CODMOVIMENTO = ' + InttoStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+    end;
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+    end;
+  end;
+
   if (dmnf.cds_nf1NOTASERIE.AsString = '0') then
   begin
     MessageDlg('Informe o número da Nota.', mtWarning, [mbOK], 0);
@@ -1413,6 +1440,9 @@ begin
      dmnf.cds_Mov_det.Params[0].Clear;
      dmnf.cds_Mov_det.Params[1].AsInteger := dmnf.cds_MovimentoCODMOVIMENTO.AsInteger;
      dmnf.cds_Mov_det.Open;
+
+     if (dmnf.cds_Mov_detPAGOU.AsString = 'M') then
+       calcman.Checked := True;
 
       //mostra venda
      if (dmnf.cds_Compra.Active) then
