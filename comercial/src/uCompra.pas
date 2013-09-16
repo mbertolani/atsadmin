@@ -1457,7 +1457,7 @@ begin
     dm.cds_parametro.Open;
     if( (DbEdit1.Text = '') and (cds_Mov_detLOTE.AsString = '') and (dm.cds_parametroCONFIGURADO.AsString = 'S') ) then
     begin
-      fLotes_Produtos := TfLotes_Produtos.Create(Application);
+      {fLotes_Produtos := TfLotes_Produtos.Create(Application);
       try
         fLotes_Produtos.DBEdit1.DataSource := fCompra.DtSrc1;
         fLotes_Produtos.JvDBDatePickerEdit1.DataSource := fCompra.DtSrc1;
@@ -1468,7 +1468,7 @@ begin
         //cds_Mov_detDTAFAB.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         //cds_Mov_detDTAVCTO.AsDateTime := cds_MovimentoDATAMOVIMENTO.AsDateTime;
         fLotes_Produtos.Free;
-      end;
+      end;}
     end
     else if ( (DbEdit1.Text = '')  and (dm.cds_parametroCONFIGURADO.AsString <> 'S') )then
     begin
