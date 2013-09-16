@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, StdCtrls, Mask, DBCtrls, DB, Menus, XPMenu, Buttons,
   ExtCtrls, MMJPanel, Grids, DBGrids, FMTBcd, SqlExpr, Provider, DBClient,
   JvExMask, JvToolEdit, JvMaskEdit, JvCheckedMaskEdit, JvDatePickerEdit,
-  JvDBDatePickerEdit;
+  JvDBDatePickerEdit, rpcompobase, rpvclreport;
 
 type
   TfListaVenda = class(TfPai)
@@ -102,6 +102,8 @@ type
     cdsLista_detCODPRO: TStringField;
     edMargem: TEdit;
     Label16: TLabel;
+    btnImprimir: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure DtSrcStateChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -116,6 +118,7 @@ type
     procedure dbgDetalheKeyPress(Sender: TObject; var Key: Char);
     procedure btnIncluirClick(Sender: TObject);
     procedure cdsLista_detBeforePost(DataSet: TDataSet);
+    procedure btnImprimirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -227,35 +230,42 @@ end;
 
 procedure TfListaVenda.btnTodosProdClick(Sender: TObject);
 //var margem: double;
+var   Save_Cursor:TCursor;
 begin
-  if(scds_produto_proc.Active) then
-    scds_produto_proc.Close;
-  scds_produto_proc.Params[0].AsInteger :=cdsListaVendaCODLISTA.AsInteger;
-    scds_produto_proc.Open;
-  if(not cdsLista_det.Active) then
-    cdsLista_det.Open;
-  scds_produto_proc.First;
-  while not scds_produto_proc.Eof do
-  begin
-    cdsLista_det.Append;
-    cdsLista_detCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
-    cdsLista_detESTOQUE.AsFloat := scds_produto_procESTOQUEATUAL.AsFloat;
-    cdsLista_detPRECOCOMPRA.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
-    //if (edMargem.Text <> '') then
-    //  margem := 0;
-    cdsLista_detPRECOVENDA.AsFloat := scds_produto_procVALORUNITARIOATUAL.AsFloat;
-    cdsLista_detPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
-    cdsLista_detALTPRECO.AsString := 'F';
-    cdsLista_detDESCONTO.AsString := 'F';
-    cdsLista_detDESCONTOMAX.AsFloat := 0;
-    cdsLista_detDESCONTOMIN.AsFloat := 0;
-    cdsLista_detMARGEM.AsString := 'F';
-    cdsLista_detMARGEMMAX.AsFloat := 0;
-    cdsLista_detMARGEMMIN.AsFloat := 0;
-    cdsLista_det.Post;
-    scds_produto_proc.Next;
+  Save_Cursor   := Screen.Cursor;
+  Screen.Cursor := crHourGlass;
+  try
+    if(scds_produto_proc.Active) then
+      scds_produto_proc.Close;
+    scds_produto_proc.Params[0].AsInteger :=cdsListaVendaCODLISTA.AsInteger;
+      scds_produto_proc.Open;
+    if(not cdsLista_det.Active) then
+      cdsLista_det.Open;
+    scds_produto_proc.First;
+    while not scds_produto_proc.Eof do
+    begin
+      cdsLista_det.Append;
+      cdsLista_detCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
+      cdsLista_detESTOQUE.AsFloat := scds_produto_procESTOQUEATUAL.AsFloat;
+      cdsLista_detPRECOCOMPRA.AsFloat := scds_produto_procVALOR_PRAZO.AsFloat;
+      //if (edMargem.Text <> '') then
+      //  margem := 0;
+      cdsLista_detPRECOVENDA.AsFloat := scds_produto_procVALORUNITARIOATUAL.AsFloat;
+      cdsLista_detPRODUTO.AsString := scds_produto_procPRODUTO.AsString;
+      cdsLista_detALTPRECO.AsString := 'F';
+      cdsLista_detDESCONTO.AsString := 'F';
+      cdsLista_detDESCONTOMAX.AsFloat := 0;
+      cdsLista_detDESCONTOMIN.AsFloat := 0;
+      cdsLista_detMARGEM.AsString := 'F';
+      cdsLista_detMARGEMMAX.AsFloat := 0;
+      cdsLista_detMARGEMMIN.AsFloat := 0;
+      cdsLista_det.Post;
+      scds_produto_proc.Next;
+    end;
+    MessageDlg('Produtos adicionado com sucesso. Clique em Gravar para finalizar.', mtWarning, [mbOK], 0);
+  Finally
+    Screen.Cursor := Save_Cursor;  { Always restore to normal }
   end;
-
 end;
 
 procedure TfListaVenda.cdsLista_detNewRecord(DataSet: TDataSet);
@@ -376,6 +386,16 @@ begin
   inherited;
   if  (DtSrc.State in [dsBrowse]) then
     cdsListaVenda.Edit;
+end;
+
+procedure TfListaVenda.btnImprimirClick(Sender: TObject);
+begin
+  inherited;
+  VCLReport1.Filename := str_relatorio + 'listaprecovenda.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('CODLISTA').Value := cdsListaVendaCODLISTA.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.
