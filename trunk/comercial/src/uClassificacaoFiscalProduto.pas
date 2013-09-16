@@ -166,6 +166,13 @@ type
     cdsNcmQTD: TIntegerField;
     cdsNcmTAM_LOTE: TIntegerField;
     cdsNcmOBS: TStringField;
+    BitBtn2: TBitBtn;
+    gbGeraUF: TGroupBox;
+    Label20: TLabel;
+    Label21: TLabel;
+    edCFOPCOPIA: TEdit;
+    edUFCopia: TEdit;
+    BitBtn3: TBitBtn;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -178,6 +185,8 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnExecutaCopiaClick(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -416,7 +425,103 @@ begin
 
   end;
   gbProduto.Visible := False;
-  MessageDlg('Finalizado com sucesso.', mtInformation, [mbOK], 0);
+  MessageDlg('Cópia executado om sucesso.', mtInformation, [mbOK], 0);
+end;
+
+procedure TfClassificacaoFIscalProduto.BitBtn2Click(Sender: TObject);
+begin
+  if (gbGeraUF.Visible = True) then
+    gbGeraUF.Visible := False
+  else
+    gbGeraUF.Visible := True;
+end;
+
+procedure TfClassificacaoFIscalProduto.BitBtn3Click(Sender: TObject);
+var i: integer;
+  uf: string;
+begin
+  if ((edUFCopia.Text <> '') and (edCFOPCOPIA.Text <> '')) then
+  begin
+    if (cdsProdCopia.Active) then
+      cdsProdCopia.Close;
+    cdsProdCopia.CommandText := 'SELECT * FROM CLASSIFICACAOFISCALPRODUTO ' +
+      ' WHERE COD_PROD  = ' +  IntToStr(cdsClassFiscCOD_PROD.AsInteger) +
+      '   AND CFOP      = ' +  QuotedStr(edCFOPCOPIA.Text) +
+      '   AND UF        = ' +  QuotedStr(edUFCopia.Text);
+    cdsProdCopia.Open;
+    if (cdsProdCopia.IsEmpty) then
+    begin
+      MessageDlg('Tributação não localizada para este produto.', mtWarning, [mbOK], 0);
+      exit;
+    end;
+    for I := 1 to 25 do
+    begin
+      case I of
+        1: uf := 'AC';
+        2: uf := 'AM';
+        3: uf := 'RR';
+        4: uf := 'AP';
+        5: uf := 'PA';
+        6: uf := 'RO';
+        7: uf := 'MT';
+        8: uf := 'MA';
+        9: uf := 'TO';
+        10: uf := 'CE';
+        11: uf := 'RN';
+        12: uf := 'PB';
+        13: uf := 'PE';
+        14: uf := 'AL';
+        15: uf := 'SE';
+        16: uf := 'PI';
+        17: uf := 'BA';
+        18: uf := 'DF';
+        19: uf := 'GO';
+        20: uf := 'MG';
+        21: uf := 'ES';
+        22: uf := 'RJ';
+        23: uf := 'PR';
+        24: uf := 'SC';
+        25: uf := 'RS';
+        26: uf := 'MS';
+      end;
+
+      if (cdsClassFisc.Active = False) then
+        cdsClassFisc.Open;
+      if (sqlTestaSeExiste.Active) then
+        sqlTestaSeExiste.Close;
+      sqlTestaSeExiste.Params[0].AsInteger := cfcodprod;
+      sqlTestaSeExiste.Params[1].AsString  := uf;
+      sqlTestaSeExiste.Params[2].AsString  := cdsProdCopiaCFOP.AsString;
+      sqlTestaSeExiste.Open;
+
+      if (sqlTestaSeExisteCOUNT.AsInteger = 0) then
+      begin
+        cdsClassFisc.Append;
+        cdsClassFiscCOD_PROD.AsInteger     := cfcodprod;
+        cdsClassFiscCFOP.AsString          := cdsProdCopiaCFOP.AsString;
+        cdsClassFiscUF.AsString            := uf;
+        cdsClassFiscCST.AsString           := cdsProdCopiaCST.AsString;
+        cdsClassFiscCSOSN.AsString         := cdsProdCopiaCSOSN.AsString;
+        cdsClassFiscCSTIPI.AsString        := cdsProdCopiaCSTIPI.AsString;
+        cdsClassFiscCSTPIS.AsString        := cdsProdCopiaCSTPIS.AsString;
+        cdsClassFiscCSTCOFINS.AsString     := cdsProdCopiaCSTCOFINS.AsString;
+        cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+        cdsClassFiscICMS_SUBST_IC.AsFloat  := cdsProdCopiaICMS_SUBST_IC.AsFloat;
+        cdsClassFiscICMS_SUBST_IND.AsFloat := cdsProdCopiaICMS_SUBST_IND.AsFloat;
+        cdsClassFiscICMS.AsFloat           := cdsProdCopiaICMS.AsFloat;
+        cdsClassFiscICMS_BASE.AsFloat      := cdsProdCopiaICMS_BASE.AsFloat;
+        cdsClassFiscICMS_SUBST.AsFloat     := cdsProdCopiaICMS_SUBST.AsFloat;
+        cdsClassFiscIPI.AsFloat            := cdsProdCopiaIPI.AsFloat;
+        cdsClassFiscPIS.AsFloat            := cdsProdCopiaPIS.AsFloat;
+        cdsClassFiscCOFINS.AsFloat         := cdsProdCopiaCOFINS.AsFloat;
+        cdsClassFisc.ApplyUpdates(0);
+
+      end;
+    end; // fim do for
+  end;
+  gbGeraUF.Visible := False;
+  MessageDlg('Cópia executada com sucesso.', mtInformation, [mbOK], 0);
+
 end;
 
 end.
