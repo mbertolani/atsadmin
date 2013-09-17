@@ -7132,21 +7132,6 @@ inherited fClienteCadastro: TfClienteCadastro
       ProviderFlags = [pfInUpdate]
       Size = 10
     end
-    object sdsEnderecoCliTELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      ProviderFlags = [pfInUpdate]
-      Size = 11
-    end
-    object sdsEnderecoCliTELEFONE1: TStringField
-      FieldName = 'TELEFONE1'
-      ProviderFlags = [pfInUpdate]
-      Size = 9
-    end
-    object sdsEnderecoCliTELEFONE2: TStringField
-      FieldName = 'TELEFONE2'
-      ProviderFlags = [pfInUpdate]
-      Size = 9
-    end
     object sdsEnderecoCliFAX: TStringField
       FieldName = 'FAX'
       ProviderFlags = [pfInUpdate]
@@ -7204,6 +7189,18 @@ inherited fClienteCadastro: TfClienteCadastro
     object sdsEnderecoCliPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object sdsEnderecoCliTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 12
+    end
+    object sdsEnderecoCliTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 12
+    end
+    object sdsEnderecoCliTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 12
     end
   end
   object dspEnderecoCli: TDataSetProvider
@@ -7272,21 +7269,6 @@ inherited fClienteCadastro: TfClienteCadastro
       EditMask = '00000\-999;1;_'
       Size = 10
     end
-    object cdsEnderecoCliTELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      ProviderFlags = [pfInUpdate]
-      Size = 11
-    end
-    object cdsEnderecoCliTELEFONE1: TStringField
-      FieldName = 'TELEFONE1'
-      ProviderFlags = [pfInUpdate]
-      Size = 9
-    end
-    object cdsEnderecoCliTELEFONE2: TStringField
-      FieldName = 'TELEFONE2'
-      ProviderFlags = [pfInUpdate]
-      Size = 9
-    end
     object cdsEnderecoCliFAX: TStringField
       FieldName = 'FAX'
       ProviderFlags = [pfInUpdate]
@@ -7341,6 +7323,18 @@ inherited fClienteCadastro: TfClienteCadastro
     object cdsEnderecoCliPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object cdsEnderecoCliTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Size = 12
+    end
+    object cdsEnderecoCliTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      Size = 12
+    end
+    object cdsEnderecoCliTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      Size = 12
     end
   end
   object DtSrcE: TDataSource
