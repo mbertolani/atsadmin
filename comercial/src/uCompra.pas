@@ -521,6 +521,8 @@ type
     { Public declarations }
     campocentrocusto, usarateio, usaprecolista, CODIGOPRODUTO, CompradorPadraoNome, obrigatorio : String; // tipoCompra,
     J, ccustoCompras, CompradorPadrao: integer;
+    ufFornecCompra: String;
+    codFiscalFornecCompra: String;
     procedure precolista;
   end;
 
@@ -579,6 +581,8 @@ begin
          end;
        end;
     end;
+    ufFornecCompra := dm.scds_forn_procUF.asString;
+    codFiscalFornecCompra := dm.scds_forn_procCodFiscal.asString;
     cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
     cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
     dbEdit3.Text := dm.scds_forn_procNOMEFORNECEDOR.AsString;
@@ -1335,6 +1339,14 @@ begin
     end
     else
       usarateio := 'NAO';
+    cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(
+    dm.scds_produto_procCODPRODUTO.AsInteger
+    ,ufFornecCompra,codFiscalFornecCompra
+    ,StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString)
+    , dm.scds_produto_procNCM.AsString, 'Entrada');
+    if (cds_mov_detCFOP.asString = '') then
+      cds_mov_detCFOP.asString := edCfop.text;
+
     cds_Mov_detCODPRODUTO.AsInteger := dm.scds_produto_procCODPRODUTO.AsInteger;
     cds_Mov_detCOD_COMISSAO.AsInteger := dm.scds_produto_procCOD_COMISSAO.AsInteger;
     cds_Mov_detQTDE_PCT.AsFloat := dm.scds_produto_procQTDE_PCT.AsFloat;
@@ -1610,6 +1622,8 @@ begin
      cds_Movimento.Edit;
    cds_MovimentoCODFORNECEDOR.AsInteger := dm.scds_forn_procCODFORNECEDOR.AsInteger;
    cds_MovimentoNOMEFORNECEDOR.AsString := dm.scds_forn_procNOMEFORNECEDOR.AsString;
+   ufFornecCompra := dm.scds_forn_procUF.asString;
+   codFiscalFornecCompra := dm.scds_forn_procCodFiscal.asString;
    if (dm.scds_forn_procCFOP.asString <> '') then
    begin
      edCFOP.Text := dm.scds_forn_procCFOP.asString;
