@@ -3589,6 +3589,10 @@ begin
     try
       fCliente1.cds_cli.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
       fCliente1.cds_cli.Open;
+      if fCliente1.cds_CliEnd.Active then
+        fCliente1.cds_CliEnd.Close;
+      fCliente1.cds_CliEnd.Params[0].AsInteger := cds_MovimentoCODCLIENTE.AsInteger;
+      fCliente1.cds_CliEnd.Open;
       fCliente1.ShowModal;
     finally
       fCliente1.Free;
@@ -3783,7 +3787,7 @@ begin
         end;
       origemProdVenda := StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString);
       cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(dm.scds_produto_procCODPRODUTO.AsInteger,
-        ufClienteVenda, codFiscalClienteVenda, origemProdVenda, dm.scds_produto_procNCM.AsString);
+        ufClienteVenda, codFiscalClienteVenda, origemProdVenda, dm.scds_produto_procNCM.AsString, 'Saida');
       if (cds_mov_detCFOP.asString = '') then
         cds_mov_detCFOP.asString := edCfop.text;
       lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
@@ -3845,8 +3849,11 @@ begin
              ', RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM '  +
              ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
              ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
-             ', ' + QuotedStr('TODASAPLICACOES') + ', ' +
-             dbeCliente.Text + ')';
+             ', ' + QuotedStr('TODASAPLICACOES') + ', ' ;
+          if (dbeCliente.Text = '') then
+            sql := sql + '0)'
+          else
+            sql := sql + dbeCliente.Text + ')';
           dm.scds_produto_proc.CommandText := sql + ' WHERE COD_BARRA = ' +
             QuotedStr(dbeProduto.Text) + ' or CODPRO = ' + QuotedStr(dbeProduto.Text);
           dm.scds_produto_proc.Params[0].AsInteger := 0;
@@ -3877,7 +3884,7 @@ begin
         end;
         origemProdVenda := dm.scds_produto_proc.fieldByName('ORIGEM').asInteger;
         cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_Mov_detCODPRODUTO.AsInteger,
-          ufClienteVenda, codFiscalClienteVenda, origemProdVenda, cds_Mov_detNCM.AsString);
+          ufClienteVenda, codFiscalClienteVenda, origemProdVenda, cds_Mov_detNCM.AsString, 'Saida');
         if (cds_mov_detCFOP.asString = '') then
           cds_mov_detCFOP.asString := edCfop.text;
 
