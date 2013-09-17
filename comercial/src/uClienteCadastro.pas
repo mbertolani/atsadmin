@@ -85,9 +85,6 @@ type
     sdsEnderecoCliCIDADE: TStringField;
     sdsEnderecoCliUF: TStringField;
     sdsEnderecoCliCEP: TStringField;
-    sdsEnderecoCliTELEFONE: TStringField;
-    sdsEnderecoCliTELEFONE1: TStringField;
-    sdsEnderecoCliTELEFONE2: TStringField;
     sdsEnderecoCliFAX: TStringField;
     sdsEnderecoCliE_MAIL: TStringField;
     sdsEnderecoCliRAMAL: TStringField;
@@ -104,9 +101,6 @@ type
     cdsEnderecoCliCIDADE: TStringField;
     cdsEnderecoCliUF: TStringField;
     cdsEnderecoCliCEP: TStringField;
-    cdsEnderecoCliTELEFONE: TStringField;
-    cdsEnderecoCliTELEFONE1: TStringField;
-    cdsEnderecoCliTELEFONE2: TStringField;
     cdsEnderecoCliFAX: TStringField;
     cdsEnderecoCliE_MAIL: TStringField;
     cdsEnderecoCliRAMAL: TStringField;
@@ -662,6 +656,12 @@ type
     sds_cliNUMERO: TIntegerField;
     cds_cliNUMERO: TIntegerField;
     rgTipoEndereco: TRadioGroup;
+    sdsEnderecoCliTELEFONE: TStringField;
+    sdsEnderecoCliTELEFONE1: TStringField;
+    sdsEnderecoCliTELEFONE2: TStringField;
+    cdsEnderecoCliTELEFONE: TStringField;
+    cdsEnderecoCliTELEFONE1: TStringField;
+    cdsEnderecoCliTELEFONE2: TStringField;
     procedure DBRadioGroup1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);

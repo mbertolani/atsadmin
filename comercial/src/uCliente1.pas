@@ -211,9 +211,6 @@ type
     sds_CliEndCODCLIENTE: TIntegerField;
     sds_CliEndCOMPLEMENTO: TStringField;
     sds_CliEndCEP: TStringField;
-    sds_CliEndTELEFONE: TStringField;
-    sds_CliEndTELEFONE1: TStringField;
-    sds_CliEndTELEFONE2: TStringField;
     sds_CliEndFAX: TStringField;
     sds_CliEndE_MAIL: TStringField;
     sds_CliEndRAMAL: TStringField;
@@ -229,9 +226,6 @@ type
     cds_CliEndCODCLIENTE: TIntegerField;
     cds_CliEndCOMPLEMENTO: TStringField;
     cds_CliEndCEP: TStringField;
-    cds_CliEndTELEFONE: TStringField;
-    cds_CliEndTELEFONE1: TStringField;
-    cds_CliEndTELEFONE2: TStringField;
     cds_CliEndFAX: TStringField;
     cds_CliEndE_MAIL: TStringField;
     cds_CliEndRAMAL: TStringField;
@@ -264,6 +258,12 @@ type
     cdsTFiscalDESCRICAO: TStringField;
     DtSrcTFiscal: TDataSource;
     cbTipoFiscal: TDBLookupComboBox;
+    sds_CliEndTELEFONE: TStringField;
+    sds_CliEndTELEFONE1: TStringField;
+    sds_CliEndTELEFONE2: TStringField;
+    cds_CliEndTELEFONE: TStringField;
+    cds_CliEndTELEFONE1: TStringField;
+    cds_CliEndTELEFONE2: TStringField;
     procedure rgTipoClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

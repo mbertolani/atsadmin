@@ -1291,18 +1291,6 @@ inherited fCliente1: TfCliente1
       EditMask = '00000\-999;1;_'
       Size = 10
     end
-    object cds_CliEndTELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      Size = 9
-    end
-    object cds_CliEndTELEFONE1: TStringField
-      FieldName = 'TELEFONE1'
-      Size = 9
-    end
-    object cds_CliEndTELEFONE2: TStringField
-      FieldName = 'TELEFONE2'
-      Size = 9
-    end
     object cds_CliEndFAX: TStringField
       FieldName = 'FAX'
       Size = 9
@@ -1346,6 +1334,21 @@ inherited fCliente1: TfCliente1
     object cds_CliEndPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object cds_CliEndTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      ProviderFlags = [pfInUpdate]
+      Size = 12
+    end
+    object cds_CliEndTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      ProviderFlags = [pfInUpdate]
+      Size = 12
+    end
+    object cds_CliEndTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      ProviderFlags = [pfInUpdate]
+      Size = 12
     end
   end
   object dsp_CliEnd: TDataSetProvider
@@ -1405,18 +1408,6 @@ inherited fCliente1: TfCliente1
       FieldName = 'CEP'
       Size = 10
     end
-    object sds_CliEndTELEFONE: TStringField
-      FieldName = 'TELEFONE'
-      Size = 9
-    end
-    object sds_CliEndTELEFONE1: TStringField
-      FieldName = 'TELEFONE1'
-      Size = 9
-    end
-    object sds_CliEndTELEFONE2: TStringField
-      FieldName = 'TELEFONE2'
-      Size = 9
-    end
     object sds_CliEndFAX: TStringField
       FieldName = 'FAX'
       Size = 9
@@ -1460,6 +1451,21 @@ inherited fCliente1: TfCliente1
     object sds_CliEndPAIS: TStringField
       FieldName = 'PAIS'
       Size = 60
+    end
+    object sds_CliEndTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      ProviderFlags = [pfInUpdate]
+      Size = 12
+    end
+    object sds_CliEndTELEFONE1: TStringField
+      FieldName = 'TELEFONE1'
+      ProviderFlags = [pfInUpdate]
+      Size = 12
+    end
+    object sds_CliEndTELEFONE2: TStringField
+      FieldName = 'TELEFONE2'
+      ProviderFlags = [pfInUpdate]
+      Size = 12
     end
   end
   object procIBGE: TSQLClientDataSet
