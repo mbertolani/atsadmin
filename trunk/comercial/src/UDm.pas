@@ -1974,6 +1974,8 @@ type
     cds_cfopTOTTRIB: TStringField;
     scds_produto_procORIGEM: TStringField;
     scds_produto_procNCM: TStringField;
+    scds_forn_procUF: TStringField;
+    scds_forn_procCODFISCAL: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2070,7 +2072,7 @@ type
     function validaCfop(cfop: String):Boolean;
     Function cCustoFechado(ccusto: Integer; dataMovto: TDateTime): Boolean;
     function pesquisaCfopAUsar(codProduto: Integer; UF: String; codFiscal: String;
-      origem: Integer; NCM: String):String;
+      origem: Integer; NCM: String; tipoMovCfop: String):String;
     procedure gravaLog(DataLog: TDateTime; usuario: String; tipoMovimento: String;
     pc: String; valorAnt: String; valorPos: String; campoChave: String; acao: String);
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
@@ -3381,16 +3383,25 @@ begin
 end;
 
 function TDM.pesquisaCfopAUsar(codProduto: Integer; UF, codFiscal: String;
-  origem: Integer; NCM: String): String;
+  origem: Integer; NCM: String; tipoMovCfop: String): String;
+  var sqlBCfop: String;
 begin
   result := '';
   // ve se tem CFOP por Produto
   if (sqlBusca.Active) then
     sqlBusca.Close;
   sqlBusca.SQL.Clear;
-  sqlBusca.SQL.Add('SELECT CFOP FROM CLASSIFICACAOFISCALPRODUTO ' +
+  sqlBCfop := 'SELECT CFOP FROM CLASSIFICACAOFISCALPRODUTO ' +
     ' WHERE COD_PROD = ' + IntToStr(codProduto) +
-    '   AND UF = '  + QuotedStr(UF));
+    '   AND UF = '  + QuotedStr(UF);
+  if (tipoMovCfop = 'Entrada') then
+    sqlBCfop := sqlBCfop + ' AND CFOP LIKE ' + QuotedStr('1%');
+  if ((tipoMovCfop = 'Saida') and (uf = 'SP')) then
+    sqlBCfop := sqlBCfop + ' AND CFOP LIKE ' + QuotedStr('5%');
+  if ((tipoMovCfop = 'Saida') and (uf <> 'SP')) then
+    sqlBCfop := sqlBCfop + ' AND CFOP LIKE ' + QuotedStr('6%');
+
+  sqlBusca.SQL.Add(sqlBCfop);
   sqlBusca.Open;
   if (not sqlBusca.IsEmpty) then
     result := sqlBusca.fieldByName('CFOP').AsString
@@ -3399,11 +3410,18 @@ begin
     if (sqlBusca.Active) then
       sqlBusca.Close;
     sqlBusca.SQL.Clear;
-    sqlBusca.SQL.Add('SELECT CFOP FROM CLASSIFICACAOFISCALNCM ' +
+    sqlBCfop := 'SELECT CFOP FROM CLASSIFICACAOFISCALNCM ' +
       ' WHERE NCM = ' + QuotedStr(NCM) +
       '   AND UF = '  + QuotedStr(UF) +
       '   AND CODFISCAL = ' + QuotedStr(codFiscal) +
-      '   AND ORIGEM = '  + IntToStr(origem));
+      '   AND ORIGEM = '  + IntToStr(origem);
+    if (tipoMovCfop = 'Entrada') then
+      sqlBCfop := sqlBCfop + ' AND CFOP LIKE ' + QuotedStr('1%');
+    if ((tipoMovCfop = 'Saida') and (uf = 'SP')) then
+      sqlBCfop := sqlBCfop + ' AND CFOP LIKE ' + QuotedStr('5%');
+    if ((tipoMovCfop = 'Saida') and (uf <> 'SP')) then
+      sqlBCfop := sqlBCfop + ' AND CFOP LIKE ' + QuotedStr('6%');
+    sqlBusca.SQL.Add(sqlBCfop);
     sqlBusca.Open;
     if (not sqlBusca.IsEmpty) then
       result := sqlBusca.fieldByName('CFOP').AsString;
