@@ -1,6 +1,6 @@
 inherited fVendas: TfVendas
   Left = 215
-  Top = 107
+  Top = 108
   Width = 804
   Height = 599
   BorderIcons = [biSystemMenu, biMaximize]
@@ -2355,7 +2355,7 @@ inherited fVendas: TfVendas
         Top = 19
         Width = 104
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 1
         Text = 'PRAZO'
         OnChange = cbPrazoChange
@@ -2409,7 +2409,7 @@ inherited fVendas: TfVendas
         Top = 64
         Width = 259
         Height = 24
-        ItemHeight = 0
+        ItemHeight = 16
         TabOrder = 5
         OnChange = cbTransportadoraChange
       end
