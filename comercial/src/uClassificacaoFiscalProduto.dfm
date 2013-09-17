@@ -1,6 +1,6 @@
 inherited fClassificacaoFIscalProduto: TfClassificacaoFIscalProduto
   Left = 196
-  Top = 110
+  Top = 111
   Width = 853
   Height = 587
   Caption = 'Classifica'#231#227'o Fiscal dos Produto'

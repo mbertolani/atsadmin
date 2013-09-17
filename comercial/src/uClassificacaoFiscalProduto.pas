@@ -207,7 +207,6 @@ uses UDm, sCtrlResize;
 procedure TfClassificacaoFIscalProduto.btnIncluirClick(Sender: TObject);
 begin
   inherited;
-  DecimalSeparator := ',';
   cdsClassFiscCOD_PROD.AsInteger := cfcodprod;
   cdsClassFiscCODPRO.AsString := cfcodproduto;
   DBEdit2.SetFocus;
@@ -222,41 +221,43 @@ begin
   cdsClassFisc.open;
   uf   := cdsClassFiscUF.AsString;
   cfop := cdsClassFiscCFOP.AsString;
-  DecimalSeparator := ',';
 end;
 
 procedure TfClassificacaoFIscalProduto.btnGravarClick(Sender: TObject);
 var str:string;
 begin
   DecimalSeparator := '.';
-  if (cdsClassFisc.State in [dsEdit]) then
-  Begin
-  str := 'Update ClassificacaoFiscalProduto set CFOP = ';
-  str := str + QuotedStr(cdsClassFiscCFOP.AsString);
-  str := str + ', UF = ' + QuotedStr(cdsClassFiscUF.AsString);
-  str := str + ', ICMS_SUBST = ' + FloatToStr(cdsClassFiscICMS_SUBST.AsFloat);
-  str := str + ', ICMS_SUBST_IC = ' + FloatToStr(cdsClassFiscICMS_SUBST_IC.AsFloat);
-  str := str + ', ICMS_SUBST_IND = ' + FloatToStr(cdsClassFiscICMS_SUBST_IND.AsFloat);
-  str := str + ', ICMS = ' + FloatToStr(cdsClassFiscICMS.AsFloat);
-  str := str + ', ICMS_BASE = ' + FloatToStr(cdsClassFiscICMS_BASE.AsFloat);
-  str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
-  str := str + ', CSOSN = ' + QuotedStr(cdsClassFiscCSOSN.AsString);
-  str := str + ', IPI = ' + FloatToStr(cdsClassFiscIPI.AsFloat);
-  str := str + ', CSTIPI = ' + QuotedStr(cdsClassFiscCSTIPI.AsString);
-  str := str + ', CSTPIS = ' + QuotedStr(cdsClassFiscCSTPIS.AsString);
-  str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
-  str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
-  str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
+  try
+    if (cdsClassFisc.State in [dsEdit]) then
+    Begin
+      str := 'Update ClassificacaoFiscalProduto set CFOP = ';
+      str := str + QuotedStr(cdsClassFiscCFOP.AsString);
+      str := str + ', UF = ' + QuotedStr(cdsClassFiscUF.AsString);
+      str := str + ', ICMS_SUBST = ' + FloatToStr(cdsClassFiscICMS_SUBST.AsFloat);
+      str := str + ', ICMS_SUBST_IC = ' + FloatToStr(cdsClassFiscICMS_SUBST_IC.AsFloat);
+      str := str + ', ICMS_SUBST_IND = ' + FloatToStr(cdsClassFiscICMS_SUBST_IND.AsFloat);
+      str := str + ', ICMS = ' + FloatToStr(cdsClassFiscICMS.AsFloat);
+      str := str + ', ICMS_BASE = ' + FloatToStr(cdsClassFiscICMS_BASE.AsFloat);
+      str := str + ', CST = ' + QuotedStr(cdsClassFiscCST.AsString);
+      str := str + ', CSOSN = ' + QuotedStr(cdsClassFiscCSOSN.AsString);
+      str := str + ', IPI = ' + FloatToStr(cdsClassFiscIPI.AsFloat);
+      str := str + ', CSTIPI = ' + QuotedStr(cdsClassFiscCSTIPI.AsString);
+      str := str + ', CSTPIS = ' + QuotedStr(cdsClassFiscCSTPIS.AsString);
+      str := str + ', CSTCOFINS = ' + QuotedStr(cdsClassFiscCSTCOFINS.AsString);
+      str := str + ', PIS = ' + FloatToStr(cdsClassFiscPIS.AsFloat);
+      str := str + ', COFINS = ' + FloatToStr(cdsClassFiscCOFINS.AsFloat);
 
-  str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
-  str := str + ' AND CFOP = ' + QuotedStr(CFOP);
-  str := str + ' AND UF = ' + QuotedStr(UF);
-  dm.sqlsisAdimin.ExecuteDirect(str);
-  DecimalSeparator := ',';
-  inherited;
-  end
-  else
-    inherited;
+      str := str + ' WHERE COD_PROD = ' + IntToStr(cdsClassFiscCOD_PROD.AsInteger);
+      str := str + ' AND CFOP = ' + QuotedStr(CFOP);
+      str := str + ' AND UF = ' + QuotedStr(UF);
+      dm.sqlsisAdimin.ExecuteDirect(str);
+      inherited;
+    end
+    else
+      inherited;
+  finally
+    DecimalSeparator := ',';
+  end;
 end;
 
 procedure TfClassificacaoFIscalProduto.DBGrid1CellClick(Column: TColumn);
@@ -425,7 +426,7 @@ begin
 
   end;
   gbProduto.Visible := False;
-  MessageDlg('Cópia executado om sucesso.', mtInformation, [mbOK], 0);
+  MessageDlg('Cópia executado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfClassificacaoFIscalProduto.BitBtn2Click(Sender: TObject);
