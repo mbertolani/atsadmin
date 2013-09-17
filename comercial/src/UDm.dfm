@@ -1,8 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 4
-  Top = 31
+  Left = 5
+  Top = 218
   Height = 738
   Width = 1201
   object sqlsisAdimin: TSQLConnection
@@ -15,7 +15,7 @@ object DM: TDM
       'DriverName=UIB FireBird15'
       'BlobSize=-1'
       'CommitRetain=False'
-      'Database=quad:sge_stal'
+      'Database=quad:sge_luciana'
       'ErrorResourceFile='
       'LocaleCode=0000'
       'Password=xl04pq21'
@@ -1258,13 +1258,14 @@ object DM: TDM
   object scds_forn_proc: TSQLClientDataSet
     CommandText = 
       'select f.CODFORNECEDOR, f.NOMEFORNECEDOR, f.RAZAOSOCIAL, ef.DDD,' +
-      ' ef.TELEFONE,  f.PRAZOPAGAMENTO, f.CFOP '#13#10'from FORNECEDOR f'#13#10'lef' +
-      't outer join ENDERECOFORNECEDOR EF on EF.CODFORNECEDOR = F.CODFO' +
-      'RNECEDOR'#13#10'where ((f.NOMEFORNECEDOR like :pFORNECEDOR) or (f.RAZA' +
-      'OSOCIAL like :pRAZAO) or (f.CODFORNECEDOR = :pCODFORNECEDOR)) '#13#10 +
-      'and  (f.status = :pStatus) '#13#10'and  (((f.segmento = :pSegmento) or' +
-      ' (f.segmento = 1) ) or (:pSegmento = 1 ))'#13#10'and ( (ef.TIPOEND = 0' +
-      ') or (ef.TIPOEND is null) )'#13#10'order by f.NOMEFORNECEDOR'
+      ' ef.TELEFONE,  f.PRAZOPAGAMENTO, f.CFOP, ef.UF , f.CODFISCAL '#13#10'f' +
+      'rom FORNECEDOR f'#13#10'left outer join ENDERECOFORNECEDOR EF on EF.CO' +
+      'DFORNECEDOR = F.CODFORNECEDOR'#13#10'where ((f.NOMEFORNECEDOR like :pF' +
+      'ORNECEDOR) or (f.RAZAOSOCIAL like :pRAZAO) or (f.CODFORNECEDOR =' +
+      ' :pCODFORNECEDOR)) '#13#10'and  (f.status = :pStatus) '#13#10'and  (((f.segm' +
+      'ento = :pSegmento) or (f.segmento = 1) ) or (:pSegmento = 1 ))'#13#10 +
+      'and ( (ef.TIPOEND = 0) or (ef.TIPOEND is null) )'#13#10'order by f.NOM' +
+      'EFORNECEDOR'
     Aggregates = <>
     Options = [poAllowCommandText]
     ObjectView = True
@@ -1285,17 +1286,17 @@ object DM: TDM
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'pStatus'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'pSegmento'
         ParamType = ptInput
       end
       item
-        DataType = ftInteger
+        DataType = ftSmallint
         Name = 'pSegmento'
         ParamType = ptInput
       end>
@@ -1335,6 +1336,16 @@ object DM: TDM
     object scds_forn_procCFOP: TStringField
       FieldName = 'CFOP'
       Size = 30
+    end
+    object scds_forn_procUF: TStringField
+      FieldName = 'UF'
+      FixedChar = True
+      Size = 2
+    end
+    object scds_forn_procCODFISCAL: TStringField
+      FieldName = 'CODFISCAL'
+      FixedChar = True
+      Size = 1
     end
   end
   object cds_produto: TClientDataSet
