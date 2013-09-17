@@ -1962,6 +1962,14 @@ begin
       mudaVersao('1.0.0.122');
     end;// Fim Atualizacao Versao 1.0.0.122
 
+    if (versaoSistema = '1.0.0.122') then
+    begin
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER TELEFONE TYPE Varchar(12)');
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER TELEFONE1 TYPE Varchar(12)');
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER TELEFONE2 TYPE Varchar(12)');
+      mudaVersao('1.0.0.123');
+    end;// Fim Atualizacao Versao 1.0.0.123
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
