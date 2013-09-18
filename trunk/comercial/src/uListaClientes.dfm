@@ -67,7 +67,7 @@ object fListaClientes: TfListaClientes
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clTeal
+    Background.StartColor = clActiveCaption
     Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object BitBtn8: TBitBtn

@@ -27,86 +27,72 @@ object fFiltroEstoque: TfFiltroEstoque
     PopupMenu = PopupMenu1
     TabOrder = 0
     object Label1: TLabel
-      Left = 50
+      Left = 14
       Top = 4
       Width = 97
       Height = 13
       Caption = 'Centro de Resultado'
     end
     object Label2: TLabel
-      Left = 378
+      Left = 317
       Top = 4
       Width = 21
       Height = 13
       Caption = 'Lote'
     end
     object Label4: TLabel
-      Left = 50
+      Left = 14
       Top = 44
       Width = 45
       Height = 13
       Caption = 'C'#243'd. Nat.'
     end
     object Label5: TLabel
-      Left = 140
+      Left = 106
       Top = 44
       Width = 93
       Height = 13
       Caption = 'Natureza Opera'#231#227'o'
     end
     object Label6: TLabel
-      Left = 50
-      Top = 85
+      Left = 14
+      Top = 125
       Width = 62
       Height = 13
       Caption = 'C'#243'd. Produto'
     end
     object Label7: TLabel
-      Left = 206
-      Top = 85
+      Left = 172
+      Top = 125
       Width = 37
       Height = 13
       Caption = 'Produto'
     end
     object Label10: TLabel
-      Left = 523
-      Top = 44
+      Left = 318
+      Top = 84
       Width = 54
       Height = 13
       Caption = 'Sub. Grupo'
     end
     object Label11: TLabel
-      Left = 526
-      Top = 85
+      Left = 14
+      Top = 84
       Width = 30
       Height = 13
       Caption = 'Marca'
     end
-    object Label8: TLabel
-      Left = 423
-      Top = 134
-      Width = 109
-      Height = 13
-      Caption = 'Faixa de Produtos, de: '
-    end
-    object Label9: TLabel
-      Left = 638
-      Top = 137
-      Width = 6
-      Height = 13
-      Caption = 'a'
-    end
     object Label13: TLabel
-      Left = 315
+      Left = 318
       Top = 44
       Width = 29
       Height = 13
       Caption = 'Grupo'
     end
     object ComboBox1: TComboBox
-      Left = 50
-      Top = 19
-      Width = 321
+      Left = 14
+      Top = 18
+      Width = 291
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -116,14 +102,14 @@ object fFiltroEstoque: TfFiltroEstoque
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
-      TabOrder = 0
+      TabOrder = 3
       Text = 'TODOS'
       OnKeyPress = FormKeyPress
     end
     object ComboBox2: TComboBox
-      Left = 378
-      Top = 19
-      Width = 145
+      Left = 315
+      Top = 18
+      Width = 207
       Height = 24
       BevelKind = bkFlat
       Font.Charset = DEFAULT_CHARSET
@@ -133,22 +119,22 @@ object fFiltroEstoque: TfFiltroEstoque
       Font.Style = []
       ItemHeight = 16
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 4
       OnKeyPress = FormKeyPress
     end
     object GroupBox1: TGroupBox
-      Left = 533
-      Top = -1
-      Width = 206
-      Height = 45
+      Left = 528
+      Top = 3
+      Width = 257
+      Height = 50
       Caption = 'Per'#237'odo do Movimento'
-      TabOrder = 2
+      TabOrder = 6
       object Label3: TLabel
-        Left = 91
-        Top = 16
-        Width = 19
+        Left = 122
+        Top = 22
+        Width = 8
         Height = 16
-        Caption = 'at'#233
+        Caption = 'a'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -13
@@ -158,8 +144,8 @@ object fFiltroEstoque: TfFiltroEstoque
       end
     end
     object edCodCliente: TEdit
-      Left = 50
-      Top = 61
+      Left = 14
+      Top = 58
       Width = 54
       Height = 24
       BevelKind = bkFlat
@@ -170,16 +156,16 @@ object fFiltroEstoque: TfFiltroEstoque
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 5
       OnExit = edCodClienteExit
       OnKeyPress = FormKeyPress
     end
     object btnProdutoProcura: TBitBtn
-      Left = 105
-      Top = 60
+      Left = 68
+      Top = 57
       Width = 34
       Height = 26
-      TabOrder = 4
+      TabOrder = 9
       TabStop = False
       OnClick = btnProdutoProcuraClick
       Glyph.Data = {
@@ -248,9 +234,9 @@ object fFiltroEstoque: TfFiltroEstoque
         BFBFBFBF0000}
     end
     object edCliente: TEdit
-      Left = 140
-      Top = 61
-      Width = 172
+      Left = 104
+      Top = 58
+      Width = 202
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -260,12 +246,12 @@ object fFiltroEstoque: TfFiltroEstoque
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 10
       OnKeyPress = FormKeyPress
     end
     object Edit3: TEdit
-      Left = 50
-      Top = 101
+      Left = 14
+      Top = 139
       Width = 89
       Height = 24
       BevelKind = bkFlat
@@ -276,16 +262,16 @@ object fFiltroEstoque: TfFiltroEstoque
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 2
       OnExit = Edit3Exit
       OnKeyPress = FormKeyPress
     end
     object BitBtn1: TBitBtn
-      Left = 141
-      Top = 100
+      Left = 102
+      Top = 138
       Width = 62
       Height = 26
-      TabOrder = 7
+      TabOrder = 11
       TabStop = False
       OnClick = BitBtn1Click
       Glyph.Data = {
@@ -354,73 +340,9 @@ object fFiltroEstoque: TfFiltroEstoque
         BFBFBFBF0000}
     end
     object Edit4: TEdit
-      Left = 206
-      Top = 101
-      Width = 317
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 8
-      OnKeyPress = FormKeyPress
-    end
-    object cbPRODUTO: TComboBox
-      Left = 523
-      Top = 61
-      Width = 217
-      Height = 24
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 9
-      OnKeyPress = FormKeyPress
-    end
-    object ComboBox4: TComboBox
-      Left = 524
-      Top = 101
-      Width = 217
-      Height = 24
-      BevelKind = bkFlat
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 10
-      OnKeyPress = FormKeyPress
-    end
-    object Edit5: TEdit
-      Left = 540
-      Top = 133
-      Width = 89
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 11
-      OnKeyPress = FormKeyPress
-    end
-    object Edit6: TEdit
-      Left = 652
-      Top = 133
-      Width = 89
+      Left = 169
+      Top = 139
+      Width = 354
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -433,37 +355,69 @@ object fFiltroEstoque: TfFiltroEstoque
       TabOrder = 12
       OnKeyPress = FormKeyPress
     end
+    object cbPRODUTO: TComboBox
+      Left = 315
+      Top = 99
+      Width = 207
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      TabOrder = 7
+      OnKeyPress = FormKeyPress
+    end
+    object ComboBox4: TComboBox
+      Left = 14
+      Top = 99
+      Width = 292
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      TabOrder = 13
+      OnKeyPress = FormKeyPress
+    end
     object meDta1: TJvDatePickerEdit
       Left = 537
-      Top = 19
-      Width = 85
+      Top = 22
+      Width = 104
       Height = 21
       AllowNoDate = True
       Checked = True
-      TabOrder = 13
+      TabOrder = 0
       OnKeyPress = meDta1KeyPress
     end
     object meDta2: TJvDatePickerEdit
-      Left = 647
-      Top = 19
-      Width = 87
+      Left = 666
+      Top = 22
+      Width = 106
       Height = 21
       AllowNoDate = True
       Checked = True
-      TabOrder = 14
+      TabOrder = 1
       OnKeyPress = FormKeyPress
     end
     object GroupBox4: TGroupBox
-      Left = 49
-      Top = 126
-      Width = 288
-      Height = 41
+      Left = 528
+      Top = 113
+      Width = 257
+      Height = 50
       Caption = 'Aplica'#231#227'o'
-      TabOrder = 15
+      TabOrder = 8
       object cbAplicacao: TJvComboBox
         Left = 5
-        Top = 13
-        Width = 241
+        Top = 21
+        Width = 206
         Height = 22
         Style = csOwnerDrawFixed
         ItemHeight = 16
@@ -483,8 +437,8 @@ object fFiltroEstoque: TfFiltroEstoque
           '99 - OUTRAS')
       end
       object SpeedButton5: TBitBtn
-        Left = 248
-        Top = 8
+        Left = 212
+        Top = 16
         Width = 33
         Height = 27
         TabOrder = 1
@@ -546,6 +500,59 @@ object fFiltroEstoque: TfFiltroEstoque
           C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
           C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
           C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 528
+      Top = 58
+      Width = 257
+      Height = 50
+      Caption = 'Faixa de Produtos, de: '
+      TabOrder = 14
+      object Label8: TLabel
+        Left = 79
+        Top = 13
+        Width = 3
+        Height = 13
+      end
+      object Label9: TLabel
+        Left = 123
+        Top = 22
+        Width = 6
+        Height = 13
+        Caption = 'a'
+      end
+      object Edit5: TEdit
+        Left = 8
+        Top = 18
+        Width = 104
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnKeyPress = FormKeyPress
+      end
+      object Edit6: TEdit
+        Left = 139
+        Top = 18
+        Width = 106
+        Height = 24
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnKeyPress = FormKeyPress
       end
     end
   end
@@ -673,21 +680,18 @@ object fFiltroEstoque: TfFiltroEstoque
         Expanded = False
         FieldName = 'DTAFAB'
         Title.Caption = 'Data Fabrica'#231#227'o'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DTAVCTO'
         Title.Caption = 'Data Vencimento'
-        Width = 64
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'ANOTACOES'
         Title.Caption = 'OBS'
-        Width = 64
         Visible = True
       end>
   end
@@ -703,8 +707,8 @@ object fFiltroEstoque: TfFiltroEstoque
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object btnSair: TBitBtn
       Left = 691
@@ -907,7 +911,7 @@ object fFiltroEstoque: TfFiltroEstoque
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
     Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
     object DBText1: TDBText
       Left = 648
@@ -929,9 +933,9 @@ object fFiltroEstoque: TfFiltroEstoque
     end
   end
   object cbGrupo: TComboBox
-    Left = 314
-    Top = 104
-    Width = 206
+    Left = 315
+    Top = 101
+    Width = 207
     Height = 24
     BevelKind = bkFlat
     Font.Charset = DEFAULT_CHARSET

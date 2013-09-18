@@ -472,7 +472,6 @@ object fNotaf: TfNotaf
             OnDblClick = JvDBGrid1DblClick
             OnKeyPress = JvDBGrid1KeyPress
             OnEditChange = JvDBGrid1EditChange
-            AutoSizeColumns = True
             SelectColumnsDialogStrings.Caption = 'Select columns'
             SelectColumnsDialogStrings.OK = '&OK'
             SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -485,7 +484,7 @@ object fNotaf: TfNotaf
                 FieldName = 'CODPRO'
                 ReadOnly = True
                 Title.Caption = 'C'#243'digo'
-                Width = 16
+                Width = 50
                 Visible = True
               end
               item
@@ -493,63 +492,62 @@ object fNotaf: TfNotaf
                 FieldName = 'DESCPRODUTO'
                 ReadOnly = True
                 Title.Caption = 'Produtos'
-                Width = 127
+                Width = 200
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'NCM'
-                Width = 38
+                Width = 70
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'CFOP'
-                Width = 20
+                Width = 40
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'CST'
                 ReadOnly = True
-                Width = 13
+                Width = 30
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'CSOSN'
                 ReadOnly = True
-                Width = 18
+                Width = 40
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'UN'
                 ReadOnly = True
-                Width = 13
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'QUANTIDADE'
                 ReadOnly = True
-                Title.Caption = 'Quantidade'
-                Width = 37
+                Title.Caption = 'Quant.'
+                Width = 50
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VLR_BASE'
                 ReadOnly = True
-                Title.Caption = 'Valor Unit'#225'rio'
-                Width = 37
+                Title.Caption = 'Valor Unit.'
+                Width = 50
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'VALOR_DESCONTO'
                 Title.Caption = 'Desconto'
-                Width = 37
+                Width = 50
                 Visible = True
               end
               item
@@ -557,15 +555,14 @@ object fNotaf: TfNotaf
                 FieldName = 'ValorTotal'
                 ReadOnly = True
                 Title.Caption = 'Valor Total'
-                Width = 47
+                Width = 60
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'ICMS'
                 ReadOnly = True
-                Title.Caption = 'ICMS %'
-                Width = 38
+                Width = 30
                 Visible = True
               end
               item
@@ -573,7 +570,7 @@ object fNotaf: TfNotaf
                 FieldName = 'VLR_BASEICMS'
                 ReadOnly = True
                 Title.Caption = 'Base ICMS'
-                Width = 48
+                Width = 60
                 Visible = True
               end
               item
@@ -581,14 +578,14 @@ object fNotaf: TfNotaf
                 FieldName = 'VALOR_ICMS'
                 ReadOnly = True
                 Title.Caption = 'Valor ICMS'
-                Width = 38
+                Width = 60
                 Visible = True
               end
               item
                 Expanded = False
                 FieldName = 'FRETE'
                 Title.Caption = 'Frete'
-                Width = 37
+                Width = 60
                 Visible = True
               end
               item
@@ -596,7 +593,7 @@ object fNotaf: TfNotaf
                 FieldName = 'ICMS_SUBSTD'
                 ReadOnly = True
                 Title.Caption = 'Base ST'
-                Width = 45
+                Width = 60
                 Visible = True
               end
               item
@@ -604,7 +601,7 @@ object fNotaf: TfNotaf
                 FieldName = 'ICMS_SUBST'
                 ReadOnly = True
                 Title.Caption = 'ST'
-                Width = 111
+                Width = 60
                 Visible = True
               end>
           end
