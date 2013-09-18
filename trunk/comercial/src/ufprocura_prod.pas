@@ -229,6 +229,7 @@ type
     procedure DBGrid1DblClick(Sender: TObject);
     procedure cds_procAfterScroll(DataSet: TDataSet);
   private
+    varCondicaoEstoque : String;
     exibirCamposCondicao: String;
     condicao1: Double;
     condicao2: Double;
@@ -368,6 +369,7 @@ end;
 
 procedure TfProcura_prod.FormCreate(Sender: TObject);
 begin
+  varCondicaoEstoque := '';
   //if (DM.videoW <> '1920') then
   sCtrlResize.CtrlResize(TForm(fProcura_prod));
   if dm.cds_parametro.Active then
@@ -747,7 +749,7 @@ begin
 
  varCondicao1 := varSql1 + varCondicaoA + ' order by pro.PRODUTO ';
  varCond2 := varSql2 + varCondicaoA + ' order by pro.PRODUTO ';
- varCondicao := varSql + varCondicao + varCondicaoA + ' order by PRODUTO ';
+ varCondicao := varSql + varCondicao + varCondicaoA + varCondicaoEstoque + ' order by PRODUTO ';
 
 //***************************************************************************
  if cds_proc.Active then
@@ -1091,7 +1093,7 @@ end;
 
 procedure TfProcura_prod.SpeedButton3Click(Sender: TObject);
 begin
-  fLotesCadastro := TfLotesCadastro.Create(Application);
+  {fLotesCadastro := TfLotesCadastro.Create(Application);
   try
     fLotesCadastro.cdslotes.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
     fLotesCadastro.cdslotes.Open;
@@ -1100,7 +1102,12 @@ begin
     fLotesCadastro.ShowModal;
   finally
     fLotesCadastro.Free;
-  end;
+  end;}
+  if (varCondicaoEstoque = '') then
+    varCondicaoEstoque := ' AND ESTOQUEATUAL > 0'
+  else
+    varCondicaoEstoque := '';
+  bitbtn1.Click;
 end;
 
 procedure TfProcura_prod.Edit2Exit(Sender: TObject);
