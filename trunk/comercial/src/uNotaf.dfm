@@ -108,10 +108,11 @@ object fNotaf: TfNotaf
         Caption = 'C.N.P.J.'
         TabOrder = 3
         object DBText1: TDBText
-          Left = 11
+          Left = 5
           Top = 18
-          Width = 118
-          Height = 17
+          Width = 70
+          Height = 20
+          AutoSize = True
           DataField = 'CNPJ_CPF'
           DataSource = DataSource1
           Font.Charset = DEFAULT_CHARSET
@@ -130,10 +131,11 @@ object fNotaf: TfNotaf
         Caption = 'Inscri'#231#227'o Estadual'
         TabOrder = 4
         object DBText2: TDBText
-          Left = 11
+          Left = 5
           Top = 18
-          Width = 126
-          Height = 17
+          Width = 70
+          Height = 20
+          AutoSize = True
           DataField = 'IE_RG'
           DataSource = DataSource1
           Font.Charset = DEFAULT_CHARSET
@@ -1038,16 +1040,16 @@ object fNotaf: TfNotaf
             end
           end
           object JvGroupBox22: TJvGroupBox
-            Left = 605
-            Top = 102
-            Width = 145
+            Left = 379
+            Top = 108
+            Width = 182
             Height = 41
             Caption = 'Valor Total dos Produtos'
             TabOrder = 15
             object DBEdit14: TDBEdit
               Left = 7
               Top = 14
-              Width = 130
+              Width = 167
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -1058,9 +1060,9 @@ object fNotaf: TfNotaf
             end
           end
           object JvGroupBox27: TJvGroupBox
-            Left = 604
-            Top = 142
-            Width = 145
+            Left = 568
+            Top = 108
+            Width = 182
             Height = 41
             Caption = 'Valor Total da Nota'
             Font.Charset = DEFAULT_CHARSET
@@ -1073,7 +1075,7 @@ object fNotaf: TfNotaf
             object DBEdit19: TDBEdit
               Left = 7
               Top = 14
-              Width = 131
+              Width = 166
               Height = 21
               BevelKind = bkFlat
               BorderStyle = bsNone
@@ -1210,9 +1212,9 @@ object fNotaf: TfNotaf
             end
           end
           object JvGroupBox58: TJvGroupBox
-            Left = 127
+            Left = 125
             Top = 108
-            Width = 113
+            Width = 115
             Height = 41
             Caption = 'Outras Desp. Acess.'
             TabOrder = 13
@@ -1232,7 +1234,7 @@ object fNotaf: TfNotaf
           end
           object JvGroupBox59: TJvGroupBox
             Left = 244
-            Top = 107
+            Top = 108
             Width = 130
             Height = 41
             Caption = 'Valor Total dosTributos'
@@ -2146,8 +2148,8 @@ object fNotaf: TfNotaf
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clTeal
-    Background.EndColor = clTeal
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object btnCancelar: TBitBtn
       Left = 68
@@ -2736,7 +2738,7 @@ object fNotaf: TfNotaf
       Width = 73
       Height = 17
       Caption = 'Financeiro '
-      Color = clTeal
+      Color = clSilver
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -2759,7 +2761,7 @@ object fNotaf: TfNotaf
       Width = 116
       Height = 17
       Caption = 'Movimenta Estoque'
-      Color = clTeal
+      Color = clSilver
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
