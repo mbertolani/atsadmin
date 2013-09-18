@@ -24,8 +24,6 @@ type
     Edit3: TEdit;
     Edit4: TEdit;
     Label4: TLabel;
-    BitBtn3: TBitBtn;
-    BitBtn4: TBitBtn;
     BitBtn6: TBitBtn;
     XPMenu1: TXPMenu;
     edtNF: TEdit;
@@ -173,10 +171,10 @@ procedure TfFiltroMovimento.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fFiltroMovimento));
 
-  MMJPanel1.Background.EndColor   := dm.corStart;
-  MMJPanel1.Background.StartColor := dm.corEnd;
-  MMJPanel2.Background.EndColor   := dm.corEnd;
-  MMJPanel2.Background.StartColor := dm.corStart;
+  //MMJPanel1.Background.EndColor   := dm.corStart;
+  //MMJPanel1.Background.StartColor := dm.corEnd;
+  //MMJPanel2.Background.EndColor   := dm.corEnd;
+  //MMJPanel2.Background.StartColor := dm.corStart;
 
   if (dm.moduloUsado = 'AUTOMOTIVA') then
     GroupBox5.Visible := True;
