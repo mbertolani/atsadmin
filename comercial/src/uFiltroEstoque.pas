@@ -44,10 +44,6 @@ type
     Label10: TLabel;
     ComboBox4: TComboBox;
     Label11: TLabel;
-    Label8: TLabel;
-    Edit5: TEdit;
-    Label9: TLabel;
-    Edit6: TEdit;
     MMJPanel1: TMMJPanel;
     btnSair: TBitBtn;
     MMJPanel3: TMMJPanel;
@@ -71,9 +67,6 @@ type
     Label13: TLabel;
     BitBtn5: TBitBtn;
     BitBtn8: TBitBtn;
-    GroupBox4: TGroupBox;
-    cbAplicacao: TJvComboBox;
-    SpeedButton5: TBitBtn;
     sds_estoqueCODPROD: TStringField;
     sds_estoqueCODMOV: TIntegerField;
     sds_estoqueTIPOMOVIMENTO: TStringField;
@@ -116,6 +109,14 @@ type
     cds_estoqueCLIFOR: TStringField;
     cds_estoqueCODLOTE: TIntegerField;
     cds_estoqueANOTACOES: TStringField;
+    GroupBox4: TGroupBox;
+    cbAplicacao: TJvComboBox;
+    SpeedButton5: TBitBtn;
+    GroupBox2: TGroupBox;
+    Label8: TLabel;
+    Edit5: TEdit;
+    Label9: TLabel;
+    Edit6: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);

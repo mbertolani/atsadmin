@@ -828,7 +828,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
         0707070707070707070707000000000000070707070707070707070707070707
         0707070707070707070707070707070707070707070707070707}
       Layout = blGlyphTop
-      Margin = 0
     end
     object btnImprimir: TBitBtn [6]
       Left = 311
@@ -940,7 +939,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
-      Margin = 0
     end
     object BitBtn3: TBitBtn [7]
       Left = 388
@@ -1051,7 +1049,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
-      Margin = 0
     end
     object BitBtn4: TBitBtn [8]
       Left = 465
@@ -1162,7 +1159,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
         C0C0C0C0C9B798C2AF8ACBB494B79C87FFE9E3C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
-      Margin = 0
     end
     object BitBtn5: TBitBtn [9]
       Left = 542
@@ -1273,7 +1269,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
       Layout = blGlyphTop
-      Margin = 0
     end
     inherited btnIncluir: TBitBtn [10]
       Left = 3
@@ -1287,7 +1282,7 @@ inherited fVendaFinalizar: TfVendaFinalizar
       Top = 3
       Width = 77
       Height = 55
-      Caption = 'Baixa Estqu'
+      Caption = 'Baixa Estoq.'
       PopupMenu = PopupMenu1
       TabOrder = 11
       OnClick = BitBtn1Click
@@ -1524,7 +1519,6 @@ inherited fVendaFinalizar: TfVendaFinalizar
         C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
         C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000}
       Layout = blGlyphTop
-      Margin = 0
     end
   end
   inherited MMJPanel2: TMMJPanel
