@@ -727,11 +727,6 @@ begin
   if (DM.videoW <> '1920') then
     sCtrlResize.CtrlResize(TForm(fVendas));
 
-  MMJPanel1.Background.EndColor   := dm.corStart;
-  MMJPanel1.Background.StartColor := dm.corEnd;
-  MMJPanel3.Background.EndColor   := dm.corEnd;
-  MMJPanel3.Background.StartColor := dm.corStart;
-
   inseridoMatPrima := 'NAO';
   codmovdet := 1999999;
   codserv := 1999999;
@@ -2223,10 +2218,8 @@ begin
   if (DM.tipoVenda = 'VENDA') then
   begin
     fFiltroMovimento.Edit3.Text := '3';
-    fFiltroMovimento.Edit4.Text := 'VENDAS';
-    fFiltroMovimento.Label10.Caption := 'Vendas';
-    fFiltroMovimento.MMJPanel1.Background.EndColor := clTeal;
-    fFiltroMovimento.MMJPanel2.Background.EndColor := clTeal;
+    fFiltroMovimento.Edit4.Text := 'Pesquisa Vendas / Orçamentos';
+    fFiltroMovimento.Label10.Caption := 'Pesquisa Vendas / Orçamentos';
   end;
   var_F := 'venda';
   fFiltroMovimento.ShowModal;
@@ -3756,15 +3749,20 @@ begin
          DtSrc1.DataSet.Edit;
       if dm.scds_produto_proc.Active then
         dm.scds_produto_proc.Close;
-      dm.scds_produto_proc.CommandText := ' select CODPRODUTO' +
+      sql := ' select CODPRODUTO' +
         ', CODPRO , PRODUTO, UNIDADEMEDIDA, QTDE_PCT, ICMS, CODALMOXARIFADO' +
         ', PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL, PRECO_VENDA AS VALOR_PRAZO' +
         ', TIPO, ESTOQUEATUAL, LOCALIZACAO, LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO,' +
         ' PESO_QTDE, COD_COMISSAO, RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM ' +
         ' from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' +
         QuotedStr('TODOSGRUPOS') + ', ' + QuotedStr('TODOSSUBGRUPOS') + ',' +
-        QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', ' +
-        dbeCliente.Text + ')';
+        QuotedStr('TODASMARCAS') + ', ' + QuotedStr('TODASAPLICACOES') + ', ';
+      if (dbeCliente.Text = '') then
+        sql := sql + '0)'
+      else
+        sql := sql + dbeCliente.Text + ')';
+
+      dm.scds_produto_proc.CommandText := sql;
       dm.scds_produto_proc.Params[0].AsInteger := 0;
       dm.scds_produto_proc.Params[1].AsString := dbeProduto.Text;
       dm.scds_produto_proc.Open;
