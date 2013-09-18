@@ -7,6 +7,7 @@ inherited fVendas: TfVendas
   Caption = 'Venda'
   Font.Height = -13
   OldCreateOrder = True
+  WindowState = wsMaximized
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -983,6 +984,8 @@ inherited fVendas: TfVendas
       Height = 17
       Alignment = taLeftJustify
       Caption = 'Pedido'
+      Color = clSilver
+      ParentColor = False
       TabOrder = 12
       OnClick = RadioPedidoClick
       HotTrackFont.Charset = DEFAULT_CHARSET
@@ -1000,6 +1003,8 @@ inherited fVendas: TfVendas
       Alignment = taLeftJustify
       Caption = 'Or'#231'amento'
       Checked = True
+      Color = clSilver
+      ParentColor = False
       TabOrder = 13
       TabStop = True
       OnClick = RadioOrcamentoClick
