@@ -5,7 +5,6 @@ inherited fProdutoCadastro: TfProdutoCadastro
   BorderIcons = [biSystemMenu, biMaximize]
   Font.Height = -13
   OldCreateOrder = True
-  WindowState = wsMaximized
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 16
@@ -94,7 +93,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     Caption = 'Peso Liq.'
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 521
+    Top = 528
     Width = 796
     TabOrder = 13
     inherited btnGravar: TBitBtn
@@ -168,22 +167,28 @@ inherited fProdutoCadastro: TfProdutoCadastro
       PopupMenu = PopupMenu1
       Transparent = True
     end
-    object rgEmUso: TCheckBox
-      Left = 720
-      Top = 21
-      Width = 64
+    object rgEmUso: TJvCheckBox
+      Left = 688
+      Top = 16
+      Width = 73
       Height = 17
-      Caption = 'Em uso'
-      Checked = True
+      Caption = 'Ativo'
+      Color = clInactiveBorder
       Font.Charset = ANSI_CHARSET
-      Font.Color = clBlack
-      Font.Height = -11
-      Font.Name = 'Arial'
+      Font.Color = clBackground
+      Font.Height = -13
+      Font.Name = 'Cooper Blk BT'
       Font.Style = []
+      ParentColor = False
       ParentFont = False
-      State = cbChecked
       TabOrder = 0
-      OnClick = rgEmUsoClick
+      LinkedControls = <>
+      AutoSize = False
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -13
+      HotTrackFont.Name = 'Cooper Blk BT'
+      HotTrackFont.Style = []
     end
   end
   object DBEdit1: TDBEdit [14]
@@ -1221,7 +1226,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         Width = 336
         Height = 62
         Caption = 'Aplica'#231#227'o'
-        TabOrder = 1
+        TabOrder = 2
         object cbAplicacao: TJvComboBox
           Left = 5
           Top = 25
@@ -1333,7 +1338,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 2
+        TabOrder = 1
         OnClick = GroupBox6Click
         object DBEdit26: TDBEdit
           Left = 8
@@ -1653,7 +1658,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     OnKeyPress = FormKeyPress
   end
   object Memo1: TMemo [38]
-    Left = 192
+    Left = 152
     Top = 133
     Width = 417
     Height = 273
