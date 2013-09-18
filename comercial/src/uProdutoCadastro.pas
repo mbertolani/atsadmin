@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, dxCore, dxButton, EDBFind, Mask, FMTBcd, SqlExpr, JvExStdCtrls,
   JvCombobox, JvDBSearchComboBox, JvExMask, JvSpin, JvDBSpinEdit, ComCtrls,
-  JvExComCtrls, JvComCtrls;
+  JvExComCtrls, JvComCtrls, JvCheckBox;
 
 type
   TfProdutoCadastro = class(TfPai)
@@ -57,7 +57,6 @@ type
     dxButton3: TdxButton;
     Button1: TButton;
     dxButton4: TdxButton;
-    rgEmUso: TCheckBox;
     SpeedButton1: TBitBtn;
     SpeedButton2: TBitBtn;
     SpeedButton3: TBitBtn;
@@ -114,6 +113,7 @@ type
     DBEdit27: TDBEdit;
     Label33: TLabel;
     DBEdit28: TDBEdit;
+    rgEmUso: TJvCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -457,8 +457,8 @@ begin
   inherited;
   // if (dm.cds_produto.IsEmpty) then
   //   btnIncluir.Click;
-  sCtrlResize.CtrlResize(TForm(fProdutoCadastro));
-    DecimalSeparator := ',';
+  //sCtrlResize.CtrlResize(TForm(fProdutoCadastro));
+  DecimalSeparator := ',';
   if (not dm.cds_produto.IsEmpty) then
   begin
     if (dm.cds_produtoTIPO.AsString = 'SERV') then
