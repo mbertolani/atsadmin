@@ -1,6 +1,6 @@
 object fProcura_prod: TfProcura_prod
   Left = 22
-  Top = 0
+  Top = 31
   Width = 811
   Height = 562
   Caption = 'Lista de Produtos'
@@ -188,7 +188,7 @@ object fProcura_prod: TfProcura_prod
       Top = 64
       Width = 57
       Height = 17
-      Caption = 'Em uso'
+      Caption = 'Ativo'
       Checked = True
       PopupMenu = PopupMenu1
       State = cbChecked
@@ -505,7 +505,7 @@ object fProcura_prod: TfProcura_prod
     Columns = <
       item
         Alignment = taRightJustify
-        Color = clGradientActiveCaption
+        Color = clBtnFace
         Expanded = False
         FieldName = 'CODPRO'
         Title.Caption = 'C'#243'digo'
@@ -635,8 +635,8 @@ object fProcura_prod: TfProcura_prod
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object RadioButton1: TRadioButton
       Left = 24
@@ -654,6 +654,8 @@ object fProcura_prod: TfProcura_prod
       Width = 113
       Height = 17
       Caption = 'Tipo 2'
+      Color = clSilver
+      ParentColor = False
       TabOrder = 2
       Visible = False
       OnClick = RadioButton2Click
@@ -924,7 +926,7 @@ object fProcura_prod: TfProcura_prod
       Top = 2
       Width = 77
       Height = 55
-      Caption = 'Ctrl+L-Lotes'
+      Caption = 'Estoque'
       PopupMenu = PopupMenu1
       TabOrder = 6
       TabStop = False
@@ -1384,6 +1386,8 @@ object fProcura_prod: TfProcura_prod
       Width = 97
       Height = 13
       Caption = 'Busca Simples'
+      Color = clSilver
+      ParentColor = False
       TabOrder = 11
       OnClick = CheckBox1Click
     end
