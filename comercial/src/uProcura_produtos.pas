@@ -130,7 +130,6 @@ type
     Edit2: TJvCalcEdit;
     Edit3: TJvCalcEdit;
     BitBtn3: TBitBtn;
-    cbAplicacao: TJvComboBox;
     Label9: TLabel;
     Label23: TLabel;
     cbLocal: TJvComboBox;
@@ -220,6 +219,7 @@ type
     edCondicao2: TJvCalcEdit;
     edCondicao3: TJvCalcEdit;
     edCondicao1: TJvCalcEdit;
+    cbAplicacao: TComboBox;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -274,6 +274,7 @@ type
     procedure BitBtn11Click(Sender: TObject);
     procedure cds_procAfterScroll(DataSet: TDataSet);
   private
+    varCondicaoEstoque : String;
     resultado: String;
     exibirCamposCondicao: String;
     condicao1: Double;
@@ -298,7 +299,7 @@ type
     procedure DoExportProgress(Sender: TObject; Min, Max, Position: Cardinal; const AText: string;
       var AContinue: Boolean);
     procedure SetupData;
-    procedure SaveDoc(AExportClass: TJvCustomDBGridExportClass; const Filename: string);    
+    procedure SaveDoc(AExportClass: TJvCustomDBGridExportClass; const Filename: string);
 
   public
     { Public declarations }
@@ -454,6 +455,7 @@ end;
 
 procedure TfProcura_produtos.FormShow(Sender: TObject);
 begin
+  varCondicaoEstoque := '';
   if (not dm.cds_Marca.Active) then
     dm.cds_Marca.Open;
   dm.cds_Marca.First;
@@ -572,8 +574,6 @@ procedure TfProcura_produtos.BitBtn1Click(Sender: TObject);
 var varSql, varCondicao, varCondicaoA, varCondicaoA1, varSql1, varCond2, varSql2, varCondicao1, s, contaEstoque: string;
 i : integer;
 begin
-
-
   if (panel2.Visible = True) then
   begin
     cbMarca.Text := '';
@@ -737,7 +737,7 @@ begin
   //REMOVIDO o "order by PRODUTO" para ordenar pelo campo que o cliente quiser
   varCondicao1 := varSql1 + varCondicaoA;
   varCond2 := varSql2 + varCondicaoA1;
-  varCondicao := varSql + varCondicao + varCondicaoA;
+  varCondicao := varSql + varCondicao + varCondicaoA + varCondicaoEstoque;
 
 //***************************************************************************
  if cds_proc.Active then
@@ -1033,16 +1033,21 @@ end;
 
 procedure TfProcura_produtos.SpeedButton3Click(Sender: TObject);
 begin
-  fLotesCadastro := TfLotesCadastro.Create(Application);
+  {fLotesCadastro := TfLotesCadastro.Create(Application);
   try
     fLotesCadastro.cdslotes.Params[0].AsInteger := cds_procCODPRODUTO.AsInteger;
     fLotesCadastro.cdslotes.Open;
     fLotesCadastro.Label1.Caption := cds_procPRODUTO.AsString;
-    fLotesCadastro.Label2.Caption := cds_procPRODUTO.AsString;    
+    fLotesCadastro.Label2.Caption := cds_procPRODUTO.AsString;
     fLotesCadastro.ShowModal;
   finally
     fLotesCadastro.Free;
-  end;
+  end;}
+  if (varCondicaoEstoque = '') then
+    varCondicaoEstoque := ' AND ESTOQUEATUAL > 0'
+  else
+    varCondicaoEstoque := '';
+  bitbtn1.Click;
 end;
 
 procedure TfProcura_produtos.Edit2Exit(Sender: TObject);
