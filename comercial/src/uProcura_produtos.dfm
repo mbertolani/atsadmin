@@ -95,14 +95,14 @@ object fProcura_produtos: TfProcura_produtos
     end
     object Label10: TLabel
       Left = 680
-      Top = 3
+      Top = 2
       Width = 21
       Height = 13
       Caption = 'Tipo'
     end
     object Label9: TLabel
       Left = 480
-      Top = 4
+      Top = 2
       Width = 47
       Height = 13
       Caption = 'Aplica'#231#227'o'
@@ -132,7 +132,7 @@ object fProcura_produtos: TfProcura_produtos
     end
     object edUso: TEdit
       Left = 64
-      Top = 61
+      Top = 60
       Width = 110
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -142,7 +142,7 @@ object fProcura_produtos: TfProcura_produtos
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 7
       OnKeyPress = FormKeyPress
     end
     object edCodigo: TEdit
@@ -157,7 +157,7 @@ object fProcura_produtos: TfProcura_produtos
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 1
       OnKeyPress = FormKeyPress
     end
     object edOutros: TEdit
@@ -172,7 +172,7 @@ object fProcura_produtos: TfProcura_produtos
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 3
+      TabOrder = 2
       OnKeyPress = FormKeyPress
     end
     object edProduto: TEdit
@@ -187,7 +187,7 @@ object fProcura_produtos: TfProcura_produtos
       Font.Style = []
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 3
       OnKeyPress = FormKeyPress
     end
     object rgEmUso: TCheckBox
@@ -195,15 +195,15 @@ object fProcura_produtos: TfProcura_produtos
       Top = 63
       Width = 55
       Height = 17
-      Caption = 'Em uso'
+      Caption = 'Ativo'
       Checked = True
       PopupMenu = PopupMenu1
       State = cbChecked
-      TabOrder = 5
+      TabOrder = 6
     end
     object cbMarca: TComboBox
       Left = 176
-      Top = 61
+      Top = 60
       Width = 152
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -214,7 +214,7 @@ object fProcura_produtos: TfProcura_produtos
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 6
+      TabOrder = 8
       OnChange = cbMarcaChange
     end
     object cbFamilia: TComboBox
@@ -230,7 +230,7 @@ object fProcura_produtos: TfProcura_produtos
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 7
+      TabOrder = 9
       OnChange = cbFamiliaChange
     end
     object cbCategoria: TComboBox
@@ -246,12 +246,12 @@ object fProcura_produtos: TfProcura_produtos
       ItemHeight = 16
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 8
+      TabOrder = 10
     end
     object cbTipo: TComboBox
-      Left = 678
+      Left = 676
       Top = 18
-      Width = 110
+      Width = 112
       Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -262,7 +262,7 @@ object fProcura_produtos: TfProcura_produtos
       ItemIndex = 0
       ParentFont = False
       PopupMenu = PopupMenu1
-      TabOrder = 9
+      TabOrder = 5
       Text = 'Compra/Venda'
       Items.Strings = (
         'Compra/Venda'
@@ -271,34 +271,6 @@ object fProcura_produtos: TfProcura_produtos
         'Servi'#231'o'
         'Venda/Servi'#231'o'
         'Compra/Servi'#231'o')
-    end
-    object cbAplicacao: TJvComboBox
-      Left = 478
-      Top = 20
-      Width = 198
-      Height = 22
-      Style = csOwnerDrawFixed
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ItemHeight = 16
-      ParentFont = False
-      TabOrder = 10
-      Items.Strings = (
-        '00 - MERCADORIA PARA REVENDA'
-        '01 - MAT'#201'RIA-PRIMA'
-        '02 - EMBALAGEM'
-        '03 - PRODUTO EM PROCESSO'
-        '04 - PRODUTO ACABADO'
-        '05 - SUBPRODUTO'
-        '06 - PRODUTO INTERMEDI'#193'RIO'
-        '07 - MATERIAL DE USO E CONSUMO'
-        '08 - ATIVO IMOBILIZADO'
-        '09 - SERVI'#199'OS'
-        '10 - OUTROS INSUMOS'
-        '99 - OUTRAS')
     end
     object cbLocal: TJvComboBox
       Left = 643
@@ -314,16 +286,47 @@ object fProcura_produtos: TfProcura_produtos
       Top = 43
       Width = 55
       Height = 17
-      Caption = 'Com NCM'
+      Hint = 'Produto que tem NCM cadastrados'
+      Caption = 'NCM'
+      ParentShowHint = False
       PopupMenu = PopupMenu1
+      ShowHint = True
       TabOrder = 12
+    end
+    object cbAplicacao: TComboBox
+      Left = 478
+      Top = 18
+      Width = 195
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ItemHeight = 16
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 4
+      Items.Strings = (
+        '00 - MERCADORIA PARA REVENDA'
+        '01 - MAT'#201'RIA-PRIMA'
+        '02 - EMBALAGEM'
+        '03 - PRODUTO EM PROCESSO'
+        '04 - PRODUTO ACABADO'
+        '05 - SUBPRODUTO'
+        '06 - PRODUTO INTERMEDI'#193'RIO'
+        '07 - MATERIAL DE USO E CONSUMO'
+        '08 - ATIVO IMOBILIZADO'
+        '09 - SERVI'#199'OS'
+        '10 - OUTROS INSUMOS'
+        '99 - OUTRAS')
     end
   end
   object DBGrid1: TJvDBGrid
     Left = 0
     Top = 232
     Width = 802
-    Height = 311
+    Height = 318
     Align = alClient
     BorderStyle = bsNone
     Color = clWhite
@@ -363,7 +366,7 @@ object fProcura_produtos: TfProcura_produtos
     TitleRowHeight = 17
     Columns = <
       item
-        Color = clAqua
+        Color = clBtnFace
         Expanded = False
         FieldName = 'CODPRO'
         Title.Caption = 'C'#243'digo'
@@ -752,16 +755,18 @@ object fProcura_produtos: TfProcura_produtos
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     Background.FillType = GradUpDown
     object RadioButton1: TRadioButton
       Left = 8
-      Top = 8
+      Top = 7
       Width = 73
       Height = 17
       Caption = 'Tipo 1'
       Checked = True
+      Color = clSilver
+      ParentColor = False
       TabOrder = 1
       TabStop = True
       OnClick = RadioButton1Click
@@ -772,6 +777,8 @@ object fProcura_produtos: TfProcura_produtos
       Width = 73
       Height = 17
       Caption = 'Tipo 2'
+      Color = clSilver
+      ParentColor = False
       TabOrder = 2
       OnClick = RadioButton2Click
     end
@@ -1042,7 +1049,7 @@ object fProcura_produtos: TfProcura_produtos
       Top = 2
       Width = 77
       Height = 55
-      Caption = 'Ctrl+L-Lotes'
+      Caption = 'Estoque'
       PopupMenu = PopupMenu1
       TabOrder = 6
       TabStop = False
@@ -1768,7 +1775,7 @@ object fProcura_produtos: TfProcura_produtos
   end
   object panRelatorio: TPanel
     Left = 560
-    Top = 56
+    Top = 200
     Width = 169
     Height = 121
     TabOrder = 4
