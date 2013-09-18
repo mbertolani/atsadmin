@@ -600,7 +600,7 @@ end;
 procedure TfAtsAdmin.StatusBar1DrawPanel(StatusBar: TStatusBar;
   Panel: TStatusPanel; const Rect: TRect);
 begin
- statusBar1.Canvas.Brush.Color := clGradientActiveCaption;//$00AEB7D2;
+ statusBar1.Canvas.Brush.Color := clSilver; //GradientActiveCaption;//$00AEB7D2;
  StatusBar1.Canvas.FillRect(rect);
  StatusBar1.Canvas.TextOut(Rect.Left+18,rect.Top,Panel.Text);
  ImageList1.Draw(StatusBar.Canvas,rect.Left,rect.Top,Panel.Index+0)
