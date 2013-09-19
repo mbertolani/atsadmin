@@ -897,11 +897,6 @@ begin
     MMJPanel1.Background.EndColor := clOlive;
     MMJPanel2.Background.StartColor := clOlive;
   end;
-  if (DM.tipoCompra = 'COMPRA') then
-  begin
-    MMJPanel1.Background.EndColor := clTeal;
-    MMJPanel2.Background.StartColor := clTeal;
-  end;
   if (not dm.parametro.Active) then
     dm.parametro.Open;
   if (dm.parametro.locate('DADOS', 'PRAZO', [loCaseInsensitive])) then

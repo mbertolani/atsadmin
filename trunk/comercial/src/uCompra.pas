@@ -1708,12 +1708,6 @@ begin
   end;
   if (DM.tipoCompra = 'COMPRA') then
   begin
-    MMJPanel2.Background.EndColor   := dm.corEnd;
-    MMJPanel2.Background.StartColor := dm.corStart;
-    MMJPanel1.Background.EndColor   := dm.corEnd;
-    MMJPanel1.Background.StartColor := dm.corStart;
-
-    Label15.Caption := 'Compras';
   end;
   if (dm.emppadrao <> '') then
   begin
