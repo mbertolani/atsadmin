@@ -1,6 +1,6 @@
 inherited fInventario: TfInventario
   Left = 205
-  Top = 61
+  Top = 66
   Width = 922
   Height = 663
   Caption = 'Inventario'
@@ -713,7 +713,6 @@ inherited fInventario: TfInventario
       TitleFont.Style = []
       OnCellClick = JvDBGrid1CellClick
       AlternateRowColor = 13562879
-      AutoSizeColumns = True
       SelectColumnsDialogStrings.Caption = 'Select columns'
       SelectColumnsDialogStrings.OK = '&OK'
       SelectColumnsDialogStrings.NoSelectionWarning = 'At least one column must be visible!'
@@ -725,43 +724,50 @@ inherited fInventario: TfInventario
           Expanded = False
           FieldName = 'CODPRO'
           Title.Caption = 'C'#243'digo'
-          Width = 86
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PRODUTO'
           Title.Caption = 'Produto'
-          Width = 395
+          Width = 300
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'UNIDADEMEDIDA'
           Title.Caption = 'Un.'
-          Width = 60
+          Width = 30
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'ESTOQUE'
+          Title.Caption = 'Estoque'
+          Width = 100
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'CATEGORIA'
           Title.Caption = 'Subgrupo'
-          Width = 91
+          Width = 150
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'FAMILIA'
           Title.Caption = 'Grupo'
-          Width = 96
+          Width = 150
           Visible = True
         end>
     end
     object btnIncluiTodos: TButton
-      Left = 33
-      Top = 255
+      Left = 10
+      Top = 259
       Width = 25
-      Height = 33
+      Height = 29
       Hint = 'Incluir todos os Itens no Invent'#225'rio'
       Caption = '-->>'
       Font.Charset = DEFAULT_CHARSET
@@ -777,9 +783,9 @@ inherited fInventario: TfInventario
     end
     object btnInclui: TButton
       Left = 97
-      Top = 255
+      Top = 259
       Width = 25
-      Height = 33
+      Height = 29
       Hint = 'Incluir Item Selecionado.'
       Caption = '-->'
       Font.Charset = DEFAULT_CHARSET
@@ -794,10 +800,10 @@ inherited fInventario: TfInventario
       OnClick = btnIncluiClick
     end
     object btnRemoveTodos: TButton
-      Left = 65
-      Top = 255
+      Left = 40
+      Top = 259
       Width = 25
-      Height = 33
+      Height = 29
       Hint = 'Remove todos os itens da lista abaixo.'
       Caption = '<<--'
       Font.Charset = DEFAULT_CHARSET
@@ -813,9 +819,9 @@ inherited fInventario: TfInventario
     end
     object btnRemove: TButton
       Left = 129
-      Top = 255
+      Top = 259
       Width = 25
-      Height = 33
+      Height = 29
       Hint = 'Remove Item selecionado da Lista.'
       Caption = '<--'
       Font.Charset = DEFAULT_CHARSET
@@ -859,6 +865,16 @@ inherited fInventario: TfInventario
       Width = 145
       Height = 21
       TabOrder = 4
+    end
+    object chkTemEstoque: TCheckBox
+      Left = 9
+      Top = 242
+      Width = 128
+      Height = 17
+      Caption = 'Itens com Estoque'
+      Checked = True
+      State = cbChecked
+      TabOrder = 12
     end
   end
   object sdsProd: TSQLDataSet
