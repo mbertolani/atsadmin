@@ -1,6 +1,6 @@
 object fTerminal2: TfTerminal2
-  Left = 235
-  Top = 54
+  Left = 283
+  Top = 70
   Width = 913
   Height = 636
   AutoSize = True
@@ -1804,8 +1804,8 @@ object fTerminal2: TfTerminal2
           Left = 0
           Top = 0
           Width = 463
-          Height = 467
-          Align = alClient
+          Height = 433
+          Align = alCustom
           AutoSize = True
           Center = True
           Picture.Data = {
@@ -2567,9 +2567,9 @@ object fTerminal2: TfTerminal2
         end
         object JvPanel5: TJvPanel
           Left = 0
-          Top = 467
+          Top = 440
           Width = 463
-          Height = 57
+          Height = 84
           HotTrackFont.Charset = DEFAULT_CHARSET
           HotTrackFont.Color = clWindowText
           HotTrackFont.Height = -11
@@ -2622,6 +2622,36 @@ object fTerminal2: TfTerminal2
             HotTrackFont.Name = 'Cooper Blk BT'
             HotTrackFont.Style = []
           end
+          object JvLabel7: TJvLabel
+            Left = 6
+            Top = 54
+            Width = 36
+            Height = 15
+            Caption = 'Cliente'
+            ShadowSize = 2
+            Transparent = True
+            HintColor = clBlack
+            HotTrackFont.Charset = DEFAULT_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -13
+            HotTrackFont.Name = 'Cooper Blk BT'
+            HotTrackFont.Style = []
+          end
+          object JvSpeedButton3: TJvSpeedButton
+            Left = 125
+            Top = 53
+            Width = 32
+            Height = 25
+            Caption = '...'
+            Color = clBlue
+            HotTrackFont.Charset = ANSI_CHARSET
+            HotTrackFont.Color = clWindowText
+            HotTrackFont.Height = -19
+            HotTrackFont.Name = 'Cooper Black'
+            HotTrackFont.Style = []
+            Transparent = True
+            OnClick = JvSpeedButton3Click
+          end
           object DBEdit1: TDBEdit
             Left = 5
             Top = 25
@@ -2653,7 +2683,7 @@ object fTerminal2: TfTerminal2
           object DBEdit3: TDBEdit
             Left = 158
             Top = 25
-            Width = 217
+            Width = 280
             Height = 25
             BevelKind = bkFlat
             BorderStyle = bsNone
@@ -2663,6 +2693,34 @@ object fTerminal2: TfTerminal2
             Enabled = False
             PopupMenu = PopupMenu1
             TabOrder = 2
+          end
+          object DBEdit4: TDBEdit
+            Left = 72
+            Top = 53
+            Width = 53
+            Height = 25
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Color = clWhite
+            DataField = 'CODCLIENTE'
+            DataSource = DM_MOV.d_movimento
+            Enabled = False
+            PopupMenu = PopupMenu1
+            TabOrder = 3
+          end
+          object DBEdit5: TDBEdit
+            Left = 159
+            Top = 53
+            Width = 279
+            Height = 25
+            BevelKind = bkFlat
+            BorderStyle = bsNone
+            Color = clWhite
+            DataField = 'NOMECLIENTE'
+            DataSource = DM_MOV.d_movimento
+            Enabled = False
+            PopupMenu = PopupMenu1
+            TabOrder = 4
           end
         end
         object btnProduto: TBitBtn
