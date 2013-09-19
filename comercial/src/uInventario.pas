@@ -110,6 +110,7 @@ type
     cdsInventDATAFABRICACAO: TDateField;
     sdsProdESTOQUE: TFloatField;
     cdsProdESTOQUE: TFloatField;
+    chkTemEstoque: TCheckBox;
     procedure btnProcClick(Sender: TObject);
     procedure btnProcListaClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -157,7 +158,6 @@ begin
   sql := 'SELECT CODPRO, CODPRODUTO, cast(PRODUTO as varchar(300)) PRODUTO, ' +
     ' UNIDADEMEDIDA ,CATEGORIA , FAMILIA, LOTES ' +
     ' ,(SELECT ev.SALDOFIMACUM from ESTOQUE_VIEW_CUSTO(';
-    //if (Dta.Date
   sql := sql + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
   sql := sql + ', P.CODPRODUTO, ';
   if (cbCCusto.ItemIndex > -1) then
@@ -171,51 +171,35 @@ begin
   sql := sql + ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA');
   sql := sql + ') EV) ESTOQUE ';
   sql := sql + ' FROM PRODUTOS P ';
+  sql := sql + ' WHERE ((P.USA IS NULL) OR (P.USA = ' + QuotedStr('S') + ')) ';
   if (edProd.Text <> '') then
   begin
     sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
   end;
   if (edDesc.Text <> '') then
   begin
-    if (sqla <> '') then
-      sqla := sqla + ' AND PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%')
-    else
-      sqla := ' WHERE PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%')
+    sqla := sqla + ' AND PRODUTO LIKE ' + QuotedStr('%' + edDesc.Text + '%');
   end;
 
   if (edLocalizacao.Text <> '') then
   begin
-    if (sqla <> '') then
-      sqla := sqla + ' AND LOCALIZACAO LIKE ' + QuotedStr('%' + edLocalizacao.Text + '%')
-    else
-      sqla := ' WHERE LOCALIZACAO  LIKE ' + QuotedStr('%' + edLocalizacao.Text + '%');
+    sqla := sqla + ' AND LOCALIZACAO LIKE ' + QuotedStr('%' + edLocalizacao.Text + '%');
   end;
 
   if (edGrupo.Text <> '') then
   begin
-    if (sqla <> '') then
-      sqla := sqla + ' AND FAMILIA = ' + QuotedStr(edGrupo.Text)
-    else
-      sqla := ' WHERE FAMILIA = ' + QuotedStr(edGrupo.Text);
+    sqla := sqla + ' AND FAMILIA = ' + QuotedStr(edGrupo.Text);
   end;
   if (edSubGrupo.Text <> '') then
   begin
-    if (sqla <> '') then
-      sqla := sqla + ' AND CATEGORIA = ' + QuotedStr(edSubGrupo.Text)
-    else
-      sqla := ' WHERE CATEGORIA = ' + QuotedStr(edSubGrupo.Text);
+    sqla := sqla + ' AND CATEGORIA = ' + QuotedStr(edSubGrupo.Text);
   end;
   if (cbCCusto.ItemIndex > -1) then
   begin
-    if (sqla <> '') then
-    begin
-      if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
-        sqla := sqla + ' AND CODALMOXARIFADO = ' + IntToStr(cds_ccustoCODIGO.AsInteger);
-    end
-    else
-      if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
-        sqla := ' WHERE CODALMOXARIFADO = ' + IntToStr(cds_ccustoCODIGO.AsInteger);
+    if (cds_ccusto.Locate('NOME', cbCCusto.Text, [loCaseInsensitive])) then
+      sqla := sqla + ' AND CODALMOXARIFADO = ' + IntToStr(cds_ccustoCODIGO.AsInteger);
   end;
+
   if (cdsProd.Active) then
     cdsProd.Close;
   cdsProd.CommandText := sql + sqla;
@@ -317,7 +301,7 @@ begin
 end;
 
 procedure TfInventario.incluirInventario;
-var sql, lote :string; 
+var sql, lote :string;
     TD : TTransactionDesc;
 begin
   cdsProd.DisableControls;
@@ -359,8 +343,17 @@ begin
             sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
             DecimalSeparator := ',';
             sql := sql + ')';
-            dm.sqlsisAdimin.ExecuteDirect(sql);
-            sqlEstoque.Next;
+            if (chkTemEstoque.Checked) then
+            begin
+              if (cdsProd.fieldByname('ESTOQUE').AsFloat = 0) then
+                sqlEstoque.Next
+              else
+                dm.sqlsisAdimin.ExecuteDirect(sql);
+            end
+            else begin
+              dm.sqlsisAdimin.ExecuteDirect(sql);
+              sqlEstoque.Next;
+            end;
           end;
         end
         else begin
@@ -382,7 +375,18 @@ begin
           sql := sql + ', ' + FloatToStr(cdsProd.fieldByname('ESTOQUE').AsFloat);
           DecimalSeparator := ',';
           sql := sql + ')';
-          dm.sqlsisAdimin.ExecuteDirect(sql);
+          if (chkTemEstoque.Checked) then
+          begin
+            if (cdsProd.fieldByname('ESTOQUE').AsFloat = 0) then
+            begin
+              //cdsProd.Next;
+            end
+            else
+              dm.sqlsisAdimin.ExecuteDirect(sql);
+          end
+          else begin
+            dm.sqlsisAdimin.ExecuteDirect(sql);
+          end;
         end;
       end;
       cdsProd.Next;
@@ -486,6 +490,7 @@ begin
   end;
   incluirInventario;
   btnProcLista.Click;
+  MessageDlg('Lista inserida com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfInventario.btnIncluiClick(Sender: TObject);
@@ -767,6 +772,7 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(sql1);
       DecimalSeparator := ',';
       dm.sqlsisAdimin.Commit(TD);
+      MessageDlg('Gravado com sucesso.', mtInformation, [mbOK], 0);
     except
       on E : Exception do
       begin
