@@ -1518,7 +1518,6 @@ inherited fCompraFinalizar: TfCompraFinalizar
         FFFFF70888888888888888888000000000000088888888888888888888888888
         8888888888888888888888888888888888888888888888888888}
       Layout = blGlyphTop
-      Margin = 0
     end
     object btnNotaFiscal: TBitBtn
       Left = 251
@@ -1597,7 +1596,6 @@ inherited fCompraFinalizar: TfCompraFinalizar
         0707070707070707070707000000000000070707070707070707070707070707
         0707070707070707070707070707070707070707070707070707}
       Layout = blGlyphTop
-      Margin = 0
     end
   end
   inherited MMJPanel2: TMMJPanel
