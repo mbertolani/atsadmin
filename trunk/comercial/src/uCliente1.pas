@@ -279,6 +279,7 @@ type
     procedure btnCancelarClick(Sender: TObject);
     procedure cds_CliEndNewRecord(DataSet: TDataSet);
     procedure FormShow(Sender: TObject);
+    procedure rgSitCadClick(Sender: TObject);
   private
     FCli : TCliente;
     cCli : Integer;
@@ -332,6 +333,12 @@ procedure TfCliente1.btnGravarClick(Sender: TObject);
 var
   TD: TTransactionDesc;
 begin
+  if (cbTipoFiscal.Text = '') then
+  begin
+    MessageDlg('Informe o Tipo Fiscal.', mtWarning, [mbOK], 0);
+    cbTipoFiscal.SetFocus;
+    exit;
+  end;
   if DtSrc.DataSet.State in [dsInsert] then
   begin
     cCli := 0;
@@ -348,6 +355,10 @@ begin
     cds_cliCODUSUARIO.AsInteger := DM.varUSERID;
   end;
 
+  if DtSrc.DataSet.State in [dsEdit] then
+  begin
+    cCli := cds_cliCODCLIENTE.AsInteger;
+  end;
   cds_cliSTATUS.AsInteger := rgSitCad.ItemIndex +1;
 
   if rgTipo.ItemIndex = 0 then
@@ -607,6 +618,13 @@ begin
       cdsTFiscal.Open;
   if (modoIncluir = 'S') then
     btnIncluir.Click;
+end;
+
+procedure TfCliente1.rgSitCadClick(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in [dsBrowse]) then
+    cds_cli.Edit;
 end;
 
 end.
