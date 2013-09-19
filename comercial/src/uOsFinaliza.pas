@@ -779,7 +779,7 @@ begin
     OSFinalizaStatus  := 'FINALIZADO';
     JvComissao.Value  := DM_MOV.c_vendaCOMISSAO.Value;
     jvApagar.Value    := DM_MOV.c_vendaVALOR.Value;
-    jvTotal.Value     := DM_MOV.c_vendaVALOR.Value;
+    jvTotal.Value     := DM_MOV.c_vendaVALOR.Value + DM_MOV.c_vendaDESCONTO.Value;
     jvDesconto.Value  := DM_MOV.c_vendaDESCONTO.Value;
     jvAcrescimo.Value := DM_MOV.c_vendaMULTA_JUROS.Value;
     jvPago.Value      := DM_MOV.c_vendaVALOR_PAGAR.Value;
@@ -849,7 +849,7 @@ begin
     FRecT.baixaTitulo(jvPago.Value, //Valor
                                 0, //Funrural
                                 0, // Juros
-                                jvDesconto.Value, // Desconto
+                                0, // Desconto
                                 0, // Perda
                                 DM_MOV.c_vendaDATAVENDA.AsDateTime, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Baixa
                                 DM_MOV.c_vendaDATAVENDA.AsDateTime, //DM_MOV.c_vendaDATAVENDA.AsDateTime, // Data Recebimento

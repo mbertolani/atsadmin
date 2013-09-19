@@ -10,7 +10,7 @@ uses
   JvExComCtrls, JvComCtrls, DB, rpcompobase, rpvclreport, DBLocal,
   DBLocalS, Menus, DBClient, jpeg, JvImage, DBCtrls, Grids, DBGrids,
   JvExDBGrids, JvDBGrid, JvExStdCtrls, JvEdit, JvValidateEdit, JvGIF, DBxPress, Printers, IniFiles,
-  XPMenu, DateUtils;
+  XPMenu, DateUtils, JvSpeedButton;
 
 type
   TfTerminal2 = class(TForm)
@@ -458,6 +458,10 @@ type
     Panel5: TPanel;
     EdtCodBarra1: TEdit;
     JvLabel1: TJvLabel;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    JvLabel7: TJvLabel;
+    JvSpeedButton3: TJvSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure JvProcurarClick(Sender: TObject);
     procedure PanelClick(Sender: TObject);
@@ -504,6 +508,7 @@ type
     procedure AbrirCaixa1Click(Sender: TObject);
     procedure FazerTroca1Click(Sender: TObject);
     procedure RelatriosFechamentos1Click(Sender: TObject);
+    procedure JvSpeedButton3Click(Sender: TObject);
   private
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
@@ -761,7 +766,7 @@ begin
   codCliente := 0;
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
-    if (DM_MOV.c_movimento.Active) then
+    {if (DM_MOV.c_movimento.Active) then
     begin
        if (s_venda.Active) then
           s_venda.Close;
@@ -777,7 +782,7 @@ begin
           end;
        end;
        s_venda.Close;
-    end;
+    end;}
   end;
 
   if (not dm.cds_ccusto.Active) then
@@ -825,7 +830,8 @@ begin
       JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
     if (SQLDataSet1.Active) then
       SQLDataSet1.Close;
-    SQLDataSet1.CommandText := 'SELECT SUM(R.VALORRECEBIDO) FROM RECEBIMENTO R, VENDA V ' +
+    SQLDataSet1.CommandText := 'SELECT SUM(R.VALORRECEBIDO), SUM(V.DESCONTO) DESC'+
+      ' FROM RECEBIMENTO R, VENDA V ' +
       ' WHERE R.CODVENDA = V.CODVENDA ' +
       '   AND V.CODMOVIMENTO  = ' + IntToStr(fFiltroMovimento.cod_mov);
     SQLDataSet1.Open;
@@ -836,7 +842,13 @@ begin
     else begin
       JvParcial.Value := SQLDataSet1.Fields[0].Value;
     end;
-    JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+    if (SQLDataSet1.Fields[1].IsNull) then
+    begin
+      JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+    end
+    else begin
+      JvSubtotal.Value := JvTotal.Value - JvParcial.Value - SQLDataSet1.Fields[1].Value;
+    end;
   end
   else
   begin
@@ -3949,7 +3961,7 @@ procedure TfTerminal2.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
-    if (DM_MOV.c_movimento.Active) then
+    {if (DM_MOV.c_movimento.Active) then
     begin
        if (s_venda.Active) then
           s_venda.Close;
@@ -3965,7 +3977,7 @@ begin
           end;
        end;
        s_venda.Close;
-    end;
+    end;}
   end;
   if (DM_MOV.c_venda.Active) then
      DM_MOV.c_venda.Close;
@@ -4545,7 +4557,51 @@ begin
     F_RelTerminal.ShowModal;
   finally
     F_RelTerminal.Free;
-  end;  
+  end;
+end;
+
+procedure TfTerminal2.JvSpeedButton3Click(Sender: TObject);
+begin
+  DM.varNomeCliente := '';
+  dm.codcli := 0;
+  fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
+  try
+    fProcurar_nf.BtnProcurar.Click;
+    fProcurar_nf.EvDBFind1.DataField := 'NOMECLIENTE';
+    fProcurar_nf.btnIncluir.Visible := True;
+    if (fProcurar_nf.ShowModal = mrOK) then
+    begin
+      if dmnf.scds_cli_procSTATUS.AsInteger = 2 then
+      begin
+        MessageDlg('Cliente com status "INATIVO" para efetuar uma venda para '+#13+#10+'esse cliente, antes vc terap que mudar seu status para "ATIVO".', mtError, [mbOK], 0);
+        exit;
+      end;
+      if dmnf.scds_cli_procBLOQUEIO.AsString = 'S' then
+      begin
+        MessageDlg('Cliente com cadastro "BLOQUEADO",  venda nao permitida.', mtError, [mbOK], 0);
+        exit;
+      end;
+    end;
+    if (dm_mov.c_movimento.State in [dsBrowse]) then
+      dm_mov.c_movimento.Edit;
+    DM_MOV.c_movimentoCODCLIENTE.AsInteger := dmnf.scds_cli_procCODCLIENTE.AsInteger;
+    DM_MOV.c_movimentoNOMECLIENTE.AsString := dmnf.scds_cli_procNOMECLIENTE.AsString;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      dm.sqlsisAdimin.ExecuteDirect('UPDATE MOVIMENTO SET CODCLIENTE = ' +
+        IntToStr(dmnf.scds_cli_procCODCLIENTE.AsInteger) +
+        ' WHERE CODMOVIMENTO = ' + IntToStr(dm_mov.c_movimentoCODMOVIMENTO.AsInteger));
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      MessageDlg('Erro no sistema, o Iten nao foi gravada.', mtError,
+          [mbOk], 0);
+    end;
+  finally
+    dmnf.scds_cli_proc.Close;
+    fProcurar_nf.Free;
+  end;
+
 end;
 
 end.
