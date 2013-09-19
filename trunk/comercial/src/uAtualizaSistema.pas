@@ -1967,6 +1967,7 @@ begin
       dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER TELEFONE TYPE Varchar(12)');
       dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER TELEFONE1 TYPE Varchar(12)');
       dm.sqlsisAdimin.ExecuteDirect('ALTER TABLE ENDERECOCLIENTE ALTER TELEFONE2 TYPE Varchar(12)');
+      dm.sqlsisAdimin.ExecuteDirect('ALTER TRIGGER INVENT_ESTOQUE INACTIVE');
       mudaVersao('1.0.0.123');
     end;// Fim Atualizacao Versao 1.0.0.123
 
