@@ -382,7 +382,7 @@ object fProcura_produtos: TfProcura_produtos
       item
         Expanded = False
         FieldName = 'QTDE_PCT'
-        Title.Caption = 'Qutde'
+        Title.Caption = 'Qtde.'
         Visible = True
       end
       item
