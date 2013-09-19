@@ -139,6 +139,8 @@ type
     Label5: TLabel;
     DBEdit3: TDBEdit;
     JvDBUltimGrid1: TJvDBUltimGrid;
+    sdsDESCR: TStringField;
+    cdsDESCR: TStringField;
     procedure btnIncluirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
@@ -307,7 +309,7 @@ begin
 
     cdsCODPRODUTO.AsInteger := cdsPCODPRODUTO.AsInteger;
     cdsCODIGO.AsString := cdsPCODPRO.AsString;
-    cdsPRODUTO.Value := cdsPPRODUTO.Value;
+    cdsDESCR.AsString := cdsPPRODUTO.AsString;
     cdsPRECOLISTA.Value := cdsPVALOR_PRAZO.Value;
     cdsUNIDADE.AsString := cdsPUNIDADEMEDIDA.AsString;
     cdsCODFORNECEDOR.AsInteger := fProdFornecedor.codFornecedor;

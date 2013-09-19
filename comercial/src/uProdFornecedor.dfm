@@ -12,6 +12,8 @@ inherited fProdFornecedor: TfProdFornecedor
     Width = 719
     Height = 113
     Align = alTop
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     object Label3: TLabel [0]
       Left = 27
       Top = 61
@@ -49,6 +51,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 2
       Width = 77
       Height = 55
+      TabOrder = 8
       Layout = blGlyphTop
     end
     inherited btnIncluir: TBitBtn
@@ -56,6 +59,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 2
       Width = 77
       Height = 55
+      TabOrder = 5
       Layout = blGlyphTop
     end
     inherited btnCancelar: TBitBtn
@@ -63,6 +67,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 2
       Width = 77
       Height = 55
+      TabOrder = 9
       Layout = blGlyphTop
     end
     inherited btnExcluir: TBitBtn
@@ -70,13 +75,15 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 2
       Width = 77
       Height = 55
+      TabOrder = 6
       Layout = blGlyphTop
     end
     inherited btnProcurar: TBitBtn
-      Left = 321
+      Left = 319
       Top = 2
       Width = 77
       Height = 55
+      TabOrder = 4
       Visible = False
       Layout = blGlyphTop
     end
@@ -85,6 +92,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 2
       Width = 77
       Height = 55
+      TabOrder = 7
       Layout = blGlyphTop
     end
     object BitBtn2: TBitBtn
@@ -93,7 +101,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Width = 77
       Height = 55
       Caption = 'Imp.Tabela'
-      TabOrder = 6
+      TabOrder = 10
       OnClick = BitBtn2Click
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
@@ -177,7 +185,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 0
       OnExit = DBEdit1Exit
       OnKeyPress = FormKeyPress
     end
@@ -186,7 +194,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 77
       Width = 38
       Height = 25
-      TabOrder = 8
+      TabOrder = 11
       OnClick = BitBtn1Click
     end
     object DBEdit4: TDBEdit
@@ -194,9 +202,8 @@ inherited fProdFornecedor: TfProdFornecedor
       Top = 77
       Width = 315
       Height = 24
-      TabStop = False
-      Color = clSilver
-      DataField = 'PRODUTO'
+      Color = clWhite
+      DataField = 'DESCR'
       DataSource = DtSrc
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -204,8 +211,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      ReadOnly = True
-      TabOrder = 9
+      TabOrder = 1
     end
     object DBEdit2: TDBEdit
       Left = 506
@@ -220,7 +226,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 2
     end
     object DBEdit3: TDBEdit
       Left = 541
@@ -235,7 +241,7 @@ inherited fProdFornecedor: TfProdFornecedor
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 3
       OnExit = DBEdit3Exit
       OnKeyPress = FormKeyPress
     end
@@ -363,9 +369,9 @@ inherited fProdFornecedor: TfProdFornecedor
     CommandText = 
       'select LISTA.CODLISTAPRECO, LISTA.UNIDADE, LISTA.CODPRODUTO, LIS' +
       'TA.CODFORNECEDOR, PROD.PRODUTO, LISTA.CODIGO, LISTA.PRECOLISTA, ' +
-      'LISTA.TIPOOPERACAO from LISTAPRECO LISTA, PRODUTOS PROD'#13#10'where P' +
-      'ROD.CODPRODUTO = LISTA.CODPRODUTO AND lista.codFORNECEDOR = :for' +
-      'n and tipooperacao = :tipo'
+      'LISTA.TIPOOPERACAO '#13#10', LISTA.DESCR'#13#10'from LISTAPRECO LISTA, PRODU' +
+      'TOS PROD'#13#10'where PROD.CODPRODUTO = LISTA.CODPRODUTO AND lista.cod' +
+      'FORNECEDOR = :forn and LISTA.tipooperacao = :tipo'
     MaxBlobSize = -1
     Params = <
       item
@@ -402,7 +408,6 @@ inherited fProdFornecedor: TfProdFornecedor
     object sdsPRODUTO: TStringField
       FieldName = 'PRODUTO'
       ProviderFlags = []
-      Required = True
       Size = 300
     end
     object sdsCODIGO: TStringField
@@ -418,6 +423,10 @@ inherited fProdFornecedor: TfProdFornecedor
       FieldName = 'TIPOOPERACAO'
       FixedChar = True
       Size = 1
+    end
+    object sdsDESCR: TStringField
+      FieldName = 'DESCR'
+      Size = 300
     end
   end
   object dsp: TDataSetProvider
@@ -458,7 +467,8 @@ inherited fProdFornecedor: TfProdFornecedor
     end
     object cdsPRODUTO: TStringField
       FieldName = 'PRODUTO'
-      Required = True
+      ProviderFlags = [pfInWhere]
+      ReadOnly = True
       Size = 300
     end
     object cdsCODIGO: TStringField
@@ -472,6 +482,10 @@ inherited fProdFornecedor: TfProdFornecedor
       FieldName = 'TIPOOPERACAO'
       FixedChar = True
       Size = 1
+    end
+    object cdsDESCR: TStringField
+      FieldName = 'DESCR'
+      Size = 300
     end
   end
   object cdsP: TClientDataSet
