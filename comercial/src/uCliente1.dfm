@@ -233,6 +233,7 @@ inherited fCliente1: TfCliente1
         'Inativo'
         'Bloqueado')
       TabOrder = 1
+      OnClick = rgSitCadClick
     end
     object DBEdit48: TDBEdit
       Left = 9
