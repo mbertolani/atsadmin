@@ -1784,11 +1784,6 @@ begin
     sCtrlResize.CtrlResize(TForm(fVendaFinalizar));
   nparc := 1;
 
-  MMJPanel1.Background.EndColor   := dm.corStart;
-  MMJPanel1.Background.StartColor := dm.corEnd;
-  MMJPanel2.Background.EndColor   := dm.corEnd;
-  MMJPanel2.Background.StartColor := dm.corStart;
-
   {------Pesquisando na tab Parametro se usa consumo Materia Prima na Venda ---}
   if Dm.cds_parametro.Active then
      dm.cds_parametro.Close;
@@ -2035,7 +2030,7 @@ begin
     edVlrFrete.Value := 0;
   end;
 
-    if (dm.moduloUsado = 'MERGULHO') then
+  if (dm.moduloUsado = 'MERGULHO') then
   begin
     jvCalcEdit1.Value := fVendas.cds_Mov_detQUANTIDADE.Value;
     jvCalcEdit2.Value := fVendas.cds_Mov_detQUANTIDADE.Value;
