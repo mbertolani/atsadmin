@@ -839,14 +839,10 @@ begin
     formcompra;
   if (var_F = 'venda') then
   begin
-    // formvenda;
-    //if (var_F = 'Lista') then
-    //begin
-    if (fVendas.usaprecolistavenda = 'S') then
+    {if (fVendas.usaprecolistavenda = 'S') then
        precolista2
-    else
-      formvenda;
-  //end;
+    else}
+    formvenda;
   end;
   if (var_F = 'itens') then
     formitens;
@@ -1426,7 +1422,7 @@ begin
     end;  
     fVendas.cds_Mov_detCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
     fVendas.cds_Mov_detCODPRO.AsString      := cds_procCODPRO.AsString;
-    fVendas.cds_Mov_detDESCPRODUTO.Value    := cds_procPRODUTO.Value;
+    fVendas.cds_Mov_detDESCPRODUTO.AsString    := cds_procPRODUTO.AsString;
     fVendas.cds_Mov_detQUANTIDADE.AsFloat   := StrToFloat(Edit3.Text);
     if(fVendas.imex = 99) then
       fVendas.cds_Mov_detPRECO.AsFloat := (cds_procPRECO_COMPRA.AsFloat * 1.2)
