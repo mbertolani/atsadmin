@@ -297,7 +297,7 @@ inherited fProdFornecedor: TfProdFornecedor
         end
         item
           Expanded = False
-          FieldName = 'PRODUTO'
+          FieldName = 'DESCR'
           Title.Caption = 'Produto'
           Width = 450
           Visible = True
