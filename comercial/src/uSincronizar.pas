@@ -830,6 +830,7 @@ type
     cMarcaDESCMARCAS: TStringField;
     seMarcaDESCMARCAS: TStringField;
     ceMarcaDESCMARCAS: TStringField;
+    Memo1: TMemo;
     procedure btnExpProdClick(Sender: TObject);
     procedure btnExpCliClick(Sender: TObject);
     procedure btnExpCfiscClick(Sender: TObject);
@@ -931,7 +932,7 @@ procedure TfSincronizar.btnExpCfiscClick(Sender: TObject);
 var
   vari: integer;
 begin
-  Try
+
     if (cFiscal.Active) then
       cFiscal.Close;
     cFiscal.Open;
@@ -940,6 +941,7 @@ begin
     cFiscal.First;
     while not cFiscal.Eof do
     begin
+    try
       ceFiscal.Close;
       ceFiscal.Params[0].AsInteger := cFiscalCOD_PROD.AsInteger;
       ceFiscal.Params[1].AsString := cFiscalCFOP.AsString;
@@ -964,22 +966,27 @@ begin
           ceFiscal.AsString := cFiscal.AsString;
           ceFiscal.Value := cFiscal.Value;
           ceFiscal.ApplyUpdates(0);
-        end;}  
+        end;}
       end;
+    Except
+    //MessageDlg('Erro ao exportar Dados Fiscais', mtWarning, [mbOK], 0);
+     Memo1.Lines.Add(IntToStr(cFiscalCOD_PROD.AsInteger) + '-' + 'Produto Sem Classificação');
+    end;
+
       cFiscal.Next;
       FlatGauge1.Progress := FlatGauge1.Progress + 1;
     end;
     MessageDlg('Dados Fiscais exportados com suscesso', mtWarning, [mbOK], 0);
     cFiscal.Close;
     ceFiscal.Close;
-  Except
-    MessageDlg('Erro ao exportar Dados Fiscais', mtWarning, [mbOK], 0);
-  end;
+
 end;
 
 procedure TfSincronizar.ExportaProdutos;
 var
   vari: integer;
+  texto : string;
+  TD: TTransactionDesc;
 begin
   // Copio dados tabela de PRODUTOS
   Try
@@ -1008,12 +1015,32 @@ begin
       begin
         if (ceProdutosVALOR_PRAZO.Value <> cProdutosVALOR_PRAZO.Value) then
         begin
+         DecimalSeparator := '.';
+
+         Texto := 'UPDATE PRODUTOS SET VALOR_PRAZO = ' + FloatToStr(cProdutosVALOR_PRAZO.AsFloat)  + ' WHERE CODPRO = ' +
+                QuotedStr(Trim(cProdutosCODPRO.AsString));
+
+          TD.TransactionID := 1;
+          TD.IsolationLevel := xilREADCOMMITTED;
+          dm.sqlExporta.StartTransaction(TD);
+
+        Try
+          dm.sqlExporta.ExecuteDirect(Texto);
+          dm.sqlExporta.Commit(TD);
+        except
+          dm.sqlExporta.Rollback(TD); {on failure, undo the changes};
+          Memo1.Lines.Add(IntToStr(cProdutosCODPRO.AsInteger) + '-' + 'Produto não Expotado');
+          DecimalSeparator := ',';
+        end;
+
+         {
           ceProdutos.Edit;
           ceProdutosCODPRO.Value := cProdutosCODPRO.Value;
           ceProdutosPRODUTO.AsString := cProdutosPRODUTO.AsString;
           ceProdutosVALOR_PRAZO.Value := cProdutosVALOR_PRAZO.Value;
           ceProdutos.ApplyUpdates(0);
-        end;  
+         }
+        end;
       end;
       cProdutos.Next;
       FlatGauge1.Progress := FlatGauge1.Progress + 1;
@@ -1022,7 +1049,9 @@ begin
     cProdutos.Close;
     ceProdutos.Close;
   Except
-    MessageDlg('Erro ao exportar Produtos', mtWarning, [mbOK], 0);
+  //  MessageDlg('Erro ao exportar Produtos', mtWarning, [mbOK], 0);
+   Memo1.Lines.Add(cProdutosCODPRO.AsString) ;
+   cProdutos.Next;
   end;
 end;
 
