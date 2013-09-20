@@ -336,7 +336,7 @@ object fProcura_produtos: TfProcura_produtos
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit, dgMultiSelect]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgMultiSelect]
     ParentFont = False
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
