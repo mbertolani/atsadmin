@@ -2,7 +2,7 @@ object fSincronizar: TfSincronizar
   Left = 429
   Top = 174
   Width = 386
-  Height = 322
+  Height = 449
   Caption = 'Sincronizar Cupom'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -48,6 +48,13 @@ object fSincronizar: TfSincronizar
     Caption = 'Exportar Cadastro Fiscal'
     TabOrder = 2
     OnClick = btnExpCfiscClick
+  end
+  object Memo1: TMemo
+    Left = 16
+    Top = 304
+    Width = 345
+    Height = 97
+    TabOrder = 3
   end
   object sProdutos: TSQLDataSet
     CommandText = 'select * from PRODUTOS'
