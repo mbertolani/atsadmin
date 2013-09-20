@@ -1429,6 +1429,8 @@ begin
   begin
     btnGravar.Click;
   end;
+  if (fVendas.cds_MovimentoCODMOVIMENTO.AsInteger > 0) then
+    dm.EstoqueAtualiza(fVendas.cds_MovimentoCODMOVIMENTO.AsInteger);
 
   nfe := 'S';
 
