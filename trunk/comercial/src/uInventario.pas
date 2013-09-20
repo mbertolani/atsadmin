@@ -772,16 +772,17 @@ begin
       dm.sqlsisAdimin.ExecuteDirect(sql1);
       DecimalSeparator := ',';
       dm.sqlsisAdimin.Commit(TD);
-      MessageDlg('Gravado com sucesso.', mtInformation, [mbOK], 0);
     except
       on E : Exception do
       begin
         ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
       end;
     end;
     cdsInvent.Next;
   end;
+  MessageDlg('Gravado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfInventario.cbCCustoChange(Sender: TObject);
