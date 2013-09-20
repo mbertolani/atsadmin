@@ -3159,6 +3159,8 @@ begin
       scds_produto_proc.Close;
     EdtCodBarra1.Text := '';
   end;
+  if (tipo_busca = 'CODBARRA') then
+    EdtCodBarra1.SetFocus;
 end;
 
 procedure TfTerminal2.EdtCodBarra1Enter(Sender: TObject);
