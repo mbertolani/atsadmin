@@ -1080,68 +1080,49 @@ begin
   begin
     deleta := 'Delete From COMPRA WHERE CODMOVIMENTO = ';
     deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
-    {Try
-      FEstoque := TEstoque.Create;
-
-      Try
-        dm.sqlsisAdimin.StartTransaction(TD);
-        FEstoque.EstornaEstoque('ENTRADA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
-        DM.sqlsisAdimin.ExecuteDirect(deleta);
-        DM.sqlsisAdimin.ExecuteDirect(delvenprim);
-        DM.sqlsisAdimin.ExecuteDirect(delmovprim);
-        DM.sqlsisAdimin.ExecuteDirect(delmov);
-        dm.sqlsisAdimin.Commit(TD);
-        MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
-      Except
-        on E : Exception do
-        begin
-          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-          dm.sqlsisAdimin.Rollback(TD);
-          Exit;
-        end;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      DM.sqlsisAdimin.ExecuteDirect(deleta);
+      DM.sqlsisAdimin.ExecuteDirect(delvenprim);
+      DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+      DM.sqlsisAdimin.ExecuteDirect(delmov);
+      dm.sqlsisAdimin.Commit(TD);
+      dm.EstoqueAtualiza(cds_MovimentoCODMOVIMENTO.AsInteger-1);
+      MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+        Exit;
       end;
-    Finally
-      FEstoque.Free;
-    end;    }
-
+    end;
   end;
 
   if (cds_MovimentoCODNATUREZA.AsInteger = 2) then
   begin
     deleta := 'Delete From VENDA WHERE CODMOVIMENTO = ';
     deleta := deleta + IntToStr(cds_MovimentoCODMOVIMENTO.AsInteger);
-    //delvenprim := 'Delete From VENDA WHERE CODMOVIMENTO = ';
 
-    {Try
-      FEstoque := TEstoque.Create;
-
-      Try
-        dm.sqlsisAdimin.StartTransaction(TD);
-
-        // Gravando o Estoque
-        FEstoque.EstornaEstoque('SAIDA', cds_MovimentoCODMOVIMENTO.AsInteger, cds_MovimentoDATAMOVIMENTO.AsDateTime);
-        DM.sqlsisAdimin.ExecuteDirect(deleta);
-        DM.sqlsisAdimin.ExecuteDirect(delmov);
-        DM.sqlsisAdimin.ExecuteDirect(delvenprim);
-        DM.sqlsisAdimin.ExecuteDirect(delmovprim);
-        dm.sqlsisAdimin.Commit(TD);
-        MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
-      Except
-        on E : Exception do
-        begin
-          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-          dm.sqlsisAdimin.Rollback(TD);
-          Exit;
-        end;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    Try
+      // Gravando o Estoque
+      DM.sqlsisAdimin.ExecuteDirect(deleta);
+      DM.sqlsisAdimin.ExecuteDirect(delmov);
+      DM.sqlsisAdimin.ExecuteDirect(delvenprim);
+      DM.sqlsisAdimin.ExecuteDirect(delmovprim);
+      dm.sqlsisAdimin.Commit(TD);
+      dm.EstoqueAtualiza(cds_MovimentoCODMOVIMENTO.AsInteger-1);      
+      MessageDlg('Registro excluido com sucesso.', mtInformation, [mbOK], 0);
+    Except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+        Exit;
       end;
-
-    Finally
-      FEstoque.Free;
-    end;   }
-
-
+    end;
   end;
-
   cds_Movimento.Close;
   cds_Mov_det.close;
   cds_Movimento.Params[0].Clear;
