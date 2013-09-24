@@ -720,9 +720,9 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpExpression4: TRpExpression
-    Width = 11560
-    Height = 460
-    PosX = 40
+    Width = 11310
+    Height = 405
+    PosX = 300
     PosY = 90
     Type1Font = poHelvetica
     FontSize = 16
@@ -787,9 +787,9 @@ object TRpReport
     WideText = 'Quant.'#10'QTDE   :'
   end
   object TRpShape3: TRpShape
-    Width = 16110
-    Height = 960
-    PosX = 45
+    Width = 16155
+    Height = 945
+    PosX = 0
     PosY = 600
     PenWidth = 0
     PrintCondition = ''
@@ -856,9 +856,9 @@ object TRpReport
     WideText = #10'O.P.'
   end
   object TRpShape25: TRpShape
-    Width = 12450
-    Height = 555
-    PosX = 45
+    Width = 12495
+    Height = 600
+    PosX = 0
     PosY = 0
     PenWidth = 0
     PrintCondition = ''
@@ -880,10 +880,10 @@ object TRpReport
     WideText = 'Quant.'#10'COD / PRODUTO   :'
   end
   object TRpLabel0: TRpLabel
-    Width = 700
-    Height = 320
-    PosX = 150
-    PosY = 1690
+    Width = 555
+    Height = 255
+    PosX = 345
+    PosY = 1700
     Type1Font = poHelvetica
     FontStyle = 1
     PrintCondition = ''
@@ -894,9 +894,9 @@ object TRpReport
     WideText = 'Quant.'#10'UNIT'
   end
   object TRpShape1: TRpShape
-    Width = 860
-    Height = 440
-    PosX = 40
+    Width = 990
+    Height = 435
+    PosX = 0
     PosY = 1600
     PenWidth = 0
     PrintCondition = ''
@@ -904,9 +904,9 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpShape12: TRpShape
-    Width = 1400
-    Height = 440
-    PosX = 850
+    Width = 1560
+    Height = 435
+    PosX = 990
     PosY = 1600
     PenWidth = 0
     PrintCondition = ''
@@ -914,10 +914,10 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpLabel6: TRpLabel
-    Width = 6200
+    Width = 3555
     Height = 300
-    PosX = 2300
-    PosY = 1700
+    PosX = 2595
+    PosY = 1690
     Type1Font = poHelvetica
     FontStyle = 1
     Alignment = 4
@@ -929,10 +929,10 @@ object TRpReport
     WideText = 'Quant.'#10'DESCRI'#199#195'O'
   end
   object TRpLabel7: TRpLabel
-    Width = 3960
+    Width = 3900
     Height = 300
-    PosX = 8500
-    PosY = 1700
+    PosX = 6255
+    PosY = 1695
     Type1Font = poHelvetica
     FontStyle = 1
     Alignment = 4
@@ -944,9 +944,9 @@ object TRpReport
     WideText = 'Quant.'#10'FORNECEDOR'
   end
   object TRpShape14: TRpShape
-    Width = 6320
-    Height = 440
-    PosX = 2240
+    Width = 3674
+    Height = 435
+    PosX = 2535
     PosY = 1600
     PenWidth = 0
     PrintCondition = ''
@@ -954,9 +954,9 @@ object TRpReport
     DoAfterPrint = ''
   end
   object TRpShape16: TRpShape
-    Width = 4000
+    Width = 4935
     Height = 440
-    PosX = 8500
+    PosX = 6202
     PosY = 1600
     PenWidth = 0
     PrintCondition = ''
@@ -966,7 +966,7 @@ object TRpReport
   object TRpLabel5: TRpLabel
     Width = 700
     Height = 320
-    PosX = 1250
+    PosX = 1500
     PosY = 1690
     Type1Font = poHelvetica
     FontStyle = 1
@@ -980,7 +980,7 @@ object TRpReport
   object TRpLabel8: TRpLabel
     Width = 700
     Height = 320
-    PosX = 12750
+    PosX = 11350
     PosY = 1690
     Type1Font = poHelvetica
     FontStyle = 1
@@ -992,9 +992,9 @@ object TRpReport
     WideText = 'Quant.'#10'NOTA FISCAL'
   end
   object TRpShape17: TRpShape
-    Width = 1710
+    Width = 2591
     Height = 435
-    PosX = 12495
+    PosX = 11100
     PosY = 1600
     PenWidth = 0
     PrintCondition = ''
@@ -1016,9 +1016,9 @@ object TRpReport
     WideText = 'Quant.'#10'DATA'
   end
   object TRpShape18: TRpShape
-    Width = 1950
+    Width = 2449
     Height = 435
-    PosX = 14205
+    PosX = 13695
     PosY = 1600
     PenWidth = 0
     PrintCondition = ''
@@ -1070,12 +1070,14 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression2: TRpExpression
-    Width = 1050
-    Height = 264
-    PosX = 14020
-    PosY = 150
+    Width = 1755
+    Height = 360
+    PosX = 13995
+    PosY = 45
     Type1Font = poHelvetica
-    Alignment = 2
+    FontSize = 16
+    FontStyle = 1
+    Alignment = 4
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1139,13 +1141,14 @@ object TRpReport
     ExportExpression = ''
   end
   object TRpExpression6: TRpExpression
-    Width = 780
+    Width = 675
     Height = 255
-    PosX = 0
+    PosX = 105
     PosY = 0
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0.0'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1156,8 +1159,8 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'MATERIAPRIMA.CUSTOUNIT'
-    DisplayFormat = ',##0.00'
+    Expression = 'MATERIAPRIMA.QTDE'
+    DisplayFormat = ',##0.0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
@@ -1168,8 +1171,9 @@ object TRpReport
     PosX = 1110
     PosY = 0
     Type1Font = poHelvetica
+    FontSize = 8
     Alignment = 2
-    DisplayFormat = ',##0.00'
+    DisplayFormat = ',##0.0'
     AutoExpand = False
     AutoContract = False
     ExportPosition = 0
@@ -1180,18 +1184,19 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'MATERIAPRIMA.CUSTOUNIT*IMPR.OFQTDESOLIC'
-    DisplayFormat = ',##0.00'
+    Expression = 'MATERIAPRIMA.QTDE*IMPR.OFQTDESOLIC'
+    DisplayFormat = ',##0.0'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
   object TRpExpression8: TRpExpression
-    Width = 6045
-    Height = 300
-    PosX = 2355
+    Width = 3495
+    Height = 270
+    PosX = 2655
     PosY = 0
     Type1Font = poHelvetica
+    FontSize = 8
     CutText = True
     AutoExpand = False
     AutoContract = False
@@ -1245,7 +1250,7 @@ object TRpReport
   object TRpShape7: TRpShape
     Width = 75
     Height = 360
-    PosX = 2234
+    PosX = 2540
     PosY = -50
     Shape = rpsVertLine
     PenWidth = 0
@@ -1256,7 +1261,7 @@ object TRpReport
   object TRpShape8: TRpShape
     Width = 75
     Height = 360
-    PosX = 8534
+    PosX = 6200
     PosY = -50
     Shape = rpsVertLine
     PenWidth = 0
@@ -1267,7 +1272,7 @@ object TRpReport
   object TRpShape9: TRpShape
     Width = 75
     Height = 360
-    PosX = 12490
+    PosX = 11095
     PosY = -50
     Shape = rpsVertLine
     PenWidth = 0
@@ -1278,7 +1283,7 @@ object TRpReport
   object TRpShape13: TRpShape
     Width = 75
     Height = 360
-    PosX = 14205
+    PosX = 13695
     PosY = -50
     Shape = rpsVertLine
     PenWidth = 0
@@ -1300,7 +1305,7 @@ object TRpReport
   object TRpShape2: TRpShape
     Width = 75
     Height = 360
-    PosX = 884
+    PosX = 990
     PosY = -50
     Shape = rpsVertLine
     PenWidth = 0
@@ -1311,7 +1316,7 @@ object TRpReport
   object TRpShape19: TRpShape
     Width = 75
     Height = 360
-    PosX = 40
+    PosX = 11
     PosY = -50
     Shape = rpsVertLine
     PenWidth = 0
