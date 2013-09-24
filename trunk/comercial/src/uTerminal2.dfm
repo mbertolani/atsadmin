@@ -1254,7 +1254,7 @@ object fTerminal2: TfTerminal2
       Top = 2
       Width = 44
       Height = 44
-      Hint = 'Abrir Gaveta'
+      Hint = 'Caixa'
       ParentShowHint = False
       ShowHint = True
       TabOrder = 9
@@ -1803,8 +1803,8 @@ object fTerminal2: TfTerminal2
         object JvImage1: TJvImage
           Left = 0
           Top = 0
-          Width = 463
-          Height = 433
+          Width = 765
+          Height = 370
           Align = alCustom
           AutoSize = True
           Center = True
