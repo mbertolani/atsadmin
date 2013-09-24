@@ -7,7 +7,7 @@ uses
   Dialogs, uPai_new, Menus, XPMenu, DB, StdCtrls, Buttons, ExtCtrls,
   MMJPanel, JvToolEdit, Grids, DBGrids, JvExDBGrids, JvDBGrid, Mask, DBXpress,
   JvExMask, JvBaseEdits, FMTBcd, DBClient, Provider, SqlExpr, JvExControls,
-  JvLabel, DBLocal, DBLocalS;
+  JvLabel, DBLocal, DBLocalS, rpcompobase, rpvclreport;
 
 type
   TfOf = class(TfPai_new)
@@ -204,6 +204,8 @@ type
     scds_serie_procNOTAFISCAL: TSmallintField;
     sqlOfOFID_IND: TStringField;
     cdsOfOFID_IND: TStringField;
+    btnImprimir: TBitBtn;
+    VCLReport1: TVCLReport;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure OfProdExit(Sender: TObject);
@@ -215,6 +217,7 @@ type
     procedure cds_movDetMatNewRecord(DataSet: TDataSet);
     procedure OfIdExit(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure btnImprimirClick(Sender: TObject);
   private
     procedure baixamatprimas(tipomat: string; codof: integer);
     procedure lancaapont(codof: integer);
@@ -295,8 +298,8 @@ begin
     cdsOfOFSTATUS.AsString    := 'A'; // OF Aberta
     inherited;
     alteranumeroserie;
-    baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
     lancaapont(cdsOfOFID.AsInteger);
+    baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
@@ -349,7 +352,6 @@ begin
     OfProd.Enabled := False;
     OfDesc.Enabled := False;
     btnProdutoProcura.Enabled := False;
-//    OfId.ReadOnly := False;
   end;
 end;
 
@@ -625,12 +627,13 @@ begin
         OfProd.Text := DM.scds_produto_procCODPRO.AsString;
         OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
         OfQtde.Text := FloatToStr(cdsOfOFQTDEPRODUZ.AsFloat);
-        MessageDlg('Apontamento já Efetuado.', mtInformation, [mbOK], 0);
+        MessageDlg('Apontamento já efetuado.', mtInformation, [mbOK], 0);
       end;
     end
     else
     begin
       OfId.Text := '';
+      MessageDlg('Ordem de Produção não localizada.', mtInformation, [mbOK], 0);
       OfId.SetFocus;
     end;
   end;
@@ -708,7 +711,7 @@ begin
       dm.EstoqueAtualiza(codMovEntrada);
       dm.sqlsisAdimin.Commit(TDA);
 
-      MessageDlg('Estoque inserido com sucesso.', mtInformation,
+      MessageDlg('Apontamento inserido com sucesso.', mtInformation,
            [mbOk], 0);
     except
       on E : Exception do
@@ -802,6 +805,15 @@ begin
     scds_serie_proc.ApplyUpdates(0);
   end;
   scds_serie_proc.Close;
+end;
+
+procedure TfOf.btnImprimirClick(Sender: TObject);
+begin
+  VCLReport1.Filename := str_relatorio + 'of.rep';
+  VCLReport1.Title := VCLReport1.Filename;
+  VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
+  VCLReport1.Report.Params.ParamByName('PVMOV').Value := cdsOfOFID.AsInteger;
+  VCLReport1.Execute;
 end;
 
 end.
