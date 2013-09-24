@@ -1,6 +1,6 @@
 inherited fProduto_Mat_prima: TfProduto_Mat_prima
   Left = 0
-  Top = 24
+  Top = 25
   Width = 806
   Height = 473
   Caption = 'Materiais'
@@ -53,7 +53,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
       Left = 450
     end
     inherited btnCancelar: TBitBtn
-      Left = 560
+      Left = 559
     end
     inherited btnExcluir: TBitBtn
       Left = 559
@@ -70,9 +70,7 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
       Top = 7
       Width = 103
       Height = 40
-      BiDiMode = bdLeftToRight
       Caption = '&Imprimir'
-      ParentBiDiMode = False
       PopupMenu = PopupMenu1
       TabOrder = 6
       OnClick = btnImprimirClick
@@ -97,7 +95,6 @@ inherited fProduto_Mat_prima: TfProduto_Mat_prima
         FFFFF7FF088888888888888880FFFFFFFFFFF7F0888888888888888880FFFFFF
         FFFFF70888888888888888888000000000000088888888888888888888888888
         8888888888888888888888888888888888888888888888888888}
-      Margin = 0
     end
   end
   inherited MMJPanel2: TMMJPanel
