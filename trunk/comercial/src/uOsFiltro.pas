@@ -588,7 +588,7 @@ begin
 
   if (not sqlMov.IsEmpty) then
   begin
-    if (cdsOsSTATUS.AsString = 'F') then
+    if (cdsOsSTATUS.AsString <> 'F') then
     begin
       TrocaStatus('F', OsServico);
     end;
@@ -606,7 +606,9 @@ begin
 
         if (TrocaStatus('F', OsServico) = False) then
         begin
-          exit;
+          dm.sqlsisAdimin.ExecuteDirect('UPDATE OS SET STATUS = ' +
+            QuotedStr('F') +
+            ' WHERE CODOS  = ' + IntToStr(cdsOsCODOS.AsInteger));
         end;  //Finalizado
 
         fMov.CodMov      := 0;
