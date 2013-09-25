@@ -1,29 +1,27 @@
 set term ^ ;
 CREATE OR ALTER PROCEDURE SPESTOQUEPRODUTO (
-    DTA1 date,
-    DTA2 date,
-    PROD1 integer,
-    PROD2 integer,
-    GRUPO varchar(50),
-    SUBGRUPO varchar(50),
-    MARCA varchar(50),
-    PCCUSTO integer )
-RETURNS (
-    COD integer,
-    CODPROD varchar(20),
-    PRODUTO varchar(200),
-    SALDOINI double precision,
-    ENTRADA double precision,
-    SAIDA double precision,
-    PEDIDO double precision,
-    SALDOFIM double precision,
-    SALDOFIMSEMPEDIDO double precision,
-    VALORCUSTO double precision,
-    VLRTOTALINI double precision,
-    VLRTOTALFIM double precision,
-    VALORVENDA double precision,
-    VALORCOMPRA double precision,
-    TIPOPRODUTO varchar(20) )
+DTA1                             DATE
+                                 , DTA2                             DATE
+                                 , PROD1                            INTEGER
+                                 , PROD2                            INTEGER
+                                 , GRUPO                            VARCHAR( 50 )
+                                 , SUBGRUPO                         VARCHAR( 50 )
+                                 , MARCA                            VARCHAR( 50 )
+                                 , PCCUSTO                          INTEGER )
+RETURNS ( COD                              INTEGER
+        , CODPROD                          VARCHAR( 20 )
+        , PRODUTO                          VARCHAR( 200 )
+        , SALDOINI                         DOUBLE PRECISION
+        , ENTRADA                          DOUBLE PRECISION
+        , SAIDA                            DOUBLE PRECISION
+        , PEDIDO                           DOUBLE PRECISION
+        , SALDOFIM                         DOUBLE PRECISION
+        , SALDOFIMSEMPEDIDO                DOUBLE PRECISION
+        , VALORCUSTO                       DOUBLE PRECISION
+        , VLRTOTALINI                      DOUBLE PRECISION
+        , VLRTOTALFIM                      DOUBLE PRECISION
+        , VALORVENDA                       DOUBLE PRECISION
+        , TIPOPRODUTO                      VARCHAR( 20 ) )
 AS
 DECLARE VARIABLE ESTOQ DOUBLE PRECISION;
 DECLARE VARIABLE ENTRA DOUBLE PRECISION = 0;
@@ -36,6 +34,9 @@ DECLARE VARIABLE MARGEM DOUBLE PRECISION = 0;
 DECLARE VARIABLE CUSTOMATERIAPRIMA DOUBLE PRECISION = 0;
 DECLARE VARIABLE PMCUS DOUBLE PRECISION = 0;
 declare variable tipoprecovenda char(1);
+DECLARE VARIABLE PRCUSTO DOUBLE PRECISION;
+DECLARE VARIABLE CODMP INTEGER;
+declare variable VLRMP double precision;
 BEGIN
     FOR SELECT CODPRODUTO, CODPRO, PRODUTO, FAMILIA, CATEGORIA,  VALORUNITARIOATUAL, VALOR_PRAZO, TIPO
       ,PRECOMEDIO, tipoPrecoVenda, margem FROM PRODUTOS 
@@ -53,7 +54,7 @@ BEGIN
           PRCUS = PMCUS;  
        /* -- Qtde Inicial ENTRADA*/
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO) 
-            FROM COMPRA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
+            FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, COMPRA v 
             WHERE v.codmovimento = mov.codmovimento and  mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
             AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 AND v.DATACOMPRA  < :DTA1 
@@ -62,7 +63,7 @@ BEGIN
         
        /* -- Qtde Inicial SAIDA*/
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO)  
-            FROM VENDA v , MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
+            FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, VENDA v  
             WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO 
             AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND v.DATAVENDA  < :DTA1
@@ -77,27 +78,17 @@ BEGIN
 
        /* -- Entrada */
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO) 
-            FROM COMPRA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu   
+            FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, COMPRA v   
             WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 AND v.DATACOMPRA BETWEEN :DTA1 AND
             :DTA2 AND ((mov.CODALMOXARIFADO = :PCCUSTO) OR (:PCCUSTO = 0)) and movdet.baixa is not null
         INTO :ENTRADA, :EntraVlr;
         IF (ENTRADA IS NULL) THEN
             ENTRADA = 0;
-            
-        SELECT First 1 movdet.PRECO  
-            FROM COMPRA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu   
-            WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
-            AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 0 AND v.DATACOMPRA BETWEEN :DTA1 AND
-            :DTA2 AND ((mov.CODALMOXARIFADO = :PCCUSTO) OR (:PCCUSTO = 0)) and movdet.baixa is not null
-            ORDER BY v.DATACOMPRA DESC 
-        INTO :VALORCOMPRA;
-        IF (VALORCOMPRA IS NULL) THEN
-            VALORCOMPRA = 0;            
 
-       /* -- SaÃ­da*/
+       /* -- Saída*/
         SELECT SUM(movdet.QUANTIDADE), sum(movdet.QUANTIDADE * movdet.PRECOCUSTO) 
-           FROM VENDA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu 
+           FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu  , VENDA v 
             WHERE  v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 AND v.DATAVENDA BETWEEN :DTA1 AND
             :DTA2 AND ((mov.CODALMOXARIFADO = :PCCUSTO) OR (:PCCUSTO = 0)) and movdet.baixa is not null
@@ -109,7 +100,7 @@ BEGIN
 
         VlrTotalFim = EntraVlr - SaiVlr;
        /* -- Pedidos*/
-        SELECT SUM(movdet.QUANTIDADE) FROM VENDA v, MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu   
+        SELECT SUM(movdet.QUANTIDADE) FROM MOVIMENTODETALHE movdet, MOVIMENTO mov, NATUREZAOPERACAO natu, VENDA v   
             WHERE v.codmovimento = mov.codmovimento and mov.CODMOVIMENTO = movdet.CODMOVIMENTO AND natu.CODNATUREZA = mov.CODNATUREZA 
             AND movdet.CODPRODUTO = :COD AND natu.BAIXAMOVIMENTO = 1 
             AND v.DATAVENDA BETWEEN :DTA1 AND
@@ -120,14 +111,20 @@ BEGIN
             PEDIDO = 0;
 
        /* O custo do produto e baseado em cima das materias primas */
-    -- busco o ultimo movimento q este produto teve para pegar o preco de custo dele.
+    -- busco o último movimento q este produto teve para pegar o preço de custo dele.
     prCus = null;
-    select first 1 precocusto from MOVIMENTODETALHE md, MOVIMENTO m where (m.CODMOVIMENTO = md.CODMOVIMENTO) and 
-    md.PRECOCUSTO > 0 and (m.DATAMOVIMENTO <= :dta2) and ((md.baixa = 0) or (md.baixa = 1)) and md.codproduto = :cod 
+
+    VLRMP = 0;
+    select first 1 VLR_BASE from MOVIMENTODETALHE md, MOVIMENTO m, COMPRA c
+     where (m.CODMOVIMENTO = md.CODMOVIMENTO) and (c.CODMOVIMENTO = m.CODMOVIMENTO) and
+    md.VLR_BASE > 0 and (c.DATACOMPRA <= :dta2) and (md.baixa = 0) and md.codproduto = :cod
       order by md.codmovimento desc
        into :prCus;
+    
     if (prCus is null) then 
-      prCus = 0;
+      prCus = 0;      
+      valorcusto = prCus; 
+
     custoMateriaPrima = 0;   
     select sum(m.QTDEUSADA * (case when p.PRECOMEDIO is null then p.VALORUNITARIOATUAL 
      when p.PRECOMEDIO = 0 then p.VALORUNITARIOATUAL 
@@ -142,15 +139,29 @@ BEGIN
        VALORCUSTO = custoMateriaPrima;
     else    
        valorcusto = prcus;
-     
-        SALDOFIM = SALDOINI + ENTRADA - SAIDA;
-        SALDOFIMSEMPEDIDO = SALDOINI + ENTRADA - SAIDA - PEDIDO;
-        if ((CustoMateriaPrima = 0) OR (CustoMateriaPrima is null)) then 
-          VALORCUSTO =  PRCUS;
-        VALORVENDA =  SALDOFIM * PRVEN;
+        
+    --VLRMP = VLRMP + (custoMateriaPrima * prCus);
+
+   /* if (custoMateriaPrima > 0) then
+       VALORCUSTO = custoMateriaPrima;
+    else    
+       valorcusto = prcus;*/
+      -- if (VLRMP > 0) then
+      --   valorcusto = VLRMP;
+         
+       SALDOFIM = SALDOINI + ENTRADA - SAIDA;
+       SALDOFIMSEMPEDIDO = SALDOINI + ENTRADA - SAIDA - PEDIDO;
+       VALORVENDA =  SALDOFIM * valorcusto;
           SUSPEND;
+       --   VLRMP = 0;
+          
         custoMateriaPrima = null;
 
     END
+         
+        
+        /*if ((CustoMateriaPrima = 0) OR (CustoMateriaPrima is null)) then
+          VALORCUSTO =  PRCUS;*/
+
 
 END
