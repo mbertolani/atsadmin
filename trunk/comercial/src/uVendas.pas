@@ -687,7 +687,6 @@ type
     { Private declarations }
     procurouProd : String;
     modo :string;
-    origemProdVenda: Integer;
     procedure Margem_Confere;
     procedure insereMatPrima;
     procedure PesquisaProdutos;
@@ -3783,9 +3782,11 @@ begin
              dm.scds_produto_proc.Close;
            Exit;
         end;
-      origemProdVenda := StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString);
+      dm.origemProdutoCfop := 0;
+      if (not dm.scds_produto_proc.fieldByName('ORIGEM').IsNull) then
+        dm.origemProdutoCfop := StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString);
       cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(dm.scds_produto_procCODPRODUTO.AsInteger,
-        ufClienteVenda, codFiscalClienteVenda, origemProdVenda, dm.scds_produto_procNCM.AsString, 'Saida');
+        ufClienteVenda, codFiscalClienteVenda, dm.origemProdutoCfop, dm.scds_produto_procNCM.AsString, 'Saida');
       if (cds_mov_detCFOP.asString = '') then
         cds_mov_detCFOP.asString := edCfop.text;
       lblEstoque.Caption := FloatToStr(dm.scds_produto_procESTOQUEATUAL.asfloat);
@@ -3874,15 +3875,18 @@ begin
           dm.scds_produto_proc.Open;
           if dm.scds_produto_proc.IsEmpty then
           begin
-             MessageDlg('Código não cadastrado, deseja cadastra-ló ?', mtWarning,
+             MessageDlg('Código não cadastrado, deseja cadastra-lo ?', mtWarning,
             [mbOk], 0);
             btnProdutoProcura.Click;
             exit;
           end;
         end;
-        origemProdVenda := dm.scds_produto_proc.fieldByName('ORIGEM').asInteger;
+        dm.origemProdutoCfop := 0;
+        if (not dm.scds_produto_proc.fieldByName('ORIGEM').IsNull) then
+          dm.origemProdutoCfop := StrToInt(dm.scds_produto_proc.fieldByName('ORIGEM').asString);
+
         cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_Mov_detCODPRODUTO.AsInteger,
-          ufClienteVenda, codFiscalClienteVenda, origemProdVenda, cds_Mov_detNCM.AsString, 'Saida');
+          ufClienteVenda, codFiscalClienteVenda, dm.origemProdutoCfop, cds_Mov_detNCM.AsString, 'Saida');
         if (cds_mov_detCFOP.asString = '') then
           cds_mov_detCFOP.asString := edCfop.text;
 
