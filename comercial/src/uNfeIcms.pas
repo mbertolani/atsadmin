@@ -1135,8 +1135,18 @@ begin
     // Dados da Empresa
     with Registro0000New do
     begin
-      COD_VER          := vlVersao106;
-      COD_FIN          := raOriginal;
+      if (data_ini.Date < StrToDate('01/01/2013')) then
+      begin
+        COD_VER          := vlVersao105;
+      end
+      else begin
+        COD_VER          := vlVersao106;
+      end;
+      if (cbTipo.ItemIndex = 0) then
+        COD_FIN          := raOriginal;
+      if (cbTipo.ItemIndex = 1) then
+        COD_FIN          := raSubstituto;
+
       NOME             := cdsEmpresaRAZAO.AsString;
       CNPJ             := util.RemoveChar(cdsEmpresaCNPJ_CPF.AsString);
       IE               := util.RemoveChar(cdsEmpresaIE_RG.AsString);
@@ -1238,6 +1248,7 @@ begin
            end;
          end; // Fim 150 - Fornecedor
 
+         // NO SPED ICMS NAO PRECISO DECLARAR O CLIENTE
          if (not cdsEmpS.IsEmpty) then  // Clientes
          begin
            while not cdsEmpS.Eof do
@@ -1270,6 +1281,7 @@ begin
              cdsEmpS.Next;
            end;
          end; //Fim 150 - Cliente
+         
 
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
@@ -1299,6 +1311,7 @@ begin
          end;
 
 
+         { NO SPED ICMS NAO PRECISO DECLARAR ITENS DE VENDA
          // UNIDADE VENDA
          if (sdsUnimed.Active) then
            sdsUnimed.Close;
@@ -1334,6 +1347,7 @@ begin
            end;
            sdsUnimed.Next;
          end;
+         }
 
          // UNIDADE INVENTARIO
          if (sdsUnimed.Active) then
@@ -1422,14 +1436,15 @@ begin
            '   AND C.DATACOMPRA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
            '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
            ' )) ' +
-           '  OR (EXISTS (SELECT V.CODMOVIMENTO FROM VENDA V, SERIES ss ' +
+           ')';
+           cdsProduto.Open;
+           {  SPED ICMS NAO PRECISO
+                     '  OR (EXISTS (SELECT V.CODMOVIMENTO FROM VENDA V, SERIES ss ' +
            ' WHERE ss.SERIE = V.SERIE ' +
            '   AND V.CODMOVIMENTO = MOV.CODMOVIMENTO ' +
-           '   AND ss.MODELO <> ' + QuotedStr('55') + 
+           '   AND ss.MODELO <> ' + QuotedStr('55') +
            '   AND V.DATAVENDA BETWEEN ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_ini.Date)) +
-           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +
-           ')))';
-           cdsProduto.Open;
+           '   AND ' + QuotedStr(formatdatetime('mm/dd/yyyy', data_fim.Date)) +}
            While (not cdsProduto.Eof) do
            begin
              // 0200 - Tabela de Identificação do Item (Produtos e Serviços)
@@ -1763,6 +1778,7 @@ begin
 
         // FIM BLOCO COMPRAS ######################
 
+
         abrirTabelasVenda;
         // BLOCO VENDAS ###########################
         if (not cdsNFVenda.IsEmpty) then
@@ -1842,6 +1858,7 @@ begin
               IItens := 1;
               if (COD_MOD <> '55') then
               begin
+                { Para NF de SAIDA nao precisa registro C170
                 While not cdsItens.Eof do
                 begin
                   //c170 - Complemento de Documento – Itens do Documento (códigos 01, 1B, 04 e 55)
@@ -1897,7 +1914,7 @@ begin
                   IItens := IItens + 1;
                   cdsItens.Next;
                 end;
-
+                 }
               end;
             end;
 
@@ -2094,7 +2111,7 @@ begin
 
   // Habilita os botões
   cbConcomitante.Enabled := True ;
-
+  MessageDlg('Arquivo gerado com sucesso.', mtInformation, [mbOK], 0);
 end;
 
 procedure TfNfeIcms.btnErrorClick(Sender: TObject);
