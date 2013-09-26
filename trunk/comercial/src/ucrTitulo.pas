@@ -276,7 +276,8 @@ end;
 procedure TfcrTitulo.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
-  dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set DP = null where DP = 0');
+  dm.sqlsisAdimin.ExecuteDirect('update RECEBIMENTO set DP = null where DP = 0' +
+    ' AND USERID = ' + IntToStr(fAtsAdmin.UserControlComercial.CurrentUser.UserID)); 
 end;
 
 procedure TfcrTitulo.btnExcluirClick(Sender: TObject);
