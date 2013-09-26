@@ -1291,9 +1291,14 @@ begin
     fCompra.cds_Mov_detCODALMOXARIFADO.AsInteger := cds_procCODALMOXARIFADO.AsInteger;
     fCompra.cds_Mov_detQTDE_ALT.AsFloat     := 0;
     fCompra.cds_Mov_detPIPI.AsFloat         := cds_procIPI.AsFloat;
+
+    dm.origemProdutoCfop := 0;
+    if (not cds_proc.fieldByName('ORIGEM').IsNull) then
+      dm.origemProdutoCfop := StrToInt(cds_proc.fieldByName('ORIGEM').asString);
+
     fCompra.cds_mov_detCFOP.asString        := dm.pesquisaCfopAUsar(cds_procCODPRODUTO.AsInteger,
       fCompra.ufFornecCompra, fCompra.codFiscalFornecCompra,
-      StrToInt(cds_proc.fieldByName('ORIGEM').asString),
+      dm.origemProdutoCfop,
       cds_procNCM.AsString, 'Entrada');
 
     if fProcura_prod.cds_procLOTES.AsString = 'S' then
@@ -1411,9 +1416,13 @@ begin
       else
         saldo_negativo := 'FALSE';
 
+    dm.origemProdutoCfop := 0;
+    if (not cds_proc.fieldByName('ORIGEM').IsNull) then
+      dm.origemProdutoCfop := StrToInt(cds_proc.fieldByName('ORIGEM').asString);
+
     fVendas.cds_mov_detCFOP.asString := dm.pesquisaCfopAUsar(cds_procCODPRODUTO.AsInteger,
       fVendas.ufClienteVenda, fVendas.codFiscalClienteVenda,
-      StrToInt(cds_proc.fieldByName('ORIGEM').asString),
+      dm.origemProdutoCfop,
       cds_procNCM.AsString, 'Saida');
     if (fVendas.cds_mov_detCFOP.asString = '') then
     begin
