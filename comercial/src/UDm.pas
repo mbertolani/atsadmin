@@ -2046,7 +2046,7 @@ type
     varCOD_VENDA, varCOD_MOV : integer;
     situacaoCaixa : string;
     //CUPOM
-
+    origemProdutoCfop: Integer;
     cadastroClienteTipo: String;
     impressora_pc: string;
     videoW, videoH :string;
