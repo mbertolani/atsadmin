@@ -307,7 +307,10 @@ begin
     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
   cbMarca.Text := '';
   if (var_F = 'os') then
-    EvDBFind1.SetFocus;
+  begin
+    if (fProcura_prodOficina.Panel2.Visible = true) then
+      EvDBFind1.SetFocus;
+  end;
 end;
 
 procedure TfProcura_prodOficina.btnIncluirClick(Sender: TObject);
