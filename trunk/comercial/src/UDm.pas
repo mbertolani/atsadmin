@@ -2339,6 +2339,13 @@ begin
       impressora_pc := cds_parametroD6.AsString;
   end;
 
+  if (cds_parametro.Active) then
+    cds_parametro.Close;
+  cds_parametro.Params[0].asString := 'TERMINALVENDAS';
+  cds_parametro.Open;
+
+  if (not cds_parametro.IsEmpty) then
+    procprod := cds_parametroDADOS.AsString;
 
   if cds_parametro.Active then
     cds_parametro.Close;
