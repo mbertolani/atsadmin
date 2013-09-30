@@ -140,10 +140,11 @@ begin
     str := str + edServico.Lines[I] + #13#10;
 
   fOs.cdsPecasDESCRICAO_SERV.AsString := str;
-  //fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
-  //fOs.cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
-  //fOs.cdsPecasSTATUS.AsString         := fOs.statusOs;
-  //fOs.cdsPecasTIPO.AsString           := 'P';
+  fOs.cdsPecasCODPRO.AsString         := edProduto.Text;
+  fOs.cdsPecasCODPRODUTO.asInteger    := codProdutoPeca;
+  fOs.cdsPecasSTATUS.AsString         := fOs.statusOs;
+  fOs.cdsPecasDESCRICAO_SERV.AsString := edProdDescr.Text;
+  fOs.cdsPecasTIPO.AsString           := 'P';
   fOs.cdsPecasQTDE.AsFloat            := edQtdeServ.Value;
   fOs.cdsPecasPRECO.AsFloat           := edPrecoServ.Value;
   fOs.cdsPecasDESCONTO.AsFloat        := edDescVlrServ.Value;
