@@ -1651,11 +1651,11 @@ begin
         begin
           fLotes.cdslotes.Append;
           fLotes.cdslotesCODPRODUTO.AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-          fLotes.cdslotesCODPROD.AsString := fProcura_prod.cds_procCODPRO.AsString;
+          fLotes.cdslotesCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
           fLotes.cdslotesPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
           //fLotes.cdslotesDATAFABRICACAO.AsDateTime := dmnf.cdsCompraDATACOMPRA.AsDateTime;
           //fLotes.cdslotesDATAVENCIMENTO.AsDateTime := dmnf.cdsCompraDATACOMPRA.AsDateTime;
-          fLotes.cdslotesLOTES.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
+          fLotes.cdslotesLOTE.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
           fLotes.btnGravar.Click;
 
         end;
@@ -1939,7 +1939,7 @@ begin
   if (var_F = 'Lotes') then
   begin
     fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fLotes.cdslotesCODPROD.AsString := cds_procCODPRO.AsString;
+    fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
     fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
     //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
   end;
