@@ -1897,6 +1897,18 @@ begin
     cdsEnderecoCli.Params[0].Clear;
     cdsEnderecoCli.Params[1].AsInteger := cds_cliCODCLIENTE.AsInteger;
     cdsEnderecoCli.Open;
+    if (cdsEnderecoCliTIPOEND.AsInteger = 0) then
+    begin
+      rgTipoEndereco.ItemIndex := 0;
+    end
+    else begin
+      if (cdsEnderecoCliTIPOEND.AsInteger > 0) then
+        cdsEnderecoCli.Next;
+      if (cdsEnderecoCliTIPOEND.AsInteger > 0) then
+        cdsEnderecoCli.Next;
+
+      rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
+    end;
   end;
   DBEdit63Exit(Sender);
 end;
