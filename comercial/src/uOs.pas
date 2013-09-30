@@ -789,6 +789,14 @@ end;
 
 procedure TfOs.BitBtn1Click(Sender: TObject);
 begin
+  if (edKm.Text = '') then
+  begin
+    MessageDlg('km não informada.', mtError, [mbOK], 0);
+    edKm.SetFocus;
+    exit;
+  end;
+
+
   if ((modoOs <> 'Insert') and (modoOs <> 'Edit')) then
     modoOs := 'Edit';
 
@@ -817,27 +825,27 @@ begin
   cdsPecasID_OSDET_SERV.AsInteger := ServCodServ;
   cdsPecasTIPO.AsString   := 'P';
 
-  //fOsInserePeca.ShowModal;
   if (procprod <> 'PROC_PROD_COMPLETO') then
   begin
     fProcura_prodOficina.Panel1.Visible := false;
     fProcura_prodOficina.Panel2.Visible := true;
     fProcura_prodOficina.BitBtn1.Click;
+    varonde := 'os';
+    var_F := 'os';
+    fProcura_prodOficina.ShowModal;
+    if (cdsPecas.State = dsBrowse) then
+      cdsPecas.Edit;
+    cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
+    cdsPecasQTDE.AsFloat         := 1;
+    cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
   end
   else begin
     fProcura_prodOficina.Panel2.Visible := false;
     fProcura_prodOficina.Panel1.Visible := true;
     if (fProcura_prodOficina.cds_proc.Active) then
       fProcura_prodOficina.cds_proc.Close;
+    fOsInserePeca.ShowModal;
   end;
-  varonde := 'os';
-  var_F := 'os';
-  fProcura_prodOficina.ShowModal;
-  if (cdsPecas.State = dsBrowse) then
-    cdsPecas.Edit;
-  cdsPecasCODPRODUTO.AsInteger := fProcura_prodOficina.cds_procCODPRODUTO.AsInteger;
-  cdsPecasQTDE.AsFloat         := 1;
-  cdsPecasPRECO.AsFloat        := fProcura_prodOficina.cds_procPRECO_VENDA.AsFloat;
 end;
 
 procedure TfOs.JvDBGrid1CellClick(Column: TColumn);
