@@ -699,7 +699,7 @@ begin
   end;
   if (dm.cds_param.Locate('PARAMETRO', 'TERMINALVENDAS', [loCaseInsensitive])) then
   begin
-     if (dm.cds_parametroDADOS.AsString = 'PROC_PROD_SIMPLES') then
+     if (dm.cds_paramDADOS.AsString = 'PROC_PROD_SIMPLES') then
        RadioGroup2.ItemIndex := 0
      else
        RadioGroup2.ItemIndex := 1;
