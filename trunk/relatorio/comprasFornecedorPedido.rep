@@ -23,12 +23,16 @@ object TRpReport
       DatabaseAlias = 'SISADMIN'
       SQL = 
         'select rec.CODFORNECEDOR as CODCLIENTE,'#13#10'cli.NOMEFORNECEDOR as n' +
-        'omeCLIENTE, rec.NOTAFISCAL, rec.SERIE, SUM(rec.VALOR)'#13#10'from comp' +
-        'ra rec'#13#10'inner join fornecedor cli on cli.codFORNECEDOR = rec.cod' +
-        'FORNECEDOR '#13#10'where rec.DATACOMPRA between :DATA1 and :DATA2 and ' +
-        'rec.codFORNECEDOR > 0 '#13#10'and ((rec.CODFORNECEDOR = :PRO1) or (:PR' +
-        'O1 = 9999999)) '#13#10'GROUP by cli.NOMEFORNECEDOR, rec.CODFORNECEDOR,' +
-        ' rec.NOTAFISCAL, rec.SERIE'
+        'omeCLIENTE, rec.NOTAFISCAL, rec.SERIE, SUM(rec.VALOR),'#13#10'rec.DATA' +
+        'COMPRA, rec.VALOR_ICMS, rec.VALOR_IPI, SUM(rec.VALOR- (COALESCE(' +
+        'rec.DESCONTO,0))) VALOR'#13#10'from compra rec'#13#10'inner join fornecedor ' +
+        'cli on cli.codFORNECEDOR = rec.codFORNECEDOR '#13#10'inner join movime' +
+        'nto m on m.codmovimento = rec.codmovimento'#13#10'where rec.DATACOMPRA' +
+        ' between :DATA1 and :DATA2 '#13#10'and rec.codFORNECEDOR > 0'#13#10'and m.co' +
+        'dnatureza = 4'#13#10'and ((rec.CODFORNECEDOR = :PRO1) or (:PRO1 = 9999' +
+        '999)) '#13#10'GROUP by cli.NOMEFORNECEDOR, rec.CODFORNECEDOR, rec.NOTA' +
+        'FISCAL,'#13#10' rec.SERIE, rec.DATACOMPRA, rec.VALOR_ICMS, rec.VALOR_I' +
+        'PI'#13#10'order by rec.DATACOMPRA'
     end>
   DatabaseInfo = <
     item
@@ -56,7 +60,7 @@ object TRpReport
   Params = <
     item
       Name = 'DATA1'
-      Value = 39356d
+      Value = 41183d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -68,7 +72,7 @@ object TRpReport
     end
     item
       Name = 'DATA2'
-      Value = 39475d
+      Value = 41213d
       ParamType = rpParamDate
       Datasets.Strings = (
         'VENDAS')
@@ -102,19 +106,7 @@ object TRpReport
         Section = TRpSection1
       end
       item
-        Section = TRpSection3
-      end
-      item
-        Section = TRpSection5
-      end
-      item
         Section = TRpSection0
-      end
-      item
-        Section = TRpSection6
-      end
-      item
-        Section = TRpSection4
       end
       item
         Section = TRpSection2
@@ -123,7 +115,7 @@ object TRpReport
   end
   object TRpSection0: TRpSection
     Width = 10772
-    Height = 210
+    Height = 255
     SubReport = TRpSubReport0
     ChangeBool = False
     PageRepeat = False
@@ -135,13 +127,19 @@ object TRpReport
         Component = TRpExpression8
       end
       item
-        Component = TRpLabel0
-      end
-      item
         Component = TRpExpression0
       end
       item
         Component = TRpExpression2
+      end
+      item
+        Component = TRpExpression7
+      end
+      item
+        Component = TRpExpression9
+      end
+      item
+        Component = TRpExpression14
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -222,6 +220,15 @@ object TRpReport
       end
       item
         Component = TRpExpression5
+      end
+      item
+        Component = TRpLabel0
+      end
+      item
+        Component = TRpLabel1
+      end
+      item
+        Component = TRpLabel2
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -260,6 +267,12 @@ object TRpReport
       end
       item
         Component = TRpShape5
+      end
+      item
+        Component = TRpExpression16
+      end
+      item
+        Component = TRpExpression17
       end>
     ExternalTable = 'REPMAN_REPORTS'
     ExternalField = 'REPORT'
@@ -366,96 +379,11 @@ object TRpReport
     AgIniValue = '0'
     ExportExpression = ''
   end
-  object TRpSection3: TRpSection
-    Width = 10772
-    Height = 371
-    SubReport = TRpSubReport0
-    GroupName = 'CLIENTES'
-    ChangeBool = False
-    PageRepeat = False
-    SkipPage = False
-    AlignBottom = False
-    SectionType = rpsecgheader
-    Components = <
-      item
-        Component = TRpExpression14
-      end
-      item
-        Component = TRpShape3
-      end
-      item
-        Component = TRpExpression19
-      end>
-    ExternalTable = 'REPMAN_REPORTS'
-    ExternalField = 'REPORT'
-    ExternalSearchField = 'REPORT_NAME'
-    StreamFormat = rpStreamText
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
-    BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
-    SkipExpreV = ''
-    SkipExpreH = ''
-    SkipToPageExpre = ''
-    BackExpression = ''
-    Stream = {0000000000000000}
-  end
-  object TRpSection4: TRpSection
-    Width = 10772
-    Height = 555
-    SubReport = TRpSubReport0
-    GroupName = 'CLIENTES'
-    ChangeBool = False
-    PageRepeat = False
-    SkipPage = False
-    AlignBottom = False
-    SectionType = rpsecgfooter
-    Components = <
-      item
-        Component = TRpShape1
-      end
-      item
-        Component = TRpExpression9
-      end
-      item
-        Component = TRpShape4
-      end
-      item
-        Component = TRpExpression17
-      end>
-    ExternalTable = 'REPMAN_REPORTS'
-    ExternalField = 'REPORT'
-    ExternalSearchField = 'REPORT_NAME'
-    StreamFormat = rpStreamText
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
-    BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.CODCLIENTE'
-    SkipExpreV = ''
-    SkipExpreH = ''
-    SkipToPageExpre = ''
-    BackExpression = ''
-    Stream = {0000000000000000}
-  end
   object TRpShape2: TRpShape
     Width = 10695
     Height = 34
     PosX = 0
     PosY = 1613
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
-  object TRpShape1: TRpShape
-    Width = 10695
-    Height = 34
-    PosX = 0
-    PosY = 465
     PenWidth = 0
     PrintCondition = ''
     DoBeforePrint = ''
@@ -562,23 +490,11 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM'
+    Expression = 'VENDAS.VALOR'
     DisplayFormat = '#,##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
-  end
-  object TRpShape3: TRpShape
-    Width = 10694
-    Height = 96
-    PosX = 0
-    PosY = 346
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
   end
   object TRpExpression11: TRpExpression
     Width = 1035
@@ -599,16 +515,16 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM'
+    Expression = 'VENDAS.VALOR'
     DisplayFormat = '#,##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
   end
   object TRpLabel7: TRpLabel
-    Width = 2070
+    Width = 567
     Height = 225
-    PosX = 5400
+    PosX = 4825
     PosY = 115
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -616,7 +532,7 @@ object TRpReport
     DoAfterPrint = ''
     WFontName = 'Arial'
     LFontName = 'Helvetica'
-    WideText = 'Total Geral do Per'#237'odo'
+    WideText = 'Total'
   end
   object TRpShape5: TRpShape
     Width = 10694
@@ -629,19 +545,6 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-  end
-  object TRpLabel3: TRpLabel
-    Width = 915
-    Height = 300
-    PosX = 0
-    PosY = 1605
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'C'#243'digo'
   end
   object TRpLabel4: TRpLabel
     Width = 794
@@ -658,9 +561,9 @@ object TRpReport
     WideText = 'Total'
   end
   object TRpLabel5: TRpLabel
-    Width = 2640
+    Width = 2835
     Height = 300
-    PosX = 915
+    PosX = 1035
     PosY = 1605
     Type1Font = poHelvetica
     PrintCondition = ''
@@ -703,223 +606,6 @@ object TRpReport
     PrintCondition = ''
     DoBeforePrint = ''
     DoAfterPrint = ''
-  end
-  object TRpExpression14: TRpExpression
-    Width = 810
-    Height = 225
-    PosX = 0
-    PosY = 0
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.CODCLIENTE'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression19: TRpExpression
-    Width = 6900
-    Height = 225
-    PosX = 915
-    PosY = 0
-    Type1Font = poHelvetica
-    CutText = True
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.NOMECLIENTE'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpSection5: TRpSection
-    Width = 10772
-    Height = 0
-    SubReport = TRpSubReport0
-    GroupName = 'PEDIDO'
-    ChangeBool = False
-    PageRepeat = False
-    SkipPage = False
-    AlignBottom = False
-    SectionType = rpsecgheader
-    Components = <>
-    ExternalTable = 'REPMAN_REPORTS'
-    ExternalField = 'REPORT'
-    ExternalSearchField = 'REPORT_NAME'
-    StreamFormat = rpStreamText
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.NOTAFISCAL'
-    BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.NOTAFISCAL'
-    SkipExpreV = ''
-    SkipExpreH = ''
-    SkipToPageExpre = ''
-    BackExpression = ''
-    Stream = {0000000000000000}
-  end
-  object TRpSection6: TRpSection
-    Width = 10772
-    Height = 0
-    SubReport = TRpSubReport0
-    GroupName = 'PEDIDO'
-    ChangeBool = False
-    PageRepeat = False
-    SkipPage = False
-    AlignBottom = False
-    SectionType = rpsecgfooter
-    Components = <>
-    ExternalTable = 'REPMAN_REPORTS'
-    ExternalField = 'REPORT'
-    ExternalSearchField = 'REPORT_NAME'
-    StreamFormat = rpStreamText
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    ChangeExpression = 'VENDAS.NOTAFISCAL'
-    BeginPageExpression = ''
-    ChangeExpression = 'VENDAS.NOTAFISCAL'
-    SkipExpreV = ''
-    SkipExpreH = ''
-    SkipToPageExpre = ''
-    BackExpression = ''
-    Stream = {0000000000000000}
-  end
-  object TRpShape4: TRpShape
-    Width = 10620
-    Height = 105
-    PosX = 0
-    PosY = 120
-    BrushStyle = 1
-    Shape = rpsHorzLine
-    PenWidth = 0
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-  end
-  object TRpExpression17: TRpExpression
-    Width = 1605
-    Height = 240
-    PosX = 5865
-    PosY = 225
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = #39'Total Fornecedor   : '#39
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression9: TRpExpression
-    Width = 1035
-    Height = 225
-    PosX = 8745
-    PosY = 225
-    Type1Font = poHelvetica
-    Alignment = 2
-    DisplayFormat = '#,##0.00'
-    Aggregate = rpAgGroup
-    GroupName = 'CLIENTES'
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.SUM'
-    DisplayFormat = '#,##0.00'
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpLabel0: TRpLabel
-    Width = 1155
-    Height = 225
-    PosX = 225
-    PosY = 0
-    Type1Font = poHelvetica
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    WideText = 'Pedido n.: '
-  end
-  object TRpExpression0: TRpExpression
-    Width = 1035
-    Height = 225
-    PosX = 1380
-    PosY = 0
-    Type1Font = poHelvetica
-    Alignment = 2
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.NOTAFISCAL'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
-  end
-  object TRpExpression2: TRpExpression
-    Width = 915
-    Height = 225
-    PosX = 2535
-    PosY = 0
-    Type1Font = poHelvetica
-    AutoExpand = False
-    AutoContract = False
-    ExportPosition = 0
-    ExportSize = 1
-    ExportDoNewLine = False
-    PrintCondition = ''
-    DoBeforePrint = ''
-    DoAfterPrint = ''
-    WFontName = 'Arial'
-    LFontName = 'Helvetica'
-    Expression = 'VENDAS.SERIE'
-    DisplayFormat = ''
-    ExportDisplayFormat = ''
-    AgIniValue = '0'
-    ExportExpression = ''
   end
   object TRpExpression3: TRpExpression
     Width = 7815
@@ -1017,6 +703,221 @@ object TRpReport
     LFontName = 'Helvetica'
     Expression = 'EMPRESA.ENDERECO'
     DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression0: TRpExpression
+    Width = 2835
+    Height = 225
+    PosX = 1265
+    PosY = 0
+    Type1Font = poHelvetica
+    CutText = True
+    Alignment = 1
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.NOMECLIENTE'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression7: TRpExpression
+    Width = 1035
+    Height = 225
+    PosX = 0
+    PosY = 0
+    Type1Font = poHelvetica
+    Alignment = 2
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.DATACOMPRA'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpLabel3: TRpLabel
+    Width = 915
+    Height = 300
+    PosX = 0
+    PosY = 1605
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'Data'
+  end
+  object TRpLabel0: TRpLabel
+    Width = 915
+    Height = 300
+    PosX = 4370
+    PosY = 1605
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'NF'
+  end
+  object TRpLabel1: TRpLabel
+    Width = 915
+    Height = 300
+    PosX = 5520
+    PosY = 1605
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'ICMS'
+  end
+  object TRpLabel2: TRpLabel
+    Width = 915
+    Height = 300
+    PosX = 6670
+    PosY = 1605
+    Type1Font = poHelvetica
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    WideText = 'IPI'
+  end
+  object TRpExpression2: TRpExpression
+    Width = 915
+    Height = 225
+    PosX = 4375
+    PosY = 0
+    Type1Font = poHelvetica
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.NOTAFISCAL'
+    DisplayFormat = ''
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression9: TRpExpression
+    Width = 915
+    Height = 225
+    PosX = 5525
+    PosY = 0
+    Type1Font = poHelvetica
+    DisplayFormat = '#,##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.VALOR_ICMS'
+    DisplayFormat = '#,##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression16: TRpExpression
+    Width = 915
+    Height = 225
+    PosX = 5525
+    PosY = 115
+    Type1Font = poHelvetica
+    DisplayFormat = '#,##0.00'
+    Aggregate = rpAgGeneral
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.VALOR_ICMS'
+    DisplayFormat = '#,##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression14: TRpExpression
+    Width = 915
+    Height = 225
+    PosX = 6675
+    PosY = 0
+    Type1Font = poHelvetica
+    DisplayFormat = '#,##0.00'
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.VALOR_IPI'
+    DisplayFormat = '#,##0.00'
+    ExportDisplayFormat = ''
+    AgIniValue = '0'
+    ExportExpression = ''
+  end
+  object TRpExpression17: TRpExpression
+    Width = 915
+    Height = 225
+    PosX = 6675
+    PosY = 115
+    Type1Font = poHelvetica
+    DisplayFormat = '#,##0.00'
+    Aggregate = rpAgGeneral
+    AutoExpand = False
+    AutoContract = False
+    ExportPosition = 0
+    ExportSize = 1
+    ExportDoNewLine = False
+    PrintCondition = ''
+    DoBeforePrint = ''
+    DoAfterPrint = ''
+    WFontName = 'Arial'
+    LFontName = 'Helvetica'
+    Expression = 'VENDAS.VALOR_IPI'
+    DisplayFormat = '#,##0.00'
     ExportDisplayFormat = ''
     AgIniValue = '0'
     ExportExpression = ''
