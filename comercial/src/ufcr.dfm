@@ -1,6 +1,6 @@
 object fcrproc: Tfcrproc
   Left = 188
-  Top = 103
+  Top = 104
   BorderStyle = bsSingle
   Caption = 'Contas a Receber - Filtro'
   ClientHeight = 591
@@ -2679,7 +2679,7 @@ object fcrproc: Tfcrproc
       end
       item
         Expanded = False
-        FieldName = 'RAZAOSOCIAL'
+        FieldName = 'NOMECLIENTE'
         Title.Caption = 'Cliente'
         Width = 88
         Visible = True
