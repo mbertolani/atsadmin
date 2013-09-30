@@ -14,6 +14,7 @@ inherited fLotes: TfLotes
     Width = 37
     Height = 13
     Caption = 'Produto'
+    Visible = False
   end
   object Label4: TLabel [1]
     Left = 128
@@ -21,6 +22,7 @@ inherited fLotes: TfLotes
     Width = 21
     Height = 13
     Caption = 'Lote'
+    Visible = False
   end
   object Label5: TLabel [2]
     Left = 421
@@ -28,6 +30,7 @@ inherited fLotes: TfLotes
     Width = 79
     Height = 13
     Caption = 'Data Fabrica'#231#227'o'
+    Visible = False
   end
   object Label6: TLabel [3]
     Left = 506
@@ -35,6 +38,7 @@ inherited fLotes: TfLotes
     Width = 63
     Height = 13
     Caption = 'Data Vencto.'
+    Visible = False
   end
   object Label7: TLabel [4]
     Left = 580
@@ -42,6 +46,7 @@ inherited fLotes: TfLotes
     Width = 68
     Height = 13
     Caption = 'Qtde. Estoque'
+    Visible = False
   end
   object Label8: TLabel [5]
     Left = 347
@@ -49,6 +54,7 @@ inherited fLotes: TfLotes
     Width = 28
     Height = 13
     Caption = 'Pre'#231'o'
+    Visible = False
   end
   object Label9: TLabel [6]
     Left = 654
@@ -56,6 +62,7 @@ inherited fLotes: TfLotes
     Width = 54
     Height = 13
     Caption = 'S'#233'rie Inicial'
+    Visible = False
   end
   object Label10: TLabel [7]
     Left = 716
@@ -63,6 +70,7 @@ inherited fLotes: TfLotes
     Width = 49
     Height = 13
     Caption = 'S'#233'rie Final'
+    Visible = False
   end
   inherited MMJPanel1: TMMJPanel
     Top = 431
@@ -120,7 +128,7 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'CODPROD'
+    DataField = 'CODPRO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -129,6 +137,7 @@ inherited fLotes: TfLotes
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    Visible = False
     OnExit = DBEdit1Exit
     OnKeyPress = FormKeyPress
   end
@@ -139,7 +148,7 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'LOTES'
+    DataField = 'PRODUTO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -148,6 +157,7 @@ inherited fLotes: TfLotes
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object DBEdit3: TDBEdit [12]
@@ -166,6 +176,7 @@ inherited fLotes: TfLotes
     ParentFont = False
     ReadOnly = True
     TabOrder = 3
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object DBEdit4: TDBEdit [13]
@@ -184,6 +195,7 @@ inherited fLotes: TfLotes
     ParentFont = False
     ReadOnly = True
     TabOrder = 4
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object btnProdutoProcura: TBitBtn [14]
@@ -194,6 +206,7 @@ inherited fLotes: TfLotes
     PopupMenu = PopupMenu1
     TabOrder = 8
     TabStop = False
+    Visible = False
     OnClick = btnProdutoProcuraClick
     Glyph.Data = {
       C2070000424DC20700000000000036000000280000001E000000150000000100
@@ -268,7 +281,7 @@ inherited fLotes: TfLotes
     TabStop = False
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'SALDOFIMACUM'
+    DataField = 'SALDOLOTE'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -277,6 +290,7 @@ inherited fLotes: TfLotes
     Font.Style = []
     ParentFont = False
     TabOrder = 5
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object DBEdit6: TDBEdit [16]
@@ -286,7 +300,6 @@ inherited fLotes: TfLotes
     Height = 24
     BevelKind = bkFlat
     BorderStyle = bsNone
-    DataField = 'PRECOCUSTO'
     DataSource = DtSrc
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -294,7 +307,9 @@ inherited fLotes: TfLotes
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     TabOrder = 2
+    Visible = False
   end
   object DBEdit7: TDBEdit [17]
     Left = 653
@@ -312,6 +327,7 @@ inherited fLotes: TfLotes
     ParentFont = False
     ReadOnly = True
     TabOrder = 9
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object DBEdit8: TDBEdit [18]
@@ -331,14 +347,16 @@ inherited fLotes: TfLotes
     ParentFont = False
     ReadOnly = True
     TabOrder = 10
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object DBGrid1: TDBGrid [19]
     Left = 8
-    Top = 101
+    Top = 64
     Width = 769
-    Height = 300
+    Height = 337
     DataSource = DtSrc
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 11
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -348,14 +366,14 @@ inherited fLotes: TfLotes
     Columns = <
       item
         Expanded = False
-        FieldName = 'LOTES'
+        FieldName = 'LOTE'
         Title.Caption = 'Lote'
-        Width = 68
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
-        FieldName = 'CODPROD'
+        FieldName = 'CODPRO'
         Title.Caption = 'C'#243'd. Produto'
         Width = 100
         Visible = True
@@ -369,15 +387,8 @@ inherited fLotes: TfLotes
       end
       item
         Expanded = False
-        FieldName = 'SALDOFIMACUM'
+        FieldName = 'SALDOLOTE'
         Title.Caption = 'Estoque'
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PRECOVENDA'
-        Title.Caption = 'Pre'#231'o'
         Width = 80
         Visible = True
       end>
@@ -389,8 +400,10 @@ inherited fLotes: TfLotes
   end
   object sdslote: TSQLDataSet
     CommandText = 
-      'select * from ESTOQUE_VIEW_CUSTO('#13#10'    '#39'03.09.13'#39','#13#10'    1,'#13#10'    ' +
-      '51,'#13#10'    '#39'1650'#39')'
+      'SELECT r.CODPRO, r.CODPRODUTO, r.PRODUTO, r.LOTE, r.ENTRADA, r.S' +
+      'AIDA, SUM(r.ENTRADA - r.SAIDA) SALDOLOTE'#13#10'FROM VIEW_ESTOQUELOTE ' +
+      'r'#13#10' where (r.entrada - r.saida) > 0'#13#10'GROUP BY r.CODPRO, r.CODPRO' +
+      'DUTO, r.PRODUTO, r.LOTE, r.ENTRADA, r.SAIDA'#13#10#13#10
     MaxBlobSize = -1
     Params = <>
     SQLConnection = DM.sqlsisAdimin
@@ -410,12 +423,9 @@ inherited fLotes: TfLotes
     ProviderName = 'dsplotes'
     Left = 136
     Top = 24
-    object cdslotesCODPROD: TStringField
-      FieldName = 'CODPROD'
-    end
-    object cdslotesMESANO: TStringField
-      FieldName = 'MESANO'
-      Size = 10
+    object cdslotesCODPRO: TStringField
+      FieldName = 'CODPRO'
+      Size = 15
     end
     object cdslotesCODPRODUTO: TIntegerField
       FieldName = 'CODPRODUTO'
@@ -424,16 +434,9 @@ inherited fLotes: TfLotes
       FieldName = 'PRODUTO'
       Size = 300
     end
-    object cdslotesGRUPO: TStringField
-      FieldName = 'GRUPO'
-      Size = 30
-    end
-    object cdslotesSUBGRUPOPROD: TStringField
-      FieldName = 'SUBGRUPOPROD'
-      Size = 30
-    end
-    object cdslotesSALDOINIACUM: TFloatField
-      FieldName = 'SALDOINIACUM'
+    object cdslotesLOTE: TStringField
+      FieldName = 'LOTE'
+      Size = 60
     end
     object cdslotesENTRADA: TFloatField
       FieldName = 'ENTRADA'
@@ -441,36 +444,9 @@ inherited fLotes: TfLotes
     object cdslotesSAIDA: TFloatField
       FieldName = 'SAIDA'
     end
-    object cdslotesSALDOFIMACUM: TFloatField
-      FieldName = 'SALDOFIMACUM'
-    end
-    object cdslotesESTOQUE_MES: TFloatField
-      FieldName = 'ESTOQUE_MES'
-    end
-    object cdslotesPRECOUNIT: TFloatField
-      FieldName = 'PRECOUNIT'
-    end
-    object cdslotesPRECOCUSTO: TFloatField
-      FieldName = 'PRECOCUSTO'
-    end
-    object cdslotesVALORESTOQUE: TFloatField
-      FieldName = 'VALORESTOQUE'
-    end
-    object cdslotesVALORVENDA: TFloatField
-      FieldName = 'VALORVENDA'
-    end
-    object cdslotesPRECOCOMPRA: TFloatField
-      FieldName = 'PRECOCOMPRA'
-    end
-    object cdslotesPRECOVENDA: TFloatField
-      FieldName = 'PRECOVENDA'
-    end
-    object cdslotesLOTES: TStringField
-      FieldName = 'LOTES'
-      Size = 60
-    end
-    object cdslotesCCUSTOS: TIntegerField
-      FieldName = 'CCUSTOS'
+    object cdslotesSALDOLOTE: TFloatField
+      FieldName = 'SALDOLOTE'
+      ReadOnly = True
     end
   end
   object scds_produto_proc: TSQLDataSet

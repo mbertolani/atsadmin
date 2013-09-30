@@ -75,25 +75,13 @@ type
     scds_produto_procLOCALIZACAO: TStringField;
     scds_produto_procTIPOPRECOVENDA: TStringField;
     DBGrid1: TDBGrid;
-    cdslotesCODPROD: TStringField;
-    cdslotesMESANO: TStringField;
+    cdslotesCODPRO: TStringField;
     cdslotesCODPRODUTO: TIntegerField;
     cdslotesPRODUTO: TStringField;
-    cdslotesGRUPO: TStringField;
-    cdslotesSUBGRUPOPROD: TStringField;
-    cdslotesSALDOINIACUM: TFloatField;
+    cdslotesLOTE: TStringField;
     cdslotesENTRADA: TFloatField;
     cdslotesSAIDA: TFloatField;
-    cdslotesSALDOFIMACUM: TFloatField;
-    cdslotesESTOQUE_MES: TFloatField;
-    cdslotesPRECOUNIT: TFloatField;
-    cdslotesPRECOCUSTO: TFloatField;
-    cdslotesVALORESTOQUE: TFloatField;
-    cdslotesVALORVENDA: TFloatField;
-    cdslotesPRECOCOMPRA: TFloatField;
-    cdslotesPRECOVENDA: TFloatField;
-    cdslotesLOTES: TStringField;
-    cdslotesCCUSTOS: TIntegerField;
+    cdslotesSALDOLOTE: TFloatField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -169,12 +157,12 @@ end;
 procedure TfLotes.btnGravarClick(Sender: TObject);
 var sql_texto :string;
 begin
- if cdslotesLOTES.AsString = '' then
+ {if cdslotesLOTES.AsString = '' then
  begin
    MessageDlg('Informe o Lote', mtError, [mbOK], 0);
    DBEdit2.SetFocus;
    exit;
- end;
+ end;}
 
  if DBEdit3.Text = '  /  /  ' then
  begin
@@ -222,8 +210,8 @@ end;
 
 procedure TfLotes.btnSairClick(Sender: TObject);
 begin
-  dm.LOTENF := cdslotesLOTES.AsString;
-  dm.LOTEQTDE := cdslotesSALDOFIMACUM.Value;
+  //dm.LOTENF := cdslotesLOTES.AsString;
+  //dm.LOTEQTDE := cdslotesSALDOFIMACUM.Value;
   inherited;
   close;
 
@@ -235,7 +223,7 @@ begin
   if var_F = 'venda' then
   begin
     cdslotesCODPRODUTO.AsInteger := fVendas.cds_Mov_detCODPRODUTO.AsInteger;
-    cdslotesCODPROD.AsString := fVendas.cds_Mov_detCODPRO.AsString;
+    cdslotesCODPRO.AsString := fVendas.cds_Mov_detCODPRO.AsString;
     cdslotesPRODUTO.Value := fVendas.cds_Mov_detDESCPRODUTO.Value;
     //cdslotesDATAFABRICACAO.AsDateTime := Now;
     //cdslotesDATAVENCIMENTO.AsDateTime := Now;
@@ -244,7 +232,7 @@ begin
   if var_F = 'compra' then
   begin
     cdslotesCODPRODUTO.AsInteger := fCompra.cds_Mov_detCODPRODUTO.AsInteger;
-    cdslotesCODPROD.AsString := fCompra.cds_Mov_detCODPRO.AsString;
+    cdslotesCODPRO.AsString := fCompra.cds_Mov_detCODPRO.AsString;
     cdslotesPRODUTO.Value := fCompra.cds_Mov_detDESCPRODUTO.Value;
     //cdslotesDATAFABRICACAO.AsDateTime := Now;
     //cdslotesDATAVENCIMENTO.AsDateTime := Now;
@@ -253,7 +241,7 @@ begin
   if var_F = 'procura' then
   begin
     cdslotesCODPRODUTO.AsInteger := fProcura_prod.cds_procCODPRODUTO.AsInteger;
-    cdslotesCODPROD.AsString := fProcura_prod.cds_procCODPRO.AsString;
+    cdslotesCODPRO.AsString := fProcura_prod.cds_procCODPRO.AsString;
     cdslotesPRODUTO.Value := fProcura_prod.cds_procPRODUTO.Value;
     //cdslotesDATAFABRICACAO.AsDateTime := Now;
     //cdslotesDATAVENCIMENTO.AsDateTime := Now;
@@ -262,7 +250,7 @@ begin
   if var_F = 'estoque' then
   begin
     cdslotesCODPRODUTO.AsInteger := fEntra_Sai_estoque.cds_Mov_detCODPRODUTO.AsInteger;
-    cdslotesCODPROD.AsString := fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString;
+    cdslotesCODPRO.AsString := fEntra_Sai_estoque.cds_Mov_detCODPRO.AsString;
     cdslotesPRODUTO.Value := fEntra_Sai_estoque.cds_Mov_detPRODUTO.Value;
     //cdslotesDATAFABRICACAO.AsDateTime := Now;
     //cdslotesDATAVENCIMENTO.AsDateTime := Now;
@@ -293,7 +281,7 @@ begin
         exit;
       end;
       cdslotesCODPRODUTO.AsInteger := scds_produto_procCODPRODUTO.AsInteger;
-      cdslotesCODPROD.AsString := scds_produto_procCODPRO.AsString;
+      cdslotesCODPRO.AsString := scds_produto_procCODPRO.AsString;
       cdslotesPRODUTO.Value := scds_produto_procPRODUTO.Value;
     end;
     dm.scds_produto_proc.Close;
@@ -304,12 +292,11 @@ procedure TfLotes.FormShow(Sender: TObject);
 begin
   //inherited;
   sCtrlResize.CtrlResize(TForm(fLotes));
-  cdsLotes.CommandText := ' select * from ESTOQUE_VIEW_CUSTO (' +
-    QuotedStr(Formatdatetime('mm/dd/yyyy', today)) +
-    ', ' + IntToStr(codProdutoLt) +
-    ', ' + IntToStr(codCCustoLt) +
-    ', ' + QuotedStr('TODOS OS LOTES CADASTRADOS NO SISTEMA') +
-    ' ) WHERE SALDOFIMACUM > 0';
+  cdsLotes.CommandText := 'SELECT r.CODPRO, r.CODPRODUTO, r.PRODUTO, ' +
+    ' r.LOTE, r.ENTRADA, r.SAIDA, r.SALDO AS SALDOLOTE ' +
+    ' FROM VIEW_ESTOQUELOTE(' + IntToStr(codProdutoLt) + ') r ' +
+    ' WHERE (r.SALDO > 0) ' +
+    ' ORDER BY r.LOTE ';
   cdsLotes.Open;
   if not cdslotes.IsEmpty then
     DBGrid1.SetFocus;
@@ -322,14 +309,14 @@ begin
   begin
     if var_F = 'venda' then
     begin
-      if (cdslotesSALDOFIMACUM.AsFloat > 0) then
+      if (cdslotesSALDOLOTE.AsFloat > 0) then
       begin
-       fVendas.cds_Mov_detLOTE.AsString := cdslotesLOTES.AsString;
+       fVendas.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
        //fVendas.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
        //fVendas.cds_Mov_detDTAVCTO.AsDateTime := cdslotesDATAVENCIMENTO.AsDateTime;
        //fVendas.cds_Mov_detPRECO.AsFloat := cdslotesPRECO.AsFloat;
-       if (cdslotesSALDOFIMACUM.AsFloat > 0) then
-         dm.estoq := cdslotesSALDOFIMACUM.AsFloat;
+       if (cdslotesSALDOLOTE.AsFloat > 0) then
+         dm.estoq := cdslotesSALDOLOTE.AsFloat;
        close;
       end
       else
@@ -342,9 +329,9 @@ begin
   end;
   if var_F = 'compra' then
   begin
-    if cdslotesLOTES.AsString <> '' then
+    if cdslotesLOTE.AsString <> '' then
     begin
-      fCompra.cds_Mov_detLOTE.AsString := cdslotesLOTES.AsString;
+      fCompra.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
       //fCompra.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
       //fCompra.cds_Mov_detDTAVCTO.AsDateTime := cdslotesDATAVENCIMENTO.AsDateTime;
       close;
@@ -358,9 +345,10 @@ begin
 
   if var_F = 'procura' then
   begin
-    if cdslotesLOTES.AsString <> '' then
+    if cdslotesLOTE.AsString <> '' then
     begin
-      fCompra.cds_Mov_detLOTE.AsString := cdslotesLOTES.AsString;
+      fCompra.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
+      dm.estoq := cdslotesSALDOLOTE.AsFloat;
       //fCompra.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
       //fCompra.cds_Mov_detDTAVCTO.AsDateTime := cdslotesDATAVENCIMENTO.AsDateTime;
       close;
@@ -368,7 +356,7 @@ begin
     else
     begin
      MessageDlg('o Lote tem que ter uma quantidade', mtError, [mbOK], 0);
-     fCompra.est_compra := cdslotesSALDOFIMACUM.AsFloat;
+     fCompra.est_compra := cdslotesSALDOLOTE.AsFloat;
      fProcura_prod.Edit3.Text := '';
      close;
     end;
@@ -376,9 +364,10 @@ begin
 
   if var_F = 'procura_venda' then
   begin
-    if cdslotesLOTES.AsString <> '' then
+    if cdslotesLOTE.AsString <> '' then
     begin
-      fVendas.cds_Mov_detLOTE.AsString := cdslotesLOTES.AsString;
+      fVendas.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
+      dm.estoq := cdslotesSALDOLOTE.AsFloat;
       //fVendas.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
       //fVendas.cds_Mov_detDTAVCTO.AsDateTime := cdslotesDATAVENCIMENTO.AsDateTime;
       //fVendas.cds_Mov_detPRECO.AsFloat := cdslotesPRECO.AsFloat;
@@ -387,7 +376,7 @@ begin
     else
     begin
      MessageDlg('o Lote tem que ter uma quantidade', mtError, [mbOK], 0);
-     dm.estoq := cdslotesSALDOFIMACUM.AsFloat;
+     dm.estoq := cdslotesSALDOLOTE.AsFloat;
      fProcura_prod.Edit3.Text := '';
      close;
     end;
@@ -395,18 +384,18 @@ begin
 
   if var_F = 'procura_estoque' then
   begin
-    if cdslotesLOTES.AsString <> '' then
+    if cdslotesLOTE.AsString <> '' then
     begin
-      fEntra_Sai_estoque.cds_Mov_detLOTE.AsString := cdslotesLOTES.AsString;
+      fEntra_Sai_estoque.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
       //fEntra_Sai_estoque.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
       //fEntra_Sai_estoque.cds_Mov_detDTAVCTO.AsDateTime := cdslotesDATAVENCIMENTO.AsDateTime;
-      fEntra_Sai_estoque.estoq1 := cdslotesSALDOFIMACUM.AsFloat;
+      fEntra_Sai_estoque.estoq1 := cdslotesSALDOLOTE.AsFloat;
       close;
     end
     else
     begin
      MessageDlg('o Lote tem que ter uma quantidade', mtError, [mbOK], 0);
-     fEntra_Sai_estoque.estoq1 := cdslotesSALDOFIMACUM.AsFloat;
+     fEntra_Sai_estoque.estoq1 := cdslotesSALDOLOTE.AsFloat;
      fProcura_prod.Edit3.Text := '';
      close;
     end;
@@ -414,17 +403,17 @@ begin
 
   if var_F = 'estoque' then
   begin
-     fEntra_Sai_estoque.cds_Mov_detLOTE.AsString := cdslotesLOTES.AsString;
+     fEntra_Sai_estoque.cds_Mov_detLOTE.AsString := cdslotesLOTE.AsString;
      //fEntra_Sai_estoque.cds_Mov_detDTAFAB.AsDateTime := cdslotesDATAFABRICACAO.AsDateTime;
      //fEntra_Sai_estoque.cds_Mov_detDTAVCTO.AsDateTime := cdslotesDATAVENCIMENTO.AsDateTime;
      close;
   end;
   if var_F = 'procura_nf' then
     begin
-      if (cdslotesSALDOFIMACUM.AsFloat > 0) then
+      if (cdslotesSALDOLOTE.AsFloat > 0) then
       begin
-       if (cdslotesSALDOFIMACUM.AsFloat > 0) then
-         fprocura_prod.fprocuraprodestq := cdslotesSALDOFIMACUM.AsFloat;
+       if (cdslotesSALDOLOTE.AsFloat > 0) then
+         fprocura_prod.fprocuraprodestq := cdslotesSALDOLOTE.AsFloat;
        close;
       end
       else
