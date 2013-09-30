@@ -982,8 +982,8 @@ begin
       fLotes.cdslotes.Open;
       while (not fLotes.cdslotes.Eof) do
       begin
-        ComboBox4.Items.Add(fLotes.cdslotesLOTES.AsString);
-        ComboBox3.Items.Add(fLotes.cdslotesLOTES.AsString);
+        ComboBox4.Items.Add(fLotes.cdslotesLOTE.AsString);
+        ComboBox3.Items.Add(fLotes.cdslotesLOTE.AsString);
         fLotes.cdslotes.Next;
       end;
       fLotes.cdslotes.First;
