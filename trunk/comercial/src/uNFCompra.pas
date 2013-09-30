@@ -699,13 +699,13 @@ begin
         begin
           fLotes.cdslotes.Append;
           fLotes.cdslotesCODPRODUTO.AsInteger := dmnf.cds_Mov_detCODPRODUTO.AsInteger;
-          fLotes.cdslotesCODPROD.AsString := dmnf.cds_Mov_detCODPRO.AsString;
+          fLotes.cdslotesCODPRO.AsString := dmnf.cds_Mov_detCODPRO.AsString;
           fLotes.cdslotesPRODUTO.Value := dmnf.cds_Mov_detDESCPRODUTO.Value;
           //fLotes.cdslotesDATAFABRICACAO.AsDateTime := dmnf.cdsCompraDATACOMPRA.AsDateTime;
           //fLotes.cdslotesDATAVENCIMENTO.AsDateTime := dmnf.cdsCompraDATACOMPRA.AsDateTime;
-          fLotes.cdslotesLOTES.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
+          fLotes.cdslotesLOTE.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
           fLotes.btnGravar.Click;
-          dmnf.cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTES.AsString;
+          dmnf.cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
           //dmnf.cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
           //dmnf.cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
         end;
@@ -841,13 +841,13 @@ begin
       begin
         fLotes.cdslotes.Append;
         fLotes.cdslotesCODPRODUTO.AsInteger := dmnf.cds_Mov_detCODPRODUTO.AsInteger;
-        fLotes.cdslotesCODPROD.AsString := dmnf.cds_Mov_detCODPRO.AsString;
+        fLotes.cdslotesCODPRO.AsString := dmnf.cds_Mov_detCODPRO.AsString;
         fLotes.cdslotesPRODUTO.Value := dmnf.cds_Mov_detDESCPRODUTO.Value;
         //fLotes.cdslotesDATAFABRICACAO.AsDateTime := dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime;
         //fLotes.cdslotesDATAVENCIMENTO.AsDateTime := dmnf.cds_MovimentoDATAMOVIMENTO.AsDateTime;
-        fLotes.cdslotesLOTES.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
+        fLotes.cdslotesLOTE.AsString := dmnf.cds_MovimentoCONTROLE.AsString;
         fLotes.btnGravar.Click;
-        dmnf.cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTES.AsString;
+        dmnf.cds_Mov_detLOTE.AsString := fLotes.cdslotesLOTE.AsString;
         //dmnf.cds_Mov_detDTAFAB.AsDateTime := fLotes.cdslotesDATAFABRICACAO.AsDateTime;
         //dmnf.cds_Mov_detDTAVCTO.AsDateTime := fLotes.cdslotesDATAVENCIMENTO.AsDateTime;
       end;
