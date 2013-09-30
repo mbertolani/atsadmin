@@ -1331,7 +1331,7 @@ begin
   if (var_F = 'Lotes') then
   begin
     fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-    fLotes.cdslotesCODPROD.AsString := cds_procCODPRO.AsString;
+    fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
     fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
     //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
   end;
@@ -1367,7 +1367,7 @@ begin
         begin
           fLotes.cdslotes.Append;
           fLotes.cdslotesCODPRODUTO.AsInteger := cds_procCODPRODUTO.AsInteger;
-          fLotes.cdslotesCODPROD.AsString := cds_procCODPRO.AsString;
+          fLotes.cdslotesCODPRO.AsString := cds_procCODPRO.AsString;
           fLotes.cdslotesPRODUTO.Value := cds_procPRODUTO.Value;
           //fLotes.cdslotesDATAFABRICACAO.AsDateTime := Now;
         end;
