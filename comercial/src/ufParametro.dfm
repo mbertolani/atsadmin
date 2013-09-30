@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabSheet1
+    ActivePage = TabSheet7
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -3872,7 +3872,7 @@ inherited fParametro: TfParametro
     end
   end
   inherited MMJPanel1: TMMJPanel [2]
-    Top = 523
+    Top = 530
     Width = 826
     inherited btnGravar: TBitBtn
       Left = 288
