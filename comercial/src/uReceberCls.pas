@@ -507,6 +507,10 @@ begin
         Self.dataVenc.Add(sqlPrazo.FieldByName('D6').AsString);
         Self.dataVenc.Add(sqlPrazo.FieldByName('D7').AsString);
         Self.dataVenc.Add(sqlPrazo.FieldByName('D8').AsString);
+      end
+      else begin
+        Self.dataVenc.Add('0');
+        MessageDlg('Prazo informado : ' + Self.Prazo + ', não está cadastrado em Prazos.', mtWarning, [mbOK], 0);
       end;
     Finally
       sqlPrazo.Free;
@@ -615,7 +619,9 @@ begin
     //Tratar a Data de Vencimento da Parcela
     if (CodRecR = 0) then
       if( Self.Prazo <> '' ) then
-        vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]))
+      begin
+        vDataVenc := IncDay(Self.DtEmissao, StrToInt(Self.dataVenc.Strings[i-1]));
+      end
       else
           vDataVenc := IncMonth(Self.DtVcto, (i-1));
 
