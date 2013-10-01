@@ -295,7 +295,7 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
     end
     object Label12: TLabel
-      Left = 459
+      Left = 403
       Top = 18
       Width = 55
       Height = 13
@@ -303,7 +303,7 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
     end
     object Label13: TLabel
-      Left = 530
+      Left = 474
       Top = 18
       Width = 49
       Height = 13
@@ -311,7 +311,7 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
     end
     object Label14: TLabel
-      Left = 594
+      Left = 610
       Top = 18
       Width = 51
       Height = 13
@@ -342,11 +342,17 @@ object fProcura_prod: TfProcura_prod
       Visible = False
     end
     object Label15: TLabel
-      Left = 397
+      Left = 536
       Top = 18
       Width = 57
       Height = 13
       Caption = 'Desc/Marg.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
     end
     object EvDBFind1: TEvDBFind
       Left = 8
@@ -388,7 +394,7 @@ object fProcura_prod: TfProcura_prod
       OnClick = BitBtn5Click
     end
     object Edit4: TJvCalcEdit
-      Left = 527
+      Left = 471
       Top = 33
       Width = 64
       Height = 24
@@ -400,7 +406,7 @@ object fProcura_prod: TfProcura_prod
       Font.Style = []
       ParentFont = False
       ShowButton = False
-      TabOrder = 3
+      TabOrder = 2
       DecimalPlacesAlwaysShown = False
       OnExit = Edit4Exit
       OnKeyPress = FormKeyPress
@@ -423,7 +429,7 @@ object fProcura_prod: TfProcura_prod
       OnKeyPress = FormKeyPress
     end
     object Edit3: TJvCalcEdit
-      Left = 456
+      Left = 400
       Top = 33
       Width = 70
       Height = 24
@@ -435,7 +441,7 @@ object fProcura_prod: TfProcura_prod
       Font.Style = []
       ParentFont = False
       ShowButton = False
-      TabOrder = 2
+      TabOrder = 1
       DecimalPlacesAlwaysShown = False
       OnExit = Edit3Exit
       OnKeyPress = FormKeyPress
@@ -489,7 +495,7 @@ object fProcura_prod: TfProcura_prod
       DecimalPlacesAlwaysShown = False
     end
     object edDescontoMargem: TJvCalcEdit
-      Left = 402
+      Left = 537
       Top = 33
       Width = 52
       Height = 24
@@ -507,7 +513,7 @@ object fProcura_prod: TfProcura_prod
       ParentShowHint = False
       ShowButton = False
       ShowHint = True
-      TabOrder = 1
+      TabOrder = 3
       DecimalPlacesAlwaysShown = False
       OnExit = edDescontoMargemExit
       OnKeyPress = edDescontoMargemKeyPress
