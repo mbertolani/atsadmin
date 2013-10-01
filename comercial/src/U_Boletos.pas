@@ -955,7 +955,7 @@ begin
   if (s_bancoLAYOUT_BL.AsString = 'Fatura') then
     ACBrBoleto1.ACBrBoletoFC.LayOut := lFatura;
 
-  try
+  //try
      ACBrBoleto1.ListadeBoletos.Clear;
      DecodeDate(Now,ano,mes,dia);
      Dia_atual := IntToStr(dia) + IntToStr(mes) + IntToStr(ano);
@@ -976,10 +976,10 @@ begin
 
      ACBrBoleto1.GerarRemessa( 1 );
      ShowMessage('Remessa gerada com Sucesso.');
-     
-  except
-     ShowMessage('Erro ao gerar Remessa');
-  end;
+
+  //except
+  //   ShowMessage('Erro ao gerar Remessa');
+  //end;
 
    if (s_empresa.Active) then
      s_empresa.Close;
