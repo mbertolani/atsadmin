@@ -51,6 +51,9 @@ BEGIN
       from ESTOQUE_VIEW_CUSTO(current_date, :codProduto, :codAlmoxarifado, :lote) ev 
       into :PRECO_CUSTO, :ESTOQUE, :PRECO_COMPRA, :Lote;
       
+      select coalesce(CUSTOMEDIO,0) from estoque_customedio((current_date - 30), current_date, :codProduto)
+       into :PRECO_CUSTO;
+                 
       --se tem materia prima cadastrada entao o custo sera o custo total da materia prima
       custoMateriaPrima = 0;
       select sum(m.QTDEUSADA * (case when p.PRECOMEDIO is null then p.VALORUNITARIOATUAL
