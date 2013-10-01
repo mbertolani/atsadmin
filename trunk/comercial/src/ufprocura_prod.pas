@@ -781,7 +781,7 @@ begin
  cds_proc2.CommandText := varCond2;
  cds_proc2.Open;
  cds_proc2.CommandText := varSql2;}
-
+  vlrUnitCusto := cds_procPRECOMEDIO.AsFloat;
 end;
 
 procedure TfProcura_prod.BitBtn2Click(Sender: TObject);
@@ -2265,6 +2265,10 @@ begin
     if (var_F = 'venda') then
     begin
       fVendas.cds_Mov_detPRECO.AsFloat := valorUnitario;
+      edit4.Value := valorUnitario;
+    end;
+    if (var_F = 'terminalloja') then
+    begin
       edit4.Value := valorUnitario;
     end;
     Edit2.Value := Edit4.Value * Edit3.value;
