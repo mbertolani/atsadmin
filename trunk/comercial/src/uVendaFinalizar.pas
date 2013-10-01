@@ -1978,10 +1978,10 @@ begin
     MMJPanel3.Background.EndColor := clNavy;
   end
   else begin
-    MMJPanel1.Background.EndColor   := dm.corStart;
-    MMJPanel1.Background.StartColor := dm.corEnd;
-    MMJPanel3.Background.EndColor   := dm.corEnd;
-    MMJPanel3.Background.StartColor := dm.corStart;
+    MMJPanel1.Background.EndColor   := dm.corEnd;
+    MMJPanel1.Background.StartColor := dm.corStart;
+    MMJPanel3.Background.EndColor   := dm.corStart;
+    MMJPanel3.Background.StartColor := dm.corEnd;
   end;
   if (not dm.parametro.Active) then
     dm.parametro.Open;

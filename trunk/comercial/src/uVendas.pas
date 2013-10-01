@@ -1067,10 +1067,10 @@ begin
     Label15.Caption := 'Devolução Vendas';
   end
   else begin
-    MMJPanel1.Background.StartColor := dm.corEnd;
-    MMJPanel1.Background.EndColor := dm.corStart;
-    MMJPanel3.Background.EndColor := dm.corEnd;
-    MMJPanel3.Background.StartColor := dm.corStart;
+    MMJPanel1.Background.StartColor := dm.corStart;
+    MMJPanel1.Background.EndColor := dm.corEnd;
+    MMJPanel3.Background.EndColor := dm.corStart;
+    MMJPanel3.Background.StartColor := dm.corEnd;
     Label15.Caption := 'Vendas';
   end;
   if (dm.emppadrao <> '') then
