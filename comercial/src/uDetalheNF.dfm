@@ -1,10 +1,9 @@
 object fDetalheNF: TfDetalheNF
   Left = 343
   Top = 249
-  BorderStyle = bsNone
+  Width = 676
+  Height = 320
   Caption = 'Detalhe Produtos'
-  ClientHeight = 293
-  ClientWidth = 668
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
