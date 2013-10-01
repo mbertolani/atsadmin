@@ -2267,6 +2267,7 @@ begin
       fVendas.cds_Mov_detPRECO.AsFloat := valorUnitario;
       edit4.Value := valorUnitario;
     end;
+    Edit2.Value := Edit4.Value * Edit3.value;
   end;
 end;
 
