@@ -347,12 +347,6 @@ object fProcura_prod: TfProcura_prod
       Width = 57
       Height = 13
       Caption = 'Desc/Marg.'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
     end
     object EvDBFind1: TEvDBFind
       Left = 8
