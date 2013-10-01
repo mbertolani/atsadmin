@@ -189,6 +189,8 @@ type
     sds_procNCM: TStringField;
     cds_procORIGEM: TStringField;
     cds_procNCM: TStringField;
+    edDescontoMargem: TJvCalcEdit;
+    Label15: TLabel;
     procedure Incluir1Click(Sender: TObject);
     procedure Procurar1Click(Sender: TObject);
     procedure Limpar1Click(Sender: TObject);
@@ -228,16 +230,22 @@ type
     procedure CheckBox1Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure cds_procAfterScroll(DataSet: TDataSet);
+    procedure edDescontoMargemExit(Sender: TObject);
+    procedure edDescontoMargemKeyPress(Sender: TObject; var Key: Char);
   private
+    vlrUnitCusto: Double;
+    vlrUnitVenda: Double;
+    margemItemProcuraProd: Double;
     varCondicaoEstoque : String;
     exibirCamposCondicao: String;
     condicao1: Double;
     condicao2: Double;
     condicao3: Double;
-    condicaoArredondar: Integer;  
+    condicaoArredondar: Integer;
     vlr: double;
     TD: TTransactionDesc;
     { Private declarations }
+    procedure exibePrecoProcProd;
     procedure precolista1;
     procedure precolista2;
     procedure formcompra;
@@ -256,6 +264,7 @@ type
     procedure formMovEstoque;
     procedure incluimovimento;
     procedure formof;
+    procedure calculaDescMargem;
   public
     { Public declarations }
     fecodProd, fenomeProduto, usouAdiciona : string;
@@ -932,13 +941,7 @@ end;
 
 procedure TfProcura_prod.EvDBFind1Exit(Sender: TObject);
 begin
-   Edit3.Text := '1';
-   if (Edit4.Text = '') then
-     Edit4.Text := '0';
-   Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
-   if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
-     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
-
+   exibePrecoProcProd;
    if (var_F = 'Lista') then
    begin
      if (fCompra.cdslista.Active) then
@@ -987,18 +990,13 @@ begin
  cds_proc2.Open;
  cds_proc2.CommandText := varSql2;
 
- Edit3.Text := '1';
- if (Edit4.Text = '') then
-   Edit4.Text := '0';
- Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
- if (exibirCamposCondicao = 'S') then
- begin
-   edCondicao1.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao1), condicaoArredondar);
-   edCondicao2.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao2), condicaoArredondar);
-   edCondicao3.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao3), condicaoArredondar);
- end;
- if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
-   Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+  if (exibirCamposCondicao = 'S') then
+  begin
+    edCondicao1.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao1), condicaoArredondar);
+    edCondicao2.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao2), condicaoArredondar);
+    edCondicao3.Value := dm.Arredondar((cds_procPRECO_VENDA.AsFloat * condicao3), condicaoArredondar);
+  end;
+  exibePrecoProcProd;
   if (Panel2.Visible) then
     EvDBFind1.SetFocus;
 end;
@@ -1037,10 +1035,7 @@ end;
 procedure TfProcura_prod.DBGrid1KeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
- if var_F = 'venda' then
-  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
- if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
-  Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+  exibePrecoProcProd;
   if (Panel2.Visible) then
     EvDBFind1.SetFocus;
 end;
@@ -1048,12 +1043,7 @@ end;
 procedure TfProcura_prod.DBGrid1KeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
- Edit3.Text := '1';
- if (Edit4.Text = '') then
-   Edit4.Text := '0';
- Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
- if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
-   Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+  exibePrecoProcProd;
   if (Panel2.Visible) then
     EvDBFind1.SetFocus;
 end;
@@ -1684,12 +1674,7 @@ end;
 
 procedure TfProcura_prod.EvDBFind1Change(Sender: TObject);
 begin
-   Edit3.Text := '1';
-   if (Edit4.Text = '') then
-     Edit4.Text := '0';
-   Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
-   if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
-     Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+   exibePrecoProcProd;
    if (var_F = 'Lista') then
    begin
      if (fCompra.cdslista.Active) then
@@ -1786,6 +1771,12 @@ begin
          if (var_F = 'compra') then
            Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
       end;
+      margemItemProcuraProd := 0;
+      if (cds_procPRECO_VENDA.AsFloat > 0) then
+      begin
+        margemItemProcuraProd := cds_procPRECOMEDIO.AsFloat/cds_procPRECO_VENDA.AsFloat;
+      end;
+
       if (var_F = 'venda') then
       begin
         if (fVendas.usaprecolistavenda = 'S') then
@@ -1815,6 +1806,8 @@ begin
           fVendas.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
           fVendas.cds_Mov_detLOCALIZACAO.Value := cds_procLOCALIZACAO.Value;
           fVendas.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
+          fVendas.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+          vlrUnitCusto := cds_procPRECOMEDIO.AsFloat;
           fVendas.cds_Mov_detPRECO.AsFloat := Edit4.Value;
           fVendas.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
           valorUnitario := cds_procPRECO_VENDA.AsFloat;
@@ -1827,6 +1820,8 @@ begin
         fCompra.cds_Mov_detCODPRO.AsString := cds_procCODPRO.AsString;
         fCompra.cds_Mov_detDESCPRODUTO.Value := cds_procPRODUTO.Value;
         fCompra.cds_Mov_detQUANTIDADE.AsFloat := Edit3.Value;
+        fCompra.cds_Mov_detPRECOCUSTO.AsFloat := cds_procPRECOMEDIO.AsFloat;
+        vlrUnitCusto := cds_procPRECOMEDIO.AsFloat;
         fCompra.cds_Mov_detPRECO.AsFloat := Edit4.Value;
         fCompra.cds_Mov_detUN.AsString := cds_procUNIDADEMEDIDA.AsString;
         valorUnitario := cds_procPRECO_VENDA.AsFloat;
@@ -2227,6 +2222,68 @@ begin
     fOf.OfProd.Text := cds_procCODPRO.AsString;
     fOf.OfDesc.Text := cds_procPRODUTO.Value;
     fOf.OfQtde.Value := StrToFloat(Edit3.Text);
+end;
+
+procedure TfProcura_prod.edDescontoMargemExit(Sender: TObject);
+begin
+  calculaDescMargem;
+end;
+
+procedure TfProcura_prod.edDescontoMargemKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+ if (key = #13) then
+ begin
+   calculaDescMargem;
+   key:= #0;
+   SelectNext((Sender as TwinControl),True,True);
+ end;
+end;
+
+procedure TfProcura_prod.calculaDescMargem;
+var vlrUnit, MgemDesc: double;
+begin
+  if (edDescontoMargem.Value <> 0) then
+  begin
+    vlrUnit := vlrUnitCusto;
+    if (edDescontoMargem.Value > 0) then
+    begin
+      MgemDesc := (1-(edDescontoMargem.Value/100));
+      valorUnitario := vlrUnitVenda * MgemDesc
+    end;
+    if (edDescontoMargem.Value < 0) then
+    begin
+      MgemDesc := (1+((edDescontoMargem.Value*(-1))/100));
+      valorUnitario := vlrUnit * MgemDesc;
+    end;
+    if (var_F = 'compra') then
+    begin
+      fCompra.cds_Mov_detPRECO.AsFloat := valorUnitario;
+      valorUnitario := valorUnitario;
+      edit4.Value := valorUnitario;
+    end;
+    if (var_F = 'venda') then
+    begin
+      fVendas.cds_Mov_detPRECO.AsFloat := valorUnitario;
+      edit4.Value := valorUnitario;
+    end;
+  end;
+end;
+
+procedure TfProcura_prod.exibePrecoProcProd;
+begin
+  edDescontoMargem.Value := 0;
+  vlrUnitVenda := cds_procPRECO_VENDA.value;
+  Edit3.Text := '1';
+  if (Edit4.Text = '') then
+    Edit4.Text := '0';
+  Edit4.Text := Format('%-6.2n',[cds_procPRECO_VENDA.value]);
+  if ((var_F = 'compra') or (var_F = 'MovEstoque')) then
+  begin
+    Edit4.Text := Format('%-6.2n',[cds_procPRECO_COMPRA.value]);
+    vlrUnitVenda := cds_procPRECO_COMPRA.value;
+  end;
+  vlrUnitCusto := cds_procPRECOMEDIO.AsFloat;
 end;
 
 end.

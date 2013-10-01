@@ -295,7 +295,7 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
     end
     object Label12: TLabel
-      Left = 418
+      Left = 459
       Top = 18
       Width = 55
       Height = 13
@@ -303,7 +303,7 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
     end
     object Label13: TLabel
-      Left = 500
+      Left = 530
       Top = 18
       Width = 49
       Height = 13
@@ -311,8 +311,8 @@ object fProcura_prod: TfProcura_prod
       PopupMenu = PopupMenu1
     end
     object Label14: TLabel
-      Left = 582
-      Top = 19
+      Left = 594
+      Top = 18
       Width = 51
       Height = 13
       Caption = 'Valor Total'
@@ -341,10 +341,17 @@ object fProcura_prod: TfProcura_prod
       Caption = '...'
       Visible = False
     end
+    object Label15: TLabel
+      Left = 397
+      Top = 18
+      Width = 57
+      Height = 13
+      Caption = 'Desc/Marg.'
+    end
     object EvDBFind1: TEvDBFind
       Left = 8
       Top = 33
-      Width = 401
+      Width = 391
       Height = 24
       DataField = 'PRODUTO'
       DataSource = Dtsrc
@@ -360,30 +367,30 @@ object fProcura_prod: TfProcura_prod
       OnKeyPress = FormKeyPress
     end
     object BitBtn4: TBitBtn
-      Left = 674
+      Left = 682
       Top = 33
       Width = 52
       Height = 25
       Caption = 'Adiciona'
       PopupMenu = PopupMenu1
-      TabOrder = 4
+      TabOrder = 5
       OnClick = BitBtn4Click
     end
     object BitBtn5: TBitBtn
-      Left = 726
+      Left = 734
       Top = 33
       Width = 52
       Height = 25
       Caption = 'Novo'
       Enabled = False
       PopupMenu = PopupMenu1
-      TabOrder = 5
+      TabOrder = 6
       OnClick = BitBtn5Click
     end
     object Edit4: TJvCalcEdit
-      Left = 498
+      Left = 527
       Top = 33
-      Width = 70
+      Width = 64
       Height = 24
       DisplayFormat = ',##0.00'
       Font.Charset = DEFAULT_CHARSET
@@ -393,15 +400,15 @@ object fProcura_prod: TfProcura_prod
       Font.Style = []
       ParentFont = False
       ShowButton = False
-      TabOrder = 2
+      TabOrder = 3
       DecimalPlacesAlwaysShown = False
       OnExit = Edit4Exit
       OnKeyPress = FormKeyPress
     end
     object Edit2: TJvCalcEdit
-      Left = 571
+      Left = 592
       Top = 33
-      Width = 101
+      Width = 90
       Height = 24
       DisplayFormat = ',##0.00'
       Font.Charset = DEFAULT_CHARSET
@@ -410,15 +417,15 @@ object fProcura_prod: TfProcura_prod
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 4
       DecimalPlacesAlwaysShown = False
       OnExit = Edit2Exit
       OnKeyPress = FormKeyPress
     end
     object Edit3: TJvCalcEdit
-      Left = 413
+      Left = 456
       Top = 33
-      Width = 81
+      Width = 70
       Height = 24
       DisplayFormat = ',##0.0'
       Font.Charset = DEFAULT_CHARSET
@@ -428,7 +435,7 @@ object fProcura_prod: TfProcura_prod
       Font.Style = []
       ParentFont = False
       ShowButton = False
-      TabOrder = 1
+      TabOrder = 2
       DecimalPlacesAlwaysShown = False
       OnExit = Edit3Exit
       OnKeyPress = FormKeyPress
@@ -443,7 +450,7 @@ object fProcura_prod: TfProcura_prod
       Enabled = False
       ReadOnly = True
       ShowButton = False
-      TabOrder = 6
+      TabOrder = 7
       Visible = False
       DisabledTextColor = clDefault
       DisabledColor = clBtnFace
@@ -459,7 +466,7 @@ object fProcura_prod: TfProcura_prod
       Enabled = False
       ReadOnly = True
       ShowButton = False
-      TabOrder = 7
+      TabOrder = 8
       Visible = False
       DisabledTextColor = clDefault
       DisabledColor = clBtnFace
@@ -475,11 +482,35 @@ object fProcura_prod: TfProcura_prod
       Enabled = False
       ReadOnly = True
       ShowButton = False
-      TabOrder = 8
+      TabOrder = 9
       Visible = False
       DisabledTextColor = clDefault
       DisabledColor = clBtnFace
       DecimalPlacesAlwaysShown = False
+    end
+    object edDescontoMargem: TJvCalcEdit
+      Left = 402
+      Top = 33
+      Width = 52
+      Height = 24
+      Hint = 
+        'Desconto ou Margem ( para informar uma nova Margem, utilize valo' +
+        'res negativos (ex. : -120 , margem de 120% sobre o preco de cust' +
+        'o). '
+      DisplayFormat = ',##0.0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowButton = False
+      ShowHint = True
+      TabOrder = 1
+      DecimalPlacesAlwaysShown = False
+      OnExit = edDescontoMargemExit
+      OnKeyPress = edDescontoMargemKeyPress
     end
   end
   object DBGrid1: TDBGrid
