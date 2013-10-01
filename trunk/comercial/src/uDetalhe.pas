@@ -201,7 +201,7 @@ if (fCompra.DtSrc1.State in [dsInsert, dsEdit]) then
              ', ICMS, CODALMOXARIFADO, PRECO_COMPRAULTIMO as  VALORUNITARIOATUAL ' +
              ', PRECO_VENDA AS VALOR_PRAZO, TIPO, ESTOQUEATUAL, LOCALIZACAO ' +
              ', LOTES  , PRECO_COMPRAMEDIO AS PRECOMEDIO, PESO_QTDE, COD_COMISSAO' +
-             ', RATEIO, conta_despesa , IPI, OBS '  +
+             ', RATEIO, conta_despesa , IPI, OBS, ORIGEM, NCM  '  +
              'from LISTAPRODUTO(:CODPRODUTO, :CODPRO, ' + QuotedStr('TODOSGRUPOS') +
              ', ' + QuotedStr('TODOSSUBGRUPOS') + ' ,' + QuotedStr('TODASMARCAS') +
              ', ' + QuotedStr('TODASAPLICACOES') + ', 0)';
