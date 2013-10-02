@@ -174,7 +174,7 @@ begin
   sql := sql + ' WHERE ((P.USA IS NULL) OR (P.USA = ' + QuotedStr('S') + ')) ';
   if (edProd.Text <> '') then
   begin
-    sqla := ' WHERE CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
+    sqla := ' AND CODPRO LIKE ' + QuotedStr(edProd.Text + '%');
   end;
   if (edDesc.Text <> '') then
   begin
@@ -932,8 +932,8 @@ begin
       // Muda o Status da Lista
       dm.sqlsisAdimin.ExecuteDirect('UPDATE INVENTARIO SET SITUACAO = ' + QuotedStr('G') +
         ' WHERE CODIVENTARIO = ' + QuotedStr(edLista.Text) +
-        '   and SITUACAO     = ' + QuotedStr('A'));
-
+        '   and SITUACAO     = ' + QuotedStr('A') +
+        '   and DATAINVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date)));
       dm.sqlsisAdimin.Commit(TDA);
       if (codMovSaida > codMovEntrada) then
       begin
