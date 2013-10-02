@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = 263
-  Top = 33
+  Left = 211
+  Top = 149
   Width = 875
   Height = 580
   AutoSize = True
@@ -1020,6 +1020,38 @@ object fNFeletronica: TfNFeletronica
             Caption = 'Inutilizar NF-e'
             TabOrder = 4
             OnClick = btnInutilizarClick
+          end
+        end
+        object TabSheet7: TTabSheet
+          Caption = 'Exporta'#231#227'o'
+          ImageIndex = 6
+          object Label12: TLabel
+            Left = 24
+            Top = 8
+            Width = 65
+            Height = 13
+            Caption = 'UF Embarque'
+          end
+          object Label13: TLabel
+            Left = 24
+            Top = 40
+            Width = 92
+            Height = 13
+            Caption = 'Local de Embarque'
+          end
+          object edUfEmbarque: TEdit
+            Left = 96
+            Top = 8
+            Width = 41
+            Height = 21
+            TabOrder = 0
+          end
+          object edLocalEmbarque: TEdit
+            Left = 24
+            Top = 60
+            Width = 329
+            Height = 21
+            TabOrder = 1
           end
         end
       end

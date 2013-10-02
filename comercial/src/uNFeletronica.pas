@@ -687,6 +687,11 @@ type
     chkScan: TCheckBox;
     sdsNFSTATUS: TStringField;
     cdsNFSTATUS: TStringField;
+    TabSheet7: TTabSheet;
+    Label12: TLabel;
+    edUfEmbarque: TEdit;
+    Label13: TLabel;
+    edLocalEmbarque: TEdit;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1130,9 +1135,11 @@ begin
             end;
             getTransportadora();
 
-            {exporta.UFembarq := 'SP';
-            exporta.xLocEmbarq := 'Aeroporto Internacional de Viracopos - Campinas';}
-
+            if (sClienteUF.AsString = 'EX') then
+            begin
+              exporta.UFembarq := edUfEmbarque.Text;
+              exporta.xLocEmbarq := edLocalEmbarque.Text;
+            end;
             //VALOR TORAL
 
             if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) then
@@ -2071,7 +2078,8 @@ begin
     //CLIENTE
     else
     begin
-      Dest.CNPJCPF           := RemoveChar(sClienteCNPJ.AsString);
+      if (sClienteUF.AsString <> 'EX') then
+        Dest.CNPJCPF := RemoveChar(sClienteCNPJ.AsString);
       Dest.xNome             := sClienteRAZAOSOCIAL.AsString;
       if (sClienteSUFRAMA.Size = 9) then
         Dest.ISUF              := sClienteSUFRAMA.AsString;
@@ -2114,9 +2122,13 @@ begin
         if (IERG > 11) then
           Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
       end
-      else
-        if (IERG >= 5) then
-          Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+      else begin
+        if (sClienteUF.AsString <> 'EX') then
+        begin
+          if (IERG >= 5) then
+            Dest.IE := RemoveChar(sClienteINSCESTADUAL.AsString);
+        end;
+      end;
     end;
   end;
 end;
