@@ -510,7 +510,7 @@ begin
       end
       else begin
         Self.dataVenc.Add('0');
-        MessageDlg('Prazo informado : ' + Self.Prazo + ', não está cadastrado em Prazos.', mtWarning, [mbOK], 0);
+        //MessageDlg('Prazo informado : ' + Self.Prazo + ', não está cadastrado em Prazos.', mtWarning, [mbOK], 0);
       end;
     Finally
       sqlPrazo.Free;
