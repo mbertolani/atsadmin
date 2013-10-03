@@ -126,18 +126,8 @@ begin
   if(sEmpresa.IsEmpty) then
     MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
  try
-   try
-     fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
-     MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
-     {for i=0 to StrToInt(edtNumFim.Text) do
-     begin
-       str := 'INSERT INTO NF_INUTILIZADO VALUES(';
-       str := str + IntToStr(i-1) + ', ';
-       str := str + IntToStr(i-1) + ', ';
-     end; }
-   except
-     MessageDlg('Erro ao Enviar Inutilização', mtError, [mbOK], 0);
-   end;
+   fNFeletronica.ACBrNFe1.WebServices.Inutiliza(RemoveChar(sEmpresaCNPJ_CPF.AsString), edtJustificativa.text, StrToInt(edtAno.text), StrToInt(edtModelo.Text), StrToInt(edtSerie.Text), StrToInt(edtNumIni.Text), StrToInt(edtNumFim.Text));
+   MemoResp.Lines.Text :=  UTF8Encode(fNFeletronica.ACBrNFe1.WebServices.Inutilizacao.RetWS);
  finally
    MessageDlg('Protocolo de Inutilização: ' + fNFeletronica.ACBrNFe1.WebServices.Retorno.Protocolo, mtInformation, [mbOK], 0);
  end
