@@ -432,6 +432,7 @@ type
     procedure DBEdit4Exit(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
   private
+    loteant : string;
     { Private declarations }
     procedure busca_produto;
   public
@@ -464,6 +465,9 @@ procedure TfEntra_Sai_estoque.btnIncluirClick(Sender: TObject);
 begin
   cbCodigo.Text := '';
   cbNome.Text := '';
+  loteant := '';
+  edit1.Text := '';
+  edit2.Text := '';    
   if (DtSrc1.DataSet.Active) then
     DtSrc1.DataSet.Close;
     if DtSrc.DataSet.State in [dsInactive, dsBrowse] then
@@ -1138,7 +1142,6 @@ begin
 end;
 
 procedure TfEntra_Sai_estoque.btnNovoClick(Sender: TObject);
-var loteant : string;
 begin
   loteant := cds_Mov_detLOTE.AsString;
   try
@@ -1343,7 +1346,7 @@ begin
   end;
   cds_mov_detCODDETALHE.AsInteger := codmovdet;
   cds_Mov_detCODMOVIMENTO.AsInteger:=cds_MovimentoCODMOVIMENTO.AsInteger;
-  cds_Mov_detDTAFAB.AsDateTime := Now;
+  cds_Mov_detDTAFAB.AsDateTime := MaskEdit1.Date;
 end;
 
 procedure TfEntra_Sai_estoque.cds_Mov_detCalcFields(DataSet: TDataSet);
