@@ -566,12 +566,13 @@ begin
   dm.cds_parametro.Params[0].asString := 'SERIENFE';
   dm.cds_parametro.Open;
 
-  if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+  if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
   begin
     if (dmnf.scds_serienfe.Active) then
       dmnf.scds_serienfe.Close;
     dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
     dmnf.scds_serienfe.Open;
+    dbeSerie.Text := dm.cds_parametroD1.AsString;
     numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
     gravaSerie(StrToInt(numNf));
   end
@@ -811,6 +812,7 @@ begin
     if (dmnf.cds_nf.Active) then
       dmnf.cds_nf.Close;
     dmnf.cds_nf.Params[0].Clear;
+    dmnf.cds_nf.Params[1].Clear;
     dmnf.cds_nf.Params[1].AsInteger := codVendaFin;
     dmnf.cds_nf.Open;
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
@@ -824,8 +826,10 @@ begin
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
     if ((dmnf.cds_nf.IsEmpty) and (codVendaFin > 0)) then
-      btnIncluir.Click;
-
+    begin
+      if (dmnf.cds_nfNOTASERIE.AsString = '') then
+        btnIncluir.Click;
+    end;
     if (dm.cds_parametro.Active) then
       dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].asString := 'DATANF';
@@ -871,7 +875,6 @@ begin
   DMNF.cds_nf.Params[1].Clear;
   dmnf.cds_nf.Open;
   dmnf.cds_nf.Append;
-
 end;
 
 procedure TfNotaf.incluiVenda;
@@ -897,7 +900,6 @@ begin
   DMNF.cds_vendaSTATUS.AsInteger:=0;
   DMNF.cds_vendaDESCONTO.AsFloat := 0;
 
-  dbeSerie.Text := '';
   if (not Dm.parametro.Active) then
     dm.parametro.Open;
   if (RadioGroup1.ItemIndex = 1) then
@@ -908,20 +910,22 @@ begin
   if (RadioGroup1.ItemIndex = 0) then
   begin
     if (dm.parametro.Locate('PARAMETRO', 'SERIENFSERV', [loCaseInsensitive])) then
+    begin
       dbeSerie.Text := dm.parametroDADOS.AsString;
+      buscaserieNF;
+    end;
   end;
   if (dbeSerie.Text = '') then
   begin
     dm.parametro.Locate('PARAMETRO', 'SERIEPADRAO', [loCaseInsensitive]);
     dbeSerie.Text := dm.parametroDADOS.AsString;
+    buscaserieNF;
   end;
   DMNF.cds_vendaSERIE.AsString := dbeSerie.Text;
   // 006 ------Pesquisando na tab Parametro o Vendedor padrão ---- 09-05-2005 -----
   dbeUsuario.Text := IntToStr(cod_vendedor_padrao);
   //dbEdit68.Text := nome_vendedor_padrao;
   // ---- ********************************************************************* ----
-   buscaserieNF;
-
 end;
 
 procedure TfNotaf.buscaserieNF;
@@ -1238,18 +1242,18 @@ end;
 
 procedure TfNotaf.btnCancelarClick(Sender: TObject);
 begin
-    DMNF.cds_nf.Cancel;
-    DMNF.cds_venda.Cancel;
-    DMNF.cds_Mov_det.Cancel;
-    DMNF.cds_Movimento.Cancel;
-    DM.cds_empresa.cancel;
-    if(DMNF.cds_nfNUMNF.AsInteger = 0) then
-    begin
-      DMNF.cds_nf.Close;
-      DMNF.cds_venda.Close;
-      DMNF.cds_Mov_det.Close;
-      DMNF.cds_Movimento.Close;
-    end;
+  DMNF.cds_nf.Cancel;
+  DMNF.cds_venda.Cancel;
+  DMNF.cds_Mov_det.Cancel;
+  DMNF.cds_Movimento.Cancel;
+  DM.cds_empresa.cancel;
+  if(DMNF.cds_nfNUMNF.AsInteger = 0) then
+  begin
+    DMNF.cds_nf.Close;
+    DMNF.cds_venda.Close;
+    DMNF.cds_Mov_det.Close;
+    DMNF.cds_Movimento.Close;
+  end;
 end;
 
 procedure TfNotaf.BitBtn5Click(Sender: TObject);
@@ -1765,7 +1769,7 @@ begin
     end;
   end;
   dmnf.cds_nf.ApplyUpdates(0);
-  
+
   if (not calcman.Checked) then
     calculaicms(dmnf.cds_nfUF.AsString);
 end;
@@ -2331,7 +2335,7 @@ begin
     fCrAltera.cds1.Open;
 
     fCrAltera.Label1.Caption := scdsCr_procTITULO.AsString;
-    fCrAltera.Label2.Caption := scdsCr_procTITULO.AsString;    
+    fCrAltera.Label2.Caption := scdsCr_procTITULO.AsString;
     fCrAltera.ShowModal;
     scdsCr_proc.Close;
     scdsCr_proc.Open;
@@ -2342,14 +2346,29 @@ begin
 end;
 
 procedure TfNotaf.gravaSerie(numero: Integer);
+var strS: String;
+  ultimoNumUsado: Integer;
 begin
   if not dmnf.scds_serie_proc.Active then
   begin
-     dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
-     dmnf.scds_serie_proc.Open;
+    dmnf.scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+    dmnf.scds_serie_proc.Open;
   end;
   if (not dmnf.scds_serie_proc.IsEmpty) then
   begin
+    strS := 'SELECT MAX(CAST(NOTASERIE AS INTEGER)) NUMNF FROM NOTAFISCAL ' +
+            ' where SERIE = ' + QuotedStr(dbeSerie.Text);
+    if (dm.sqlBusca.Active) then
+      dm.sqlBusca.Close;
+    dm.sqlBusca.SQL.Clear;
+    dm.sqlBusca.SQL.Add(strS);
+    dm.sqlBusca.Open;
+    ultimoNumUsado := dm.sqlBusca.fieldByName('NUMNF').AsInteger;
+    if ((ultimoNumUsado + 1) < numero) then
+    begin
+      MessageDlg('O último número de nota emitido foi : ' + IntToSTr(ultimoNumUsado) +
+      '. Verifique se a númeração está correta antes de continuar', mtWarning, [mbOK], 0);
+    end;
     if (numero > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
     begin
       dmnf.scds_serie_proc.Edit;
