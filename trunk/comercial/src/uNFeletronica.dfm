@@ -1053,6 +1053,15 @@ object fNFeletronica: TfNFeletronica
             Height = 21
             TabOrder = 1
           end
+          object btnAbaPrincipal: TBitBtn
+            Left = 152
+            Top = 83
+            Width = 113
+            Height = 25
+            Caption = 'Voltar aba principal'
+            TabOrder = 2
+            OnClick = btnAbaPrincipalClick
+          end
         end
       end
     end

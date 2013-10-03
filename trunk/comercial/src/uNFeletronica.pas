@@ -692,6 +692,7 @@ type
     edUfEmbarque: TEdit;
     Label13: TLabel;
     edLocalEmbarque: TEdit;
+    btnAbaPrincipal: TBitBtn;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -734,6 +735,7 @@ type
     procedure EnviaEmail;
     procedure tpNFClick(Sender: TObject);
     procedure chkScanClick(Sender: TObject);
+    procedure btnAbaPrincipalClick(Sender: TObject);
 
   private
     numnf : WideString;
@@ -965,6 +967,16 @@ begin
              sCliente.Close;
            sCliente.Params[0].AsInteger := cdsNFCODCLIENTE.AsInteger;
            sCliente.Open;
+           if (sClienteUF.AsString = 'EX') then
+           begin
+             if (edUfEmbarque.Text = '') then
+             begin
+               MessageDlg('Preencha o UF e Local de Embarque.', mtWarning, [mbOK], 0);
+               PageControl2.ActivePage := TabSheet7;
+               edUfEmbarque.SetFocus;
+               exit;
+             end;
+           end;
          end
          else
          begin
@@ -3142,6 +3154,11 @@ begin
     Label5.Caption := 'PRODUÇÃO';
     GroupBox5.Color := clBtnFace;
   end;  
+end;
+
+procedure TfNFeletronica.btnAbaPrincipalClick(Sender: TObject);
+begin
+  PageControl2.ActivePage := TabSheet1;
 end;
 
 end.
