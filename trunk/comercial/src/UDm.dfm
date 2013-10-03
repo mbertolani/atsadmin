@@ -1,10 +1,9 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 5
-  Top = 218
+  Top = 142
   Height = 738
-  Width = 1201
+  Width = 1152
   object sqlsisAdimin: TSQLConnection
     ConnectionName = 'sisAdmin'
     DriverName = 'UIB FireBird15'
@@ -27,7 +26,8 @@ object DM: TDM
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
-    Left = 104
+    Connected = True
+    Left = 112
     Top = 8
   end
   object sds_parametro: TSQLDataSet
@@ -687,11 +687,13 @@ object DM: TDM
       'ANCO, '#13#10'          cli.PRAZORECEBIMENTO, '#13#10'          cli.OBS,  '#13#10 +
       '          cli.SEGMENTO, '#13#10'          cli.STATUS, '#13#10'          usu.' +
       'NOMEUSUARIO, ende.UF, cli.BLOQUEIO  , cli.desconto, cli.CFOP, cl' +
-      'i.SUFRAMA'#13#10'from CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on ' +
-      'usu.CODUSUARIO=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ' +
-      'ende on ende.CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE' +
-      ' like :pCLIENTE '#13#10'or cli.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCL' +
-      'IENTE = :pCODCLIENTE '#13#10'order by cli.NOMECLIENTE'
+      'i.SUFRAMA, ende.PAIS, cli.CNPJ, cli.INSCESTADUAL,  ende.LOGRADOU' +
+      'RO,'#13#10'          ende.BAIRRO, ende.CIDADE, ende.CEP, ende.CD_IBGE ' +
+      #13#10'from CLIENTES cli '#13#10'left outer join USUARIO usu '#13#10'on usu.CODUS' +
+      'UARIO=cli.CODUSUARIO '#13#10'left outer join ENDERECOCLIENTE ende on e' +
+      'nde.CODCLIENTE = cli.CODCLIENTE '#13#10'where cli.NOMECLIENTE like :pC' +
+      'LIENTE '#13#10'or cli.RAZAOSOCIAL like :pRAZAO '#13#10'or cli.CODCLIENTE = :' +
+      'pCODCLIENTE '#13#10'order by cli.NOMECLIENTE'
     MaxBlobSize = -1
     Params = <
       item
@@ -773,6 +775,38 @@ object DM: TDM
     object scds_cliente_procSUFRAMA: TStringField
       FieldName = 'SUFRAMA'
       Size = 9
+    end
+    object scds_cliente_procPAIS: TStringField
+      FieldName = 'PAIS'
+      Size = 60
+    end
+    object scds_cliente_procCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 18
+    end
+    object scds_cliente_procINSCESTADUAL: TStringField
+      FieldName = 'INSCESTADUAL'
+      Size = 24
+    end
+    object scds_cliente_procLOGRADOURO: TStringField
+      FieldName = 'LOGRADOURO'
+      Size = 50
+    end
+    object scds_cliente_procBAIRRO: TStringField
+      FieldName = 'BAIRRO'
+      Size = 30
+    end
+    object scds_cliente_procCIDADE: TStringField
+      FieldName = 'CIDADE'
+      Size = 40
+    end
+    object scds_cliente_procCEP: TStringField
+      FieldName = 'CEP'
+      Size = 10
+    end
+    object scds_cliente_procCD_IBGE: TStringField
+      FieldName = 'CD_IBGE'
+      Size = 10
     end
   end
   object scds_produto_proc: TSQLDataSet
@@ -5343,7 +5377,7 @@ object DM: TDM
     end
   end
   object sds_param: TSQLDataSet
-    CommandText = 'select * from PARAMETRO'
+    CommandText = 'select * from PARAMETRO ORDER BY PARAMETRO'
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
@@ -9908,7 +9942,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 248
+    Left = 240
     Top = 16
     object sdsPrazoPARAMETRO: TStringField
       FieldName = 'PARAMETRO'
