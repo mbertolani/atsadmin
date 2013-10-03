@@ -1425,6 +1425,10 @@ end;
 procedure TfVendaFinalizar.btnNotaFiscalClick(Sender: TObject);
 var nfe :string;
 begin
+  if (dm.validaClienteParaNF(fVendas.cds_MovimentoCODCLIENTE.AsInteger) = False) then
+  begin
+    exit;
+  end;
   if DtSrc.State in [dsInsert] then
   begin
     btnGravar.Click;
@@ -3027,7 +3031,7 @@ end;
 procedure TfVendaFinalizar.notaFiscal;
 var
   Save_Cursor:TCursor;
-  codClienteNF: integer;
+  codClienteNF, ultimoNumUsado: integer;
   serieNf: String;
   str_sql, numNf: String;
 begin
@@ -3057,17 +3061,39 @@ begin
 
       if (not dm.cds_parametro.IsEmpty) then
       begin
-        if (dm.cds_parametroCONFIGURADO.AsString = 'S') then
+        if (dm.cds_parametroCONFIGURADO.AsString = 'N') then
         begin
-          if (dmnf.scds_serienfe.Active) then
-            dmnf.scds_serienfe.Close;
-          dmnf.scds_serienfe.Params[0].AsString := dm.cds_parametroD1.AsString;
-          dmnf.scds_serienfe.Open;
-          numNf := IntToStr(dmnf.scds_serienfeNOTASERIE.AsInteger + 1);
-          //gravaSerie(StrToInt(numNf));
+          if (dmnf.scds_serie_proc.Active) then
+            dmnf.scds_serie_proc.Close;
+          dmnf.scds_serie_proc.Params[0].AsString := dm.cds_parametroD1.AsString;
+          dmnf.scds_serie_proc.Open;
+          if (not dmnf.scds_serie_proc.IsEmpty) then
+          begin
+            numNf := IntToStr(dmnf.scds_serie_procULTIMO_NUMERO.AsInteger + 1);
+
+            str_sql := 'SELECT MAX(CAST(NOTASERIE AS INTEGER)) NUMNF FROM NOTAFISCAL ' +
+                    ' where SERIE = ' + QuotedStr(dm.cds_parametroD1.AsString);
+            if (dm.sqlBusca.Active) then
+              dm.sqlBusca.Close;
+            dm.sqlBusca.SQL.Clear;
+            dm.sqlBusca.SQL.Add(str_sql);
+            dm.sqlBusca.Open;
+            ultimoNumUsado := dm.sqlBusca.fieldByName('NUMNF').AsInteger;
+            if ((ultimoNumUsado + 1) < StrToInt(numNF)) then
+            begin
+              MessageDlg('O último número de nota emitido foi : ' + IntToSTr(ultimoNumUsado) +
+              '. Verifique se a númeração está correta antes de continuar', mtWarning, [mbOK], 0);
+            end;
+
+            if (StrToInt(numNf) > dmnf.scds_serie_procULTIMO_NUMERO.AsInteger) then
+            begin
+              dmnf.scds_serie_proc.Edit;
+              dmnf.scds_serie_procULTIMO_NUMERO.AsInteger := StrToInt(numNf);
+              dmnf.scds_serie_proc.ApplyUpdates(0);
+            end;
+          end;
         end
-        else
-        begin
+        else begin
           numNf := IntToStr(cdsNOTAFISCAL.AsInteger);
         end;
         serieNf := dm.cds_parametroD1.AsString;
@@ -3139,30 +3165,24 @@ begin
     fNotaf.cbFinanceiro.Checked := False;
     fNotaf.cbEstoque.Checked := False;
     fNotaf.btnProcurar.Enabled := False;
-    if(DMNF.cds_nfFRETE.asString <> '') then
-      fNotaf.cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.asString)
-    else
-      fNotaf.cboFrete.ItemIndex := -1;
+    if (dmnf.cds_nf.Active) then
+    begin
+      if(DMNF.cds_nfFRETE.asString <> '') then
+        fNotaf.cboFrete.ItemIndex := StrToInt(DMNF.cds_nfFRETE.asString)
+      else
+        fNotaf.cboFrete.ItemIndex := -1;
+    end;
     fNotaf.ShowModal;
     if (dmnf.cds_nfSTATUS.AsString = 'S') then
       fNotaf.RadioGroup1.ItemIndex := 0
     else
       fNotaf.RadioGroup1.ItemIndex := 1;
-    finally
-      DMNF.cds_nf.Close;
-      dmnf.cds_nf.Open;
-      cds.Close;
-      cds.Open;
-      scdsCr_proc.Close;
-      scdsCr_proc.Open;
-      {if ( cdsVALOR_IPI.AsFloat <> DMNF.cds_nfVALOR_IPI.AsFloat) then
-      begin
-        cds.Edit;
-        cdsVALOR_IPI.AsFloat := DMNF.cds_nfVALOR_IPI.AsFloat;
-        btnGravar.Click;
-      end;}
-      fNotaf.Free;
-    end;
+  finally
+    DMNF.cds_nf.Close;
+    dmnf.cds_nf.Params[0].Clear;
+    dmnf.cds_nf.Params[1].Clear;
+    fNotaf.Free;
+  end;
 end;
 
 procedure TfVendaFinalizar.excluinf;
@@ -3519,9 +3539,9 @@ begin
   inherited;
   if (dmnf.cds_nf.Active) then
   begin
+    dmnf.cds_nf.Close;  
     dmnf.cds_nf.Params[0].Clear;
     dmnf.cds_nf.Params[1].Clear;
-    dmnf.cds_nf.Close;
   end;
 end;
 
