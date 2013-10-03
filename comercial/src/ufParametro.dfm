@@ -28,7 +28,7 @@ inherited fParametro: TfParametro
     Top = 8
     Width = 817
     Height = 513
-    ActivePage = TabSheet7
+    ActivePage = TabSheet3
     TabOrder = 2
     OnChange = ParametroChange
     object TabSheet1: TTabSheet
@@ -49,71 +49,86 @@ inherited fParametro: TfParametro
           item
             Expanded = False
             FieldName = 'DESCRICAO'
-            Title.Caption = 'Descri'#231#227'o'
-            Width = 300
+            Width = 150
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'PARAMETRO'
-            Title.Caption = 'Parametro'
-            Width = 200
+            Width = 150
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'CONFIGURADO'
-            Title.Caption = 'Configurado'
-            Width = 80
+            Title.Caption = 'CONF.'
+            Width = 35
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DADOS'
-            Title.Caption = 'Dados'
             Width = 80
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'D1'
-            Title.Caption = 'Adm'
-            Width = 60
+            Width = 30
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'D2'
-            Title.Caption = 'Financeiro'
-            Width = 60
+            Width = 30
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'D3'
-            Title.Caption = 'Comercial'
-            Width = 60
+            Width = 30
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'D4'
-            Title.Caption = 'Materiais'
-            Width = 60
+            Width = 30
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'D5'
-            Title.Caption = 'Pedagogico'
-            Width = 60
+            Width = 30
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'D6'
-            Title.Caption = 'Sa'#250'de'
-            Width = 60
+            Width = 30
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'D7'
+            Width = 30
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'D8'
+            Width = 30
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'D9'
+            Width = 30
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'INSTRUCOES'
+            Width = 100
             Visible = True
           end>
       end
@@ -4899,8 +4914,8 @@ inherited fParametro: TfParametro
   object ImageList2: TImageList
     Height = 26
     Width = 30
-    Left = 352
-    Top = 32
+    Left = 360
+    Top = 80
     Bitmap = {
       494C01011500180004001E001A00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000780000009C00000001002000000000008024
@@ -7343,7 +7358,7 @@ inherited fParametro: TfParametro
       end>
     SQLConnection = DM.sqlsisAdimin
     Left = 316
-    Top = 32
+    Top = 88
     object s_parametroDESCRICAO: TStringField
       FieldName = 'DESCRICAO'
       Size = 100
