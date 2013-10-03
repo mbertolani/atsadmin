@@ -1976,6 +1976,14 @@ type
     scds_produto_procNCM: TStringField;
     scds_forn_procUF: TStringField;
     scds_forn_procCODFISCAL: TStringField;
+    scds_cliente_procPAIS: TStringField;
+    scds_cliente_procCNPJ: TStringField;
+    scds_cliente_procINSCESTADUAL: TStringField;
+    scds_cliente_procLOGRADOURO: TStringField;
+    scds_cliente_procBAIRRO: TStringField;
+    scds_cliente_procCIDADE: TStringField;
+    scds_cliente_procCEP: TStringField;
+    scds_cliente_procCD_IBGE: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure cds_produtoNewRecord(DataSet: TDataSet);
     procedure scds_Mov_Det_procCalcFields(DataSet: TDataSet);
@@ -2078,6 +2086,7 @@ type
     procedure abrirLog(Tabela: String; Registro: String; tipo: String);
     procedure verificaTamCampo;
     procedure EstoqueAtualiza(codMovimento: integer);
+    function validaClienteParaNF(codCliente: Integer): Boolean;
   end;
 var
   DM: TDM;
@@ -3434,6 +3443,78 @@ begin
       result := sqlBusca.fieldByName('CFOP').AsString;
   end;
 
+end;
+
+function TDM.validaClienteParaNF(codCliente: Integer): Boolean;
+var dadosClienteFaltando: String;
+begin
+  if (scds_cliente_proc.Active) then
+    scds_cliente_proc.Close;
+  scds_cliente_proc.Params[0].Clear;
+  scds_cliente_proc.Params[1].Clear;
+  scds_cliente_proc.Params[2].Clear;
+  scds_cliente_proc.Params[2].AsInteger := codCliente;
+  scds_cliente_proc.Open;
+  dadosClienteFaltando := '';  
+  result := False;
+  if (not scds_cliente_proc.IsEmpty) then
+  begin
+    if (scds_cliente_procUF.AsString = '') then
+    begin
+      dadosClienteFaltando := 'UF não informado;'+#13#10;
+    end;
+    if (scds_cliente_procRAZAOSOCIAL.AsString = '') then
+    begin
+      dadosClienteFaltando := dadosClienteFaltando + 'RAZAO SOCIAL não informada;'+#13#10 ;
+    end;
+    if (scds_cliente_procPAIS.AsString = '') then
+    begin
+      dadosClienteFaltando := dadosClienteFaltando + 'PAÍS não informado;'+#13#10;
+    end;
+    if (scds_cliente_procCNPJ.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'CNPJ/CPF não informado;'+#13#10;
+    end;
+    if (scds_cliente_procINSCESTADUAL.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'INSC. ESTADUAL/RG não informada;'+#13#10;
+    end;
+    if (scds_cliente_procLOGRADOURO.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'ENDEREÇO não informado;'+#13#10;
+    end;
+    if (scds_cliente_procBAIRRO.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'BAIRRO não informado;'+#13#10;
+    end;
+    if (scds_cliente_procCIDADE.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'CIDADE não informada;'+#13#10;
+    end;
+    if (scds_cliente_procCEP.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'CEP não informado;'+#13#10;
+    end;
+    if (scds_cliente_procCD_IBGE.AsString = '') then
+    begin
+      if (scds_cliente_procUF.AsString <> 'EX') then
+        dadosClienteFaltando := dadosClienteFaltando + 'CÓD. IBGE não informado;'+#13#10;
+    end;
+  end;
+  if (dadosClienteFaltando <> '') then
+  begin
+    MessageDlg('Falta informação no cadastro do cliente, para criar uma nota fiscal :' + #13#10 +
+    dadosClienteFaltando, mtWarning, [mbOK], 0);
+  end
+  else begin
+    result := True;
+  end;
 end;
 
 end.
