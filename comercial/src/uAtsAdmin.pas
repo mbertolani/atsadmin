@@ -987,10 +987,10 @@ begin
   // fRateioPag := TfRateioPag.Create(Application);
   // try
   DM.tipoCompra := 'COMPRA';
-  fCompra.MMJPanel1.Background.EndColor   := dm.corStart;
-  fCompra.MMJPanel1.Background.StartColor := dm.corEnd;
-  fCompra.MMJPanel2.Background.EndColor   := dm.corEnd;
-  fCompra.MMJPanel2.Background.StartColor := dm.corStart;
+  fCompra.MMJPanel1.Background.EndColor   := dm.corEnd;
+  fCompra.MMJPanel1.Background.StartColor := dm.corStart;
+  fCompra.MMJPanel2.Background.EndColor   := dm.corStart;
+  fCompra.MMJPanel2.Background.StartColor := dm.corEnd;
 
   fCompra.ShowModal;
   //finally
