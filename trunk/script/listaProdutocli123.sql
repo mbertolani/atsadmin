@@ -180,7 +180,7 @@ begin
     p.familia, p.categoria, p.marca, p.codalmoxarifado, p.icms, p.tipo, p.localizacao,
     p.LOTES, p.margem, p.VALOR_PRAZO, p.TIPOPRECOVENDA, uso.DESCRICAO, cod.CODIGO, p.USA,
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL,
-     p.OBS, p.ESTOQUEATUAL, p.PRECOMEDIO, p.ORIGEM, p.NCM
+     p.OBS, p.ESTOQUEATUAL, COALESCE(p.PRECOMEDIO,0), p.ORIGEM, p.NCM
     from produtos p
     left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
     left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
@@ -201,6 +201,9 @@ begin
   do begin
     if (codAlmoxarifado is null) then 
       codAlmoxarifado = 0;
+      
+    if (precoc is null) then 
+      precoc = 0;  
       
     --if (codAlmoxarifado > 0) then 
     cCustoV = codAlmoxarifado;
@@ -291,15 +294,19 @@ begin
     end
 
     /* O custo do produto e baseado em cima das materias primas */
-    select sum(m.QTDEUSADA * (case when p.VALORUNITARIOATUAL is null then p.PRECOMEDIO
+    for select sum(m.QTDEUSADA * (case when p.VALORUNITARIOATUAL is null then p.PRECOMEDIO
      when p.VALORUNITARIOATUAL = 0 then p.PRECOMEDIO
      else p.VALORUNITARIOATUAL end ))
-
     from MATERIA_PRIMA m
       inner join PRODUTOS p on p.CODPRODUTO = m.CODPRODMP
       where m.CODPRODUTO = :codProduto
-    into :custoMateriaPrima;
-    preco_compraMedio = custoMateriaPrima;
+    into :custoMateriaPrima
+    do begin 
+      if (custoMateriaPrima is null) then 
+        custoMateriaPrima = 0;
+      if (custoMateriaPrima > 0) then         
+        preco_compraMedio = custoMateriaPrima;
+    end  
 
     if (preco_compraUltimo = 0) then
       preco_compraUltimo = precoc;
@@ -316,6 +323,8 @@ begin
        Preco_venda = precocliente;
       precocliente = 0;
     end
+    if (preco_compraMedio is null) then
+      preco_compraMedio = 0;
     suspend;
     CCustoV = CCusto;
     preco_compraMedio = 0;
