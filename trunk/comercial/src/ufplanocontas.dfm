@@ -1,8 +1,9 @@
 inherited fPlanoContas: TfPlanoContas
-  Left = 8
-  Top = 20
+  Left = 210
+  Top = 246
   Width = 808
   Height = 559
+  Caption = 'Plano de Contas'
   OldCreateOrder = True
   WindowState = wsMaximized
   OnShow = FormShow
@@ -10,46 +11,28 @@ inherited fPlanoContas: TfPlanoContas
   TextHeight = 13
   object Label3: TLabel [0]
     Left = 7
-    Top = 64
-    Width = 35
-    Height = 16
+    Top = 62
+    Width = 28
+    Height = 13
     Caption = 'Conta'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label4: TLabel [1]
     Left = 247
-    Top = 64
-    Width = 73
-    Height = 16
+    Top = 62
+    Width = 58
+    Height = 13
     Caption = 'C. Reduzido'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label5: TLabel [2]
     Left = 522
-    Top = 64
-    Width = 68
-    Height = 16
+    Top = 62
+    Width = 56
+    Height = 13
     Caption = 'Desc. Cont.'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label6: TLabel [3]
     Left = 7
-    Top = 92
+    Top = 97
     Width = 37
     Height = 16
     Caption = 'Grupo'
@@ -59,10 +42,11 @@ inherited fPlanoContas: TfPlanoContas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    Visible = False
   end
   object Label7: TLabel [4]
     Left = 410
-    Top = 92
+    Top = 97
     Width = 67
     Height = 16
     Caption = 'Sub. Grupo'
@@ -72,114 +56,67 @@ inherited fPlanoContas: TfPlanoContas
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    Visible = False
   end
   object Label8: TLabel [5]
     Left = 7
-    Top = 137
-    Width = 35
-    Height = 16
+    Top = 114
+    Width = 28
+    Height = 13
     Caption = 'Conta'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label9: TLabel [6]
     Left = 98
-    Top = 137
-    Width = 58
-    Height = 16
+    Top = 114
+    Width = 46
+    Height = 13
     Caption = 'Conta Pai'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label10: TLabel [7]
     Left = 191
-    Top = 137
-    Width = 60
-    Height = 16
+    Top = 114
+    Width = 48
+    Height = 13
     Caption = 'Cod. Red.'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label11: TLabel [8]
     Left = 258
-    Top = 137
-    Width = 94
-    Height = 16
+    Top = 114
+    Width = 74
+    Height = 13
     Caption = 'Nome da Conta'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label12: TLabel [9]
     Left = 418
-    Top = 137
-    Width = 97
-    Height = 16
+    Top = 114
+    Width = 77
+    Height = 13
     Caption = 'Outra Descri'#231#227'o'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label13: TLabel [10]
     Left = 611
-    Top = 138
-    Width = 61
-    Height = 16
+    Top = 115
+    Width = 46
+    Height = 13
     Caption = 'Consolida'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object Label14: TLabel [11]
     Left = 676
-    Top = 138
-    Width = 40
-    Height = 16
+    Top = 115
+    Width = 31
+    Height = 13
     Caption = 'Rateio'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   object lbl1: TLabel [12]
     Left = 719
-    Top = 138
-    Width = 28
-    Height = 16
+    Top = 115
+    Width = 21
+    Height = 13
     Caption = 'Tipo'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 467
-    Width = 792
+    Top = 478
+    Width = 800
     inherited btnGravar: TBitBtn
       Left = 232
     end
@@ -310,7 +247,7 @@ inherited fPlanoContas: TfPlanoContas
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Width = 792
+    Width = 800
     Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -35
@@ -330,29 +267,85 @@ inherited fPlanoContas: TfPlanoContas
       Caption = 'Plano de Contas'
       Font.Name = 'Cooper Black'
     end
-    object JvLabel1: TJvLabel
-      Left = 1
-      Top = 1
-      Width = 790
-      Height = 52
-      Align = alClient
-      Alignment = taCenter
-      AutoSize = False
-      Caption = 'Plano de Contas'
-      ShadowColor = clNavy
-      ShadowSize = 4
-      Transparent = True
-      AutoOpenURL = False
-      HotTrackFont.Charset = ANSI_CHARSET
-      HotTrackFont.Color = clWindowText
-      HotTrackFont.Height = -32
-      HotTrackFont.Name = 'Cooper Blk BT'
-      HotTrackFont.Style = []
+    object BitBtn8: TBitBtn
+      Left = 42
+      Top = 8
+      Width = 130
+      Height = 41
+      Caption = 'ATIVO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnClick = BitBtn8Click
+    end
+    object BitBtn9: TBitBtn
+      Left = 182
+      Top = 8
+      Width = 130
+      Height = 41
+      Caption = 'PASSIVO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = BitBtn9Click
+    end
+    object BitBtn10: TBitBtn
+      Left = 323
+      Top = 8
+      Width = 130
+      Height = 41
+      Caption = 'RECEITA'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      OnClick = BitBtn10Click
+    end
+    object BitBtn11: TBitBtn
+      Left = 604
+      Top = 8
+      Width = 149
+      Height = 41
+      Caption = 'C. RESULTADO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clOlive
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = BitBtn11Click
+    end
+    object BitBtn12: TBitBtn
+      Left = 462
+      Top = 8
+      Width = 130
+      Height = 41
+      Caption = 'DESPESAS'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      OnClick = BitBtn12Click
     end
   end
   object Edit1: TEdit [15]
     Left = 46
-    Top = 64
+    Top = 62
     Width = 145
     Height = 24
     BevelKind = bkFlat
@@ -368,7 +361,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object Edit2: TEdit [16]
     Left = 322
-    Top = 64
+    Top = 62
     Width = 145
     Height = 24
     BevelKind = bkFlat
@@ -384,7 +377,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object ComboBox1: TComboBox [17]
     Left = 594
-    Top = 64
+    Top = 62
     Width = 145
     Height = 24
     BevelKind = bkFlat
@@ -401,7 +394,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object BitBtn1: TBitBtn [18]
     Left = 193
-    Top = 64
+    Top = 62
     Width = 45
     Height = 25
     Caption = 'Filtrar'
@@ -410,7 +403,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object BitBtn2: TBitBtn [19]
     Left = 469
-    Top = 64
+    Top = 62
     Width = 45
     Height = 25
     Caption = 'Filtrar'
@@ -419,7 +412,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object BitBtn3: TBitBtn [20]
     Left = 741
-    Top = 64
+    Top = 62
     Width = 45
     Height = 25
     Caption = 'Filtrar'
@@ -427,9 +420,9 @@ inherited fPlanoContas: TfPlanoContas
     OnClick = BitBtn3Click
   end
   object ComboBox2: TComboBox [21]
-    Left = 7
-    Top = 109
-    Width = 306
+    Left = 48
+    Top = 94
+    Width = 265
     Height = 24
     BevelKind = bkFlat
     DropDownCount = 10
@@ -441,31 +434,34 @@ inherited fPlanoContas: TfPlanoContas
     ItemHeight = 16
     ParentFont = False
     TabOrder = 8
+    Visible = False
     OnClick = ComboBox2Click
     OnKeyPress = FormKeyPress
   end
   object BitBtn4: TBitBtn [22]
     Left = 315
-    Top = 109
+    Top = 94
     Width = 45
     Height = 25
     Caption = 'Incluir'
     TabOrder = 9
+    Visible = False
     OnClick = BitBtn4Click
   end
   object BitBtn5: TBitBtn [23]
     Left = 359
-    Top = 109
+    Top = 94
     Width = 45
     Height = 25
     Caption = 'Filtrar'
     TabOrder = 10
+    Visible = False
     OnClick = BitBtn5Click
   end
   object ComboBox3: TComboBox [24]
-    Left = 410
-    Top = 109
-    Width = 287
+    Left = 480
+    Top = 94
+    Width = 217
     Height = 24
     BevelKind = bkFlat
     DropDownCount = 10
@@ -477,29 +473,32 @@ inherited fPlanoContas: TfPlanoContas
     ItemHeight = 16
     ParentFont = False
     TabOrder = 11
+    Visible = False
     OnKeyPress = FormKeyPress
   end
   object BitBtn6: TBitBtn [25]
     Left = 699
-    Top = 109
+    Top = 94
     Width = 45
     Height = 25
     Caption = 'Incluir'
     TabOrder = 12
+    Visible = False
     OnClick = BitBtn6Click
   end
   object BitBtn7: TBitBtn [26]
     Left = 743
-    Top = 109
+    Top = 94
     Width = 45
     Height = 25
     Caption = 'Filtrar'
     TabOrder = 13
+    Visible = False
     OnClick = BitBtn7Click
   end
   object DBEdit1: TDBEdit [27]
     Left = 7
-    Top = 153
+    Top = 130
     Width = 90
     Height = 24
     BevelKind = bkFlat
@@ -517,7 +516,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBEdit2: TDBEdit [28]
     Left = 98
-    Top = 153
+    Top = 130
     Width = 92
     Height = 24
     BevelKind = bkFlat
@@ -535,7 +534,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBEdit3: TDBEdit [29]
     Left = 191
-    Top = 153
+    Top = 130
     Width = 66
     Height = 24
     BevelKind = bkFlat
@@ -553,7 +552,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBEdit4: TDBEdit [30]
     Left = 258
-    Top = 153
+    Top = 130
     Width = 159
     Height = 24
     BevelKind = bkFlat
@@ -571,7 +570,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBEdit5: TDBEdit [31]
     Left = 418
-    Top = 153
+    Top = 130
     Width = 192
     Height = 24
     BevelKind = bkFlat
@@ -589,9 +588,9 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBGrid1: TDBGrid [32]
     Left = 7
-    Top = 180
-    Width = 778
-    Height = 280
+    Top = 160
+    Width = 786
+    Height = 314
     DataSource = DtSrc
     TabOrder = 21
     TitleFont.Charset = DEFAULT_CHARSET
@@ -604,21 +603,21 @@ inherited fPlanoContas: TfPlanoContas
         Expanded = False
         FieldName = 'CONTA'
         Title.Caption = 'Conta'
-        Width = 80
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CONTAPAI'
         Title.Caption = 'Conta Pai'
-        Width = 75
+        Width = 120
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'CODREDUZIDO'
         Title.Caption = 'C. Reduzido'
-        Width = 75
+        Width = 100
         Visible = True
       end
       item
@@ -656,7 +655,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBComboBox1: TDBComboBox [33]
     Left = 611
-    Top = 153
+    Top = 130
     Width = 62
     Height = 24
     BevelKind = bkFlat
@@ -676,7 +675,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object DBComboBox2: TDBComboBox [34]
     Left = 675
-    Top = 153
+    Top = 130
     Width = 42
     Height = 24
     BevelKind = bkFlat
@@ -696,7 +695,7 @@ inherited fPlanoContas: TfPlanoContas
   end
   object dbcbbRATEIO: TDBComboBox [35]
     Left = 718
-    Top = 153
+    Top = 130
     Width = 67
     Height = 24
     BevelKind = bkFlat
@@ -718,8 +717,18 @@ inherited fPlanoContas: TfPlanoContas
     ParentFont = False
     TabOrder = 22
   end
+  inherited XPMenu1: TXPMenu
+    Left = 600
+    Top = 44
+  end
+  inherited PopupMenu1: TPopupMenu
+    Left = 632
+    Top = 44
+  end
   inherited DtSrc: TDataSource
     DataSet = DM.c_1_planoc
+    Left = 528
+    Top = 44
   end
   object sds_desp: TSQLDataSet
     CommandText = 'select CODIGO, NOME, CONTA from PLANO  where  NOME  like  :PNOME'
@@ -731,13 +740,13 @@ inherited fPlanoContas: TfPlanoContas
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 472
-    Top = 16
+    Left = 448
+    Top = 44
   end
   object dsp_desp: TDataSetProvider
     DataSet = sds_desp
-    Left = 496
-    Top = 16
+    Left = 472
+    Top = 44
   end
   object cds_desp: TClientDataSet
     Aggregates = <>
@@ -748,8 +757,8 @@ inherited fPlanoContas: TfPlanoContas
         ParamType = ptInput
       end>
     ProviderName = 'dsp_desp'
-    Left = 528
-    Top = 16
+    Left = 504
+    Top = 44
     object cds_despCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Required = True
@@ -775,13 +784,13 @@ inherited fPlanoContas: TfPlanoContas
         ParamType = ptInput
       end>
     SQLConnection = DM.sqlsisAdimin
-    Left = 664
-    Top = 8
+    Left = 656
+    Top = 52
   end
   object dsp_sub: TDataSetProvider
     DataSet = sds_sub
-    Left = 688
-    Top = 8
+    Left = 696
+    Top = 52
   end
   object cds_sub: TClientDataSet
     Aggregates = <>
@@ -792,8 +801,8 @@ inherited fPlanoContas: TfPlanoContas
         ParamType = ptInput
       end>
     ProviderName = 'dsp_sub'
-    Left = 712
-    Top = 8
+    Left = 720
+    Top = 52
     object cds_subNOME: TStringField
       FieldName = 'NOME'
       Required = True

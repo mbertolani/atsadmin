@@ -55,9 +55,13 @@ type
     DBComboBox2: TDBComboBox;
     btnImprimir: TBitBtn;
     rep: TVCLReport;
-    JvLabel1: TJvLabel;
     dbcbbRATEIO: TDBComboBox;
     lbl1: TLabel;
+    BitBtn8: TBitBtn;
+    BitBtn9: TBitBtn;
+    BitBtn10: TBitBtn;
+    BitBtn11: TBitBtn;
+    BitBtn12: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -73,7 +77,13 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
+    procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
   private
+    str_sql2: string;
     { Private declarations }
   public
     codConta, NomeConta, numConta:string;
@@ -201,7 +211,6 @@ begin
 end;
 
 procedure TfPlanoContas.BitBtn2Click(Sender: TObject);
- Var str_sql2: string;
 begin
   inherited;
   if DM.c_1_planoc.Active then
@@ -361,6 +370,67 @@ procedure TfPlanoContas.FormShow(Sender: TObject);
 begin
   //inherited;
     sCtrlResize.CtrlResize(TForm(fPlanoContas));
+end;
+
+procedure TfPlanoContas.BitBtn8Click(Sender: TObject);
+begin
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql2 := 'Select * from PLANO ';
+  str_sql2 := str_sql2 + 'WHERE CONTA LIKE ';
+  str_sql2 := str_sql2 + QuotedStr('1%');
+  str_sql2 := str_sql2 + ' order by CONTA';
+  DM.c_1_planoc.CommandText := str_sql2;
+  DM.c_1_planoc.Open;
+end;
+
+procedure TfPlanoContas.BitBtn11Click(Sender: TObject);
+begin
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql2 := 'Select * from PLANO ';
+  str_sql2 := str_sql2 + 'WHERE CONTA LIKE ';
+  str_sql2 := str_sql2 + QuotedStr('6%');
+  str_sql2 := str_sql2 + ' order by CONTA';
+  DM.c_1_planoc.CommandText := str_sql2;
+  DM.c_1_planoc.Open;
+end;
+
+procedure TfPlanoContas.BitBtn9Click(Sender: TObject);
+begin
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql2 := 'Select * from PLANO ';
+  str_sql2 := str_sql2 + 'WHERE CONTA LIKE ';
+  str_sql2 := str_sql2 + QuotedStr('2%');
+  str_sql2 := str_sql2 + ' order by CONTA';
+  DM.c_1_planoc.CommandText := str_sql2;
+  DM.c_1_planoc.Open;
+
+end;
+
+procedure TfPlanoContas.BitBtn10Click(Sender: TObject);
+begin
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql2 := 'Select * from PLANO ';
+  str_sql2 := str_sql2 + 'WHERE CONTA LIKE ';
+  str_sql2 := str_sql2 + QuotedStr('3%');
+  str_sql2 := str_sql2 + ' order by CONTA';
+  DM.c_1_planoc.CommandText := str_sql2;
+  DM.c_1_planoc.Open;
+end;
+
+procedure TfPlanoContas.BitBtn12Click(Sender: TObject);
+begin
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  str_sql2 := 'Select * from PLANO ';
+  str_sql2 := str_sql2 + 'WHERE CONTA LIKE ';
+  str_sql2 := str_sql2 + QuotedStr('4%');
+  str_sql2 := str_sql2 + ' order by CONTA';
+  DM.c_1_planoc.CommandText := str_sql2;
+  DM.c_1_planoc.Open;
 end;
 
 end.
