@@ -22,10 +22,9 @@ object fProcura_prod: TfProcura_prod
   TextHeight = 13
   object Label9: TLabel
     Left = 618
-    Top = 61
-    Width = 30
+    Top = -10
+    Width = 3
     Height = 13
-    Caption = 'Marca'
     PopupMenu = PopupMenu1
   end
   object Panel1: TPanel
