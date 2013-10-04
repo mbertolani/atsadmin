@@ -232,13 +232,13 @@ begin
       sqlb := sqlb + ' AND i.CODIVENTARIO LIKE ' + QuotedStr(edLista.Text + '%');
     end;
 
-    if (Dta.Text = '  /  /    ') then
+    {if (Dta.Text = '  /  /    ') then
       sqlb := sqlb
     else
-      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));
+      sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date));}
 
     cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto FROM INVENTARIO i ' +
-    'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
+    'inner join produtos p on p.codproduto = i.codproduto ' + sqlb + ' order by DATAIVENTARIO DESC ';
     cdsInvent.Open;
     if (cdsInvent.IsEmpty) then
     begin
@@ -690,7 +690,7 @@ begin
   end;
 
   sqlb := sqlb + ' AND i.CODIVENTARIO = ' + QuotedStr(cdsListaInventarioCODIVENTARIO.AsString);
-  sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsListaInventarioDATAIVENTARIO.AsDateTime));
+  //sqlb := sqlb + ' AND i.DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', cdsListaInventarioDATAIVENTARIO.AsDateTime));
 
   cdsInvent.CommandText := 'SELECT i.*, cast(p.produto as varchar(300)) produto FROM INVENTARIO i ' +
   'inner join produtos p on p.codproduto = i.codproduto ' + sqlb;
@@ -933,7 +933,7 @@ begin
       dm.sqlsisAdimin.ExecuteDirect('UPDATE INVENTARIO SET SITUACAO = ' + QuotedStr('G') +
         ' WHERE CODIVENTARIO = ' + QuotedStr(edLista.Text) +
         '   and SITUACAO     = ' + QuotedStr('A') +
-        '   and DATAINVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date)));
+        '   and DATAIVENTARIO = ' + QuotedStr(formatdatetime('mm/dd/yy', dta.Date)));
       dm.sqlsisAdimin.Commit(TDA);
       if (codMovSaida > codMovEntrada) then
       begin
