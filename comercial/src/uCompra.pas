@@ -1232,10 +1232,10 @@ begin
         ffiltromov_compra.Edit3.Text := '4';
         ffiltromov_compra.Edit4.Text := 'Compra';
         ffiltromov_compra.Label10.Caption := 'Compras';
-        ffiltromov_compra.MMJPanel1.Background.EndColor   := dm.corStart;
-        ffiltromov_compra.MMJPanel1.Background.StartColor := dm.corEnd;
-        ffiltromov_compra.MMJPanel2.Background.EndColor   := dm.corEnd;
-        ffiltromov_compra.MMJPanel2.Background.StartColor := dm.corStart;
+        ffiltromov_compra.MMJPanel1.Background.EndColor   := dm.corEnd;
+        ffiltromov_compra.MMJPanel1.Background.StartColor := dm.corStart;
+        ffiltromov_compra.MMJPanel2.Background.EndColor   := dm.corStart;
+        ffiltromov_compra.MMJPanel2.Background.StartColor := dm.corEnd;
       end;
       if (DM.tipoCompra = 'COTACAO') then
       begin
