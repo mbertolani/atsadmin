@@ -1,8 +1,8 @@
 object fNotaf: TfNotaf
-  Left = 330
-  Top = 45
+  Left = 256
+  Top = 164
   Width = 801
-  Height = 629
+  Height = 614
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'Nota Fiscal'
   Color = clBtnFace
@@ -12,7 +12,7 @@ object fNotaf: TfNotaf
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
@@ -24,7 +24,7 @@ object fNotaf: TfNotaf
     Left = 0
     Top = 59
     Width = 793
-    Height = 534
+    Height = 526
     ActivePage = TabNF
     Align = alTop
     PopupMenu = PopupMenu1
@@ -886,8 +886,8 @@ object fNotaf: TfNotaf
       object PageControl2: TPageControl
         Left = 0
         Top = 291
-        Width = 761
-        Height = 213
+        Width = 784
+        Height = 204
         ActivePage = tsTrib
         TabOrder = 19
         object tsTrib: TTabSheet
@@ -1599,16 +1599,25 @@ object fNotaf: TfNotaf
           Caption = 'Dados Adicionais'
           ImageIndex = 2
           object GroupBox6: TGroupBox
-            Left = -2
-            Top = 6
-            Width = 755
-            Height = 95
-            Caption = 'Dados Adicionais'
+            Left = 5
+            Top = -2
+            Width = 770
+            Height = 176
+            Caption = 
+              'Use ; (ponto e v'#237'rgula) para quebrar a linha na exibi'#231#227'o da DANF' +
+              'E, os 4 primeiros campos s'#227'o 200 caracteres por campo, os '#250'ltimo' +
+              's 2 s'#227'o apenas 75 caracteres.'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clRed
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
             TabOrder = 0
             object DBEdit61: TDBEdit
-              Left = 6
-              Top = 14
-              Width = 368
+              Left = 3
+              Top = 20
+              Width = 765
               Height = 24
               BevelKind = bkTile
               BorderStyle = bsNone
@@ -1624,9 +1633,9 @@ object fNotaf: TfNotaf
               OnKeyPress = FormKeyPress
             end
             object DBEdit62: TDBEdit
-              Left = 381
-              Top = 14
-              Width = 368
+              Left = 3
+              Top = 45
+              Width = 765
               Height = 24
               BevelKind = bkTile
               BorderStyle = bsNone
@@ -1642,9 +1651,9 @@ object fNotaf: TfNotaf
               OnKeyPress = FormKeyPress
             end
             object DBEdit63: TDBEdit
-              Left = 6
-              Top = 40
-              Width = 368
+              Left = 3
+              Top = 70
+              Width = 765
               Height = 24
               BevelKind = bkTile
               BorderStyle = bsNone
@@ -1660,9 +1669,9 @@ object fNotaf: TfNotaf
               OnKeyPress = FormKeyPress
             end
             object DBEdit64: TDBEdit
-              Left = 381
-              Top = 40
-              Width = 368
+              Left = 3
+              Top = 95
+              Width = 765
               Height = 24
               BevelKind = bkTile
               BorderStyle = bsNone
@@ -1678,9 +1687,9 @@ object fNotaf: TfNotaf
               OnKeyPress = FormKeyPress
             end
             object DBEdit65: TDBEdit
-              Left = 6
-              Top = 66
-              Width = 368
+              Left = 3
+              Top = 120
+              Width = 765
               Height = 24
               BevelKind = bkTile
               BorderStyle = bsNone
@@ -1696,9 +1705,9 @@ object fNotaf: TfNotaf
               OnKeyPress = FormKeyPress
             end
             object DBEdit66: TDBEdit
-              Left = 381
-              Top = 66
-              Width = 368
+              Left = 3
+              Top = 145
+              Width = 765
               Height = 24
               BevelKind = bkTile
               BorderStyle = bsNone
