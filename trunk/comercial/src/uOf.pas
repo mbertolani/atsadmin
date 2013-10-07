@@ -219,6 +219,8 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnImprimirClick(Sender: TObject);
   private
+    codMovJaBaixado: Integer;
+    dataMovJaBaixado: TDateTime;
     procedure baixamatprimas(tipomat: string; codof: integer);
     procedure lancaapont(codof: integer);
     procedure excluilancamentos(codof: integer);
@@ -309,8 +311,8 @@ begin
     inherited;
     if (cdsOfOFQTDEPRODUZ.AsFloat <> cdsOfOFQTDESOLIC.AsFloat) then
     begin
-      baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
       lancaapont(cdsOfOFID.AsInteger);
+      baixamatprimas('BAIXAENTESTOQUE', cdsOfOFID.AsInteger);
     end;
   end;
   if (OFTipo = 'PERDA') then
@@ -343,7 +345,8 @@ end;
 
 procedure TfOf.FormShow(Sender: TObject);
 begin
-//  inherited;
+  codMovJaBaixado := 0;
+  dataMovJaBaixado := now;
   codProd := 0;
   if (OFTipo = 'APONTAMENTO') then
   begin
@@ -357,6 +360,7 @@ end;
 
 procedure TfOf.btnIncluirClick(Sender: TObject);
 begin
+  dataMovJaBaixado := now;
   OfQtde.Value := 0;
   if (OFTipo = 'OP') then
   begin
@@ -488,7 +492,7 @@ begin
         FMov.Status      := 0;
         FMov.CodUsuario  := 1;
         FMov.CodVendedor := 1;
-        FMov.DataMov     := Now;
+        FMov.DataMov     := dataMovJaBaixado;
         FMov.Controle    := 'OP' + IntToStr(codof);
         codMovSaida := FMov.inserirMovimento(0);
 
@@ -521,7 +525,7 @@ begin
         end; // Fim While
 
         fven.CodMov               := codMovSaida;
-        fven.DataVenda            := Now;
+        fven.DataVenda            := dataMovJaBaixado;
         fven.DataVcto             := Now;
         fven.Serie                := cdsOfOFID_IND.AsString;
         fven.NotaFiscal           := cdsOfOFID.AsInteger;
@@ -587,7 +591,8 @@ begin
   if (OfId.Text <> '') then
   begin
     inherited;
-
+    codMovJaBaixado := 0;
+    dataMovJaBaixado := now;
     if (dm.cds_parametro.Active) then
       dm.cds_parametro.Close;
     dm.cds_parametro.Params[0].asString := 'SERIEOP';
@@ -608,6 +613,7 @@ begin
         dm.scds_produto_proc.Params[0].AsInteger := cdsOfCODPRODUTO.AsInteger;
         dm.scds_produto_proc.Params[1].AsString := 'TODOSPRODUTOS';
         dm.scds_produto_proc.Open;
+        dataMovJaBaixado := cdsOfOFDATA.AsDateTime;
         OfData.Date := cdsOfOFDATA.AsDateTime;
         OfProd.Text := DM.scds_produto_procCODPRO.AsString;
         OfDesc.Text := DM.scds_produto_procPRODUTO.AsString;
@@ -676,7 +682,7 @@ begin
       FMov.Status      := 0;
       FMov.CodUsuario  := 1;
       FMov.CodVendedor := 1;
-      FMov.DataMov     := Now;
+      FMov.DataMov     := dataMovJaBaixado;
       FMov.Obs         := '';
       FMov.Controle    := 'AP' + IntToStr(codof);;
       codMovEntrada := FMov.inserirMovimento(0);
@@ -696,7 +702,7 @@ begin
       FMov.MovDetalhe.inserirMovDet;
 
       fCom.CodMov               := codMovEntrada;
-      fCom.DataCompra           := Now;
+      fCom.DataCompra           := dataMovJaBaixado;
       fCom.DataVcto             := Now;
       fCom.Serie                := cdsOfOFID_IND.AsString;
       fCom.NotaFiscal           := cdsOfOFID.AsInteger;
@@ -739,6 +745,8 @@ begin
 
   if not dm.cdsBusca.IsEmpty then
   begin
+    codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
+    dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
     + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
 
@@ -756,6 +764,9 @@ begin
 
   if not dm.cdsBusca.IsEmpty then
   begin
+    codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
+    dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
+
     dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA WHERE CODMOVIMENTO = '
     + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
 
