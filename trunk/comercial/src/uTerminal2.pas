@@ -3043,6 +3043,7 @@ end;
 
 procedure TfTerminal2.EdtCodBarra1KeyPress(Sender: TObject; var Key: Char);
 begin
+  codLote := '0';
   if (key = #13) then
   begin
     if (DM.USACONTROLECAIXA = 'SIM') then
@@ -3476,45 +3477,54 @@ begin
   if scds_produto_proc.Active then
     scds_produto_proc.Close;
   scds_produto_proc.CommandText := '';
-  if (jvPageControl1.ActivePage = TabVenda) then
+  if (codLote <> '0') then
   begin
-    if (tipo_busca = 'CODBARRA') then
-      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
-    else
-      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
-  end;
+    scds_produto_proc.CommandText := str_sql + ' prod.CODPRODUTO = ' +
+      IntToStr(dm.sqlBusca.FieldByName('CODPRODUTO').AsInteger);
+  end
+  else begin
+    if (jvPageControl1.ActivePage = TabVenda) then
+    begin
+      if (tipo_busca = 'CODBARRA') then
+        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+      else
+        scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+    end;
 
-  if (jvPageControl1.ActivePage = TabComanda) then
-  begin
-    if (tipo_busca = 'CODBARRA') then
-      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
-    else
-      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
-  end;
+    if (jvPageControl1.ActivePage = TabComanda) then
+    begin
+      if (tipo_busca = 'CODBARRA') then
+        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+      else
+        scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+    end;
 
-  if (jvPageControl1.ActivePage = TabDelivery) then
-  begin
-    if (tipo_busca = 'CODBARRA') then
-      scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
-    else
-      scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+    if (jvPageControl1.ActivePage = TabDelivery) then
+    begin
+      if (tipo_busca = 'CODBARRA') then
+        scds_produto_proc.CommandText := str_sql + ' COD_BARRA = ' + '''' + EdtCodBarra1.Text + ''''
+      else
+        scds_produto_proc.CommandText := str_sql + ' CODPRO = ' + '''' + EdtCodBarra1.Text + '''';
+    end;
   end;
-
   scds_produto_proc.Open;
 
   if (scds_produto_proc.IsEmpty) then
   begin
-     //BuscaLote;
-     RETORNO := 'FALSO';
-     scds_produto_proc.Close;
+    BuscaLote;
+    if (scds_produto_proc.IsEmpty) then
+    begin
+      RETORNO := 'FALSO';
+      scds_produto_proc.Close;
+    end;
   end;
 
   if (estoque_negativo = 'TRUE') then // nao permito venda com saldo negativo
     if (scds_produto_procESTOQUEATUAL.Value <= 0) then
     begin
-       ShowMessage('Produto com saldo negativo !');
-       SaldoNegativo := 'TRUE';
-       scds_produto_proc.Close;
+      ShowMessage('Produto com saldo negativo !');
+      SaldoNegativo := 'TRUE';
+      scds_produto_proc.Close;
     end;
 
 end;
@@ -3553,7 +3563,7 @@ begin
   str_sql := str_sql +  FloatToStr(scds_produto_procVALOR_PRAZO.AsFloat)  + ', ';
   str_sql := str_sql +  QuotedStr(scds_produto_procPRODUTO.AsString) + ', ';
 
-   if (tipo_busca = '3') then  // so preencho o campo Lote se o parametro usa lote for 3
+   if (codLote <> '0') then  // so preencho o campo Lote se o parametro usa lote for 3
      str_sql := str_sql + QuotedStr(codlote) + ')'
    else
      str_sql := str_sql + 'null' + ')' ;
@@ -3585,18 +3595,17 @@ begin
    DM_MOV.c_movdet.Open;
    DM_MOV.c_movdet.Locate('CODDETALHE',ID_MOVDET,[loCaseInsensitive]);
 
-    if (c_forma.Active) then
-      c_forma.Close;
-    c_forma.Params[0].AsInteger := CODIGO_DO_MOVIMENTO;
-    c_forma.Open;
-    if (not c_formatotal.IsNull) then
-    begin
-      JvParcial.Value := c_formatotal.Value;
-      JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
-    end;
+  if (c_forma.Active) then
     c_forma.Close;
-
-
+  c_forma.Params[0].AsInteger := CODIGO_DO_MOVIMENTO;
+  c_forma.Open;
+  if (not c_formatotal.IsNull) then
+  begin
+    JvParcial.Value := c_formatotal.Value;
+    JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
+  end;
+  c_forma.Close;
+  codLote := '0'; 
 end;
 
 procedure TfTerminal2.EdtComandaKeyPress(Sender: TObject; var Key: Char);
@@ -3822,61 +3831,57 @@ end;
 
 procedure TfTerminal2.buscaLote;
 begin
-  str_sql := 'select first 1 prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
-         ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
-         ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
-         ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
-         ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
-         ' from PRODUTOS prod ' +
-         ' left outer join ALMOXARIFADO ccus ' +
-         ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
-         ' left outer join ESTOQUEMES est ' +
-         ' on est.CODPRODUTO = prod.CODPRODUTO ' +
-         ' where ';
+  codLote := '0';
 
-  if scds_produto_proc.Active then
-    scds_produto_proc.Close;
-  scds_produto_proc.CommandText := '';
-  if (jvPageControl1.ActivePage = TabVenda) then
+  str_sql := 'SELECT r.SALDO,r.CODPRO,r.CODPRODUTO, r.PRODUTO FROM VIEW_ESTOQUELOTE(' +
+    '0, ' + QuotedStr(EdtCodBarra1.Text) + ') r ';
+
+  if (dm.sqlBusca.Active) then
+    dm.sqlBusca.Close;
+  dm.sqlBusca.SQL.Clear;
+  dm.sqlBusca.SQL.Add(str_sql);
+  dm.sqlBusca.Open;
+
+  if (dm.sqlBusca.IsEmpty) then
   begin
-    str_sql := str_sql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
-    scds_produto_proc.CommandText := str_sql + ' order by est.MESANO desc';
-  end;
-
-
-  if (jvPageControl1.ActivePage = TabComanda) then
-  begin
-    str_sql := str_sql + ' est.LOTE = ' + '''' + EdtCodBarra1.Text + '''' ;
-    scds_produto_proc.CommandText := str_sql;
-  end;
-
-  scds_produto_proc.Open;
-
-  if (scds_produto_proc.IsEmpty) then
-  begin
-    scds_produto_proc.Close;
+    dm.sqlBusca.Close;
     RETORNO := 'FALSO';
     ESTOQUE := True;
   end
-  else
-  begin
-    if(scds_produto_procSALDOESTOQUE.asFloat > 0) then
+  else begin
+    if(dm.sqlBusca.FieldByName('SALDO').asFloat > 0) then
     begin
       RETORNO := 'True';
       ESTOQUE := True;
+      if (jvPageControl1.ActivePage = TabVenda) then
+         codlote := EdtCodBarra1.Text;
+      if (jvPageControl1.ActivePage = TabComanda) then
+         codlote := EdtCodBarra1.Text;
+      if not dm.cds_parametro.IsEmpty then
+         tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
+      dm.cds_parametro.Close;
+      str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+             ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
+             ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
+             ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
+             ', est.LOTE, est.SALDOESTOQUE, est.MESANO ' +
+             ' from PRODUTOS prod ' +
+             ' left outer join ALMOXARIFADO ccus ' +
+             ' on ccus.CODALMOXARIFADO = prod.CODALMOXARIFADO ' +
+             ' left outer join ESTOQUEMES est ' +
+             ' on est.CODPRODUTO = prod.CODPRODUTO ' +
+             ' where ';
+      if scds_produto_proc.Active then
+        scds_produto_proc.Close;
+      scds_produto_proc.CommandText := str_sql + ' prod.CODPRODUTO = ' +
+        IntToStr(dm.sqlBusca.FieldByName('CODPRODUTO').AsInteger);
+      scds_produto_proc.Open;        
     end
-    else
-    begin
+    else begin
       RETORNO := 'FALSO';
       ESTOQUE := False;
     end;
-    if (jvPageControl1.ActivePage = TabVenda) then
-       codlote := EdtCodBarra1.Text;
-    if (jvPageControl1.ActivePage = TabComanda) then
-       codlote := EdtCodBarra1.Text;
   end;
-
-
 end;
 
 procedure TfTerminal2.JvDBGrid2DblClick(Sender: TObject);
@@ -4042,7 +4047,8 @@ begin
    DM_MOV.c_movdet.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
    DM_MOV.c_movdet.Open;
 
-  JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+  if (not DM_MOV.c_movdettotalpedido.IsNull) then
+    JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
   JvParcial.Value := 0;
   JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
 
@@ -4055,7 +4061,7 @@ begin
     JvParcial.Value := c_formatotal.Value;
     JvSubtotal.Value := JvTotal.Value - JvParcial.Value;
   end;
-  JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
+  //JvTotal.AsFloat := DM_MOV.c_movdettotalpedido.Value;
   if (JvComissao.Visible = True) then
   begin
     if (JvComissao.Value > 0) then

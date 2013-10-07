@@ -294,7 +294,7 @@ begin
   sCtrlResize.CtrlResize(TForm(fLotes));
   cdsLotes.CommandText := 'SELECT r.CODPRO, r.CODPRODUTO, r.PRODUTO, ' +
     ' r.LOTE, r.ENTRADA, r.SAIDA, r.SALDO AS SALDOLOTE ' +
-    ' FROM VIEW_ESTOQUELOTE(' + IntToStr(codProdutoLt) + ') r ' +
+    ' FROM VIEW_ESTOQUELOTE(' + IntToStr(codProdutoLt) + ', ' + QuotedStr('0') + ') r ' +
     ' WHERE (r.SALDO > 0) ' +
     ' ORDER BY r.LOTE ';
   cdsLotes.Open;
