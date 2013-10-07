@@ -22,7 +22,7 @@ BEGIN
     custoinicial = 0; 
       
   --custo no periodo          
-  select (case when sum(md.QUANTIDADE) > 0 then (sum(md.VALTOTAL) / sum(md.QUANTIDADE)) else 0 end) as CUSTOMEDIO, sum(md.QUANTIDADE) 
+  select (case when sum(md.QUANTIDADE) > 0 then ((sum(md.VALTOTAL+(coalesce(md.VIPI,0)+coalesce(md.FRETE,0)+coalesce(md.ICMS_SUBST,0)))) / sum(md.QUANTIDADE)) else 0 end) as CUSTOMEDIO, sum(md.QUANTIDADE) 
   from compra c, movimento m, MOVIMENTODETALHE md, NATUREZAOPERACAO np
    where m.CODMOVIMENTO = c.CODMOVIMENTO
      and md.CODMOVIMENTO = m.CODMOVIMENTO
