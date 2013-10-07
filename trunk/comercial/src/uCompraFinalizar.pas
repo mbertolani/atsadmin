@@ -1491,9 +1491,12 @@ begin
         end;
         dm.sqlsisAdimin.ExecuteDirect(str_sql);
       except
-        dm.sqlsisAdimin.Rollback(TD);
-        MessageDlg('Erro para Gerar a nota.', mtError, [mbOK], 0);
-        exit;
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          exit;
+        end;
       end;
     if (sqlBuscaNota.Active) then
       sqlBuscaNota.Close;
