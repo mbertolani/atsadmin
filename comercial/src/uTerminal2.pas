@@ -1171,8 +1171,12 @@ begin
           JvSubtotal.Value := 0;
           ShowMessage('Pedido/Orcamento Excluido com Suscesso');
        Except
-        MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
-        exit;
+         on E : Exception do
+         begin
+           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           exit;
+         end;
       end;
     end;
   end;
@@ -1208,8 +1212,13 @@ begin
           JvParcial.Value := 0;
           JvSubtotal.Value := 0;
        Except
-        MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
-        exit;
+         on E : Exception do
+         begin
+           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           exit;
+         end;
+
       end;
     end;
   end;
@@ -1240,10 +1249,14 @@ begin
             dm.sqlsisAdimin.ExecuteDirect(sql_texto);
             dm.sqlsisAdimin.Commit(TD);
           except
-            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-            MessageDlg('Erro no sistema, o movimento nao foi excluido.', mtError,
-                [mbOk], 0);
-            Exit;
+             on E : Exception do
+             begin
+               ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+              MessageDlg('Erro no sistema, o movimento nao foi excluido.', mtError,
+                  [mbOk], 0);
+              Exit;
+               dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+             end;
           end;
           ShowMessage('Pedido/Orcamento Excluido com Sucesso');
 
@@ -1272,8 +1285,12 @@ begin
           JvTotal.Value := 0;
         end;
        Except
-        MessageDlg('Erro ao Excluir o registro', mtWarning, [mbOK], 0);
-        exit;
+         on E : Exception do
+         begin
+           ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+           dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+           exit;
+         end;
       end;
     end;
   end;
