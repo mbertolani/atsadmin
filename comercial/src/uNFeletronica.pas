@@ -1147,11 +1147,14 @@ begin
             end;
             getTransportadora();
 
-            if (sClienteUF.AsString = 'EX') then
+            if (sCliente.Active) then
             begin
-              exporta.UFembarq := edUfEmbarque.Text;
-              exporta.xLocEmbarq := edLocalEmbarque.Text;
-            end;
+              if (sClienteUF.AsString = 'EX') then
+              begin
+                exporta.UFembarq := edUfEmbarque.Text;
+                exporta.xLocEmbarq := edLocalEmbarque.Text;
+              end;
+            end;  
             //VALOR TORAL
 
             if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional) then
@@ -2409,8 +2412,10 @@ begin
             pICMS :=    cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
             vICMS :=    cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
           end;
-          modBCST :=  BCST;                                            //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
-          vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
+          modBCST :=  BCST;                                         //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
+          vBCST := 0;
+          if (not cdsItensNFICMS_SUBSTD.IsNull) then
+            vBCST :=    cdsItensNFICMS_SUBSTD.AsVariant;                 //VALOR DA BASE DE CALCULO DA SUBST. TRIBUTÁRIA
           if (sdsCfopProd.Active) then
             sdsCfopProd.Close;
           sdsCfopProd.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
