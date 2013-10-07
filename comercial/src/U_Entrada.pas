@@ -544,7 +544,7 @@ begin
     c_formaFORMA_PGTO.AsString := '6';
     c_formaVALOR_PAGO.Value := pagoTotal;
     if (dm.cds_7_contas.Locate('NOME', cbCartaoCDT1.Text, [loCaseInsensitive])) then
-      c_formaCAIXA.AsInteger := dm.cds_7_contas.Fields[0].asInteger;
+      c_formaCAIXA.Value := dm.cds_7_contas.Fields[0].Value;
     c_forma.ApplyUpdates(0);
   end;
 
@@ -812,7 +812,7 @@ begin
       fven.CodVendedor          := 1;
       fven.ValorPagar           := c_formatotal.Value;
       FVen.Entrada              := c_formatotal.Value;
-      FVen.Valor                := c_formatotal.Value + vlrDesc;
+      FVen.Valor                := c_formatotal.Value;
       fven.NParcela             := 1;
       FVen.Caixa                := c_formaCAIXA.AsInteger;
       FVen.FormaRec             := c_formaFORMA_PGTO.AsString;
@@ -921,14 +921,6 @@ begin
   ' where CODMOVIMENTO = ' + IntToStr(DM_MOV.ID_DO_MOVIMENTO);
   dm.sqlsisAdimin.StartTransaction(TD);
   dm.sqlsisAdimin.ExecuteDirect(strSqlMov);
-  Try
-     dmnf.baixaEstoque(DM_MOV.ID_DO_MOVIMENTO, Now, 'VENDA');
-     dm.sqlsisAdimin.Commit(TD);
-  except
-     dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-     MessageDlg('Erro no sistema, a venda n?foi gravada.', mtError,
-         [mbOk], 0);
-  end;
 
   // IMPRIMIR RECIBO
   if (MessageDlg('Imprimir Comprovante ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
