@@ -1468,9 +1468,9 @@ begin
     TD.TransactionID := 1;
     TD.IsolationLevel := xilREADCOMMITTED;
     dm.sqlsisAdimin.StartTransaction(TD);
-      try
-        if ( DM.tipoCompra = 'DEVOLUCAO') then
-        begin
+    try
+      if ( DM.tipoCompra = 'DEVOLUCAO') then
+      begin
         str_sql := 'EXECUTE PROCEDURE GERA_NF_DEVOLUCAOCOMPRA(';
         str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
         str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
@@ -1478,26 +1478,27 @@ begin
         str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
         str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
         str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
-        end;
-        if ( DM.tipoCompra = 'COMPRA') then
-        begin
-          str_sql := 'EXECUTE PROCEDURE GERA_NF_COMPRA(';
-          str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
-          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
-          str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATAVENCIMENTO.AsDateTime));
-          str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
-          str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
-          str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
-        end;
-        dm.sqlsisAdimin.ExecuteDirect(str_sql);
-      except
-        on E : Exception do
-        begin
-          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-          exit;
-        end;
       end;
+      if ( DM.tipoCompra = 'COMPRA') then
+      begin
+        str_sql := 'EXECUTE PROCEDURE GERA_NF_COMPRA(';
+        str_sql := str_sql + IntToStr(cds_COMPRACODFORNECEDOR.AsInteger);
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATACOMPRA.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(FormatDateTime('mm/dd/yyyy', cds_COMPRADATAVENCIMENTO.AsDateTime));
+        str_sql := str_sql + ', ' + QuotedStr(cds_COMPRASERIE.AsString);
+        str_sql := str_sql + ', ' + QuotedStr(inttostr(cds_COMPRANOTAFISCAL.AsInteger));
+        str_sql := str_sql + ', ' + IntToStr(cds_COMPRACODMOVIMENTO.AsInteger) + ')';
+      end;
+      dm.sqlsisAdimin.ExecuteDirect(str_sql);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+        exit;
+      end;
+    end;
     if (sqlBuscaNota.Active) then
       sqlBuscaNota.Close;
     sqlBuscaNota.SQL.Clear;
@@ -1518,10 +1519,9 @@ begin
     if (not  dm.cds_empresa.Active) then
       dm.cds_empresa.open;
     fNotafc.ShowModal;
-    finally
-      fNotafc.Free;
-    end;
-
+  finally
+    fNotafc.Free;
+  end;
 end;
 
 procedure TfCompraFinalizar.imprimecompra;
