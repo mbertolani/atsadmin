@@ -33,7 +33,7 @@ inherited fCfop: TfCfop
     ParentFont = False
   end
   inherited MMJPanel1: TMMJPanel
-    Top = 439
+    Top = 446
     Width = 683
   end
   inherited MMJPanel2: TMMJPanel
@@ -325,6 +325,9 @@ inherited fCfop: TfCfop
     TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    OnCellClick = DBGrid1CellClick
+    OnKeyDown = DBGrid1KeyDown
+    OnKeyUp = DBGrid1KeyUp
     Columns = <
       item
         Expanded = False
@@ -341,41 +344,32 @@ inherited fCfop: TfCfop
         Visible = True
       end>
   end
-  object DBCheckBox1: TDBCheckBox [10]
-    Left = 24
-    Top = 101
-    Width = 185
-    Height = 17
-    Caption = 'Acrescentar IPI '#224' Base de Calculo'
-    DataField = 'IPIBC'
-    DataSource = DtSrc
-    TabOrder = 8
-    ValueChecked = 'True'
-    ValueUnchecked = 'False'
-  end
-  object DBCheckBox2: TDBCheckBox [11]
-    Left = 213
-    Top = 101
-    Width = 197
-    Height = 17
-    Caption = 'Acrescentar Frete '#224' Base de Calculo'
-    DataField = 'FRETEBC'
-    DataSource = DtSrc
-    TabOrder = 9
-    ValueChecked = 'True'
-    ValueUnchecked = 'False'
-  end
-  object DBCheckBox3: TDBCheckBox [12]
-    Left = 421
-    Top = 101
-    Width = 197
+  object cbTotalTributos: TCheckBox [10]
+    Left = 424
+    Top = 104
+    Width = 227
     Height = 17
     Caption = 'Calcula Total dos Tributos nas NFs'
-    DataField = 'TOTTRIB'
-    DataSource = DtSrc
+    TabOrder = 8
+    OnClick = cbTotalTributosClick
+  end
+  object cbFreteBC: TCheckBox [11]
+    Left = 213
+    Top = 104
+    Width = 209
+    Height = 17
+    Caption = 'Acrescentar Frete '#224' Base de Calculo'
+    TabOrder = 9
+    OnClick = cbFreteBCClick
+  end
+  object cbIpiBc: TCheckBox [12]
+    Left = 22
+    Top = 104
+    Width = 190
+    Height = 17
+    Caption = 'Acrescentar IPI '#224' Base de Calculo'
     TabOrder = 10
-    ValueChecked = 'True'
-    ValueUnchecked = 'False'
+    OnClick = cbIpiBcClick
   end
   inherited DtSrc: TDataSource
     DataSet = DM.cds_cfop

@@ -17,16 +17,28 @@ type
     BitBtn1: TBitBtn;
     DBNavigator1: TDBNavigator;
     DBGrid1: TDBGrid;
-    DBCheckBox1: TDBCheckBox;
-    DBCheckBox2: TDBCheckBox;
-    DBCheckBox3: TDBCheckBox;
+    cbTotalTributos: TCheckBox;
+    cbFreteBC: TCheckBox;
+    cbIpiBc: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BitBtn12Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure DtSrcStateChange(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid1KeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure cbIpiBcClick(Sender: TObject);
+    procedure cbFreteBCClick(Sender: TObject);
+    procedure cbTotalTributosClick(Sender: TObject);
   private
+    procedure IpiBaseCalculo;
+    procedure FreteBaseCalculo;
+    procedure TotalTributosNF;
     { Private declarations }
   public
     { Public declarations }
@@ -81,6 +93,9 @@ begin
     dm.cds_cfop.Filtered := True
   else
     dm.cds_cfop.Filtered := False;
+  TotalTributosNF;
+  IpiBaseCalculo;
+  FreteBaseCalculo;    
 end;
 
 procedure TfCfop.BitBtn1Click(Sender: TObject);
@@ -102,6 +117,9 @@ begin
     dm.cds_cfop.Filtered := True
   else
     dm.cds_cfop.Filtered := False;
+  TotalTributosNF;
+  IpiBaseCalculo;
+  FreteBaseCalculo;
 end;
 
 procedure TfCfop.DtSrcStateChange(Sender: TObject);
@@ -112,6 +130,112 @@ begin
   Cancelar := 'S';
   Procurar :=  'S';
   inherited;
+
+end;
+
+procedure TfCfop.btnGravarClick(Sender: TObject);
+var atualizaCfop: String;
+begin
+  atualizaCfop := 'UPDATE CFOP SET ';
+  if (cbIpiBc.Checked) then
+    atualizaCfop := atualizaCfop + ' IPIBC = ' + QuotedStr('T')
+  else
+    atualizaCfop := atualizaCfop + ' IPIBC = NULL ';
+
+  if (cbFreteBC.Checked) then
+    atualizaCfop := atualizaCfop + ', FRETEBC = ' + QuotedStr('T')
+  else
+    atualizaCfop := atualizaCfop + ', FRETEBC = NULL ';
+
+  if (cbTotalTributos.Checked) then
+    atualizaCfop := atualizaCfop + ', TOTTRIB = ' + QuotedStr('T')
+  else
+    atualizaCfop := atualizaCfop + ', TOTTRIB = NULL ';
+
+  atualizaCfop := atualizaCfop + ' WHERE  CFCOD = ' + QuotedStr(dm.cds_cfopCFCOD.AsString);
+  dm.sqlsisAdimin.ExecuteDirect(atualizaCfop);
+  inherited;
+
+end;
+
+procedure TfCfop.FreteBaseCalculo;
+begin
+  if (dm.cds_cfopFRETEBC.IsNull) then
+    cbFreteBC.Checked := False;
+  if (dm.cds_cfopFRETEBC.AsString = 'T') then
+    cbFreteBC.Checked := True;
+  if (dm.cds_cfopFRETEBC.AsString <> 'T') then
+    cbFreteBC.Checked := False;
+
+end;
+
+procedure TfCfop.IpiBaseCalculo;
+begin
+  if (dm.cds_cfopIPIBC.IsNull) then
+    cbIpiBc.Checked := False;
+  if (dm.cds_cfopIPIBC.AsString = 'T') then
+    cbIpiBc.Checked := True;
+  if (dm.cds_cfopIPIBC.AsString <> 'T') then
+    cbIpiBc.Checked := False;
+
+end;
+
+procedure TfCfop.TotalTributosNF;
+begin
+  if (dm.cds_cfopTOTTRIB.IsNull) then
+    cbTotalTributos.Checked := False;
+  if (dm.cds_cfopTOTTRIB.AsString = 'T') then
+    cbTotalTributos.Checked := True;
+  if (dm.cds_cfopTOTTRIB.AsString <> 'T') then
+    cbTotalTributos.Checked := False;
+end;
+
+procedure TfCfop.DBGrid1CellClick(Column: TColumn);
+begin
+  inherited;
+  TotalTributosNF;
+  IpiBaseCalculo;
+  FreteBaseCalculo;
+end;
+
+procedure TfCfop.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  TotalTributosNF;
+  IpiBaseCalculo;
+  FreteBaseCalculo;
+end;
+
+procedure TfCfop.DBGrid1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  TotalTributosNF;
+  IpiBaseCalculo;
+  FreteBaseCalculo;
+end;
+
+procedure TfCfop.cbIpiBcClick(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in  [dsBrowse]) then
+    DtSrc.DataSet.Edit;
+end;
+
+procedure TfCfop.cbFreteBCClick(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in  [dsBrowse]) then
+    DtSrc.DataSet.Edit;
+
+end;
+
+procedure TfCfop.cbTotalTributosClick(Sender: TObject);
+begin
+  inherited;
+  if (DtSrc.State in  [dsBrowse]) then
+    DtSrc.DataSet.Edit;
 
 end;
 
