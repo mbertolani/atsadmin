@@ -1,8 +1,8 @@
 object fClienteFiltro: TfClienteFiltro
   Left = 196
   Top = 93
-  Width = 604
-  Height = 465
+  Width = 612
+  Height = 471
   Caption = 'Filtro Cliente'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox2: TGroupBox
     Left = 0
     Top = 144
-    Width = 596
+    Width = 604
     Height = 55
     Align = alTop
     Caption = 'VENDEDOR'
@@ -76,8 +76,8 @@ object fClienteFiltro: TfClienteFiltro
   end
   object Panel1: TPanel
     Left = 0
-    Top = 374
-    Width = 596
+    Top = 380
+    Width = 604
     Height = 64
     Align = alBottom
     TabOrder = 3
@@ -375,7 +375,7 @@ object fClienteFiltro: TfClienteFiltro
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 596
+    Width = 604
     Height = 48
     Align = alTop
     TabOrder = 0
@@ -543,7 +543,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox4: TGroupBox
     Left = 0
     Top = 199
-    Width = 596
+    Width = 604
     Height = 55
     Align = alTop
     Caption = 'CIDADE/UF/DDD'
@@ -649,7 +649,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox3: TGroupBox
     Left = 0
     Top = 48
-    Width = 596
+    Width = 604
     Height = 96
     Align = alTop
     Caption = 'CLIENTE'
@@ -765,7 +765,7 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox8: TGroupBox
     Left = 326
     Top = 255
-    Width = 265
+    Width = 275
     Height = 55
     Caption = 'Regi'#227'o'
     TabOrder = 6
@@ -814,95 +814,137 @@ object fClienteFiltro: TfClienteFiltro
   object GroupBox9: TGroupBox
     Left = 0
     Top = 312
-    Width = 593
-    Height = 57
+    Width = 601
+    Height = 65
     Caption = 'Ordenar por '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clMenuHighlight
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 8
-    object Label9: TLabel
+    object Label14: TLabel
+      Left = 11
+      Top = 14
+      Width = 42
+      Height = 13
+      Caption = '1'#170' ordem'
+    end
+    object Label16: TLabel
+      Left = 215
+      Top = 14
+      Width = 42
+      Height = 13
+      Caption = '2'#170' ordem'
+    end
+    object Label17: TLabel
+      Left = 412
+      Top = 14
+      Width = 42
+      Height = 13
+      Caption = '3'#170' ordem'
+    end
+    object cbOrdem1: TComboBox
       Left = 8
-      Top = 16
-      Width = 33
-      Height = 13
-      Caption = 'C'#243'digo'
-    end
-    object Label10: TLabel
-      Left = 96
-      Top = 16
-      Width = 28
-      Height = 13
-      Caption = 'Nome'
-    end
-    object Label12: TLabel
-      Left = 168
-      Top = 16
-      Width = 33
-      Height = 13
-      Caption = 'Cidade'
-    end
-    object Label13: TLabel
-      Left = 248
-      Top = 16
-      Width = 14
-      Height = 13
-      Caption = 'UF'
-    end
-    object lblData: TLabel
-      Left = 312
-      Top = 16
-      Width = 68
-      Height = 13
-      Caption = 'Data Cadastro'
-    end
-    object Label15: TLabel
-      Left = 416
-      Top = 16
-      Width = 82
-      Height = 13
-      Caption = 'Data Nascimento'
-    end
-    object edOrdemCod: TEdit
-      Left = 48
-      Top = 16
-      Width = 27
+      Top = 28
+      Width = 145
       Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
       TabOrder = 0
-      Text = '1'
+      Text = 'C'#243'digo'
+      Items.Strings = (
+        'C'#243'digo'
+        'Nome'
+        'Cidade'
+        'UF'
+        'Data Cadastro'
+        'Data Nascimento')
     end
-    object edOrdemNome: TEdit
-      Left = 136
-      Top = 16
-      Width = 25
+    object cbOrdem2: TComboBox
+      Left = 212
+      Top = 28
+      Width = 145
       Height = 21
+      ItemHeight = 13
       TabOrder = 1
-      Text = '2'
+      Items.Strings = (
+        'C'#243'digo'
+        'Nome'
+        'Cidade'
+        'UF'
+        'Data Cadastro'
+        'Data Nascimento')
     end
-    object edOrdemCidade: TEdit
-      Left = 208
-      Top = 16
-      Width = 25
+    object cbOrdem3: TComboBox
+      Left = 409
+      Top = 28
+      Width = 145
       Height = 21
+      ItemHeight = 13
       TabOrder = 2
+      Items.Strings = (
+        'C'#243'digo'
+        'Nome'
+        'Cidade'
+        'UF'
+        'Data Cadastro'
+        'Data Nascimento')
     end
-    object edOrdemUF: TEdit
-      Left = 272
-      Top = 16
-      Width = 25
-      Height = 21
+    object BitBtn6: TBitBtn
+      Left = 154
+      Top = 28
+      Width = 34
+      Height = 20
       TabOrder = 3
+      TabStop = False
+      OnClick = BitBtn6Click
+      Glyph.Data = {
+        F6000000424DF600000000000000760000002800000010000000100000000100
+        04000000000080000000120B0000120B00001000000010000000000000000000
+        BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+        77777777777777777777777700000000007777770FFFFFFFF07777770FFFFFFF
+        F077771F0F888888F077711F0F85BFB8F0777711F11BFBF8F077777151788888
+        F077777511FFFFFFF07775111F1FFF00007771570FF1FF0F077777770FFFFF00
+        7777777700000007777777777777777777777777777777777777}
     end
-    object edOrdemDataCadastro: TEdit
-      Left = 385
-      Top = 16
-      Width = 25
-      Height = 21
+    object BitBtn4: TBitBtn
+      Left = 356
+      Top = 28
+      Width = 34
+      Height = 20
       TabOrder = 4
+      TabStop = False
+      OnClick = BitBtn4Click
+      Glyph.Data = {
+        F6000000424DF600000000000000760000002800000010000000100000000100
+        04000000000080000000120B0000120B00001000000010000000000000000000
+        BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+        77777777777777777777777700000000007777770FFFFFFFF07777770FFFFFFF
+        F077771F0F888888F077711F0F85BFB8F0777711F11BFBF8F077777151788888
+        F077777511FFFFFFF07775111F1FFF00007771570FF1FF0F077777770FFFFF00
+        7777777700000007777777777777777777777777777777777777}
     end
-    object edOrdemNasc: TEdit
-      Left = 505
-      Top = 16
-      Width = 25
-      Height = 21
+    object BitBtn7: TBitBtn
+      Left = 555
+      Top = 28
+      Width = 34
+      Height = 20
       TabOrder = 5
+      TabStop = False
+      OnClick = BitBtn7Click
+      Glyph.Data = {
+        F6000000424DF600000000000000760000002800000010000000100000000100
+        04000000000080000000120B0000120B00001000000010000000000000000000
+        BF0000BF000000BFBF00BF000000BF00BF00BFBF0000C0C0C000808080000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777
+        77777777777777777777777700000000007777770FFFFFFFF07777770FFFFFFF
+        F077771F0F888888F077711F0F85BFB8F0777711F11BFBF8F077777151788888
+        F077777511FFFFFFF07775111F1FFF00007771570FF1FF0F077777770FFFFF00
+        7777777700000007777777777777777777777777777777777777}
     end
   end
   object DtSrcReg: TDataSource

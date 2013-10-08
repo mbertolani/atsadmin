@@ -72,18 +72,15 @@ type
     gbNasc: TGroupBox;
     cbAniversario: TComboBox;
     GroupBox9: TGroupBox;
-    Label9: TLabel;
-    edOrdemCod: TEdit;
-    Label10: TLabel;
-    edOrdemNome: TEdit;
-    Label12: TLabel;
-    edOrdemCidade: TEdit;
-    Label13: TLabel;
-    edOrdemUF: TEdit;
-    lblData: TLabel;
-    edOrdemDataCadastro: TEdit;
-    Label15: TLabel;
-    edOrdemNasc: TEdit;
+    cbOrdem1: TComboBox;
+    Label14: TLabel;
+    Label16: TLabel;
+    cbOrdem2: TComboBox;
+    Label17: TLabel;
+    cbOrdem3: TComboBox;
+    BitBtn6: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn7: TBitBtn;
     procedure BitBtn3Click(Sender: TObject);
     procedure BitBtn13Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -94,6 +91,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -207,6 +207,21 @@ begin
     dm.scds_usuario_proc.Close;
     fProcurar.Free;
   end;
+end;
+
+procedure TfClienteFiltro.BitBtn6Click(Sender: TObject);
+begin
+  cbOrdem1.ItemIndex := -1;
+end;
+
+procedure TfClienteFiltro.BitBtn4Click(Sender: TObject);
+begin
+  cbOrdem2.ItemIndex := -1;
+end;
+
+procedure TfClienteFiltro.BitBtn7Click(Sender: TObject);
+begin
+  cbOrdem3.ItemIndex := -1;
 end;
 
 end.
