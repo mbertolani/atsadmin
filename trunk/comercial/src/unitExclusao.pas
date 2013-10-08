@@ -16,6 +16,7 @@ type
     procedure dxButton2Click(Sender: TObject);
     procedure dxButton3Click(Sender: TObject);
   private
+    TD: TTransactionDesc;
     { Private declarations }
   public
     { Public declarations }
@@ -70,19 +71,36 @@ begin
         exit;
       end;
       fNotaf.gravaSerie(dmnf.cds_vendaNOTAFISCAL.AsInteger);
-      if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
-      begin
-        dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = null' +
-          ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString);
-         dmnf.DtSrcVenda.DataSet.Delete;
-         (dmnf.DtSrcVenda.DataSet as TClientDataSet).ApplyUpdates(0);
+      TD.TransactionID := 1;
+      TD.IsolationLevel := xilREADCOMMITTED;
+      dm.sqlsisAdimin.StartTransaction(TD);
+      Try
+        if (not dmnf.DtSrcVenda.DataSet.IsEmpty) then
+        begin
+          dm.sqlsisAdimin.ExecuteDirect('update movimento set nfe = null' +
+            ' where CODMOVIMENTO = ' +  dmnf.cds_MovimentoCONTROLE.AsString);
+          dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODVENDA = ' +
+            IntToStr(dmnf.cds_vendaCODVENDA.AsInteger));
+        end;
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ' +
+          IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+        dm.sqlsisAdimin.ExecuteDirect('DELETE FROM NOTAFISCAL WHERE NUMNF = ' +
+          IntToStr(dmnf.cds_nfNUMNF.AsInteger));
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        on E : Exception do
+        begin
+          ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+          dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+          exit;
+        end;
       end;
-       dmnf.DtSrc.DataSet.Delete;
-       (dmnf.DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-       dmnf.DtSrc_NF.DataSet.Delete;
-       (dmnf.DtSrc_NF.DataSet as TClientDataSet).ApplyUpdates(0);
-
-       MessageDlg('Registro excluido com sucesso.',mtConfirmation, [mbOK],0)
+      dmnf.DtSrc_NF.DataSet.Close;
+      dmnf.DtSrcVenda.DataSet.Close;
+      dmnf.cds_Movimento.Close;
+      dmnf.cds_Mov_det.Close;
+      MessageDlg('Registro excluido com sucesso.',mtConfirmation, [mbOK],0);
+      close;
     end
     else
       Abort;
@@ -110,14 +128,29 @@ begin
           DMNF.cds_compra.Params[1].Clear;
           DMNF.cds_compra.Open;
         end;
-        dmnf.DtSrc_Compra.DataSet.Delete;
-        (dmnf.DtSrc_Compra.DataSet as TClientDataSet).ApplyUpdates(0);
-        dmnf.DtSrc.DataSet.Delete;
-        (dmnf.DtSrc.DataSet as TClientDataSet).ApplyUpdates(0);
-        dmnf.DtSrc_NF1.DataSet.Delete;
-        (dmnf.DtSrc_NF1.DataSet as TClientDataSet).ApplyUpdates(0);
-
-       MessageDlg('Registro excluido com sucesso.',mtConfirmation, [mbOK],0)
+        dm.sqlsisAdimin.StartTransaction(TD);
+        Try
+          dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA WHERE CODCOMPRA = ' +
+            IntToStr(dmnf.cds_compraCODCOMPRA.AsInteger));
+          dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = ' +
+            IntToStr(dmnf.cds_MovimentoCODMOVIMENTO.AsInteger));
+          dm.sqlsisAdimin.ExecuteDirect('DELETE FROM NOTAFISCAL WHERE NUMNF = ' +
+            IntToStr(dmnf.cds_nf1NUMNF.AsInteger));
+          dm.sqlsisAdimin.Commit(TD);
+        except
+          on E : Exception do
+          begin
+            ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+            dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+            exit;
+          end;
+        end;
+        dmnf.DtSrc_NF1.DataSet.Close;
+        dmnf.cds_Movimento.Close;
+        dmnf.DtSrc_Compra.DataSet.Close;
+        dmnf.cds_Mov_det.Close;
+        MessageDlg('Registro excluido com sucesso.',mtConfirmation, [mbOK],0);
+        close;
       end;
     end
     else
