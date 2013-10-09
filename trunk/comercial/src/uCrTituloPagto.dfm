@@ -201,24 +201,22 @@ inherited fcrTituloPagto: TfcrTituloPagto
     inherited Label1: TLabel
       Left = 234
       Top = -81
-      Width = 309
-      Height = 44
+      Width = 323
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
     inherited Label2: TLabel
       Left = 236
       Top = -80
-      Width = 309
-      Height = 44
+      Width = 323
       Caption = 'Lan'#231'ar Despesas'
       Font.Name = 'Cooper Black'
     end
     object RxLabel1: TRxLabel
       Left = 5
       Top = -75
-      Width = 247
-      Height = 36
+      Width = 285
+      Height = 39
       Alignment = taCenter
       Caption = 'Lan'#231'ar Despesas'
       ShadowColor = clBlack
@@ -233,7 +231,7 @@ inherited fcrTituloPagto: TfcrTituloPagto
       Align = alClient
       Alignment = taCenter
       AutoSize = False
-      Caption = 'Lan'#231'ar Despesas'
+      Caption = 'Lan'#231'ar Custos/Despesas'
       ShadowColor = clNavy
       ShadowSize = 4
       Transparent = True
