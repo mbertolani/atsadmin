@@ -133,7 +133,7 @@ begin
             'QTDE_PCT, UNIDADEMEDIDA, GRUPO, SUBGRUPO, MARCA, ' +
             'ESTOQUEATUAL, CODALMOXARIFADO, ICMS, TIPO, LOCALIZACAO, LOTES,    ' +
             'SUBGRUPO as CATEGORIA, PRECO_VENDA as VALOR_PRAZO, PESO_QTDE, ' +
-            'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO, OBS ' +
+            'PRECO_COMPRAMEDIO as PRECOMEDIO, IPI , PEDIDO, OBS , ORIGEM, NCM ' +
             'from LISTAPRODUTO(0, ' + QuotedStr('TODOSPRODUTOS') + ', ' +
             QuotedStr('TODOSGRUPOS') + ', ' +
             QuotedStr('TODOSSUBGRUPOS') + ', ' + QuotedSTr('TODASMARCAS') +
