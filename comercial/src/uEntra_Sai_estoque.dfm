@@ -1,6 +1,6 @@
 object fEntra_Sai_estoque: TfEntra_Sai_estoque
-  Left = 425
-  Top = 156
+  Left = 428
+  Top = 160
   Width = 706
   Height = 574
   BorderIcons = [biSystemMenu]
@@ -1417,6 +1417,7 @@ object fEntra_Sai_estoque: TfEntra_Sai_estoque
     ParentFont = False
     StoreDateFormat = True
     TabOrder = 3
+    OnChange = MaskEdit1Change
     OnKeyPress = FormKeyPress
   end
   object dbEdit1: TJvDBDatePickerEdit

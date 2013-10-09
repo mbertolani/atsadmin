@@ -431,6 +431,7 @@ type
     procedure DBEdit12Exit(Sender: TObject);
     procedure DBEdit4Exit(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure MaskEdit1Change(Sender: TObject);
   private
     loteant : string;
     { Private declarations }
@@ -1984,6 +1985,11 @@ begin
   VCLReport1.Report.DatabaseInfo.Items[0].SQLConnection := dm.sqlsisAdimin;
   VCLReport1.Report.Params.ParamByName('CODMOV').Value := cds_MovimentoCODMOVIMENTO.AsInteger;
   VCLReport1.Execute;
+end;
+
+procedure TfEntra_Sai_estoque.MaskEdit1Change(Sender: TObject);
+begin
+  dbEdit4.Text := MaskEdit1.Text;
 end;
 
 end.
