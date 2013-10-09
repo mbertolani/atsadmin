@@ -1159,10 +1159,9 @@ begin
     end;
 
     cdsVALOR.AsFloat := vrr + cdsVALOR_FRETE.AsFloat + cdsVALOR_SEGURO.AsFloat +
-      cdsOUTRAS_DESP.AsFloat;
-    cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat -
-      cdsDESCONTO.AsFloat;
-    cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat - cdsDESCONTO.AsFloat;
+      cdsOUTRAS_DESP.AsFloat - cdsDESCONTO.AsFloat;
+    cdsAPAGAR.AsFloat := cdsVALOR.AsFloat - cdsENTRADA.AsFloat + cdsMULTA_JUROS.AsFloat;
+    cdsVALOR_PAGAR.AsFloat := cdsVALOR.AsFloat;
 
     {Usado para bloquear alteração em RECEBIMENTO pelas triggers
      da notafiscal }
@@ -1251,29 +1250,6 @@ begin
        MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
            [mbOk], 0);
     end;
-
-//   strSql := 'UPDATE RECEBIMENTO SET DP = 1 where CODVENDA = ' + IntToStr(cdsCODVENDA.AsInteger);
-//   dm.sqlsisAdimin.StartTransaction(TD);
-//   dm.sqlsisAdimin.ExecuteDirect(strSql);
-//    Try
-//       dm.sqlsisAdimin.Commit(TD);
-//    except
-//       dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
-//       MessageDlg('Erro ao grava campo DP para imprimir boleto .', mtError,
-//           [mbOk], 0);
-//    end;
-
-   if (dmnf.baixouEstoque(cdsCODMOVIMENTO.AsInteger) = False) then
-   begin
-     Try
-       if (DM.tipoVenda <> 'DEVOLUCAO') then
-         dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'VENDA')
-       else
-         dmnf.baixaEstoque(cdsCODMOVIMENTO.AsInteger, cdsDATAVENDA.AsDateTime, 'DEV.VENDA');
-     Except
-       MessageDlg('Processo de Baixa no Estoque não realizado CORRETAMENTE.', mtWarning, [mbOK], 0);
-     end;
-   end;
 
 end;
 
