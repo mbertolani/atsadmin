@@ -1,6 +1,5 @@
-set term ^ ;
 CREATE OR ALTER PROCEDURE SPESTOQUEPRODUTO (
-DTA1                             DATE
+                                   DTA1                             DATE
                                  , DTA2                             DATE
                                  , PROD1                            INTEGER
                                  , PROD2                            INTEGER

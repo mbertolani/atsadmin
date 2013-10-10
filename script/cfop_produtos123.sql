@@ -1,9 +1,7 @@
-SET TERM ^ ;
-ALTER TRIGGER CFOP_PRODUTOS ACTIVE
+CREATE OR ALTER TRIGGER CFOP_PRODUTOS FOR NOTAFISCAL ACTIVE
 AFTER  UPDATE POSITION 0
 AS 
 declare variable codm INTEGER;
-
 BEGIN
   if(old.CFOP <> new.CFOP) then
   begin 
@@ -23,5 +21,4 @@ BEGIN
     update MOVIMENTODETALHE set CFOP = udf_left(new.CFOP, 4)
       where CODMOVIMENTO = :codm;
   end
-END^
-SET TERM ; ^
+END
