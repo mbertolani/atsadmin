@@ -10,7 +10,8 @@ uses
   rplabelitem, VDODmPrinter, EExtenso, gbCobranca, JvAppStorage,
   JvAppXMLStorage, JvComponentBase, JvFormPlacement, JvExMask, JvToolEdit,
   JvBaseEdits, JvExControls, JvLabel, JvExDBGrids, JvDBGrid, DBXpress,
-  JvExStdCtrls, JvCombobox;
+  JvExStdCtrls, JvCombobox, ComCtrls, JvExComCtrls, JvComCtrls,
+  JvHtControls;
 
 type
   Tfcrproc = class(TForm)
@@ -175,6 +176,30 @@ type
     JvCalcEdit1: TJvCalcEdit;
     JvCalcEdit2: TJvCalcEdit;
     ds_conta: TDataSource;
+    Label2: TLabel;
+    JvCalcEdit3: TJvCalcEdit;
+    JvDBGrid1: TJvDBGrid;
+    ImageList2: TImageList;
+    SelecionarTodos1: TMenuItem;
+    DesmarcarTodos1: TMenuItem;
+    sqlBuscaNota: TSQLQuery;    
+    sdsBL: TIntegerField;
+    scdsCr_procBL: TIntegerField;
+    sdsCODIGOBOLETO: TStringField;
+    scdsCr_procCODIGOBOLETO: TStringField;
+    edtSelPend: TJvCalcEdit;
+    Label17: TLabel;
+    Label21: TLabel;
+    edtSelRec: TJvCalcEdit;
+    JvPageControl1: TJvPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Label15: TLabel;
+    cbReceitas: TJvComboBox;
+    Label14: TLabel;
+    cbImpresso: TComboBox;
+    Label1: TLabel;
+    edValor: TEdit;
     Panel6: TPanel;
     Label3: TLabel;
     Label4: TLabel;
@@ -184,7 +209,6 @@ type
     Label11: TLabel;
     Label12: TLabel;
     Label13: TLabel;
-    Label1: TLabel;
     Label19: TLabel;
     Label20: TLabel;
     Edit1: TEdit;
@@ -217,29 +241,9 @@ type
     edcodVendedor: TEdit;
     BitBtn12: TBitBtn;
     BitBtn11: TBitBtn;
-    edValor: TEdit;
     cbForma: TComboBox;
     cbComboCaixa: TComboBox;
-    Label2: TLabel;
-    JvCalcEdit3: TJvCalcEdit;
-    JvDBGrid1: TJvDBGrid;
-    ImageList2: TImageList;
-    SelecionarTodos1: TMenuItem;
-    DesmarcarTodos1: TMenuItem;
-    sqlBuscaNota: TSQLQuery;
-    cbImpresso: TComboBox;    
-    sdsBL: TIntegerField;
-    scdsCr_procBL: TIntegerField;
-    Label14: TLabel;
     rbConsolida: TCheckBox;
-    cbReceitas: TJvComboBox;
-    Label15: TLabel;
-    sdsCODIGOBOLETO: TStringField;
-    scdsCr_procCODIGOBOLETO: TStringField;
-    edtSelPend: TJvCalcEdit;
-    Label17: TLabel;
-    Label21: TLabel;
-    edtSelRec: TJvCalcEdit;
     procedure BitBtn4Click(Sender: TObject);
     procedure edCodClienteExit(Sender: TObject);
     procedure BitBtn8Click(Sender: TObject);
@@ -460,7 +464,7 @@ end;
 procedure Tfcrproc.BitBtn12Click(Sender: TObject);
 begin
   fProcurar:= TfProcurar.Create(self,dm.scds_usuario_proc);
-  fProcurar.usuarioproc := 'VENDEDOR';  
+  fProcurar.usuarioproc := 'VENDEDOR';
   fProcurar.BtnProcurar.Click;
   try
    fProcurar.EvDBFind1.DataField := 'NOMEUSUARIO';
