@@ -190,8 +190,10 @@ begin
     p.COD_COMISSAO, p.RATEIO, p.CONTA_DESPESA, p.PESO_QTDE, p.IPI, p.VALORUNITARIOATUAL, p.CLASSIFIC_FISCAL
 	, p.NCM, p.ORIGEM, 
 	p.ESTOQUEMAXIMO, p.ESTOQUEREPOSICAO, p.ESTOQUEMINIMO, p.PRECOMEDIO , p.MARGEM_LUCRO , p.DATACADASTRO,
-	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO, p.OBS, p.ESTOQUEATUAL, p.VALORUNITARIOATUAL
+	p.PRO_COD, p.DATAGRAV, p.TIPOPRECOVENDA, p.VALORMINIMO, p.OBS, p.ESTOQUEATUAL, p.VALORUNITARIOATUAL, cod.CODIGO
     from produtos p
+    left outer join USO_PRODUTO uso  on uso.COD_PRODUTO = p.CODPRODUTO
+    left outer join CODIGOS cod on cod.COD_PRODUTO = p.CODPRODUTO
     where ((p.CODPRO = :codProd) OR (:codProd = 'TODOSPRODUTOS'))
       and ((p.CODPRODUTO = :codP) or (:codP = 0))
       and ((p.FAMILIA = :gp) or (:gp = 'TODOSGRUPOS'))
@@ -203,7 +205,7 @@ begin
     :grupo, :subGrupo, :marca, :codAlmoxarifado, :icms, :tipo, :localizacao, :lotes, :margem,
     :precoVenda, :tipoPreco, :usa, :cod_comissao, :rateio , :conta_despesa, :peso_qtde, :ipi, :precoc, :Aplicacao_Produto, :ncm, :origem,
     :ESTOQUEMAXIMO, :ESTOQUEREPOSICAO, :ESTOQUEMINIMO, :PRECOMEDIO , :MARGEM_LUCRO , :DATACADASTRO ,:PRO_COD, :DATAGRAV, 
-    :TIPOPRECOVENDA, :VALORMINIMO, :obs, :estoqueAtual, :preco_compraUltimo
+    :TIPOPRECOVENDA, :VALORMINIMO, :obs, :estoqueAtual, :preco_compraUltimo, :codigo
   do begin
   
     if (codAlmoxarifado is null) then 
@@ -291,27 +293,41 @@ begin
         Preco_venda = precoVenda;
     end
 
+    custoMateriaPrima = 0;
     -- O custo do produto e baseado em cima das materias primas
-    select sum(m.QTDEUSADA * (case when p.VALORUNITARIOATUAL is null then p.PRECOMEDIO
-     when p.VALORUNITARIOATUAL = 0 then p.PRECOMEDIO
-     else p.VALORUNITARIOATUAL end ))
-
+    select sum(m.QTDEUSADA * (case when p.PRECOMEDIO is null then p.VALORUNITARIOATUAL
+     when p.PRECOMEDIO = 0 then p.VALORUNITARIOATUAL
+     else p.PRECOMEDIO end ))
     from MATERIA_PRIMA m
       inner join PRODUTOS p on p.CODPRODUTO = m.CODPRODMP
       where m.CODPRODUTO = :codProduto
     into :custoMateriaPrima;
+    
+    if (custoMateriaPrima is null) then 
+      custoMateriaPrima = 0;
+      
     if (preco_compraMedio = 0) then
       preco_compraMedio = custoMateriaPrima;
 
     if (preco_compraUltimo = 0) then
       preco_compraUltimo = precoc;
+      
     if (preco_compraMedio = 0) then
       preco_compraMedio = precoc;
+      
 	 if (preco_Venda = 0) then
 	  preco_Venda = precoVenda;
+	  
+	if (custoMateriaPrima > 0) then 
+	begin
+      preco_compraMedio = custoMateriaPrima;
+      preco_compraUltimo = custoMateriaPrima;
+	end   
+	  
     suspend;
     preco_compraMedio = 0;
     preco_compraUltimo = 0;
+    custoMateriaPrima = 0;
     precovenda = 0;
     precomedio = 0;
     preco_venda = 0;
