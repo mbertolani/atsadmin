@@ -425,7 +425,7 @@ begin
    + 'sum(rec.VALORRECEBIDO + FUNRURAL + JUROS) as VALORRECEBIDO, rec.VIA, rec.N_DOCUMENTO '
    + ' , cli.NOMEFORNECEDOR, ' +
    ' UDF_ROUNDDEC(SUM(rec.VALOR_RESTO - rec.VALORRECEBIDO - rec.DESCONTO - rec.PERDA),2) as VALORREC' +
-   ' ,plano.NOME, rec.HISTORICO from PAGAMENTO rec ' +
+   ' ,plano.NOME, rec.HISTORICO, comp.SERIE from PAGAMENTO rec ' +
    ' inner join FORNECEDOR cli on cli.CODFORNECEDOR=rec.CODFORNECEDOR ' +
    ' left outer join PLANO plano on plano.CODIGO = rec.CAIXA ' +
    ' left outer join compra comp on comp.codCompra = rec.CODCompra ';
@@ -745,7 +745,7 @@ begin
             + ' rec.TITULO,  rec.VALOR_RESTO, rec.VALORTITULO, '
             + ' rec.STATUS, rec.DATAPAGAMENTO, '
             + ' rec.VIA, rec.N_DOCUMENTO, rec.VALOR_PRIM_VIA, rec.dp, rec.dup_rec_nf' +
-            ' ,plano.NOME ,rec.CONTACREDITO, rec.HISTORICO';
+            ' ,plano.NOME ,rec.CONTACREDITO, rec.HISTORICO, comp.SERIE ';
 
   scdsCr_proc.CommandText := sqlTexto1 + sqlTexto + sql2;
   scdsCr_proc.Open;
@@ -801,10 +801,10 @@ var conta_local, str_sql2: String;
  varCpProc : TUtils;
   i, j : integer;
 begin
-  MMJPanel1.Background.EndColor   := dm.corStart;
-  MMJPanel1.Background.StartColor := dm.corEnd;
-  MMJPanel2.Background.EndColor   := dm.corEnd;
-  MMJPanel2.Background.StartColor := dm.corStart;
+  MMJPanel1.Background.EndColor   := dm.corEnd;
+  MMJPanel1.Background.StartColor := dm.corStart;
+  MMJPanel2.Background.EndColor   := dm.corStart;
+  MMJPanel2.Background.StartColor := dm.corEnd;
 
 
   // Popula Status
