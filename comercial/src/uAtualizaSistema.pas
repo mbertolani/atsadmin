@@ -1942,17 +1942,17 @@ begin
 
     if (versaoSistema = '1.0.0.121') then
     begin
-      executaScript('estoque_atualiza122.sql');
+      //executaScript('estoque_atualiza122.sql');
       executaScript('invent_estoque122.sql');
       executaScript('view_estoque122.sql');
-      executaScript('estoque_customedio122.sql');
+      //executaScript('estoque_customedio122.sql');
       executaScript('rel_vendaCompra122.sql');
       executaScript('spestoque122.sql');
       executaScript('gera_cupom.sql');
-      executaScript('listaProduto122.sql');
-      executaScript('listaProdutocli122.sql');
-      executaScript('spEstoqueFiltro122.sql');
-      executaScript('estoque_view_custo122.sql');
+      //executaScript('listaProduto122.sql');
+      //executaScript('listaProdutocli122.sql');
+      //executaScript('spEstoqueFiltro122.sql');
+      //executaScript('estoque_view_custo122.sql');
       executaScript('imprimevendadata122.sql');
       //executaScript('reldre122.sql');
       executaScript('proibe_alt_del_nf122.sql');
@@ -1969,6 +1969,25 @@ begin
       executaScript('proibe_alt_del_nf122.sql');
       EXECUTADDL('NOTAFISCAL', 'CCUSTO', 'INTEGER');
       mudaVersao('1.0.0.123');
+    end;// Fim Atualizacao Versao 1.0.0.123
+
+    if (versaoSistema = '1.0.0.123') then
+    begin
+      EXECUTADDL('CFOP', 'TOTTRIB', 'CHAR(1)');
+      EXECUTADDL('CFOP', 'FRETEBC', 'CHAR(1)');
+      EXECUTADDL('CFOP', 'IPIBC', 'CHAR(1)');
+      executaScript('spEstoqueFiltro123.sql');
+      executaScript('estoque_customedio123.sql');
+      executaScript('view_estoquelote123.sql');
+      executaScript('listaProdutocli123.sql');
+      executaScript('listaProduto123.sql');
+      executaScript('estoque_atualiza123.sql');
+      executaScript('sp_contas_recebidas123.sql');
+      executaScript('materiaprima_custo123.sql');
+      executaScript('spestoqueproduto123.sql');
+      executaScript('cfop_produtos123.sql');
+      executaScript('estoque_view_custo123.sql');
+      mudaVersao('1.1.0.0');
     end;// Fim Atualizacao Versao 1.0.0.123
 
     try
