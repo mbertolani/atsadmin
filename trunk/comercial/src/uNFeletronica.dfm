@@ -1,6 +1,6 @@
 object fNFeletronica: TfNFeletronica
-  Left = 211
-  Top = 149
+  Left = 213
+  Top = 152
   Width = 875
   Height = 580
   AutoSize = True
@@ -12,7 +12,7 @@ object fNFeletronica: TfNFeletronica
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -1301,7 +1301,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 2
           end
           object GroupBox10: TGroupBox
