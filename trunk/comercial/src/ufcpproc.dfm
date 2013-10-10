@@ -1645,7 +1645,7 @@ object fCpProc: TfCpProc
       Left = 362
       Top = 102
       Width = 121
-      Height = 23
+      Height = 24
       TabStop = False
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -1664,7 +1664,7 @@ object fCpProc: TfCpProc
       Left = 318
       Top = 102
       Width = 45
-      Height = 23
+      Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
@@ -2353,7 +2353,7 @@ object fCpProc: TfCpProc
       Left = 486
       Top = 21
       Width = 64
-      Height = 21
+      Height = 24
       TabOrder = 18
       OnKeyPress = edValorKeyPress
     end
