@@ -1,7 +1,7 @@
 inherited fCompra: TfCompra
   Left = 273
-  Top = 82
-  Width = 820
+  Top = 83
+  Width = 802
   Height = 615
   Caption = 'Compra'
   Font.Height = -13
@@ -73,7 +73,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 812
+    Width = 794
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1182,7 +1182,7 @@ inherited fCompra: TfCompra
   end
   inherited MMJPanel2: TMMJPanel
     Top = 561
-    Width = 812
+    Width = 794
     Height = 27
     Align = alBottom
     Background.StartColor = clSilver
@@ -2904,7 +2904,7 @@ inherited fCompra: TfCompra
       Active = True
       currency = True
       DisplayFormat = ',#0.00'
-      Expression = 'Sum(ValorTotal)'
+      Expression = 'Sum(ValorTotal+frete+vipi)'
     end
   end
   object dsp_Mov_det: TDataSetProvider

@@ -511,35 +511,18 @@ begin
   if (DtSrc.State in [dsEdit]) then // Busco o valor novamente , pois estava acumulando
   begin
     // qdo o usuario alterava um ipi por exemplo.
-    if (dm.moduloUsado <> 'CITRUS') then
-    begin
-      if dm.scds_Mov_Det_proc.Active then
-        dm.scds_Mov_Det_proc.Close;
-      dm.scds_Mov_Det_proc.Params[0].AsInteger := fCompra.cds_MovimentoCODMOVIMENTO.AsInteger;
-      dm.scds_Mov_Det_proc.Open;
-      cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;
-      if (sqs_tit.Active) then
-        sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM((QTDE_ALT/100) * VALTOTAL), sum((PIPI/100)*valTotal) FROM MOVIMENTODETALHE' +
-       ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
-      sqs_tit.Open;
-      //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
+    if dm.scds_Mov_Det_proc.Active then
+      dm.scds_Mov_Det_proc.Close;
+    dm.scds_Mov_Det_proc.Params[0].AsInteger := fCompra.cds_MovimentoCODMOVIMENTO.AsInteger;
+    dm.scds_Mov_Det_proc.Open;
+    cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;
+    if (sqs_tit.Active) then
       sqs_tit.Close;
-    end;
-    if (dm.moduloUsado = 'CITRUS') then
-    begin
-      if (sqs_tit.Active) then
-        sqs_tit.Close;
-      if (fCompra.CheckBox1.Checked = False) then
-        sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO) FROM MOVIMENTODETALHE' + ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger)
-      else
-          sqs_tit.CommandText := 'SELECT SUM((QUANTIDADE * PRECO) * 0.99) FROM MOVIMENTODETALHE' + ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
-      sqs_tit.Open;
-      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
-      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);
-      //vrr := FloatToCurr(sqs_tit.Fields[0].AsFloat);
-      sqs_tit.Close;
-    end;
+    sqs_tit.CommandText := 'SELECT SUM((QTDE_ALT/100) * VALTOTAL), sum(VIPI) FROM MOVIMENTODETALHE' +
+     ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
+    sqs_tit.Open;
+    //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
+    sqs_tit.Close;
   end;
   tipoMov := 'EDIT';
   cod_id := cds_compraCODCOMPRA.AsInteger;
@@ -1211,7 +1194,7 @@ begin
     while not fCompra.cds_Mov_det.Eof do
     begin
       cds_compraVALOR_ICMS.AsFloat := cds_compraVALOR_ICMS.AsFloat + (fCompra.cds_Mov_detVALOR_ICMS.AsFloat);
-      cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + (fCompra.cds_Mov_detPIPI.AsFloat * (fCompra.cds_Mov_detQUANTIDADE.AsFloat * fCompra.cds_Mov_detPRECO.AsFloat))/100;
+      cds_compraVALOR_IPI.AsFloat := cds_compraVALOR_IPI.AsFloat + fCompra.cds_Mov_detVIPI.AsFloat;
       cds_compraICMS_ST.AsFloat := cds_compraICMS_ST.AsFloat + fCompra.cds_Mov_detICMS_SUBST.AsFloat;
       cds_compraVALOR_FRETE.AsFloat := cds_compraVALOR_FRETE.AsFloat + fCompra.cds_Mov_detFRETE.AsFloat;
       cds_compraOUTRAS_DESP.AsFloat := cds_compraOUTRAS_DESP.AsFloat + fCompra.cds_Mov_detVALOR_OUTROS.AsFloat;
@@ -1238,11 +1221,12 @@ begin
       cds_compraVALOR.Value := dm.scds_Mov_Det_procTotalPedido.Value;}
       if (sqs_tit.Active) then
         sqs_tit.Close;
-      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum((PIPI/100)*valTotal), sum((ICMS/100)*valTotal) FROM MOVIMENTODETALHE' +
+      sqs_tit.CommandText := 'SELECT SUM(QUANTIDADE * PRECO), sum(VIPI), ' +
+        'sum((ICMS/100)*valTotal), sum(FRETE)  FROM MOVIMENTODETALHE' +
           ' WHERE CODMOVIMENTO = ' + IntToStr(fCompra.cds_MovimentoCODMOVIMENTO.asInteger);
       sqs_tit.Open;
-      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat); //+ FloatToCurr(sqs_tit.Fields[1].AsFloat)  + FloatToCurr(sqs_tit.Fields[2].AsFloat);
-      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat); // + FloatToCurr(sqs_tit.Fields[1].AsFloat) + FloatToCurr(sqs_tit.Fields[2].AsFloat);
+      cds_compraVALOR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);//+sqs_tit.Fields[1].AsFloat+sqs_tit.Fields[3].AsFloat); //+ FloatToCurr(sqs_tit.Fields[1].AsFloat)  + FloatToCurr(sqs_tit.Fields[2].AsFloat);
+      cds_compraVALOR_PAGAR.AsCurrency := FloatToCurr(sqs_tit.Fields[0].AsFloat);//+sqs_tit.Fields[1].AsFloat+sqs_tit.Fields[3].AsFloat); // + FloatToCurr(sqs_tit.Fields[1].AsFloat) + FloatToCurr(sqs_tit.Fields[2].AsFloat);
       //cds_compraVALOR_IPI.AsCurrency := FloatToCurr(sqs_tit.Fields[1].AsFloat);
     end;
     if (dm.moduloUsado = 'CITRUS') then
