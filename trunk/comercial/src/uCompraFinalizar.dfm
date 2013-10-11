@@ -1,7 +1,7 @@
 inherited fCompraFinalizar: TfCompraFinalizar
   Left = 172
-  Width = 809
-  Height = 556
+  Width = 789
+  Height = 545
   Caption = 'Compras Finalizar'
   Font.Height = -13
   OldCreateOrder = True
@@ -12,7 +12,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
     Left = 0
     Top = 288
     Width = 617
-    Height = 213
+    Height = 204
     TabOrder = 6
     Visible = False
     object GroupBox5: TGroupBox
@@ -1043,7 +1043,7 @@ inherited fCompraFinalizar: TfCompraFinalizar
   end
   inherited MMJPanel1: TMMJPanel
     Top = 0
-    Width = 801
+    Width = 781
     Height = 60
     Align = alTop
     Background.StartColor = clActiveCaption
@@ -1599,8 +1599,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
     end
   end
   inherited MMJPanel2: TMMJPanel
-    Top = 506
-    Width = 801
+    Top = 495
+    Width = 781
     Height = 23
     Align = alBottom
     Background.StartColor = clSilver
@@ -2326,8 +2326,8 @@ inherited fCompraFinalizar: TfCompraFinalizar
   object GroupBox4: TGroupBox [6]
     Left = 619
     Top = 60
-    Width = 171
-    Height = 431
+    Width = 158
+    Height = 434
     Caption = 'R$'
     PopupMenu = PopupMenu1
     TabOrder = 5
