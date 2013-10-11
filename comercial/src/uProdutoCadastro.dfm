@@ -1453,6 +1453,13 @@ inherited fProdutoCadastro: TfProdutoCadastro
         Height = 16
         Caption = 'Data Ultima Altera'#231#227'o'
       end
+      object Label34: TLabel
+        Left = 541
+        Top = 14
+        Width = 87
+        Height = 16
+        Caption = 'Conta Contabil'
+      end
       object DBRadioGroup1: TDBRadioGroup
         Left = 8
         Top = 23
@@ -1571,7 +1578,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
       object DBEdit23: TDBEdit
         Left = 400
         Top = 32
-        Width = 80
+        Width = 134
         Height = 24
         BevelKind = bkFlat
         BorderStyle = bsNone
@@ -1637,6 +1644,24 @@ inherited fProdutoCadastro: TfProdutoCadastro
           OnExit = DBEdit19Exit
           OnKeyPress = FormKeyPress
         end
+      end
+      object DBEdit29: TDBEdit
+        Left = 539
+        Top = 32
+        Width = 190
+        Height = 24
+        DataField = 'CONTA_DESPESA'
+        DataSource = DtSrc
+        TabOrder = 5
+      end
+      object BitBtn4: TBitBtn
+        Left = 730
+        Top = 32
+        Width = 32
+        Height = 25
+        Caption = '...'
+        TabOrder = 6
+        OnClick = BitBtn4Click
       end
     end
   end

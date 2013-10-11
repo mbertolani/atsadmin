@@ -1,8 +1,8 @@
 object fFiltro_forn_plano: TfFiltro_forn_plano
-  Left = 40
-  Top = 112
+  Left = 268
+  Top = 146
   Width = 780
-  Height = 426
+  Height = 477
   BorderIcons = [biSystemMenu]
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
   TextHeight = 13
   object MMJPanel1: TMMJPanel
     Left = 0
-    Top = 338
+    Top = 396
     Width = 772
     Height = 54
     Align = alBottom
@@ -30,7 +30,7 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
     Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.EndColor = clActiveCaption
     Background.FillType = GradUpDown
     object BitBtn2: TBitBtn
       Left = 496
@@ -117,48 +117,17 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
     Left = 0
     Top = 0
     Width = 772
-    Height = 338
-    Align = alClient
+    Height = 49
+    Align = alTop
     BevelInner = bvLowered
     PopupMenu = PopupMenu1
     TabOrder = 1
     Silhuette.Shape.ShapeText = 'Shape text'
     Silhuette.PictureShape.Picture.Data = {07544269746D617000000000}
     Silhuette.PictureShape.DisplayPicture = True
-    Background.StartColor = clSilver
-    Background.EndColor = clTeal
+    Background.StartColor = clActiveCaption
+    Background.EndColor = clSilver
     Background.FillType = GradUpDown
-    object Label1: TLabel
-      Left = 217
-      Top = 3
-      Width = 62
-      Height = 16
-      Caption = 'Descri'#231#227'o'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      Transparent = True
-    end
-    object EditProc: TEdit
-      Left = 216
-      Top = 20
-      Width = 329
-      Height = 24
-      BevelKind = bkFlat
-      BorderStyle = bsNone
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-    end
     object BitBtn1: TBitBtn
       Left = 530
       Top = -59
@@ -166,7 +135,7 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
       Height = 36
       Caption = 'F8-Procurar'
       PopupMenu = PopupMenu1
-      TabOrder = 1
+      TabOrder = 0
       OnClick = BitBtn1Click
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -268,15 +237,132 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
         C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0}
     end
+    object BitBtn6: TBitBtn
+      Left = 40
+      Top = -50
+      Width = 75
+      Height = 25
+      Caption = 'Filtrar'
+      TabOrder = 1
+      OnClick = BitBtn6Click
+    end
+    object BitBtn8: TBitBtn
+      Left = 41
+      Top = 4
+      Width = 130
+      Height = 41
+      Caption = 'ATIVO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clBlue
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      OnClick = BitBtn8Click
+    end
+    object BitBtn9: TBitBtn
+      Left = 181
+      Top = 4
+      Width = 130
+      Height = 41
+      Caption = 'PASSIVO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = BitBtn9Click
+    end
+    object BitBtn10: TBitBtn
+      Left = 322
+      Top = 4
+      Width = 130
+      Height = 41
+      Caption = 'RECEITA'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clNavy
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      OnClick = BitBtn10Click
+    end
+    object BitBtn12: TBitBtn
+      Left = 461
+      Top = 4
+      Width = 130
+      Height = 41
+      Caption = 'DESPESAS'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      OnClick = BitBtn12Click
+    end
+    object BitBtn11: TBitBtn
+      Left = 603
+      Top = 4
+      Width = 149
+      Height = 41
+      Caption = 'C. RESULTADO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clOlive
+      Font.Height = -16
+      Font.Name = 'Cooper Blk BT'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      OnClick = BitBtn11Click
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 49
+    Width = 772
+    Height = 347
+    Align = alClient
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 217
+      Top = 3
+      Width = 48
+      Height = 13
+      Caption = 'Descri'#231#227'o'
+      Transparent = True
+    end
+    object EditProc: TEdit
+      Left = 219
+      Top = 22
+      Width = 329
+      Height = 17
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      CharCase = ecUpperCase
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      TabOrder = 3
+    end
     object DBGrid1: TDBGrid
-      Left = 216
+      Left = 211
       Top = 45
-      Width = 550
-      Height = 288
+      Width = 555
+      Height = 296
       DataSource = DtSrc
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       PopupMenu = PopupMenu1
-      TabOrder = 2
+      TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
@@ -311,19 +397,10 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
           Visible = True
         end>
     end
-    object BitBtn6: TBitBtn
-      Left = 40
-      Top = -50
-      Width = 75
-      Height = 25
-      Caption = 'Filtrar'
-      TabOrder = 3
-      OnClick = BitBtn6Click
-    end
     object EvDBFind1: TEvDBFind
-      Left = 216
+      Left = 212
       Top = 19
-      Width = 549
+      Width = 552
       Height = 24
       DataField = 'NOME'
       DataSource = DtSrc
@@ -333,15 +410,15 @@ object fFiltro_forn_plano: TfFiltro_forn_plano
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 1
     end
     object tvContaPai: TJvTreeView
-      Left = 8
+      Left = 3
       Top = 8
-      Width = 201
-      Height = 321
+      Width = 206
+      Height = 333
       Indent = 19
-      TabOrder = 5
+      TabOrder = 2
       OnClick = tvContaPaiClick
       LineColor = 13160660
     end
