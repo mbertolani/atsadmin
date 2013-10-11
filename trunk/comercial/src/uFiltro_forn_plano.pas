@@ -28,17 +28,13 @@ type
     DBNavigator1: TDBNavigator;
     btnIncluir: TBitBtn;
     MMJPanel2: TMMJPanel;
-    Label1: TLabel;
-    EditProc: TEdit;
     BitBtn1: TBitBtn;
-    DBGrid1: TDBGrid;
     PopupMenu1: TPopupMenu;
     Incluir1: TMenuItem;
     OK1: TMenuItem;
     Procurar1: TMenuItem;
     XPMenu1: TXPMenu;
     BitBtn6: TBitBtn;
-    EvDBFind1: TEvDBFind;
     sdsContaPai: TSQLDataSet;
     dspContaPai: TDataSetProvider;
     cdsContaPai: TClientDataSet;
@@ -49,13 +45,23 @@ type
     dsContaPai: TDataSource;
     sdsContaPaiCONTAPAI: TStringField;
     cdsContaPaiCONTAPAI: TStringField;
-    tvContaPai: TJvTreeView;
     sdsContaPlano: TSQLDataSet;
     dspContaPlano: TDataSetProvider;
     cdsContaPlano: TClientDataSet;
     cdsContaPlanoNOME: TStringField;
     cdsContaPlanoCONTA: TStringField;
     cdsContaPlanoUDF_LEN: TIntegerField;
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    Label1: TLabel;
+    EvDBFind1: TEvDBFind;
+    tvContaPai: TJvTreeView;
+    EditProc: TEdit;
+    BitBtn8: TBitBtn;
+    BitBtn9: TBitBtn;
+    BitBtn10: TBitBtn;
+    BitBtn12: TBitBtn;
+    BitBtn11: TBitBtn;
     procedure BitBtn1Click(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
@@ -65,7 +71,13 @@ type
     procedure tvContaPaiClick(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure FormCreate(Sender: TObject);
+    procedure BitBtn8Click(Sender: TObject);
+    procedure BitBtn9Click(Sender: TObject);
+    procedure BitBtn10Click(Sender: TObject);
+    procedure BitBtn12Click(Sender: TObject);
+    procedure BitBtn11Click(Sender: TObject);
   private
+    procedure abrePlano(tipo_conta: String);
     { Private declarations }
   public
     { Public declarations }
@@ -264,6 +276,95 @@ end;
 procedure TfFiltro_forn_plano.FormCreate(Sender: TObject);
 begin
   sCtrlResize.CtrlResize(TForm(fFiltro_forn_plano));
+end;
+
+procedure TfFiltro_forn_plano.BitBtn8Click(Sender: TObject);
+begin
+  abrePlano('1');
+end;
+
+procedure TfFiltro_forn_plano.BitBtn9Click(Sender: TObject);
+begin
+  abrePlano('2');
+end;
+
+procedure TfFiltro_forn_plano.BitBtn10Click(Sender: TObject);
+begin
+  abrePlano('3');
+end;
+
+procedure TfFiltro_forn_plano.BitBtn12Click(Sender: TObject);
+begin
+  abrePlano('4');
+end;
+
+procedure TfFiltro_forn_plano.BitBtn11Click(Sender: TObject);
+begin
+  abrePlano('6');
+end;
+
+procedure TfFiltro_forn_plano.abrePlano(tipo_conta: String);
+var str_sql2: string;
+  Node, Node1, Node2: TTreeNode;
+begin
+  if DM.c_1_planoc.Active then
+    DM.c_1_planoc.Close;
+  if (sdsContaPlano.Active) then
+    sdsContaPlano.close;
+
+  if (tipo_for = 'LANCACONTABIL') then
+  begin
+    str_sql2 := 'Select * from PLANO ';
+    str_sql2 := str_sql2 + 'WHERE ';
+    str_sql2 := str_sql2 + ' CONSOLIDA = ''S'' ';
+    str_sql2 := str_sql2 + ' order by NOME';
+
+    sdsContaPlano.CommandText := 'Select NOME, CONTA, udf_len(udf_strip(conta,' +
+      QuotedStr('0123456789') + '))  from plano where ' +
+      ' consolida <> ' + QuotedStr('S') +
+      ' order by CONTA ';
+  end
+  else begin
+    desp := tipo_conta;
+    str_sql2 := 'Select * from PLANO ';
+    str_sql2 := str_sql2 + 'WHERE ';
+    str_sql2 := str_sql2 + 'plnctaroot(conta) = ''' + desp + '''';
+    str_sql2 := str_sql2 + ' and CONSOLIDA = ''S'' ';
+    str_sql2 := str_sql2 + ' order by NOME';
+
+    sdsContaPlano.CommandText := 'Select NOME, CONTA, udf_len(udf_strip(conta,' +
+    QuotedStr('0123456789') + '))  from plano where ' +
+    'plnctaroot(conta) = ' + QuotedStr(desp) +
+    ' and consolida <> ' + QuotedStr('S') +
+    ' order by CONTA ';
+
+  end;
+  DM.c_1_planoc.CommandText := str_sql2;
+  DM.c_1_planoc.Open;
+
+  sdsContaPlano.Open;
+  while not (sdsContaPlano.eof) do
+  begin
+    if (sdsContaPlano.Fields[2].asInteger = 1) then
+      Node := tvContaPai.Items.Add(nil, sdsContaPlano.Fields[0].asString)
+    else if (sdsContaPlano.Fields[2].asInteger = 2) then
+    begin
+      //Node := tvContaPai.Selected;
+      Node1 := tvContaPai.Items.AddChild (Node, sdsContaPlano.Fields[0].asString);
+    end
+    else if (sdsContaPlano.Fields[2].asInteger = 3) then
+    begin
+      //Node := tvContaPai.Selected;
+      Node2 := tvContaPai.Items.AddChild (Node1, sdsContaPlano.Fields[0].asString);
+    end
+    else if (sdsContaPlano.Fields[2].asInteger = 4) then
+    begin
+      //Node := tvContaPai.Selected;
+      tvContaPai.Items.AddChild (Node2, sdsContaPlano.Fields[0].asString);
+    end;
+    sdsContaPlano.Next;
+  end;
+
 end;
 
 end.

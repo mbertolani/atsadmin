@@ -592,6 +592,7 @@ inherited fPlanoContas: TfPlanoContas
     Width = 786
     Height = 314
     DataSource = DtSrc
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 21
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

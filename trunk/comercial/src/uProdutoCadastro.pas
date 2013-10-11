@@ -114,6 +114,9 @@ type
     Label33: TLabel;
     DBEdit28: TDBEdit;
     rgEmUso: TJvCheckBox;
+    DBEdit29: TDBEdit;
+    Label34: TLabel;
+    BitBtn4: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -147,6 +150,7 @@ type
     procedure SpeedButton5Click(Sender: TObject);
     procedure DBEdit12Exit(Sender: TObject);
     procedure GroupBox6Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
   private
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -165,7 +169,7 @@ implementation
 
 uses uComercial, UDm, ufprocura_prod, uMarcas_Grupos, uFamilia, uCategoria,
   uContaRateio, uClassificacaoFiscal, uCodigoTerceiros, uUsoCadastro,
-  ufListaProd, uProduto_Mat_prima, sCtrlResize, Math;
+  ufListaProd, uProduto_Mat_prima, sCtrlResize, Math, uFiltro_forn_plano;
 
 {$R *.dfm}
 
@@ -907,6 +911,32 @@ begin
     Memo1.Visible := False
   else
     Memo1.Visible := True;  
+end;
+
+procedure TfProdutoCadastro.BitBtn4Click(Sender: TObject);
+begin
+  if (DtSrc.DataSet.Active) then
+  begin
+    tipo_for := 'CONTASDESPESAS';
+    fFiltro_forn_plano.BitBtn6.Click;
+    //fFiltro_forn_plano.BitBtn1.Click;
+    fFiltro_forn_plano.ShowModal;
+    //if dm.cds_ccusto.Active then
+    //  dm.cds_ccusto.Close;
+    //dm.cds_ccusto.Params[0].AsString := conta_desp;
+    //dm.cds_ccusto.Open;
+    //dm.cds_ccusto.RecNo := posCusto;
+    //edtcodred.Text := varconta_cod;
+    //edtconta.Text := varconta_nome;
+    //usa_rateio := com_rateio;
+    if (DtSrc.DataSet.State in [dsBrowse]) then
+      DtSrc.DataSet.Edit;
+    dm.cds_produtoCONTA_DESPESA.AsString := varconta;
+    //conta_rateio := varconta;
+    //dbeCliente.SetFocus;
+  end;
+  //varconta_cod := '';
+  //varconta_nome := '';
 end;
 
 end.
