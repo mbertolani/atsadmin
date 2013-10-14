@@ -770,7 +770,7 @@ object fNFeletronica: TfNFeletronica
             ParentFont = False
             TabOrder = 0
             object btnGeraNFe: TBitBtn
-              Left = 115
+              Left = 118
               Top = 32
               Width = 91
               Height = 36
@@ -2221,11 +2221,11 @@ object fNFeletronica: TfNFeletronica
       '       UDF_ROUNDDEC(md.II, 2) as II,'#13#10'          UDF_ROUNDDEC(md.' +
       'BCII, 2) as BCII,'#13#10'          md.CSTIPI, md.CSTPIS, md.CSTCOFINS,' +
       ' md.PPIS, md.PCOFINS,'#13#10'          md.NITEMPED, md.PEDIDO, MD.VLRB' +
-      'C_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB'#13 +
-      #10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on'#13#10'md.CODMOVIME' +
-      'NTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf on'#13#10'nf.CODVENDA' +
-      ' = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.CODPRODUTO = md.C' +
-      'ODPRODUTO'#13#10'where vd.CODVENDA = :id'
+      'C_IPI, MD.VLRBC_PIS,'#13#10'          md.VLRBC_COFINS, md.VLRTOT_TRIB,' +
+      ' pr.COD_BARRA'#13#10'from VENDA vd '#13#10'inner join MOVIMENTODETALHE md on' +
+      #13#10'md.CODMOVIMENTO = vd.CODMOVIMENTO '#13#10'inner join NOTAFISCAL nf o' +
+      'n'#13#10'nf.CODVENDA = vd.CODVENDA'#13#10'inner join PRODUTOS pr on '#13#10'pr.COD' +
+      'PRODUTO = md.CODPRODUTO'#13#10'where vd.CODVENDA = :id'
     MaxBlobSize = -1
     Params = <
       item
@@ -2396,6 +2396,10 @@ object fNFeletronica: TfNFeletronica
     end
     object sdsItensNFVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
+      ReadOnly = True
+    end
+    object sdsItensNFCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
       ReadOnly = True
     end
   end
@@ -2577,6 +2581,10 @@ object fNFeletronica: TfNFeletronica
     end
     object cdsItensNFVLRTOT_TRIB: TFloatField
       FieldName = 'VLRTOT_TRIB'
+      ReadOnly = True
+    end
+    object cdsItensNFCOD_BARRA: TStringField
+      FieldName = 'COD_BARRA'
       ReadOnly = True
     end
   end
@@ -5111,5 +5119,10 @@ object fNFeletronica: TfNFeletronica
     object sdsCfopProdCOFINS: TFloatField
       FieldName = 'COFINS'
     end
+  end
+  object ACBrValidador1: TACBrValidador
+    IgnorarChar = './-'
+    Left = 260
+    Top = 216
   end
 end
