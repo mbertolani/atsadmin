@@ -1196,6 +1196,7 @@ begin
     cds_cliDATACADASTRO.Value:=Date;
     cds_CliCODUSUARIO.AsInteger:=usulog;
     cds_CliCODBANCO.AsInteger:=1;
+    cds_cliCODCLIENTE.AsInteger := 99999999;
     if dm.scds_banco_proc.Active then
        dm.scds_banco_proc.Close;
     dm.scds_banco_proc.Params[0].AsInteger:=cds_CliCODBANCO.AsInteger;
@@ -1211,6 +1212,11 @@ var faixacod : integer;
    desconto, parente: double;
    tipoEnd: String;
 begin
+  if (cds_cliCODCLIENTE.AsInteger = 0) then
+  begin
+    MessageDlg('Não é possível gravar cliente com Código 0(zero), use o botão incluir, para fazer um cadastro.', mtWarning, [mbOK], 0);
+    exit;
+  end;
  parente := 0;
  if ((PageControl1.ActivePage = TabSheet1) or (PageControl1.ActivePage = TabInternet)) then
  begin
@@ -1710,7 +1716,7 @@ end;
 procedure TfClienteCadastro.cdsEnderecoCliNewRecord(DataSet: TDataSet);
 begin
   inherited;
-  cdsEnderecoCliCODCLIENTE.AsInteger:= fClienteCadastro.cds_cliCODCLIENTE.AsInteger;
+  cdsEnderecoCliCODCLIENTE.AsInteger := 0;
   cdsEnderecoCliTIPOEND.AsInteger := rgTipoEndereco.ItemIndex;
 end;
 
@@ -1730,19 +1736,6 @@ end;
 procedure TfClienteCadastro.FormShow(Sender: TObject);
 var Pos: Integer;
 begin
-//  inherited;
-  //sCtrlResize.CtrlResize(TForm(fClienteCadastro));
-  if (cdsEnderecoCli.Active) then
-    cdsEnderecoCli.Close;
-  cdsEnderecoCli.Params[0].Clear;
-  cdsEnderecoCli.Params[1].Clear;
-  cdsEnderecoCli.Open;
-
-  if (cdsEnderecoCliPAIS.AsString <> '') then
-  begin
-    cbPais.Text := cdsEnderecoCliPAIS.AsString;
-  end;
-
   PageControl1.ActivePage := TabSheet1;
   if ((varform <> 'consultaescola') and (varform <> 'consultapedagogico')) then
   if ((dm.moduloUsado <> 'ESCOLA') and (dm.moduloUsado <> 'SAUDE')) then
@@ -1909,6 +1902,18 @@ begin
 
       rgTipoEndereco.ItemIndex := cdsEnderecoCliTIPOEND.AsInteger;
     end;
+    if (cdsEnderecoCliPAIS.AsString <> '') then
+    begin
+      if (not sqlPais.Active) then
+        sqlPais.Open;
+      if (sqlPais.Locate('PAIS', cdsEnderecoCliPAIS.asString, [loCaseInsensitive])) then
+        cbPais.ItemIndex := sqlPais.RecNo-1;
+    end;
+  end;
+  if (cds_cliCODCLIENTE.AsInteger = 0) then
+  begin
+    // Cliente do Sistema então vá para incluir
+    btnIncluir.Click;
   end;
   DBEdit63Exit(Sender);
 end;
