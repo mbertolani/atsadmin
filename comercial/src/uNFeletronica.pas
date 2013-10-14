@@ -11,7 +11,7 @@ uses
   ExtCtrls, MMJPanel, ACBrNFeDANFEClass, pcnConversao, ACBrNFeDANFERave, ACBrNFe,
   ACBrNFeDANFeQRClass, xmldom, XMLIntf, msxmldom, XMLDoc, JvAppStorage,
   JvAppXMLStorage, JvComponentBase, DBCtrls, JvFormPlacement, JvExControls, JvLabel
-  ,DBLocal, DBLocalS, DBXpress;
+  ,DBLocal, DBLocalS, DBXpress, ACBrBase, ACBrValidador;
 
 type
   TfNFeletronica = class(TForm)
@@ -693,6 +693,9 @@ type
     Label13: TLabel;
     edLocalEmbarque: TEdit;
     btnAbaPrincipal: TBitBtn;
+    ACBrValidador1: TACBrValidador;
+    sdsItensNFCOD_BARRA: TStringField;
+    cdsItensNFCOD_BARRA: TStringField;
     procedure btnGeraNFeClick(Sender: TObject);
     procedure btnListarClick(Sender: TObject);
     procedure JvDBGrid1CellClick(Column: TColumn);
@@ -1414,7 +1417,7 @@ begin
   while not cds_ccusto.Eof do
   begin
     ComboBox1.Items.Add(cds_ccustoNOME.AsString);
-    ComboBox2.Items.Add(cds_ccustoNOME.AsString);    
+    ComboBox2.Items.Add(cds_ccustoNOME.AsString);
     cds_ccusto.Next;
   end;
   tp_amb := 1;
@@ -2212,6 +2215,10 @@ begin
       Prod.uTrib    := sProdutosUNIDADEMEDIDA.AsString;
       Prod.qTrib    := cdsItensNFQUANTIDADE.AsFloat;
       Prod.vUnTrib  := cdsItensNFVLR_BASE.AsFloat;
+      if (ACBrValidadorValidarGTIN(cdsItensNFCOD_BARRA.AsString) = '') then
+      begin
+        Prod.cEAN := cdsItensNFCOD_BARRA.AsString;
+      end;
       desc := StrLen(PChar(MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)));
       if ( desc > 0) then
         infAdProd     := MidStr(cdsItensNFDESCPRODUTO.AsString, 100, 200)  + cdsItensNFOBS.AsString
@@ -2848,7 +2855,9 @@ begin
       'UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.CSTIPI, md.CSTPIS, md.CSTCOFINS, ' +
       'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS,  UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, ' +
       'md.ICMS_SUBSTD, UDF_ROUNDDEC((md.VLR_BASE * md.QUANTIDADE), 2) as VALTOTAL, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-      ' ,md.NITEMPED, md.PEDIDO, MD.VLRBC_IPI, MD.VLRBC_PIS, md.VLRBC_COFINS, UDF_ROUNDDEC(md.VLRTOT_TRIB, 2) as VLRTOT_TRIB from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
+      ' ,md.NITEMPED, md.PEDIDO, MD.VLRBC_IPI, MD.VLRBC_PIS, md.VLRBC_COFINS, UDF_ROUNDDEC(md.VLRTOT_TRIB, 2) as VLRTOT_TRIB' +
+      ' , pr.COD_BARRA ' +
+      ' from VENDA vd inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = vd.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = vd.CODVENDA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
       'where vd.CODVENDA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 12) or (nf.NATUREZA = 15) or (nf.NATUREZA = 16))' ;
