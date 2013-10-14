@@ -208,6 +208,7 @@ inherited fProdutoCadastro: TfProdutoCadastro
     ParentFont = False
     PopupMenu = PopupMenu1
     TabOrder = 0
+    OnExit = DBEdit1Exit
     OnKeyPress = FormKeyPress
   end
   object DBEdit2: TDBEdit [15]
@@ -1780,5 +1781,10 @@ inherited fProdutoCadastro: TfProdutoCadastro
     DataSet = DM.cds_cm
     Left = 416
     Top = 16
+  end
+  object ACBrValidador1: TACBrValidador
+    IgnorarChar = './-'
+    Left = 392
+    Top = 56
   end
 end

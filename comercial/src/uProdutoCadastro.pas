@@ -7,7 +7,7 @@ uses
   Dialogs, uPai, DB, Menus, XPMenu, StdCtrls, Buttons, ExtCtrls, MMJPanel,
   DBCtrls, dxCore, dxButton, EDBFind, Mask, FMTBcd, SqlExpr, JvExStdCtrls,
   JvCombobox, JvDBSearchComboBox, JvExMask, JvSpin, JvDBSpinEdit, ComCtrls,
-  JvExComCtrls, JvComCtrls, JvCheckBox;
+  JvExComCtrls, JvComCtrls, JvCheckBox, ACBrBase, ACBrValidador;
 
 type
   TfProdutoCadastro = class(TfPai)
@@ -117,6 +117,7 @@ type
     DBEdit29: TDBEdit;
     Label34: TLabel;
     BitBtn4: TBitBtn;
+    ACBrValidador1: TACBrValidador;
     procedure FormCreate(Sender: TObject);
     procedure btnProcurarClick(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -151,6 +152,7 @@ type
     procedure DBEdit12Exit(Sender: TObject);
     procedure GroupBox6Click(Sender: TObject);
     procedure BitBtn4Click(Sender: TObject);
+    procedure DBEdit1Exit(Sender: TObject);
   private
     formatacaoPreco: integer;
     procedure calculaPrecoVenda;
@@ -358,6 +360,10 @@ end;
 
 procedure TfProdutoCadastro.btnGravarClick(Sender: TObject);
 begin
+  if (dbEdit1.Text <> '') then
+    if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
+      MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
+
   if (DtSrc.State in [dsInsert]) then
   begin
     if dm.c_6_genid.Active then
@@ -937,6 +943,13 @@ begin
   end;
   //varconta_cod := '';
   //varconta_nome := '';
+end;
+
+procedure TfProdutoCadastro.DBEdit1Exit(Sender: TObject);
+begin
+  if (dbEdit1.Text <> '') then
+    if (ACBrValidadorValidarGTIN(dbEdit1.Text) <> '') then
+      MessageDlg('Código de Barras inválido, não será usado para a emissão da NFe.', mtInformation, [mbOK], 0);
 end;
 
 end.
