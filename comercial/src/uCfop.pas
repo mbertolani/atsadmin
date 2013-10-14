@@ -152,10 +152,11 @@ begin
   else
     atualizaCfop := atualizaCfop + ', TOTTRIB = NULL ';
 
+  atualizaCfop := atualizaCfop + ', CFNOME = ' + QuotedStr(dbEdit2.Text);
+
   atualizaCfop := atualizaCfop + ' WHERE  CFCOD = ' + QuotedStr(dm.cds_cfopCFCOD.AsString);
   dm.sqlsisAdimin.ExecuteDirect(atualizaCfop);
   inherited;
-
 end;
 
 procedure TfCfop.FreteBaseCalculo;
