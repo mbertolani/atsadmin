@@ -2218,10 +2218,10 @@ end;
 
 procedure TfProcura_prod.formof;
 begin
-    fOf.codProd := cds_procCODPRODUTO.AsInteger;
-    fOf.OfProd.Text := cds_procCODPRO.AsString;
-    fOf.OfDesc.Text := cds_procPRODUTO.Value;
-    fOf.OfQtde.Value := StrToFloat(Edit3.Text);
+  fOf.codProd := cds_procCODPRODUTO.AsInteger;
+  fOf.OfProd.Text := cds_procCODPRO.AsString;
+  fOf.OfDesc.Text := cds_procPRODUTO.Value;
+  fOf.OfQtde.Value := StrToFloat(Edit3.Text);
 end;
 
 procedure TfProcura_prod.edDescontoMargemExit(Sender: TObject);
