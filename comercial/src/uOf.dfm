@@ -1,6 +1,6 @@
 inherited fOf: TfOf
   Left = 336
-  Top = 166
+  Top = 164
   Width = 788
   Height = 563
   Caption = 'Ordem Produ'#231#227'o'
@@ -469,10 +469,12 @@ inherited fOf: TfOf
   object sdsDetalhe: TSQLDataSet
     CommandText = 
       'select  mt.CODPRODMP, mt.USAPRECO,'#13#10'sum(mt.qtdeusada * ofp.OFQTD' +
-      'ESOLIC), mt.qtdeusada'#13#10#13#10'from OF_OF ofp'#13#10#13#10'left outer join MATER' +
-      'IA_PRIMA mt on ofp.CODPRODUTO = mt.CODPRODUTO '#13#10'where ofp.OFID =' +
-      ' :pCODOF'#13#10'and ofp.OFID_IND = :pCODSERIE'#13#10'and  mt.TIPOUSO = :PUSO' +
-      #13#10#13#10'group by  mt.CODPRODMP, mt.USAPRECO, mt.qtdeusada'
+      'ESOLIC), mt.qtdeusada'#13#10', p.UNIDADEMEDIDA , p.PRODUTO '#13#10'from OF_O' +
+      'F ofp'#13#10'left outer join PRODUTOS p on ofp.CODPRODUTO = p.CODPRODU' +
+      'TO '#13#10'left outer join MATERIA_PRIMA mt on ofp.CODPRODUTO = mt.COD' +
+      'PRODUTO '#13#10'where ofp.OFID = :pCODOF'#13#10'and ofp.OFID_IND = :pCODSERI' +
+      'E'#13#10'and  mt.TIPOUSO = :PUSO'#13#10#13#10'group by  mt.CODPRODMP, mt.USAPREC' +
+      'O, mt.qtdeusada, p.UNIDADEMEDIDA , p.PRODUTO '
     MaxBlobSize = -1
     Params = <
       item
@@ -537,6 +539,17 @@ inherited fOf: TfOf
     object cdsDetalheQTDEUSADA: TFloatField
       FieldName = 'QTDEUSADA'
       ReadOnly = True
+    end
+    object cdsDetalheUNIDADEMEDIDA: TStringField
+      FieldName = 'UNIDADEMEDIDA'
+      ReadOnly = True
+      FixedChar = True
+      Size = 2
+    end
+    object cdsDetalhePRODUTO: TStringField
+      FieldName = 'PRODUTO'
+      ReadOnly = True
+      Size = 300
     end
   end
   object sds_s: TSQLDataSet
