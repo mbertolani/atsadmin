@@ -100,33 +100,34 @@ uses UDm, UDMNF, ufprocura_prod, uCompra, uVendas;
 
 procedure TfDetalhe.btnGravarClick(Sender: TObject);
 var codmovdet : integer;
-TD: TTransactionDesc;
-cm: string;
+//TD: TTransactionDesc;
+//cm: string;
 begin
   //********************************************************************************
-  TD.TransactionID  := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  Try
-    dm.sqlsisAdimin.StartTransaction(TD);
-    cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
-    dm.sqlsisAdimin.ExecuteDirect(cm);
-    dm.sqlsisAdimin.Commit(TD);
-    dm.sqlsisAdimin.StartTransaction(TD);
+  //TD.TransactionID  := 1;
+  //TD.IsolationLevel := xilREADCOMMITTED;
+  //Try
+    //dm.sqlsisAdimin.StartTransaction(TD);
+    //cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
+    //dm.sqlsisAdimin.ExecuteDirect(cm);
+    //dm.sqlsisAdimin.Commit(TD);
+    //dm.sqlsisAdimin.StartTransaction(TD);
     if (ds1.DataSet.State in [dsEdit, dsInsert]) then
       ds1.DataSet.Post;
     (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
-    dm.sqlsisAdimin.Commit(TD);
-    dm.sqlsisAdimin.StartTransaction(TD);
-    cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
-    dm.sqlsisAdimin.ExecuteDirect(cm);
-    dm.sqlsisAdimin.Commit(TD);
-  except
+    //dm.sqlsisAdimin.Commit(TD);
+    //dm.sqlsisAdimin.StartTransaction(TD);
+    //cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
+    //dm.sqlsisAdimin.ExecuteDirect(cm);
+    //dm.sqlsisAdimin.Commit(TD);
+  {except
     on E : Exception do
     begin
       ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+      dm.sqlsisAdimin.Rollback(TD);
     end;
   end;
+  }
 end;
 
 procedure TfDetalhe.FormShow(Sender: TObject);
