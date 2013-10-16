@@ -206,6 +206,8 @@ type
     cdsOfOFID_IND: TStringField;
     btnImprimir: TBitBtn;
     VCLReport1: TVCLReport;
+    cdsDetalheUNIDADEMEDIDA: TStringField;
+    cdsDetalhePRODUTO: TStringField;
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure OfProdExit(Sender: TObject);
@@ -423,7 +425,6 @@ end;
 
 procedure TfOf.baixamatprimas(tipomat: string; codof: integer);
   var codMovSaida : integer;
-    TD: TTransactionDesc;
     TDA: TTransactionDesc;
     FMov: TMovimento;
     FVen: TVendaCls;
@@ -433,8 +434,6 @@ begin
     dm.cds_parametro.Close;
   dm.cds_parametro.Params[0].asString := 'SERIEOP';
   dm.cds_parametro.Open;
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
   if (cdsDetalhe.Active) then
     cdsDetalhe.Close;
   cdsDetalhe.Params[0].AsInteger := codof;
@@ -468,46 +467,44 @@ begin
 
     Save_Cursor   := Screen.Cursor;
     Screen.Cursor := crHourGlass;    { Show hourglass cursor }
-
+    FMov := TMovimento.Create;
+    FVen := TVendaCls.Create;
     Try
-      FMov := TMovimento.Create;
-      FVen := TVendaCls.Create;
+      cdsDetalhe.DisableControls;
+      cdsDetalhe.First;
 
+      if (dm.cds_parametro.Active) then
+        dm.cds_parametro.Close;
+      dm.cds_parametro.Params[0].asString := 'CENTROCUSTO';   // Centro de Custo Padrao
+      dm.cds_parametro.Open;
+
+      // Cria o Movimento de SAIDA uma vez
+      FMov.CodMov      := 0;
+      FMov.CodCCusto   := StrToInt(dm.cds_parametroD1.AsString);
+      FMov.CodCliente  := 0;
+      FMov.CodNatureza := 2;
+      FMov.Status      := 0;
+      FMov.CodUsuario  := 1;
+      FMov.CodVendedor := 1;
+      FMov.DataMov     := dataMovJaBaixado;
+      FMov.Controle    := 'OP' + IntToStr(codof);
+      dm.sqlsisAdimin.StartTransaction(TDA);
       Try
-        dm.sqlsisAdimin.StartTransaction(TDA);
-
-        cdsDetalhe.DisableControls;
-        cdsDetalhe.First;
-
-        if (dm.cds_parametro.Active) then
-          dm.cds_parametro.Close;
-        dm.cds_parametro.Params[0].asString := 'CENTROCUSTO';   // Centro de Custo Padrao
-        dm.cds_parametro.Open;
-
-        // Cria o Movimento de SAIDA uma vez
-        FMov.CodMov      := 0;
-        FMov.CodCCusto   := StrToInt(dm.cds_parametroD1.AsString);
-        FMov.CodCliente  := 0;
-        FMov.CodNatureza := 2;
-        FMov.Status      := 0;
-        FMov.CodUsuario  := 1;
-        FMov.CodVendedor := 1;
-        FMov.DataMov     := dataMovJaBaixado;
-        FMov.Controle    := 'OP' + IntToStr(codof);
         codMovSaida := FMov.inserirMovimento(0);
 
         While not cdsDetalhe.Eof do
         begin
-          if (cds.Active) then
+          {if (cds.Active) then
             cds.Close;
           cds.Params[0].AsInteger := cdsDetalheCODPRODMP.AsInteger;
           cds.Open;
+          dm.sqlsisAdimin.StartTransaction(TDA);
           While not cds.Eof do
-          begin
+          begin}
             FMov.MovDetalhe.CodMov        := codMovSaida;
-            FMov.MovDetalhe.CodProduto    := cdsCODPRODUTO.AsInteger;
-            FMov.MovDetalhe.Un            := cdsUNIDADEMEDIDA.AsString;
-            FMov.MovDetalhe.Descricao     := cdsPRODUTO.AsString;
+            FMov.MovDetalhe.CodProduto    := cdsDetalheCODPRODMP.AsInteger;
+            FMov.MovDetalhe.Un            := cdsDetalheUNIDADEMEDIDA.AsString;
+            FMov.MovDetalhe.Descricao     := cdsDetalhePRODUTO.AsString;
             if ( cdsOfOFSTATUS.AsString = 'F') then
             begin
               FMov.MovDetalhe.Qtde          := (cdsDetalheQTDEUSADA.AsFloat * cdsOfOFQTDEPRODUZ.AsFloat);
@@ -518,9 +515,10 @@ begin
             FMov.MovDetalhe.DtaVcto       := Now;
             FMov.MovDetalhe.DtaFab        := Now;
             FMov.MovDetalhe.Baixa         := '1';
+
             FMov.MovDetalhe.inserirMovDet;
-            cds.Next;
-          end;
+            //cds.Next;
+          //end;
           cdsDetalhe.Next;
         end; // Fim While
 
@@ -536,7 +534,6 @@ begin
         fven.ValorPagar           := 0;
         fven.NParcela             := 1;
         fven.inserirVenda(0);
-
         dm.sqlsisAdimin.Commit(TDA);
         if (codMovSaida > 0) then
           dm.EstoqueAtualiza(codMovSaida);
@@ -663,30 +660,29 @@ begin
   Save_Cursor   := Screen.Cursor;
   Screen.Cursor := crHourGlass;    { Show hourglass cursor }
   //codof := cdsOfOFID.AsInteger;
+  FMov := TMovimento.Create;
+  FCom := TCompraCls.Create;
   Try
-    FMov := TMovimento.Create;
-    FCom := TCompraCls.Create;
+    if (dm.cds_parametro.Active) then
+      dm.cds_parametro.Close;
+    dm.cds_parametro.Params[0].asString := 'CENTROCUSTO';   // Centro de Custo Padrao
+    dm.cds_parametro.Open;
+
+    // ########### ENTRADA    ######################
+    FMov.CodMov      := 0;
+    FMov.CodCCusto   := StrToInt(dm.cds_parametroD1.AsString);
+    FMov.CodCliente  := 0;
+    FMov.CodFornec   := 0;
+    FMov.CodNatureza := 1;
+    FMov.Status      := 0;
+    FMov.CodUsuario  := 1;
+    FMov.CodVendedor := 1;
+    FMov.DataMov     := dataMovJaBaixado;
+    FMov.Obs         := '';
+    FMov.Controle    := 'AP' + IntToStr(codof);;
+    dm.sqlsisAdimin.StartTransaction(TDA);
     Try
-      dm.sqlsisAdimin.StartTransaction(TDA);
-      if (dm.cds_parametro.Active) then
-          dm.cds_parametro.Close;
-        dm.cds_parametro.Params[0].asString := 'CENTROCUSTO';   // Centro de Custo Padrao
-        dm.cds_parametro.Open;
-
-      // ########### ENTRADA    ######################
-      FMov.CodMov      := 0;
-      FMov.CodCCusto   := StrToInt(dm.cds_parametroD1.AsString);
-      FMov.CodCliente  := 0;
-      FMov.CodFornec   := 0;
-      FMov.CodNatureza := 1;
-      FMov.Status      := 0;
-      FMov.CodUsuario  := 1;
-      FMov.CodVendedor := 1;
-      FMov.DataMov     := dataMovJaBaixado;
-      FMov.Obs         := '';
-      FMov.Controle    := 'AP' + IntToStr(codof);;
       codMovEntrada := FMov.inserirMovimento(0);
-
       FMov.MovDetalhe.CodMov        := codMovEntrada;
       FMov.MovDetalhe.CodProduto    := cdsOfCODPRODUTO.AsInteger;
       //FMov.MovDetalhe.Un            := cdsUNIDADEMEDIDA.AsString;
@@ -714,9 +710,8 @@ begin
       fCom.NParcela             := 1;
       fCom.inserirCompra(0);
 
-      dm.EstoqueAtualiza(codMovEntrada);
       dm.sqlsisAdimin.Commit(TDA);
-
+      dm.EstoqueAtualiza(codMovEntrada);
       MessageDlg('Apontamento inserido com sucesso.', mtInformation,
            [mbOk], 0);
     except
@@ -735,46 +730,58 @@ begin
 end;
 
 procedure TfOf.excluilancamentos(codof: integer);
+var TD: TTransactionDesc;
 begin
-  //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
-  if dm.cdsBusca.Active then
-    dm.cdsBusca.Close;
-  dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-  + QuotedStr('OP' + IntToStr(codof));
-  dm.cdsBusca.Open;
+  TD.TransactionID := 1;
+  TD.IsolationLevel := xilREADCOMMITTED;
+  dm.sqlsisAdimin.StartTransaction(TD);
+  try
+    //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+    if dm.cdsBusca.Active then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+    + QuotedStr('OP' + IntToStr(codof));
+    dm.cdsBusca.Open;
 
-  if not dm.cdsBusca.IsEmpty then
-  begin
-    codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
-    dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
-    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+    if not dm.cdsBusca.IsEmpty then
+    begin
+      codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
+      dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
+      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
 
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
-    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
+      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+    end;
+    //***************************************************************************
+
+    //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+    if dm.cdsBusca.Active then
+      dm.cdsBusca.Close;
+    dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+    + QuotedStr('AP' + IntToStr(codof));
+    dm.cdsBusca.Open;
+
+    if not dm.cdsBusca.IsEmpty then
+    begin
+      codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
+      dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
+
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA WHERE CODMOVIMENTO = '
+      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
+      + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+    end;
+    //***************************************************************************
+    dm.sqlsisAdimin.Commit(TD);
+  except
+    on E : Exception do
+    begin
+      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+      dm.sqlsisAdimin.Rollback(TD);
+    end;
   end;
-  //***************************************************************************
-
-  //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
-  if dm.cdsBusca.Active then
-    dm.cdsBusca.Close;
-  dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-  + QuotedStr('AP' + IntToStr(codof));
-  dm.cdsBusca.Open;
-
-  if not dm.cdsBusca.IsEmpty then
-  begin
-    codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
-    dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
-
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM COMPRA WHERE CODMOVIMENTO = '
-    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
-
-    dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
-    + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
-  end;
-  //***************************************************************************
-
 end;
 
 procedure TfOf.btnExcluirClick(Sender: TObject);
