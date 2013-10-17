@@ -599,7 +599,7 @@ object fCpProc: TfCpProc
       Layout = blGlyphTop
     end
     object btnSair: TBitBtn
-      Left = 402
+      Left = 408
       Top = 2
       Width = 77
       Height = 55
@@ -849,14 +849,13 @@ object fCpProc: TfCpProc
       TabOrder = 9
     end
     object BitBtn9: TBitBtn
-      Left = 418
+      Left = 406
       Top = 2
       Width = 79
       Height = 55
       Caption = 'F4-Confirma'
       PopupMenu = PopupMenu1
       TabOrder = 10
-      Visible = False
       OnClick = BitBtn9Click
       Glyph.Data = {
         36080000424D3608000000000000360400002800000020000000200000000100
@@ -943,7 +942,7 @@ object fCpProc: TfCpProc
       CaptionVisible = True
     end
     object BitBtn5: TBitBtn
-      Left = 324
+      Left = 327
       Top = 2
       Width = 77
       Height = 55
@@ -2353,7 +2352,7 @@ object fCpProc: TfCpProc
       Left = 486
       Top = 21
       Width = 64
-      Height = 24
+      Height = 21
       TabOrder = 18
       OnKeyPress = edValorKeyPress
     end
