@@ -2058,7 +2058,7 @@ type
     cadastroClienteTipo: String;
     impressora_pc: string;
     videoW, videoH :string;
-    EstoquecodMOV: Integer;  
+    EstoquecodMOV: Integer;
     v_CodFuncao : Integer;
     mensagemInicial, sistemaLiberado, cfopEntrada, cfopEntradaF, cfopSaida, cfopSaidaF, v_CargoFuncao : String;
     conectado, RESULTADO_APROVA :boolean;
@@ -2087,6 +2087,8 @@ type
     procedure verificaTamCampo;
     procedure EstoqueAtualiza(codMovimento: integer);
     function validaClienteParaNF(codCliente: Integer): Boolean;
+    function cfopCalculoFiscal(cfop, tipoFiscal, UF: String;
+     origemProduto, codProduto: Integer; ncm: String): String;
   end;
 var
   DM: TDM;
@@ -3514,6 +3516,54 @@ begin
   end
   else begin
     result := True;
+  end;
+end;
+
+function TDM.cfopCalculoFiscal(cfop, tipoFiscal, UF: String;
+  origemProduto, codProduto: Integer; ncm: String): String;
+begin
+  result := 'Sem Configuração Fiscal';
+  // e por produto
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('select cfp.* from CLASSIFICACAOFISCALPRODUTO cfp ' +
+    ' where cfp.cod_prod = ' + IntToStr(codProduto) +
+    '   and cfp.UF = ' + QuotedStr(UF) +
+    '   and cfp.CFOP = ' + QuotedStr(cfop));
+  sqlBusca.Open;
+  if (sqlBusca.RecordCount > 0) then
+  begin
+    result := 'PRODUTO';
+    exit;
+  end;
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('select * from CLASSIFICACAOFISCALNCM ' +
+    ' where NCM = ' + QuotedStr(ncm) +
+    '   and UF = ' + QuotedStr(UF) +
+    '   and CFOP = ' + QuotedStr(cfop) +
+    '   and CODFISCAL = ' + QuotedStr(tipoFiscal) +
+    '   and ORIGEM = ' + QuotedStr(IntToStr(origemProduto)));
+  sqlBusca.Open;
+  if (not sqlBusca.isEmpty) then
+  begin
+    result := 'NCM';
+    exit;
+  end;
+  if (sqlBusca.Active) then
+    sqlBusca.Close;
+  sqlBusca.SQL.Clear;
+  sqlBusca.SQL.Add('select * from ESTADO_ICMS ' +
+    ' where UF = ' + QuotedStr(UF) +
+    '   and CFOP = ' + QuotedStr(cfop) +
+    '   and CODFISCAL = ' + QuotedStr(tipoFiscal));
+  sqlBusca.Open;
+  if (not sqlBusca.isEmpty) then
+  begin
+    result := 'ESTADO_ICMS';
+    exit;
   end;
 end;
 
