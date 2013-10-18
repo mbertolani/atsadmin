@@ -1990,6 +1990,32 @@ begin
       mudaVersao('1.1.0.0');
     end;// Fim Atualizacao Versao 1.0.0.123
 
+    if (versaoSistema = '1.1.0.0') then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      try
+        dm.sqlsisAdimin.ExecuteDirect('delete from MATERIA_PRIMA mp ' +
+           ' where not exists (select p.codpro from produtos p where mp.CODPRODUTO = p.CODPRODUTO)');
+        dm.sqlsisAdimin.ExecuteDirect('delete from MATERIA_PRIMA mp ' +
+           ' where not exists (select p.codpro from produtos p where mp.codprodmp = p.CODPRODUTO)');
+        dm.sqlsisAdimin.Commit(TD);
+      except
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
+      try
+        dm.sqlsisAdimin.ExecuteDirect('alter table MATERIA_PRIMA add constraint FK_MATERIA_PRIMA_PROD' +
+           ' foreign key (CODPRODMP) references PRODUTOS (CODPRODUTO) on update cascade ' +
+           ' on delete NO ACTION');
+        dm.sqlsisAdimin.ExecuteDirect('alter table MATERIA_PRIMA add constraint FK_MATERIA_PRIMA_PRODUTO' +
+           ' foreign key (CODPRODUTO) references PRODUTOS (CODPRODUTO) on update cascade ' +
+           ' on delete NO ACTION');
+      except
+      end;
+      //mudaVersao('1.2.0.0');
+    end;// Fim Atualizacao Versao 1.1.0.0
+
+
+
     try
       IniAtualiza := TIniFile.Create(ExtractFilePath(Application.ExeName) + 'atualiza.ini');
       IniAtualiza.WriteString('Atualizador','data',FormatDateTime('dd/mm/yyyy',now));
