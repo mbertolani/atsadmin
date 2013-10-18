@@ -394,6 +394,7 @@ begin
     //----------------------------------------------------
     cdsOfOFID_IND.AsInteger := 0; // Toda OF (OP) terão IND = 0
     OfId.ReadOnly := True;
+    OfProd.SetFocus;
   end;
   if (OFTipo = 'APONTAMENTO') then
   begin
