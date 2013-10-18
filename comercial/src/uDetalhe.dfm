@@ -1,6 +1,6 @@
 object fDetalhe: TfDetalhe
   Left = 237
-  Top = 169
+  Top = 171
   Width = 675
   Height = 291
   Caption = 'Produto / Servi'#231'o'
@@ -11,7 +11,6 @@ object fDetalhe: TfDetalhe
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
