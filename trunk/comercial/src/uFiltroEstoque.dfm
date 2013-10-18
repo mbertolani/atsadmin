@@ -89,6 +89,13 @@ object fFiltroEstoque: TfFiltroEstoque
       Height = 13
       Caption = 'Grupo'
     end
+    object Label12: TLabel
+      Left = 445
+      Top = 125
+      Width = 23
+      Height = 13
+      Caption = 'Nota'
+    end
     object ComboBox1: TComboBox
       Left = 14
       Top = 18
@@ -132,15 +139,9 @@ object fFiltroEstoque: TfFiltroEstoque
       object Label3: TLabel
         Left = 122
         Top = 22
-        Width = 8
-        Height = 16
+        Width = 6
+        Height = 13
         Caption = 'a'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
       end
     end
     object edCodCliente: TEdit
@@ -342,7 +343,7 @@ object fFiltroEstoque: TfFiltroEstoque
     object Edit4: TEdit
       Left = 169
       Top = 139
-      Width = 354
+      Width = 272
       Height = 24
       BevelKind = bkFlat
       BorderStyle = bsNone
@@ -555,6 +556,22 @@ object fFiltroEstoque: TfFiltroEstoque
         OnKeyPress = FormKeyPress
       end
     end
+    object edNota: TEdit
+      Left = 443
+      Top = 139
+      Width = 79
+      Height = 24
+      BevelKind = bkFlat
+      BorderStyle = bsNone
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 15
+      OnKeyPress = edNotaKeyPress
+    end
   end
   object DBGrid1: TDBGrid
     Left = 0
@@ -603,7 +620,7 @@ object fFiltroEstoque: TfFiltroEstoque
       item
         Expanded = False
         FieldName = 'NF'
-        Title.Caption = 'NF.Sa'#237'da'
+        Title.Caption = 'NF.'
         Width = 50
         Visible = True
       end
