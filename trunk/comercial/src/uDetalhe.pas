@@ -81,7 +81,6 @@ type
     procedure dbeCodproExit(Sender: TObject);
     procedure btnProdutoProcuraClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -111,11 +110,15 @@ begin
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST INACTIVE;';
     dm.sqlsisAdimin.ExecuteDirect(cm);
     dm.sqlsisAdimin.Commit(TD);
-    dm.sqlsisAdimin.StartTransaction(TD);
     if (ds1.DataSet.State in [dsEdit, dsInsert]) then
+    begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      if (ds1.DataSet = fCompra.DtSrc1.DataSet) then
+        fCompra.cds_Mov_detPAGOU.AsString := 'M';
       ds1.DataSet.Post;
-    (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
-    dm.sqlsisAdimin.Commit(TD);
+      (Ds1.DataSet as TClientDataset).ApplyUpdates(0);
+      dm.sqlsisAdimin.Commit(TD);
+    end;
     dm.sqlsisAdimin.StartTransaction(TD);
     cm := 'ALTER TRIGGER CALCULA_ICMS_ST ACTIVE;';
     dm.sqlsisAdimin.ExecuteDirect(cm);
@@ -135,6 +138,11 @@ begin
 {  dmnf.cds_Mov_det.Close;
   dmnf.cds_Mov_det.Params[0].AsInteger := detcodMovimento;
   dmnf.cds_Mov_det.Open;}
+  if (fCompra.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
+    ds1.DataSet := fCompra.DtSrc1.DataSet;
+  if (fVendas.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
+    ds1.DataSet := fVendas.DtSrc1.DataSet;
+
 end;
 
 procedure TfDetalhe.dbeCodproExit(Sender: TObject);
@@ -303,14 +311,6 @@ end;
 procedure TfDetalhe.btnSairClick(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TfDetalhe.FormCreate(Sender: TObject);
-begin
-    if (fCompra.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
-      ds1.DataSet := fCompra.DtSrc1.DataSet;
-    if (fVendas.DtSrc1.DataSet.State in [dsInsert, dsEdit, dsBrowse]) then
-      ds1.DataSet := fVendas.DtSrc1.DataSet;
 end;
 
 end.
