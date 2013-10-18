@@ -1,8 +1,8 @@
 object fOsFinaliza: TfOsFinaliza
-  Left = 231
-  Top = 137
+  Left = 198
+  Top = 150
   Width = 837
-  Height = 611
+  Height = 567
   Caption = 'Finalizar'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1204,7 +1204,7 @@ object fOsFinaliza: TfOsFinaliza
     Left = 0
     Top = 72
     Width = 641
-    Height = 505
+    Height = 465
     PopupMenu = pm1
     TabOrder = 1
     object JvGroupHeader3: TJvGroupHeader
@@ -2176,7 +2176,7 @@ object fOsFinaliza: TfOsFinaliza
     Left = 642
     Top = 72
     Width = 185
-    Height = 505
+    Height = 465
     PopupMenu = pm1
     TabOrder = 2
     object JvGroupHeader4: TJvGroupHeader
@@ -2417,6 +2417,7 @@ object fOsFinaliza: TfOsFinaliza
       Width = 26
       Height = 23
       Caption = '...'
+      Enabled = False
       TabOrder = 5
       OnClick = BitBtn1Click
     end
