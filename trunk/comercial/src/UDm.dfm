@@ -1,7 +1,8 @@
 object DM: TDM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Top = 142
+  Left = 206
+  Top = 111
   Height = 738
   Width = 1152
   object sqlsisAdimin: TSQLConnection
@@ -26,7 +27,6 @@ object DM: TDM
       'WaitOnLocks=True'
       'str_relatorio=C:\home\sisadmin\relatorio\')
     VendorLib = 'fbclient.dll'
-    Connected = True
     Left = 112
     Top = 8
   end
@@ -9942,7 +9942,7 @@ object DM: TDM
     MaxBlobSize = -1
     Params = <>
     SQLConnection = sqlsisAdimin
-    Left = 240
+    Left = 248
     Top = 16
     object sdsPrazoPARAMETRO: TStringField
       FieldName = 'PARAMETRO'
