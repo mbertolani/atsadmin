@@ -1403,6 +1403,7 @@ begin
  fCpProc:=TfCpProc.Create(Application);
  try
    fCpProc.usuarioCPProc := 'GERAL';
+   fCpProc.bitbtn9.visible := False;
    fCpProc.ShowModal;
  finally
    fCpProc.Free;
