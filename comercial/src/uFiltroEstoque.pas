@@ -117,6 +117,8 @@ type
     Edit5: TEdit;
     Label9: TLabel;
     Edit6: TEdit;
+    Label12: TLabel;
+    edNota: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -136,6 +138,7 @@ type
     procedure BitBtn8Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
+    procedure edNotaKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -579,6 +582,15 @@ begin
     begin
        sqlTexto := sqlTexto + ' WHERE APLICACAO = ' + QuotedStr(cbAplicacao.Text);
     end;
+
+    if (edNota.Text <> '') then
+    begin
+      if (cbAplicacao.ItemIndex > -1) then
+        sqlTexto := sqlTexto + ' AND NF = ' + QuotedStr(edNota.Text)
+      else
+        sqlTexto := sqlTexto + ' WHERE NF = ' + QuotedStr(edNota.Text);  
+    end;
+
     //==============================================================================
     IF (cds_estoque.Active) then
       cds_estoque.Close;
@@ -714,6 +726,17 @@ end;
 procedure TfFiltroEstoque.SpeedButton5Click(Sender: TObject);
 begin
   cbAplicacao.ItemIndex := -1;
+end;
+
+procedure TfFiltroEstoque.edNotaKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (key = #13) then
+  begin
+    key:= #0;
+    SelectNext((Sender as TwinControl),True,True);
+    if (edNota.Text <> '') then
+      bitbtn7.Click;
+  end;
 end;
 
 end.
