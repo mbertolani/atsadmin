@@ -459,6 +459,8 @@ type
     sds_Mov_DetVALOR_COFINS: TFloatField;
     cds_Mov_detVALOR_PIS: TFloatField;
     cds_Mov_detVALOR_COFINS: TFloatField;
+    sds_Mov_DetPAGOU: TStringField;
+    cds_Mov_detPAGOU: TStringField;
     procedure dbeClienteExit(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnIncluirClick(Sender: TObject);
@@ -1681,6 +1683,7 @@ begin
   if (cdslotes.Active) then
      cdslotes.Close;
   fLotes.Free;
+  fDetalhe.Free;
   inherited;
   //dm.EstoqueAtualiza;
 end;
@@ -1709,6 +1712,7 @@ begin
   inherited;
   DecimalSeparator := ',';
   fLotes := TfLotes.Create(Application);
+  fDetalhe := TfDetalhe.Create(Application);  
   if (DM.tipoCompra = 'DEVOLUCAO') then
   begin
     MMJPanel1.Background.EndColor := clOlive;
@@ -2294,14 +2298,8 @@ end;
 
 procedure TfCompra.DBGrid1DblClick(Sender: TObject);
 begin
-  inherited;
-  fDetalhe := TfDetalhe.Create(Application);
-  try
-    fDetalhe.detcodMovimento := cds_Mov_detCODDETALHE.AsInteger;
-    fDetalhe.ShowModal;
-  finally
-    fDetalhe.Free;
-  end;
+  fDetalhe.detcodMovimento := cds_Mov_detCODDETALHE.AsInteger;
+  fDetalhe.ShowModal;
 end;
 
 procedure TfCompra.GroupBox11Click(Sender: TObject);

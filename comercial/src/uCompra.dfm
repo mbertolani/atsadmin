@@ -1,5 +1,5 @@
 inherited fCompra: TfCompra
-  Left = 273
+  Left = 275
   Top = 83
   Width = 802
   Height = 615
@@ -2897,6 +2897,11 @@ inherited fCompra: TfCompra
     object cds_Mov_detVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
     end
+    object cds_Mov_detPAGOU: TStringField
+      FieldName = 'PAGOU'
+      FixedChar = True
+      Size = 1
+    end
     object cds_Mov_detTotalPedido: TAggregateField
       Alignment = taRightJustify
       FieldName = 'TotalPedido'
@@ -2904,7 +2909,7 @@ inherited fCompra: TfCompra
       Active = True
       currency = True
       DisplayFormat = ',#0.00'
-      Expression = 'Sum(ValorTotal+frete+vipi)'
+      Expression = 'Sum(ValorTotal+frete+vipi+ICMS_SUBSTD)'
     end
   end
   object dsp_Mov_det: TDataSetProvider
@@ -2928,20 +2933,20 @@ inherited fCompra: TfCompra
       'R_DESCONTO, movd.FRETE, movd.ICMS_SUBST, movd.ICMS_SUBSTD, movd.' +
       'VALOR_SEGURO, movd.VALOR_OUTROS, prod.NCM, movd.II, movd.BCII, m' +
       'ovd.OBS, movd.CSTIPI, movd.CSTPIS, movd.CSTCOFINS, frete_bc, mov' +
-      'd.VALOR_PIS, movd.VALOR_COFINS'#13#10'from MOVIMENTODETALHE movd'#13#10'inne' +
-      'r join PRODUTOS prod on prod.CODPRODUTO = movd.CODPRODUTO '#13#10'left' +
-      ' outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFADO = prod.COD' +
-      'ALMOXARIFADO'#13#10'where movd.CODDETALHE = :CODDETALHE or movd.CODMOV' +
-      'IMENTO = :pCODMOV order by movd.CODDETALHE'
+      'd.VALOR_PIS, movd.VALOR_COFINS, movd.PAGOU '#13#10'from MOVIMENTODETAL' +
+      'HE movd'#13#10'inner join PRODUTOS prod on prod.CODPRODUTO = movd.CODP' +
+      'RODUTO '#13#10'left outer join ALMOXARIFADO ccus on ccus.CODALMOXARIFA' +
+      'DO = prod.CODALMOXARIFADO'#13#10'where movd.CODDETALHE = :CODDETALHE o' +
+      'r movd.CODMOVIMENTO = :pCODMOV order by movd.CODDETALHE'
     MaxBlobSize = -1
     Params = <
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'CODDETALHE'
         ParamType = ptInput
       end
       item
-        DataType = ftUnknown
+        DataType = ftInteger
         Name = 'pCODMOV'
         ParamType = ptInput
       end>
@@ -3155,6 +3160,12 @@ inherited fCompra: TfCompra
     end
     object sds_Mov_DetVALOR_COFINS: TFloatField
       FieldName = 'VALOR_COFINS'
+    end
+    object sds_Mov_DetPAGOU: TStringField
+      FieldName = 'PAGOU'
+      ProviderFlags = [pfInUpdate]
+      FixedChar = True
+      Size = 1
     end
   end
   object s_8: TSQLDataSet
