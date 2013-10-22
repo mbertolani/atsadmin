@@ -3536,7 +3536,7 @@ begin
     end;
   end;
 
-  if (estoque_negativo = 'TRUE') then // nao permito venda com saldo negativo
+  if ((estoque_negativo = 'TRUE') and (retorno = 'FALSO')) then // nao permito venda com saldo negativo
     if (scds_produto_procESTOQUEATUAL.Value <= 0) then
     begin
       ShowMessage('Produto com saldo negativo !');
@@ -3877,7 +3877,9 @@ begin
       if not dm.cds_parametro.IsEmpty then
          tipo_busca := dm.cds_parametroDADOS.AsString;   //CODPRO
       dm.cds_parametro.Close;
-      str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO, prod.UNIDADEMEDIDA ' +
+      str_sql := 'select  prod.CODPRODUTO, prod.COD_BARRA, prod.PRODUTO || ' +
+             QuotedStr(' - S.: ' + EdtCodBarra1.Text) + ' AS PRODUTO ' +
+             ', prod.UNIDADEMEDIDA ' +
              ', prod.QTDE_PCT, prod.ICMS, prod.CODALMOXARIFADO, prod.CONTA_DESPESA ' +
              ', ccus.ALMOXARIFADO, prod.VALORUNITARIOATUAL, prod.VALOR_PRAZO ' +
              ', prod.COD_COMISSAO, prod.RATEIO, prod.TIPO, prod.LOCALIZACAO, prod.ESTOQUEATUAL ' +
