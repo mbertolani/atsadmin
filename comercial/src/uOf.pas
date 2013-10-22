@@ -458,11 +458,6 @@ begin
       sds_s.ExecSQL();
     end;
 
-    if ( cdsOfOFSTATUS.AsString = 'F' )then
-    begin
-      excluilancamentos(codof);
-    end;
-
     TDA.TransactionID  := 1;
     TDA.IsolationLevel := xilREADCOMMITTED;
 
@@ -655,6 +650,11 @@ var
   codMovEntrada: Integer;
   Save_Cursor:TCursor;
 begin
+  if ( cdsOfOFSTATUS.AsString = 'F' )then
+  begin
+    excluilancamentos(codof);
+  end;
+
   TDA.TransactionID  := 1;
   TDA.IsolationLevel := xilREADCOMMITTED;
 
@@ -733,19 +733,18 @@ end;
 procedure TfOf.excluilancamentos(codof: integer);
 var TD: TTransactionDesc;
 begin
-  TD.TransactionID := 1;
-  TD.IsolationLevel := xilREADCOMMITTED;
-  dm.sqlsisAdimin.StartTransaction(TD);
-  try
-    //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
-    if dm.cdsBusca.Active then
-      dm.cdsBusca.Close;
-    dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
-    + QuotedStr('OP' + IntToStr(codof));
-    dm.cdsBusca.Open;
-
-    if not dm.cdsBusca.IsEmpty then
-    begin
+  //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+  if dm.cdsBusca.Active then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+  + QuotedStr('OP' + IntToStr(codof));
+  dm.cdsBusca.Open;
+  if not dm.cdsBusca.IsEmpty then
+  begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
       codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
       dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM VENDA WHERE CODMOVIMENTO = '
@@ -753,18 +752,33 @@ begin
 
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
       + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
     end;
-    //***************************************************************************
 
-    //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
-    if dm.cdsBusca.Active then
-      dm.cdsBusca.Close;
-    dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
+  end;
+  //***************************************************************************
+
+  //********VERIFICA SE JA FOI DADO BAIXA PARA EXCLUIR MOVIMENTO ANTIGO********
+  if dm.cdsBusca.Active then
+    dm.cdsBusca.Close;
+  dm.cdsBusca.CommandText := 'SELECT * FROM MOVIMENTO WHERE CONTROLE = '
     + QuotedStr('AP' + IntToStr(codof));
-    dm.cdsBusca.Open;
+  dm.cdsBusca.Open;
 
-    if not dm.cdsBusca.IsEmpty then
-    begin
+  if not dm.cdsBusca.IsEmpty then
+  begin
+
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    dm.sqlsisAdimin.StartTransaction(TD);
+    try
+
       codMovJaBaixado := dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger;
       dataMovJaBaixado := dm.cdsBusca.FieldByName('DATAMOVIMENTO').AsDateTime;
 
@@ -773,16 +787,16 @@ begin
 
       dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTO WHERE CODMOVIMENTO = '
       + IntToStr(dm.cdsBusca.FieldByName('CODMOVIMENTO').AsInteger));
-    end;
-    //***************************************************************************
-    dm.sqlsisAdimin.Commit(TD);
-  except
-    on E : Exception do
-    begin
-      ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
-      dm.sqlsisAdimin.Rollback(TD);
+      dm.sqlsisAdimin.Commit(TD);
+    except
+      on E : Exception do
+      begin
+        ShowMessage('Classe: ' + e.ClassName + chr(13) + 'Mensagem: ' + e.Message);
+        dm.sqlsisAdimin.Rollback(TD);
+      end;
     end;
   end;
+  //***************************************************************************
 end;
 
 procedure TfOf.btnExcluirClick(Sender: TObject);
