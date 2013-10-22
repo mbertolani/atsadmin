@@ -1704,7 +1704,20 @@ begin
      DtSrc.DataSet.edit;
 
    if  MessageDlg('Confirma a exclusão do item ''' + cds_Mov_detPRODUTO.AsString + '''?', mtConfirmation, [mbYes, mbNo],0) = mrNo then exit;
-      DtSrc1.DataSet.Delete;
+   begin
+      dm.sqlsisAdimin.StartTransaction(TD);
+      dm.sqlsisAdimin.ExecuteDirect('DELETE FROM MOVIMENTODETALHE WHERE CODDETALHE = ' +
+        IntToStr(cds_Mov_detCODDETALHE.AsInteger));
+      Try
+        dm.sqlsisAdimin.Commit(TD);
+        DtSrc1.DataSet.Close;
+        DtSrc1.DataSet.Open;
+      except
+         dm.sqlsisAdimin.Rollback(TD); //on failure, undo the changes}
+         MessageDlg('Erro no sistema, o produto não foi excluido.', mtError,
+             [mbOk], 0);
+      end;
+   end;
    if (cds_Mov_detTotalPedido.IsNull) then
       jvPago.Value := 0
    else
