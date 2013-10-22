@@ -709,20 +709,21 @@ begin
   scdsCr_proc.Open;
 
   // Gravando sequencial
-
+  if (dbeSerie.Text <> '') then
+  begin
     if not scds_serie_proc.Active then
-  begin
-     scds_serie_proc.Params[0].AsString:=dbeSerie.Text;
-     scds_serie_proc.Open;
+    begin
+       scds_serie_proc.Params[0].AsString := dbeSerie.Text;
+       scds_serie_proc.Open;
+    end;
+    if (cds_compraNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
+    begin
+      scds_serie_proc.Edit;
+      scds_serie_procULTIMO_NUMERO.AsInteger := cds_compraNOTAFISCAL.AsInteger;
+      scds_serie_proc.ApplyUpdates(0);
+    end;
+    scds_serie_proc.Close;
   end;
-  if (cds_compraNOTAFISCAL.AsInteger > scds_serie_procULTIMO_NUMERO.AsInteger) then
-  begin
-    scds_serie_proc.Edit;
-    scds_serie_procULTIMO_NUMERO.AsInteger := cds_compraNOTAFISCAL.AsInteger;
-    scds_serie_proc.ApplyUpdates(0);
-  end;
-  scds_serie_proc.Close;
-
   scdsCr_proc.Close;
   scdsCr_proc.Params[0].AsInteger := cds_compraCODCOMPRA.AsInteger;
   scdsCr_proc.Open;
