@@ -1169,6 +1169,7 @@ begin
                   MessageDlg('ICMS nulo', mtError, [mbOK], 0);
               Total.ICMSTot.vICMS   := cdsNFVALOR_ICMS.AsVariant;
             end;
+
             if (cdsNFBASE_ICMS_SUBST.IsNull) then
                 MessageDlg('Base ICMS ST nulo', mtError, [mbOK], 0);
             Total.ICMSTot.vBCST := cdsNFBASE_ICMS_SUBST.AsVariant;
@@ -2320,7 +2321,9 @@ begin
           if( sEmpresaCRT.AsInteger = 0) then
           begin
             if (( cdsItensNFCSOSN.AsString = null) or ( cdsItensNFCSOSN.AsString = '')) then
-              CSOSN := csosnVazio
+            begin
+              CSOSN := csosnVazio;
+            end
             else if ( cdsItensNFCSOSN.AsString = '101') then
             begin
               CSOSN := csosn101;
@@ -2415,9 +2418,9 @@ begin
           //Não carregar ICMS para Simples Nacional
           if not (ACBrNFe1.NotasFiscais.Items[0].NFe.Emit.CRT = crtSimplesNacional ) then
           begin
-            vBC :=      cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
-            pICMS :=    cdsItensNFICMS.AsVariant;                        //ALIQUOTA DO ICMS
-            vICMS :=    cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
+            vBC := cdsItensNFVLR_BASEICMS.AsVariant;                //VALOR DA BASE DE CALCULO
+            pICMS := cdsItensNFICMS.AsVariant;                     //ALIQUOTA DO ICMS
+            vICMS := cdsItensNFVALOR_ICMS.AsVariant;                  //VALOR DO ICMS
           end;
           modBCST :=  BCST;                                         //MODO DE BASE DE CALCULO SUBST. TRIBUTÁRIA(4) POR %
           vBCST := 0;
@@ -2841,7 +2844,9 @@ begin
       'pr.UNIDADEMEDIDA, UDF_TRIM(md.CST) CST, md.CSOSN, md.ICMS, md.pIPI, md.vIPI, md.VLR_BASEICMS, UDF_ROUNDDEC(md.VALOR_ICMS, 2) as VALOR_ICMS, UDF_ROUNDDEC(md.VLR_BASE, 10) as VLR_BASE, ' +
       'UDF_ROUNDDEC(md.ICMS_SUBST, 2) as ICMS_SUBST, md.ICMS_SUBSTD, UDF_ROUNDDEC(md.FRETE, 2) as FRETE, UDF_ROUNDDEC(md.VALOR_DESCONTO, 2) as VALOR_DESCONTO, (md.VLR_BASE * md.QUANTIDADE) as VALTOTAL, ' +
       'UDF_ROUNDDEC(md.VALOR_PIS, 2) as VALOR_PIS, UDF_ROUNDDEC(md.VALOR_COFINS, 2) as VALOR_COFINS, md.VALOR_SEGURO, md.VALOR_OUTROS, UDF_ROUNDDEC(md.II, 2) as II, UDF_ROUNDDEC(md.BCII, 2) as BCII ' +
-      ' ,md.NITEMPED, md.PEDIDO, MD.VLRBC_IPI, MD.VLRBC_PIS, md.VLRBC_COFINS, UDF_ROUNDDEC(md.VLRTOT_TRIB, 2) as VLRTOT_TRIB from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
+      ' ,md.NITEMPED, md.PEDIDO, MD.VLRBC_IPI, MD.VLRBC_PIS, md.VLRBC_COFINS, UDF_ROUNDDEC(md.VLRTOT_TRIB, 2) as VLRTOT_TRIB ' +
+      ' , pr.COD_BARRA ' +
+      ' from compra cp  inner join MOVIMENTODETALHE md on md.CODMOVIMENTO = cp.CODMOVIMENTO ' +
       'inner join NOTAFISCAL nf on nf.CODVENDA = cp.CODCOMPRA ' +
       'inner join PRODUTOS pr on pr.CODPRODUTO = md.CODPRODUTO ' +
       'where cp.CODCOMPRA = ' + IntToStr(cdsNFCODVENDA.AsInteger)  + ' and ((nf.NATUREZA = 20) or (nf.NATUREZA = 21))' ;
