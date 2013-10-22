@@ -2909,7 +2909,7 @@ inherited fCompra: TfCompra
       Active = True
       currency = True
       DisplayFormat = ',#0.00'
-      Expression = 'Sum(ValorTotal+frete+vipi+ICMS_SUBSTD)'
+      Expression = 'Sum(ValorTotal+frete+vipi+ICMS_SUBST)'
     end
   end
   object dsp_Mov_det: TDataSetProvider
