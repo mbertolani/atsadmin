@@ -483,7 +483,7 @@ type
     procedure somavalores;
     procedure ativaCalc;
     procedure inativaCalc;
-    procedure gravaSerie(numero: Integer);    
+    procedure gravaSerie(numero: Integer);
   end;
 
 var
@@ -1610,7 +1610,7 @@ begin
        cbCLiente1.Items.Add(dmnf.listaClienteRAZAOSOCIAL.AsString);
        dmnf.listaCliente.Next;
     end;
-    
+
     if (not dmnf.cds_ccusto.Active) then
         dmnf.cds_ccusto.Open;
     dmnf.cds_ccusto.First;
@@ -2256,6 +2256,8 @@ procedure TfNotaf.JvDBGrid1DblClick(Sender: TObject);
 begin
   fDetalheNF := TfDetalheNF.Create(Application);
   try
+    //fDetalheNF.tipoFiscalNota := dmnf.cds_nf
+    //fDetalheNF.UFNota :=
     fDetalheNF.ShowModal;
   finally
     fDetalheNF.Free;
