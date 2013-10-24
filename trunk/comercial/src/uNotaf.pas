@@ -2192,7 +2192,7 @@ end;
 procedure TfNotaf.btnNotaFiscalClick(Sender: TObject);
 begin
     fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
-    fNFeletronica.tpNF.ItemIndex := 1;    
+    fNFeletronica.cbTipoNota.ItemIndex := 1;
     fNFeletronica.ShowModal;
 end;
 

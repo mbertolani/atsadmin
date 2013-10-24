@@ -1643,7 +1643,7 @@ end;
 
 procedure TfNotaf1.btnNotaFiscalClick(Sender: TObject);
 begin
-    fNFeletronica.tpNF.ItemIndex := 0;
+    fNFeletronica.cbTipoNota.ItemIndex := 0;
     fNFeletronica.ShowModal;
 end;
 

@@ -538,7 +538,7 @@ type
     Label4: TLabel;
     Label7: TLabel;
     Label6: TLabel;
-    tpNF: TRadioGroup;
+    cbTipoNota: TRadioGroup;
     GroupBox5: TGroupBox;
     Label5: TLabel;
     MemoResp: TMemo;
@@ -736,11 +736,12 @@ type
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure btnImprimirCCeClick(Sender: TObject);
     procedure EnviaEmail;
-    procedure tpNFClick(Sender: TObject);
+    procedure cbTipoNotaClick(Sender: TObject);
     procedure chkScanClick(Sender: TObject);
     procedure btnAbaPrincipalClick(Sender: TObject);
 
   private
+    tpNFe : integer;
     numnf : WideString;
     envemail : string;
     TD: TTransactionDesc;
@@ -805,7 +806,7 @@ begin
      cdsNF.Params[2].AsString := edSerie.Text
    else
      cdsNF.Params[3].AsString := 'todasasseriesdenotaf';
-   if (tpNF.ItemIndex = 0) then
+   if (cbTipoNota.ItemIndex = 0) then
    begin
     cdsNF.Params[4].AsSmallInt := 20;
       str_nf := 'select  nf.CFOP, nf.DTAEMISSAO, nf.DTASAIDA, nf.IDCOMPLEMENTAR,  nf.CORPONF1, nf.CORPONF2, nf.CORPONF3, nf.CORPONF4, nf.CORPONF5, nf.CORPONF6, nf.XMLNFE, nf.CODCLIENTE, nf.NUMNF, nf.CODVENDA, nf.fatura, nf.natureza, ' +
@@ -921,15 +922,8 @@ procedure TfNFeletronica.btnGeraNFeClick(Sender: TObject);
 var
   i, codnf: integer;
   Protocolo, Recibo, str, vAux, valida : String;
+  tipoNota: Char;
 begin
-  {if (tp_amb = 1) then
-  begin
-    if (validaNumNfe = false) then
-    begin
-      MessageDlg('Número da Nota Fiscal errado.', mtError, [mbOK], 0);
-      exit;
-    end;
-  end;}
   if (tp_amb = 3) then
   begin
     if (validaNumNfeScan = false) then
@@ -963,8 +957,15 @@ begin
       begin
         if(not cdsNFPROTOCOLOENV.IsNull) then
           exit;
+
+        tipoNota := trim(cdsNFCFOP.AsString)[1];
+        if (tipoNota in ['1','2','3']) then
+          tpNFe := 0;
+        if (tipoNota in ['5','6','7']) then
+          tpNFe := 1;
+
          { isto estava fora do IF}
-         if (tpNF.ItemIndex = 1) then
+         if (cbTipoNota.ItemIndex = 1) then
          begin
            if (sCliente.Active) then
              sCliente.Close;
@@ -992,7 +993,7 @@ begin
          if (sCFOP.Active) then
            sCFOP.Close;
          sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
-         if (tpNF.ItemIndex = 1) then
+         if (cbTipoNota.ItemIndex = 1) then
          begin
           sCFOP.Params[1].AsString := sClienteUF.AsString;
           sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
@@ -1020,7 +1021,7 @@ begin
             sEstado.Open;
             Ide.cUF       := sEstadoCODIGO.AsInteger;                   // Codigo do UF do Emitente do documento fiscal
             Ide.cNF       := cdsNFNUMNF.AsInteger;
-            Ide.natOp     := sCFOPCFNOME.AsString;
+            Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
 
             //Verifica tipo de Pagamento
             getPagamento;
@@ -1072,9 +1073,11 @@ begin
             Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
             InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
             // Tipo de movimentação 0 entrada 1 saida
-            if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
-            Ide.tpNF      := tnEntrada
-            else
+            if (tpNFe = 0) then
+            begin
+              Ide.tpNF := tnEntrada;
+            end;
+            if (tpNFe = 1) then
             begin
               Ide.tpNF    := tnSaida;
             end;
@@ -1111,7 +1114,7 @@ begin
               exit;
             getCLi_Fornec();
 
-            pegaItens(tpNF.ItemIndex);
+            pegaItens(cbTipoNota.ItemIndex);
 
             i := 1;
             while not cdsItensNF.Eof do // Escrevo os itens
@@ -1294,7 +1297,7 @@ begin
 
      if (envemail = 'S') then
      begin
-       if (tpNF.ItemIndex = 1) then
+       if (cbTipoNota.ItemIndex = 1) then
        begin
          if (not sClienteE_MAIL.IsNull) then
            EnviaEmail
@@ -1337,11 +1340,12 @@ end;
 
 procedure TfNFeletronica.JvDBGrid1CellClick(Column: TColumn);
 begin
-     cdsNF.Edit;
-     if cdsNFSELECIONOU.AsString = 'S' then
-       cdsNFSELECIONOU.AsString := ''
-     else
-       cdsNFSELECIONOU.AsString := 'S';
+  cdsNF.Edit;
+  if cdsNFSELECIONOU.AsString = 'S' then
+    cdsNFSELECIONOU.AsString := ''
+  else begin
+    cdsNFSELECIONOU.AsString := 'S';
+  end;
 end;
 
 procedure TfNFeletronica.JvDBGrid1ColEnter(Sender: TObject);
@@ -1774,29 +1778,36 @@ procedure TfNFeletronica.BtnPreVisClick(Sender: TObject);
 var
   i: integer;
   valida, codFisc : String;
-begin
+  tipoNota: Char;
+begin
+  if (not cds_ccusto.Active) then
+    cds_ccusto.Open;
+  cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
 
- if (not cds_ccusto.Active) then
-   cds_ccusto.Open;
- cds_ccusto.Locate('NOME', ComboBox1.Text,[loCaseInsensitive]);
+  //Seleciona Empresa de acordo com o CCusto selecionado
+  if (sEmpresa.Active) then
+    sEmpresa.Close;
+  sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
+  sEmpresa.Open;
 
- //Seleciona Empresa de acordo com o CCusto selecionado
- if (sEmpresa.Active) then
-   sEmpresa.Close;
- sEmpresa.Params[0].AsInteger := cds_ccustoCODIGO.AsInteger;
- sEmpresa.Open;
-
- //verifica se o CC foi selecionado caso não da mensagem avisando
- if(sEmpresa.IsEmpty) then
-   MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
+  //verifica se o CC foi selecionado caso não da mensagem avisando
+  if(sEmpresa.IsEmpty) then
+    MessageDlg('Centro de custo não selecionado', mtError, [mbOK], 0);
 
  cdsNF.First;
  while not cdsNF.Eof do
  begin
   if (cdsNFSELECIONOU.AsString = 'S') then
   begin
+    tipoNota := trim(cdsNFCFOP.AsString)[1];
+    if (tipoNota in ['1','2','3']) then
+      tpNFe := 0;
+    if (tipoNota in ['5','6','7']) then
+      tpNFe := 1;
+
+
    { Isto estava fora do IF }
-   if (tpNF.ItemIndex = 1) then
+   if (cbTipoNota.ItemIndex = 1) then
    begin
      if (sCliente.Active) then
        sCliente.Close;
@@ -1826,7 +1837,7 @@ begin
    if (sCFOP.Active) then
      sCFOP.Close;
    sCFOP.Params[0].AsString := cdsNFCFOP.AsString;
-   if (tpNF.ItemIndex = 1) then
+   if (cbTipoNota.ItemIndex = 1) then
    begin
     sCFOP.Params[1].AsString := sClienteUF.AsString;
     sCFOP.Params[2].AsString := cdsNFCFOP.AsString;
@@ -1848,7 +1859,7 @@ begin
     sEstado.Open;
     Ide.cUF       := sEstadoCODIGO.AsInteger;                               // Codigo do UF do Emitente do documento fiscal
     Ide.cNF       := cdsNFNUMNF.AsInteger;
-    Ide.natOp     := sCFOPCFNOME.AsString;
+    Ide.natOp     := copy(sCFOPCFNOME.AsString,0,59);
          //Verifica tipo de Pagamento
     getPagamento;
     Ide.cMunFG    := 3554003;
@@ -1892,9 +1903,11 @@ begin
     Ide.hSaiEnt   := cdsNFHORASAIDA.AsDateTime;
     InfAdic.infCpl := cdsNFCORPONF1.AsString + ' ' + cdsNFCORPONF2.AsString + ' ' + cdsNFCORPONF3.AsString + ' ' + cdsNFCORPONF4.AsString + ' ' + cdsNFCORPONF5.AsString + ' ' + cdsNFCORPONF6.AsString;
     // Tipo de movimentação 0 entrada 1 saida
-    if ((cdsNFNATUREZA.AsInteger = 20) or (cdsNFNATUREZA.AsInteger = 16)) then
-    Ide.tpNF      := tnEntrada
-    else
+    if (tpNFe = 0) then
+    begin
+      Ide.tpNF := tnEntrada;
+    end;
+    if (tpNFe = 1) then
     begin
       Ide.tpNF    := tnSaida;
     end;
@@ -1931,7 +1944,7 @@ begin
     getCLi_Fornec();
 
     //Carrega os itens da NF
-    pegaItens(tpNF.ItemIndex);
+    pegaItens(cbTipoNota.ItemIndex);
 
     i := 1;
     while not cdsItensNF.Eof do // Escrevo os itens
@@ -2052,7 +2065,7 @@ begin
   begin
     //Carrega dados do Destinatário
     // FORNECEDOR
-    if (tpNF.ItemIndex = 0) then
+    if (cbTipoNota.ItemIndex = 0) then
     begin
       Dest.CNPJCPF           := RemoveChar(sFornecCNPJ.AsString);
       Dest.xNome             := sFornecRAZAOSOCIAL.AsString;
@@ -2200,7 +2213,7 @@ begin
         sCFOP.Close;
       sCFOP.Params[0].AsString := cdsItensNFCFOP.AsString;
       sCFOP.Params[2].AsString := cdsItensNFCFOP.AsString;
-      if (tpNF.ItemIndex = 1) then
+      if (cbTipoNota.ItemIndex = 1) then
         sCFOP.Params[1].AsString := sClienteUF.AsString
       else
         sCFOP.Params[1].AsString := sFornecUF.AsString;
@@ -2429,7 +2442,7 @@ begin
           if (sdsCfopProd.Active) then
             sdsCfopProd.Close;
           sdsCfopProd.Params[0].AsInteger := cdsItensNFCODPRODUTO.AsInteger;
-          if (tpNF.ItemIndex = 0) then
+          if (cbTipoNota.ItemIndex = 0) then
             sdsCfopProd.Params[1].AsString := sFornecUF.AsString
           else
             sdsCfopProd.Params[1].AsString := sClienteUF.AsString;
@@ -2700,7 +2713,7 @@ begin
     ide.indPag := ipOutras
   else
   begin
-    if (tpNF.ItemIndex = 1) then
+    if (cbTipoNota.ItemIndex = 1) then
     begin
       if (cdsNFVALOR_PAGAR.AsFloat = cdsNFENTRADA.AsFloat) then
         Ide.indPag    := ipVista
@@ -2835,7 +2848,7 @@ procedure TfNFeletronica.pegaItens(tpNf: integer);
 var strItens: String;
 begin
   //Carrega os itens da NF
-  if (tpNF = 0) then
+  if (cbTipoNota.ItemIndex = 0) then
   begin
   strItens := 'select md.CODPRODUTO, md.coddetalhe, md.pIPI, md.vIPI, UDF_ROUNDDEC(md.QUANTIDADE, 4) QUANTIDADE ' +
       ' , md.CFOP, md.PRECO, md.DESCPRODUTO, md.OBS, '+
@@ -3113,9 +3126,9 @@ begin
   end;
 end;
 
-procedure TfNFeletronica.tpNFClick(Sender: TObject);
+procedure TfNFeletronica.cbTipoNotaClick(Sender: TObject);
 begin
-  btnListar.Click;
+  //btnListar.Click;
 end;
 
 function TfNFeletronica.validaNumNfe: Boolean;
