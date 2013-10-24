@@ -132,7 +132,7 @@ object fNFeletronica: TfNFeletronica
           ParentFont = False
           Transparent = True
         end
-        object tpNF: TRadioGroup
+        object cbTipoNota: TRadioGroup
           Left = 178
           Top = 142
           Width = 170
@@ -144,7 +144,7 @@ object fNFeletronica: TfNFeletronica
             'Fornecedor'
             'Cliente')
           TabOrder = 0
-          OnClick = tpNFClick
+          OnClick = cbTipoNotaClick
         end
         object GroupBox5: TGroupBox
           Left = 7
@@ -1301,7 +1301,7 @@ object fNFeletronica: TfNFeletronica
             Top = 14
             Width = 222
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
           end
           object GroupBox10: TGroupBox

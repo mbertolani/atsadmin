@@ -1972,7 +1972,7 @@ end;
 procedure TfNotaFc.btnNotaFiscalClick(Sender: TObject);
 begin
     fNFeletronica.PageControl1.ActivePage := fNFeletronica.NFe;
-    fNFeletronica.tpNF.ItemIndex := 0;
+    fNFeletronica.cbTipoNota.ItemIndex := 0;
     fNFeletronica.ShowModal;
 end;
 
