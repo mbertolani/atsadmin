@@ -239,6 +239,10 @@ type
     codClienteNF: integer;
     str_sql : string;
 
+    utilcrtitulo : Tutils;
+    iRetorno, comando : integer;
+    buffer, scomando : String;
+    Save_Cursor:TCursor;
 
     procedure msgErro;
     procedure imprimeCupom;
@@ -270,10 +274,6 @@ const
 
 var
   F_Entrada: TF_Entrada;
-  utilcrtitulo : Tutils;
-  iRetorno, comando : integer;
-  buffer, scomando : String;
-  Save_Cursor:TCursor;
 
   function ConfiguraModeloImpressora(ModeloImpressora:integer):integer; stdcall; far; external 'Mp2032.dll';
   function IniciaPorta(Porta:string):integer; stdcall; far; external 'Mp2032.dll';
@@ -1549,7 +1549,16 @@ end;
 
 procedure TF_Entrada.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  //dm.EstoqueAtualiza();
+  if (DM_MOV.c_venda.Active) then
+    DM_MOV.c_venda.Close;
+  DM_MOV.c_venda.Params[0].AsInteger := DM_MOV.ID_DO_MOVIMENTO;
+  DM_MOV.c_venda.Open;
+  if (not DM_MOV.c_venda.IsEmpty) then
+  begin
+    fTerminal2.var_FINALIZOU := 'SIM';
+  end;
+  if (DM_MOV.ID_DO_MOVIMENTO > 0) then
+    dm.EstoqueAtualiza(DM_MOV.ID_DO_MOVIMENTO);
 end;
 
 procedure TF_Entrada.btnCupomClick(Sender: TObject);
