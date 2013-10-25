@@ -3079,7 +3079,11 @@ begin
         MessageDlg('Cadastre o Parametro SERIENFE para prosseguir', mtWarning, [mbOK], 0);
         exit;
       end;
-
+      if (numNf = '') then
+      begin
+        MessageDlg('Número da Série não encontrado.', mtWarning, [mbOK], 0);
+        exit;
+      end;
       // Nota Fiscal
       TD.TransactionID := 1;
       TD.IsolationLevel := xilREADCOMMITTED;
