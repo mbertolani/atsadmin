@@ -3161,37 +3161,40 @@ begin
     RpcCaller.EndPoint := Trim('/xmlrpc.php');
 
     RpcFunction := TRpcFunction.Create;
-    RpcFunction.ObjectMethod := 'wp.getPost';
+    try
+      RpcFunction.ObjectMethod := 'wp.getPost';
 
-    RpcFunction.AddItem(1503);  // Numero do Post
+      RpcFunction.AddItem(1503);  // Numero do Post
 
-    RpcFunction.AddItem('ats');
+      RpcFunction.AddItem('ats');
 
-    RpcFunction.AddItem('a2t00s7');
+      RpcFunction.AddItem('a2t00s7');
 
-    RpcResult := RpcCaller.Execute(RpcFunction);
+      RpcResult := RpcCaller.Execute(RpcFunction);
 
-    if RpcResult.IsError then
-    begin
-      ShowMessageFmt('Error: (%d) %s', [RpcResult.ErrorCode,
-          RpcResult.ErrorMsg]);
-      Exit;
-    end;
+      if RpcResult.IsError then
+      begin
+        ShowMessageFmt('Error: (%d) %s', [RpcResult.ErrorCode,
+            RpcResult.ErrorMsg]);
+        Exit;
+      end;
 
-    //if (RpcResult.IsString) then
-    //  memHelp.Text := RpcResult.AsString;
+      //if (RpcResult.IsString) then
+      //  memHelp.Text := RpcResult.AsString;
 
-    if (RpcResult.IsStruct) then
-    begin
-      RpcStruct := RpcResult.AsStruct;
-      memoLic := RpcStruct.Items[2].AsString;
-    end;
+      if (RpcResult.IsStruct) then
+      begin
+        RpcStruct := RpcResult.AsStruct;
+        memoLic := RpcStruct.Items[2].AsString;
+      end;
 
-    if RpcResult.IsArray then
-    begin
-      RpcArray := RpcResult.AsArray;
-      //for I := 0 to RpcArray.Count - 1 do
-      //  lbMethod.Items.Add(RpcArray[I].AsString);
+      if RpcResult.IsArray then
+      begin
+        RpcArray := RpcResult.AsArray;
+        //for I := 0 to RpcArray.Count - 1 do
+        //  lbMethod.Items.Add(RpcArray[I].AsString);
+      end;
+    except
     end;
   finally
     RpcCaller.Free;
