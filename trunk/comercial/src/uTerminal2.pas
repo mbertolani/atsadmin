@@ -510,6 +510,7 @@ type
     procedure RelatriosFechamentos1Click(Sender: TObject);
     procedure JvSpeedButton3Click(Sender: TObject);
   private
+    peditoTerminalFinalizado: String;
     linhaTracejada, linhaTituloItem, linhaDescItem, linhaItemUn, linhaItemQtde : String; //VARIAVEIS IMPRESSAO
     linhaItemVlUnit, linhaItemVlTotal, linhaTotal, qntespacos : String;  //VARIAVEIS IMPRESSAO
     tamtexto : Integer;
@@ -763,27 +764,8 @@ end;
 
 procedure TfTerminal2.JvProcurarClick(Sender: TObject);
 begin
+  peditoTerminalFinalizado := 'N';
   codCliente := 0;
-  if (jvPageControl1.ActivePage = TabVenda) then
-  begin
-    {if (DM_MOV.c_movimento.Active) then
-    begin
-       if (s_venda.Active) then
-          s_venda.Close;
-       s_venda.Params[0].Clear;
-       s_venda.Params[0].AsInteger := DM_MOV.c_movimentoCODMOVIMENTO.AsInteger;
-       s_venda.Open;
-       if (s_venda.IsEmpty) then
-       begin
-          if (MessageDlg('Existe Pedido em aberto, Excluir pedido ?', mtWarning, [mbYes, mbNo], 0) in [mrYes, mrNone]) then
-          begin
-            DM_MOV.c_movimento.Delete;
-            DM_MOV.c_movimento.ApplyUpdates(0);
-          end;
-       end;
-       s_venda.Close;
-    end;}
-  end;
 
   if (not dm.cds_ccusto.Active) then
       dm.cds_ccusto.Open;
@@ -840,6 +822,7 @@ begin
       JvParcial.Value := 0;
     end
     else begin
+      peditoTerminalFinalizado := 'S';
       JvParcial.Value := SQLDataSet1.Fields[0].Value;
     end;
     if (SQLDataSet1.Fields[1].IsNull) then
@@ -1050,6 +1033,7 @@ end;
 
 procedure TfTerminal2.JvBitBtn7Click(Sender: TObject);
 begin
+  peditoTerminalFinalizado := 'N';
   codCliente := 0;
   if (DM.USACONTROLECAIXA = 'SIM') then
   begin
@@ -1145,6 +1129,12 @@ end;
 procedure TfTerminal2.JvExcluirClick(Sender: TObject);
 var sql_texto : string;
 begin
+  if (peditoTerminalFinalizado = 'S') then
+  begin
+    MessageDlg('Pedido já finalizado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (jvPageControl1.ActivePage = TabVenda) then
   begin
     if MessageDlg('Deseja realmente Excluir esse registro?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
@@ -2626,6 +2616,7 @@ begin
     begin
       if (jvPageControl1.ActivePage = TabVenda) then
       begin
+        peditoTerminalFinalizado := 'N';
         if (DM_MOV.c_movimento.Active) then
           DM_MOV.c_movimento.Close;
         if (DM_MOV.c_movdet.Active) then
@@ -2822,6 +2813,7 @@ begin
 
     if (jvPageControl1.ActivePage = TabVenda) then
     begin
+      peditoTerminalFinalizado := 'N';
        EdtCodBarra1.SetFocus;
        if (DM_MOV.c_movimento.Active) then
            DM_MOV.c_movimento.Close;
@@ -3549,6 +3541,12 @@ end;
 procedure TfTerminal2.incluiItemPedido;
 var CODIGO_DO_MOVIMENTO, id_movDet : integer;
 begin
+  if (peditoTerminalFinalizado = 'S') then
+  begin
+    MessageDlg('Pedido já finalizado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (jvPageControl1.ActivePage = TabVenda) then
     if (DM_MOV.c_movimento.State in [dsInactive]) then
       incluiPedido;
@@ -4025,6 +4023,12 @@ end;
 procedure TfTerminal2.btnProdutoClick(Sender: TObject);
 var poc : Double;
 begin
+  if (peditoTerminalFinalizado = 'S') then
+  begin
+    MessageDlg('Pedido já finalizado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
    if (jvPageControl1.ActivePage = TabVenda) then
    begin
      if DM_MOV.d_movimento.DataSet.State in [dsInactive] then
@@ -4147,6 +4151,12 @@ end;
 
 procedure TfTerminal2.AlterarItendoPedido1Click(Sender: TObject);
 begin
+  if (peditoTerminalFinalizado = 'S') then
+  begin
+    MessageDlg('Pedido já finalizado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
+
   if (DM.USACONTROLECAIXA = 'SIM') then
   begin
      testacaixaaberto;
@@ -4175,6 +4185,11 @@ end;
 
 procedure TfTerminal2.F5ExcluirItemdoPedido1Click(Sender: TObject);
 begin
+  if (peditoTerminalFinalizado = 'S') then
+  begin
+    MessageDlg('Pedido já finalizado.', mtWarning, [mbOK], 0);
+    exit;
+  end;
   if (DM.USACONTROLECAIXA = 'SIM') then
   begin
     testacaixaaberto;
@@ -4589,6 +4604,9 @@ end;
 
 procedure TfTerminal2.JvSpeedButton3Click(Sender: TObject);
 begin
+  if (peditoTerminalFinalizado = 'S') then
+    exit;
+    
   DM.varNomeCliente := '';
   dm.codcli := 0;
   fProcurar_nf := TfProcurar_nf.Create(self,dmnf.scds_cli_proc);
