@@ -304,7 +304,6 @@ type
     cds_MovimentoOBS: TStringField;
     OpenDialog1: TOpenDialog;
     sqsTitulo: TSQLDataSet;
-    sqsTituloSTATUS: TStringField;
     Clientes1: TMenuItem;
     Button1: TBitBtn;
     Panel1: TPanel;
@@ -395,6 +394,10 @@ type
     buscaTributacaoICMS: TFloatField;
     buscaTributacaoCST: TStringField;
     jvPago: TJvValidateEdit;
+    dspTitulo: TDataSetProvider;
+    cdsTitulo: TClientDataSet;
+    cdsTituloSTATUS: TSmallintField;
+    cdsTituloFORMARECEBIMENTO: TStringField;
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure dbeProdutoKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn3Click(Sender: TObject);
@@ -1005,9 +1008,21 @@ begin
       ComboBox2.Items.Add(utilcrtitulo.Forma.Strings[i]);
       ComboBox4.Items.Add(utilcrtitulo.Forma.Strings[i]);
     end;
+    if (cdsTitulo.Active) then
+      cdsTitulo.Close;
+    cdsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+    cdsTitulo.Open;
+
+    if (not cdsTitulo.isEmpty) then
+    begin
+      ComboBox4.ItemIndex := utilcrtitulo.retornaForma(cdsTituloFORMARECEBIMENTO.asString);
+      ComboBox2.ItemIndex := utilcrtitulo.retornaForma(cdsTituloFORMARECEBIMENTO.asString);
+    end;
   finally
     utilcrtitulo.Free;
   end;
+
+
 
   if DM.c_1_planoc.Active then
     DM.c_1_planoc.Close;
@@ -1351,16 +1366,16 @@ end;
 procedure TfTerminal_Delivery.BitBtn4Click(Sender: TObject);
 begin
   inherited;
-  if (sqsTitulo.Active) then
-      sqsTitulo.Close;
-  sqsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-  sqsTitulo.Open;
+  {if (cdsTitulo.Active) then
+      cdsTitulo.Close;
+  cdsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cdsTitulo.Open;
 
-  if (sqsTituloSTATUS.AsString = '7-') then
+  if (cdsTituloSTATUS.AsString = '7-') then
   begin
     MessageDlg('Venda Já Finalizada.', mtWarning, [mbOK], 0);
     exit;
-  end;
+  end;}
 
   if (jvPago.Value = 0) then
   begin
@@ -1898,11 +1913,11 @@ procedure TfTerminal_Delivery.jvPagoChange(Sender: TObject);
 var
   vTroco, vPago, vTotal : double;
 begin
-  if (sqsTitulo.Active) then
-      sqsTitulo.Close;
-  sqsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-  sqsTitulo.Open;
-  if (sqsTituloSTATUS.AsString <> '7-') then
+  {if (cdsTitulo.Active) then
+    cdsTitulo.Close;
+  cdsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cdsTitulo.Open;
+  if (cdsTituloSTATUS.AsString <> '7-') then
   begin
     if (cds_Movimento.State in [dsBrowse] ) then
        cds_Movimento.Edit;
@@ -1919,7 +1934,7 @@ begin
         vTroco := vPago - vTotal;
       JvTroco.Value := vTroco;
     end;
-  end;
+  end;}
 end;
 
 procedure TfTerminal_Delivery.cbporcentoClick(Sender: TObject);
@@ -2006,16 +2021,16 @@ end;
 procedure TfTerminal_Delivery.gravacupom;
 var codigodocliente : integer;
 begin
-  if (sqsTitulo.Active) then
-      sqsTitulo.Close;
-  sqsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
-  sqsTitulo.Open;
+  {if (cdsTitulo.Active) then
+    cdsTitulo.Close;
+  cdsTitulo.Params[0].AsInteger := cds_MovimentoCODMOVIMENTO.AsInteger;
+  cdsTitulo.Open;
 
-  if (sqsTituloSTATUS.AsString = '7-') then
+  if (cdsTituloSTATUS.AsString = '7-') then
   begin
     MessageDlg('Venda Já Finalizada.', mtWarning, [mbOK], 0);
     exit;
-  end;
+  end;}
 
   if (RadioGroup1.ItemIndex = 0) then
   begin

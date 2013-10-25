@@ -1,6 +1,6 @@
 inherited fTerminal_Delivery: TfTerminal_Delivery
-  Left = 205
-  Top = 42
+  Left = 211
+  Top = 59
   Width = 875
   Height = 594
   BorderIcons = [biSystemMenu, biMinimize, biMaximize]
@@ -327,7 +327,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
           #192' PRAZO')
       end
       object ComboBox2: TComboBox
-        Left = 113
+        Left = 67
         Top = 477
         Width = 223
         Height = 24
@@ -3273,7 +3273,7 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     end
     object BitBtn4: TBitBtn [5]
       Left = 4
-      Top = 175
+      Top = 174
       Width = 167
       Height = 84
       Caption = 'F6-Finalizar'
@@ -7237,9 +7237,8 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
   end
   object sqsTitulo: TSQLDataSet
     CommandText = 
-      'select r.STATUS from RECEBIMENTO r '#13#10'inner join VENDA v on v.COD' +
-      'VENDA = r.CODVENDA '#13#10'inner join MOVIMENTO m on m.CODMOVIMENTO = ' +
-      'v.CODMOVIMENTO '#13#10'where v.CODMOVIMENTO = :cod'#13#10
+      'select v.STATUS, v.FORMARECEBIMENTO from VENDA v '#13#10'where v.CODMO' +
+      'VIMENTO = :cod'#13#10
     MaxBlobSize = -1
     Params = <
       item
@@ -7250,12 +7249,6 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
     SQLConnection = DM.sqlsisAdimin
     Left = 725
     Top = 272
-    object sqsTituloSTATUS: TStringField
-      FieldName = 'STATUS'
-      Required = True
-      FixedChar = True
-      Size = 2
-    end
   end
   object Caixa: TSQLDataSet
     CommandText = 'select *  from CAIXA_CONTROLE '#13#10'where SITUACAO = '#39'A'#39
@@ -7448,6 +7441,31 @@ inherited fTerminal_Delivery: TfTerminal_Delivery
       FieldName = 'NOMECLIENTE'
       Required = True
       Size = 50
+    end
+  end
+  object dspTitulo: TDataSetProvider
+    DataSet = sqsTitulo
+    Left = 759
+    Top = 271
+  end
+  object cdsTitulo: TClientDataSet
+    Aggregates = <>
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'cod'
+        ParamType = ptInput
+      end>
+    ProviderName = 'dspTitulo'
+    Left = 791
+    Top = 271
+    object cdsTituloSTATUS: TSmallintField
+      FieldName = 'STATUS'
+    end
+    object cdsTituloFORMARECEBIMENTO: TStringField
+      FieldName = 'FORMARECEBIMENTO'
+      FixedChar = True
+      Size = 1
     end
   end
 end
